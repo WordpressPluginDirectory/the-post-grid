@@ -181,7 +181,7 @@ class ScriptController {
                     var tpg_selector = tpg_str_rev("nottub-tropmi-gpttr nottub-aera-noitces-dda-rotnemele");
 
                     var logo = "<?php echo esc_html( $tpg_logo ); ?>";
-                    var log_path = tpg_str_rev("gvs.04x04-noci/segami/stessa/");
+                    var log_path = "/assets/images/icon-40x40.svg"; //tpg_str_rev("gvs.04x04-noci/segami/stessa/");
 
                     jQuery('<div class="' + tpg_selector + '" style="vertical-align: bottom;margin-left: 5px;"><img src="' + logo + log_path + '" alt="TPG"/></div>').insertBefore(".elementor-add-section-drag-title");
                 });

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 
-require_once __DIR__ . './../vendor/autoload.php';
+require_once RT_THE_POST_GRID_PLUGIN_PATH . '/vendor/autoload.php';
 
 use RT\ThePostGrid\Controllers\Api\RestApi;
 use RT\ThePostGrid\Controllers\Admin\AdminAjaxController;

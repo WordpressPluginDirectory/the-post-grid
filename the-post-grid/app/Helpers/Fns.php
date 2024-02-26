@@ -3001,7 +3001,6 @@ class Fns {
 		$post_types = get_post_types(
 			[
 				'public'            => true,
-				'show_in_nav_menus' => true,
 			],
 			'objects'
 		);

@@ -22,7 +22,6 @@ class Options {
 			'tpg_get_post_type',
 			[
 				'public'            => true,
-				'show_in_nav_menus' => true,
 			]
 		);
 

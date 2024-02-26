@@ -42,7 +42,7 @@ class UpgradeController {
 	 */
 	public static function check_plugin_version() {
 
-		if ( defined('RT_TPG_PRO_VERSION') && version_compare( RT_TPG_PRO_VERSION, self::$compare_version, '<' ) ) {
+		if ( defined( 'RT_TPG_PRO_VERSION' ) && version_compare( RT_TPG_PRO_VERSION, self::$compare_version, '<' ) ) {
 			return false;
 		}
 
@@ -63,13 +63,15 @@ class UpgradeController {
 					$text     = esc_html__( 'The Post Grid Pro', 'the-post-grid' );
 					$link_pro = '//www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/';
 
-					printf(
-						'<div class="%1$s"><p><a target="_blank" href="%2$s"><strong>The Post Grid Pro</strong></a> is not working properly, You need to update <strong>%3$s</strong> version to %4$s or more to get the pro features.</p></div>',
-						esc_attr( $class ),
-						esc_url( $link_pro ),
-						esc_html( $text ),
-						self::$compare_version
-					);
+					if ( class_exists( 'RtTpgPro' ) ) {
+						printf(
+							'<div class="%1$s"><p><a target="_blank" href="%2$s"><strong>The Post Grid Pro</strong></a> is not working properly, You need to update <strong>%3$s</strong> version to %4$s or more to get the pro features.</p></div>',
+							esc_attr( $class ),
+							esc_url( $link_pro ),
+							esc_html( $text ),
+							self::$compare_version
+						);
+					}
 				}
 			);
 		}
