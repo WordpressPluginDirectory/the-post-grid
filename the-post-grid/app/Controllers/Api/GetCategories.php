@@ -4,17 +4,21 @@ namespace RT\ThePostGrid\Controllers\Api;
 
 class GetCategories {
 	public function __construct() {
-		add_action( "rest_api_init", [ $this, 'register_post_route' ] );
+		add_action( 'rest_api_init', [ $this, 'register_post_route' ] );
 	}
 
 	public function register_post_route() {
-		register_rest_route( 'rttpg/v1', 'categories', [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'get_all_posts' ],
-			'permission_callback' => function () {
-				return true;
-			}
-		] );
+		register_rest_route(
+			'rttpg/v1',
+			'categories',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_all_posts' ],
+				'permission_callback' => function () {
+					return true;
+				},
+			]
+		);
 	}
 
 
@@ -29,13 +33,16 @@ class GetCategories {
 		if ( is_array( $category ) && $count_cat > 0 ) {
 			$categories = wp_list_pluck( $category, 'value' );
 		} else {
-			$categories = get_terms( 'category', array(
-				'orderby'    => 'count',
-				'order'    => 'DESC',
-				'hide_empty' => 0,
-				'fields'     => 'ids',
-				'number'     => 5
-			) );
+			$categories = get_terms(
+				array(
+					'taxonomy'   => 'category',
+					'orderby'    => 'count',
+					'order'      => 'DESC',
+					'hide_empty' => 0,
+					'fields'     => 'ids',
+					'number'     => 5,
+				)
+			);
 		}
 
 		if ( ! empty( $categories ) ) {
@@ -51,7 +58,6 @@ class GetCategories {
 
 				];
 			}
-
 		} else {
 			$send_data['message'] = 'No category found';
 		}

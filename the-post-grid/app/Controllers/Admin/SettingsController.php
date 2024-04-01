@@ -98,6 +98,7 @@ class SettingsController {
 			return;
 		}
 
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ( isset( $_GET['page'] ) && 'rttpg_settings' !== $_GET['page'] ) || rtTPG()->post_type !== $typenow ) {
 			return;
 		}

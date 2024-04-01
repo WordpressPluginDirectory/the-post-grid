@@ -10,6 +10,7 @@ namespace RT\ThePostGrid\Helpers;
 use RT\ThePostGrid\Models\Field;
 use RT\ThePostGrid\Models\ReSizer;
 
+
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
@@ -33,8 +34,8 @@ class Fns {
 	/**
 	 * Render view
 	 *
-	 * @param string $viewName View name.
-	 * @param array $args Args.
+	 * @param string  $viewName View name.
+	 * @param array   $args Args.
 	 * @param boolean $return Include/return.
 	 *
 	 * @return string
@@ -87,9 +88,8 @@ class Fns {
 		$value   = [ $user_ip, $post_id ];
 		$visited = get_transient( $key );
 
-
 		if ( false === ( $visited ) ) {
-			//set_transient( $key, $value, HOUR_IN_SECONDS * 12 ); // store the unique key, Post ID & IP address for 12 hours if it does not exist.
+			// set_transient( $key, $value, HOUR_IN_SECONDS * 12 ); // store the unique key, Post ID & IP address for 12 hours if it does not exist.
 			set_transient( $key, $value, HOUR_IN_SECONDS * 12 ); // store the unique key, Post ID & IP address for 12 hours if it does not exist.
 
 			// now run post views function.
@@ -100,7 +100,7 @@ class Fns {
 				update_post_meta( $post_id, $count_key, 1 );
 			} else {
 				$count = absint( $count );
-				$count ++;
+				$count++;
 
 				update_post_meta( $post_id, $count_key, $count );
 			}
@@ -111,7 +111,7 @@ class Fns {
 	 * Template Content
 	 *
 	 * @param string $template_name Template name.
-	 * @param array $args Arguments. (default: array).
+	 * @param array  $args Arguments. (default: array).
 	 * @param string $template_path Template path. (default: '').
 	 * @param string $default_path Default path. (default: '').
 	 */
@@ -143,7 +143,7 @@ class Fns {
 	 * Get template content and return
 	 *
 	 * @param string $template_name Template name.
-	 * @param array $args Arguments. (default: array).
+	 * @param array  $args Arguments. (default: array).
 	 * @param string $template_path Template path. (default: '').
 	 * @param string $default_path Default path. (default: '').
 	 *
@@ -200,10 +200,8 @@ class Fns {
 	 * @return void
 	 */
 	public static function doing_it_wrong( $function, $message, $version ) {
-		// phpcs:disable
 		$message .= ' Backtrace: ' . wp_debug_backtrace_summary();
-		_doing_it_wrong( $function, $message, $version );
-		// phpcs:enable
+		_doing_it_wrong( $function, $message, $version ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -232,10 +230,10 @@ class Fns {
 		$layout = str_replace( '-2', '', $data['layout'] );
 
 		$template_name = '/the-post-grid/' . $temp_path . '/' . $layout . '.php';
-		if ( file_exists( STYLESHEETPATH . $template_name ) ) {
-			$file = STYLESHEETPATH . $template_name;
-		} else if ( file_exists( TEMPLATEPATH . $template_name ) ) {
-			$file = TEMPLATEPATH . $template_name;
+		if ( file_exists( get_stylesheet_directory() . $template_name ) ) {
+			$file = get_stylesheet_directory() . $template_name;
+		} elseif ( file_exists( get_template_directory() . $template_name ) ) {
+			$file = get_template_directory() . $template_name;
 		} else {
 			$file = RT_THE_POST_GRID_PLUGIN_PATH . '/templates/' . $temp_path . '/' . $layout . '.php';
 			if ( ! file_exists( $file ) ) {
@@ -248,10 +246,7 @@ class Fns {
 				}
 			}
 		}
-
-		ob_start();
 		include $file;
-		echo ob_get_clean();
 	}
 
 	/**
@@ -263,10 +258,10 @@ class Fns {
 		$layout        = str_replace( '-2', '', $data['layout'] );
 		$template_name = '/the-post-grid/' . $temp_path . '/' . $layout . '.php';
 		$path          = RT_THE_POST_GRID_PLUGIN_PATH . '/templates/' . $temp_path . '/';
-		if ( file_exists( STYLESHEETPATH . $template_name ) ) {
-			$path = STYLESHEETPATH . '/the-post-grid/' . $temp_path . '/';
-		} else if ( file_exists( TEMPLATEPATH . $template_name ) ) {
-			$path = TEMPLATEPATH . '/the-post-grid/' . $temp_path . '/';
+		if ( file_exists( get_stylesheet_directory() . $template_name ) ) {
+			$path = get_stylesheet_directory() . '/the-post-grid/' . $temp_path . '/';
+		} elseif ( file_exists( get_template_directory() . $template_name ) ) {
+			$path = get_template_directory() . '/the-post-grid/' . $temp_path . '/';
 		} else {
 			$template_path = RT_THE_POST_GRID_PLUGIN_PATH . '/templates/' . $temp_path . '/' . $layout . '.php';
 
@@ -297,23 +292,23 @@ class Fns {
 
 		$posts_per_page = ( isset( $data['display_per_page'] ) && $data['display_per_page'] ) ? $data['display_per_page'] : ( $data['post_limit'] ?? get_option( 'posts_per_page' ) );
 
-		if ( ! empty( $data['is_builder'] ) && $data['is_builder'] === 'yes' ) {
+		if ( ! empty( $data['is_builder'] ) && 'yes' === $data['is_builder'] ) {
 			$posts_per_page = get_option( 'posts_per_page' );
 		}
 
-		$hide = ( $query->max_num_pages < 2 ? " rt-hidden-elm" : null );
+		$hide = ( $query->max_num_pages < 2 ? ' rt-hidden-elm' : null );
 
-		if ( $posts_loading_type == "pagination" ) {
-			$htmlUtility .= Fns::rt_pagination( $query );
-		} else if ( rtTPG()->hasPro() && $posts_loading_type == "pagination_ajax" ) { //&& ! $isIsotope
+		if ( $posts_loading_type == 'pagination' ) {
+			$htmlUtility .= self::rt_pagination( $query );
+		} elseif ( rtTPG()->hasPro() && $posts_loading_type == 'pagination_ajax' ) { // && ! $isIsotope
 			$htmlUtility .= "<div class='rt-page-numbers'></div>";
-		} else if ( rtTPG()->hasPro() && $posts_loading_type == "load_more" ) {
-			$load_more_button_text = $data['load_more_button_text'] ? $data['load_more_button_text'] : __( "Load More", 'the-post-grid' );
-			$htmlUtility           .= "<div class='rt-loadmore-btn rt-loadmore-action rt-loadmore-style{$hide}'>
+		} elseif ( rtTPG()->hasPro() && $posts_loading_type == 'load_more' ) {
+			$load_more_button_text = $data['load_more_button_text'] ? $data['load_more_button_text'] : __( 'Load More', 'the-post-grid' );
+			$htmlUtility          .= "<div class='rt-loadmore-btn rt-loadmore-action rt-loadmore-style{$hide}'>
 											<span class='rt-loadmore-text'>" . $load_more_button_text . "</span>
 											<div class='rt-loadmore-loading rt-ball-scale-multiple rt-2x'><div></div><div></div><div></div></div>
 										</div>";
-		} else if ( rtTPG()->hasPro() && $posts_loading_type == "load_on_scroll" ) {
+		} elseif ( rtTPG()->hasPro() && $posts_loading_type == 'load_on_scroll' ) {
 			$htmlUtility .= "<div class='rt-infinite-action'>	
                                 <div class='rt-infinite-loading la-fire la-2x'>
                                     <div></div><div></div><div></div>
@@ -323,7 +318,7 @@ class Fns {
 
 		if ( $htmlUtility ) {
 			$html = "<div class='rt-pagination-wrap' data-total-pages='{$query->max_num_pages}' data-posts-per-page='{$posts_per_page}' data-type='{$posts_loading_type}' >"
-			        . $htmlUtility . "</div>";
+					. $htmlUtility . '</div>';
 
 			return $html;
 		}
@@ -420,7 +415,7 @@ class Fns {
 			'search_by'                    => $data['search_by'] ?? '',
 		];
 
-		$cf = Fns::is_acf();
+		$cf = self::is_acf();
 		if ( $cf && rtTPG()->hasPro() ) {
 			$post_type = $data['post_type'];
 			if ( $is_gutenberg && isset( $data['acf_data_lists'][ $post_type . '_cf_group' ] ) ) {
@@ -457,9 +452,9 @@ class Fns {
 	 */
 	public static function get_frontend_filter_markup( $data, $is_guten = false ) {
 		if ( ! rtTPG()->hasPro()
-		     || ! ( $data['show_taxonomy_filter'] == 'show' || $data['show_author_filter'] == 'show' || $data['show_order_by'] == 'show'
-		            || $data['show_sort_order'] == 'show'
-		            || $data['show_search'] == 'show' )
+			 || ! ( $data['show_taxonomy_filter'] == 'show' || $data['show_author_filter'] == 'show' || $data['show_order_by'] == 'show'
+					|| $data['show_sort_order'] == 'show'
+					|| $data['show_search'] == 'show' )
 		) {
 			return;
 		}
@@ -469,13 +464,13 @@ class Fns {
 		$postCountClass   = null;
 
 		if ( 'carousel' === $data['filter_btn_style'] ) {
-			$wrapperContainer  = 'swiper';
-			$wrapperClass      = 'swiper-wrapper';
-			$itemClass         = 'swiper-slide';
-			$filter_btn_mobile = isset( $data['filter_btn_item_per_page_mobile'] ) ? $data['filter_btn_item_per_page_mobile'] : 'auto';
-			$filter_btn_tablet = isset( $data['filter_btn_item_per_page_tablet'] ) ? $data['filter_btn_item_per_page_tablet'] : 'auto';
+			$wrapperContainer         = 'swiper';
+			$wrapperClass             = 'swiper-wrapper';
+			$itemClass                = 'swiper-slide';
+			$filter_btn_mobile        = isset( $data['filter_btn_item_per_page_mobile'] ) ? $data['filter_btn_item_per_page_mobile'] : 'auto';
+			$filter_btn_tablet        = isset( $data['filter_btn_item_per_page_tablet'] ) ? $data['filter_btn_item_per_page_tablet'] : 'auto';
 			$filter_btn_item_per_page
-			                   = "data-per-page = '{$data['filter_btn_item_per_page']}' data-per-page-mobile = '{$filter_btn_mobile}' data-per-tablet = '{$filter_btn_tablet}'";
+							   = "data-per-page = '{$data['filter_btn_item_per_page']}' data-per-page-mobile = '{$filter_btn_mobile}' data-per-tablet = '{$filter_btn_tablet}'";
 		}
 
 		$html .= "<div class='rt-layout-filter-container rt-clear'><div class='rt-filter-wrap'>";
@@ -483,18 +478,17 @@ class Fns {
 		if ( 'show' == $data['show_author_filter'] || 'show' == $data['show_taxonomy_filter'] ) {
 			$html .= "<div class='filter-left-wrapper {$wrapperContainer}' {$filter_btn_item_per_page}>";
 		}
-		//		if($data['filter_btn_style'] == 'carousel') {
-		//		    $html .= "<div class='swiper-pagination'></div>";
-		//        }
+		// if($data['filter_btn_style'] == 'carousel') {
+		// $html .= "<div class='swiper-pagination'></div>";
+		// }
 		$selectedSubTermsForButton = null;
 
 		$filterType = $data['filter_type'];
 		$post_count = ( 'yes' == $data['filter_post_count'] ) ? true : false;
 
-
 		if ( 'show' == $data['show_taxonomy_filter'] ) {
-			$postCountClass = ( $post_count ? " has-post-count" : null );
-			$allSelect      = " selected";
+			$postCountClass = ( $post_count ? ' has-post-count' : null );
+			$allSelect      = ' selected';
 			$isTermSelected = false;
 
 			$taxFilterOperator = $data['relation'];
@@ -514,8 +508,7 @@ class Fns {
 				$default_term     = isset( $data[ $default_term_key ] ) ? $data[ $default_term_key ] : '';
 			}
 
-			$allText = $data['tax_filter_all_text'] ? $data['tax_filter_all_text'] : __( "All ", "the-post-grid" ) . $taxonomy_label;
-
+			$allText = $data['tax_filter_all_text'] ? $data['tax_filter_all_text'] : __( 'All ', 'the-post-grid' ) . $taxonomy_label;
 
 			$_taxonomies = get_object_taxonomies( $data['post_type'], 'objects' );
 			$terms       = [];
@@ -526,38 +519,38 @@ class Fns {
 				}
 				$setting_key = $object->name . '_ids';
 
-				//Gutenberg
+				// Gutenberg
 				if ( $is_guten && ! empty( $data['taxonomy_lists'][ $object->name ]['options'] ) ) {
-					//This block execute if gutenberg editor has taxonomy query
+					// This block execute if gutenberg editor has taxonomy query
 					$terms = wp_list_pluck( $data['taxonomy_lists'][ $object->name ]['options'], 'value' );
 				} //Elementor
-				else if ( ! empty( $data[ $setting_key ] ) ) {
-					//This block execute for Elementor editor has taxonomy query
+				elseif ( ! empty( $data[ $setting_key ] ) ) {
+					// This block execute for Elementor editor has taxonomy query
 					$_terms = $data[ $setting_key ];
-					$terms  = get_terms( [
-						'taxonomy' => $taxFilter,
-						'fields'   => 'ids',
-						'include'  => $_terms,
-						'orderby'  => 'meta_value_num',
-						'meta_key' => '_rt_order',
-						'order'    => 'ASC',
-					] );
+					$terms  = get_terms(
+						[
+							'taxonomy' => $taxFilter,
+							'fields'   => 'ids',
+							'include'  => $_terms,
+							'orderby'  => 'meta_value_num',
+							'meta_key' => '_rt_order', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'order'    => 'ASC',
+						]
+					);
 				} //Shortcode
 				else {
-					//Execute if there is no taxonomy query
-					$terms = get_terms( [
-						'taxonomy' => $taxFilter,
-						'fields'   => 'ids',
-						'orderby'  => 'meta_value_num',
-						'meta_key' => '_rt_order',
-						'order'    => 'ASC',
-					] );
+					// Execute if there is no taxonomy query
+					$terms = get_terms(
+						[
+							'taxonomy' => $taxFilter,
+							'fields'   => 'ids',
+							'orderby'  => 'meta_value_num',
+							'meta_key' => '_rt_order', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'order'    => 'ASC',
+						]
+					);
 				}
 			}
-
-			//'orderby'    => 'meta_value_num',
-			//'meta_key'   => '_rt_order',
-			//'order'      => 'ASC',
 
 			$taxFilterTerms = $terms;
 
@@ -567,13 +560,12 @@ class Fns {
 			}
 
 			if ( $filterType == 'dropdown' ) {
-				$html             .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
+				$html            .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
 				$termDefaultText  = $allText;
 				$dataTerm         = 'all';
-				$htmlButton       = "";
+				$htmlButton       = '';
 				$selectedSubTerms = null;
 				$pCount           = 0;
-
 
 				if ( ! empty( $terms ) ) {
 					$i = 0;
@@ -583,14 +575,14 @@ class Fns {
 						$pCount = $pCount + $term['count'];
 						$sT     = null;
 						if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' ) {
-							$subTerms = Fns::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
+							$subTerms = self::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
 							if ( ! empty( $subTerms ) ) {
 								$count = 0;
 								$item  = $allCount = null;
 								foreach ( $subTerms as $stId => $t ) {
 									$count       = $count + absint( $t['count'] );
 									$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-									$item        .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
+									$item       .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
 								}
 								if ( $post_count ) {
 									$allCount = " (<span class='rt-post-count'>{$count}</span>)";
@@ -603,7 +595,7 @@ class Fns {
 								$sT .= '<span class="term-dropdown rt-filter-dropdown">';
 								$sT .= $item;
 								$sT .= '</span>';
-								$sT .= "</div>";
+								$sT .= '</div>';
 							}
 							if ( $default_term === $id ) {
 								$selectedSubTerms = $sT;
@@ -621,7 +613,7 @@ class Fns {
 						} else {
 							$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
 						}
-						$i ++;
+						$i++;
 					}
 				}
 				$pAllCount = null;
@@ -633,8 +625,8 @@ class Fns {
 				}
 
 				if ( 'yes' == $data['tpg_hide_all_button'] ) {
-					$htmlButton = "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'><span class='rt-text'>" . $allText . "</span></span>"
-					              . $htmlButton;
+					$htmlButton = "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'><span class='rt-text'>" . $allText . '</span></span>'
+								  . $htmlButton;
 				}
 				$htmlButton = sprintf( '<span class="term-dropdown rt-filter-dropdown">%s</span>', $htmlButton );
 
@@ -646,8 +638,8 @@ class Fns {
 				$html .= $showAllhtml . $htmlButton;
 				$html .= '</div>' . $selectedSubTerms;
 			} else {
-				//if Button the execute
-				//$termDefaultText = $allText;
+				// if Button the execute
+				// $termDefaultText = $allText;
 
 				$bCount = 0;
 				$bItems = null;
@@ -662,14 +654,14 @@ class Fns {
 						$bCount = $bCount + absint( $term['count'] );
 						$sT     = null;
 						if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' && $data['filter_btn_style'] === 'default' && $data['filter_type'] == 'button' ) {
-							$subTerms = Fns::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
+							$subTerms = self::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
 							if ( ! empty( $subTerms ) ) {
 								$sT .= "<div class='rt-filter-sub-tax sub-button-group '>";
 								foreach ( $subTerms as $stId => $t ) {
 									$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-									$sT          .= "<span class='term-button-item rt-filter-button-item ' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
+									$sT         .= "<span class='term-button-item rt-filter-button-item ' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
 								}
-								$sT .= "</div>";
+								$sT .= '</div>';
 								if ( $default_term === $id ) {
 									$selectedSubTermsForButton = $sT;
 								}
@@ -678,7 +670,7 @@ class Fns {
 						$postCount    = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
 						$termSelected = null;
 						if ( $isTermSelected && $id == $default_term ) {
-							$termSelected = " selected";
+							$termSelected = ' selected';
 						}
 						if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
 							if ( in_array( $id, $taxFilterTerms ) ) {
@@ -691,14 +683,14 @@ class Fns {
 				}
 				$html .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-button-wrap{$postCountClass} {$wrapperClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
 
-				//$pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
+				// $pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
 				if ( 'yes' == $data['tpg_hide_all_button'] ) {
-					$html .= "<span class='term-button-item rt-filter-button-item {$allSelect} {$itemClass}' data-term='all'>" . $allText . "</span>";
+					$html .= "<span class='term-button-item rt-filter-button-item {$allSelect} {$itemClass}' data-term='all'>" . $allText . '</span>';
 				}
 
 				$html .= $bItems;
 
-				$html .= "</div>";
+				$html .= '</div>';
 				if ( 'carousel' === $data['filter_btn_style'] ) {
 					$html .= '<div class="swiper-navigation"><div class="swiper-button-prev slider-btn"></div><div class="swiper-button-next slider-btn"></div></div>';
 				}
@@ -716,25 +708,25 @@ class Fns {
 			} else {
 				$users = get_users( apply_filters( 'tpg_author_arg', [] ) );
 			}
-			$allText   = $allText = $data['author_filter_all_text'] ? $data['author_filter_all_text'] : __( "All Users", "the-post-grid" );
-			$allSelect = " selected";
-			//$isTermSelected = false;
-			//				if ( $default_term && $taxFilter ) {
+			$allText   = $allText = $data['author_filter_all_text'] ? $data['author_filter_all_text'] : __( 'All Users', 'the-post-grid' );
+			$allSelect = ' selected';
+			// $isTermSelected = false;
+			// if ( $default_term && $taxFilter ) {
 			$isTermSelected = true;
-			//					$allSelect      = null;
-			//				}
+			// $allSelect      = null;
+			// }
 			if ( $filterType == 'dropdown' ) {
-				$html            .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-filter='author'>";
+				$html           .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-filter='author'>";
 				$termDefaultText = $allText;
 				$dataAuthor      = 'all';
-				$htmlButton      = "";
-				$htmlButton      .= '<span class="author-dropdown rt-filter-dropdown">';
-				$htmlButton      .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'>" . $allText . "</span>";
+				$htmlButton      = '';
+				$htmlButton     .= '<span class="author-dropdown rt-filter-dropdown">';
+				$htmlButton     .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'>" . $allText . '</span>';
 
 				if ( ! empty( $users ) ) {
 					foreach ( $users as $user ) {
 						$user_post_count = false;
-						$post_count ? "(" . count_user_posts( $user->ID, $data['post_type'] ) . ")" : null;
+						$post_count ? '(' . count_user_posts( $user->ID, $data['post_type'] ) . ')' : null;
 						if ( is_array( $filterAuthors ) && ! empty( $filterAuthors ) ) {
 							if ( in_array( $user->ID, $filterAuthors ) ) {
 								if ( $default_term == $user->ID ) {
@@ -754,7 +746,6 @@ class Fns {
 						}
 					}
 				}
-
 
 				$htmlButton .= '</span>';
 
@@ -782,48 +773,45 @@ class Fns {
 				}
 
 				$html .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-button-wrap{$postCountClass}' data-filter='author'>";
-				//					if ( 'yes' == $data['tax_filter_all_text'] ) {
-				//$pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
-				$html .= "<span class='author-button-item rt-filter-button-item {$allSelect}' data-author='all'>" . $allText . "</span>";
-				//					}
+				// if ( 'yes' == $data['tax_filter_all_text'] ) {
+				// $pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
+				$html .= "<span class='author-button-item rt-filter-button-item {$allSelect}' data-author='all'>" . $allText . '</span>';
+				// }
 				$html .= $bItems;
-				$html .= "</div>";
+				$html .= '</div>';
 			}
 		}
 
-
 		if ( 'show' == $data['show_author_filter'] || 'show' == $data['show_taxonomy_filter'] ) {
-			$html .= "</div>";
+			$html .= '</div>';
 		}
-
 
 		if ( 'show' == $data['show_order_by'] || 'show' == $data['show_sort_order'] || 'show' == $data['show_search'] ) {
 			$html .= "<div class='filter-right-wrapper'>";
 		}
 
-
 		// TODO: Order Filter
 		if ( 'show' == $data['show_sort_order'] ) {
-			$action_order = ( $data['order'] ? strtoupper( $data['order'] ) : "DESC" );
-			$html         .= '<div class="rt-filter-item-wrap rt-sort-order-action" data-filter="order">';
-			$html         .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
-			$html         .= '</div>';
+			$action_order = ( $data['order'] ? strtoupper( $data['order'] ) : 'DESC' );
+			$html        .= '<div class="rt-filter-item-wrap rt-sort-order-action" data-filter="order">';
+			$html        .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
+			$html        .= '</div>';
 		}
 
-		//TODO: Orderby Filter
+		// TODO: Orderby Filter
 		if ( 'show' == $data['show_order_by'] ) {
-			$wooFeature     = ( $data['post_type'] == "product" ? true : false );
+			$wooFeature     = ( $data['post_type'] == 'product' ? true : false );
 			$orders         = Options::rtPostOrderBy( $wooFeature );
-			$action_orderby = ( ! empty( $data['orderby'] ) ? $data['orderby'] : "none" );
+			$action_orderby = ( ! empty( $data['orderby'] ) ? $data['orderby'] : 'none' );
 			if ( $action_orderby == 'none' ) {
-				$action_orderby_label = __( "Sort By", "the-post-grid" );
-			} else if ( in_array( $action_orderby, array_keys( Options::rtMetaKeyType() ) ) ) {
-				$action_orderby_label = __( "Meta value", "the-post-grid" );
+				$action_orderby_label = __( 'Sort By', 'the-post-grid' );
+			} elseif ( in_array( $action_orderby, array_keys( Options::rtMetaKeyType() ) ) ) {
+				$action_orderby_label = __( 'Meta value', 'the-post-grid' );
 			} else {
-				$action_orderby_label = __( "By ", "the-post-grid" ) . $action_orderby;
+				$action_orderby_label = __( 'By ', 'the-post-grid' ) . $action_orderby;
 			}
 			if ( $action_orderby !== 'none' ) {
-				$orders['none'] = __( "Sort By", "the-post-grid" );
+				$orders['none'] = __( 'Sort By', 'the-post-grid' );
 			}
 			$html .= '<div class="rt-filter-item-wrap rt-order-by-action rt-filter-dropdown-wrap" data-filter="orderby">';
 			$html .= "<span class='order-by-default rt-filter-dropdown-default' data-order-by='{$action_orderby}'>
@@ -839,17 +827,17 @@ class Fns {
 			$html .= '</div>';
 		}
 
-		//TODO: Search Filter
+		// TODO: Search Filter
 		if ( 'show' == $data['show_search'] ) {
 			$html .= '<div class="rt-filter-item-wrap rt-search-filter-wrap" data-filter="search">';
-			$html .= sprintf( '<input type="text" class="rt-search-input" placeholder="%s">', esc_html__( "Search...", 'the-post-grid' ) );
+			$html .= sprintf( '<input type="text" class="rt-search-input" placeholder="%s">', esc_html__( 'Search...', 'the-post-grid' ) );
 			$html .= "<span class='rt-action'>&#128269;</span>";
 			$html .= "<span class='rt-loading'></span>";
 			$html .= '</div>';
 		}
 
 		if ( 'show' == $data['show_order_by'] || 'show' == $data['show_sort_order'] || 'show' == $data['show_search'] ) {
-			$html .= "</div>";
+			$html .= '</div>';
 		}
 
 		$html .= "</div>$selectedSubTermsForButton</div>";
@@ -881,7 +869,7 @@ class Fns {
 	 * Get Popup Modal Markup
 	 */
 	public static function get_modal_markup() {
-		$html = null;
+		$html  = null;
 		$html .= '<div class="md-modal rt-md-effect" id="rt-modal">
                         <div class="md-content">
                             <div class="rt-md-content-holder"></div>
@@ -891,7 +879,7 @@ class Fns {
                         </div>
                     </div>';
 		$html .= "<div class='md-overlay'></div>";
-		echo $html;
+		self::print_html( $html, true );
 	}
 
 	/**
@@ -901,15 +889,15 @@ class Fns {
 		$queried_obj = get_queried_object();
 		if ( is_tag() || is_category() ) {
 			echo esc_html( $queried_obj->name );
-		} else if ( is_author() ) {
+		} elseif ( is_author() ) {
 			echo esc_html( $queried_obj->display_name );
-		} else if ( is_date() ) {
+		} elseif ( is_date() ) {
 			$year        = get_query_var( 'year' );
 			$monthnum    = get_query_var( 'monthnum' );
 			$day         = get_query_var( 'day' );
 			$time_string = $year . '/' . $monthnum . '/' . $day;
 			$time_stamp  = strtotime( $time_string );
-			echo date( get_option( 'date_format' ), $time_stamp );
+			echo esc_html( gmdate( get_option( 'date_format' ), $time_stamp ) );
 		}
 	}
 
@@ -922,11 +910,13 @@ class Fns {
 		if ( is_archive() ) {
 			return;
 		}
-		$categories = get_terms( [
-			'taxonomy'   => 'category',
-			'hide_empty' => false,
-			'number'     => 1,
-		] );
+		$categories = get_terms(
+			[
+				'taxonomy'   => 'category',
+				'hide_empty' => false,
+				'number'     => 1,
+			]
+		);
 		if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
 			return $categories[0]->term_id;
 		}
@@ -938,9 +928,9 @@ class Fns {
 	 * @return string
 	 */
 	public static function get_dynamic_class_gutenberg( $data ) {
-		$uniqueId     = isset( $data['uniqueId'] ) ? $data['uniqueId'] : null;
-		$uniqueClass  = 'rttpg-block-postgrid rttpg-block-wrapper rttpg-block-' . $uniqueId;
-		$dynamicClass = $uniqueClass;
+		$uniqueId      = isset( $data['uniqueId'] ) ? $data['uniqueId'] : null;
+		$uniqueClass   = 'rttpg-block-postgrid rttpg-block-wrapper rttpg-block-' . $uniqueId;
+		$dynamicClass  = $uniqueClass;
 		$dynamicClass .= ! empty( $data['align'] ) ? ' align' . $data['align'] : null;
 		$dynamicClass .= ! empty( $data['className'] ) ? ' ' . $data['className'] : null;
 		$dynamicClass .= ! empty( $data['full_wrapper_align']['lg'] ) ? " tpg-wrapper-align-{$data['full_wrapper_align']['lg']}" : null;
@@ -971,7 +961,7 @@ class Fns {
 		$dynamicClass .= ! empty( $data['is_box_border'] ) ? " tpg-el-box-border-{$data['is_box_border']}" : null;
 		$dynamicClass .= ! empty( $data['category_style'] ) ? " tpg-cat-{$data['category_style']}" : null;
 
-		//Slider layout
+		// Slider layout
 		$dynamicClass .= ! empty( $data['arrow_position'] ) ? " slider-arrow-position-{$data['arrow_position']}" : null;
 		$dynamicClass .= ! empty( $data['dots'] ) ? " slider-dot-enable-{$data['dots']}" : null;
 		$dynamicClass .= ! empty( $data['dots_style'] ) ? " slider-dots-style-{$data['dots_style']}" : null;
@@ -979,14 +969,14 @@ class Fns {
 		$dynamicClass .= ! empty( $data['carousel_overflow'] ) ? " is-carousel-overflow-{$data['carousel_overflow']}" : null;
 		$dynamicClass .= ! empty( $data['slider_direction'] ) ? " slider-direction-{$data['slider_direction']}" : null;
 		$dynamicClass .= ! empty( $data['dots_text_align'] ) ? " slider-dots-align-{$data['dots_text_align']}" : null;
-		$dynamicClass .= ! empty( $data['pagination_btn_space_btween'] ) && $data['pagination_btn_space_btween'] === 'space-between' ? " tpg-prev-next-space-between" : null;
-		$dynamicClass .= ! empty( $data['pagination_btn_position'] ) && $data['pagination_btn_position'] === 'absolute' ? " tpg-prev-next-absolute" : null;
-		$dynamicClass .= ! empty( $data['box_border_bottom'] ) && $data['box_border_bottom'] === 'enable' ? " tpg-border-bottom-enable" : null;
-		$dynamicClass .= ! empty( $data['offset_img_position'] ) && $data['offset_img_position'] === 'offset-image-right' ? " offset-image-right" : null;
-		$dynamicClass .= ! empty( $data['scroll_visibility'] ) && $data['scroll_visibility'] === 'yes' ? "" : " slider-scroll-hide";
-		$dynamicClass .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? " has-external-link" : "";
+		$dynamicClass .= ! empty( $data['pagination_btn_space_btween'] ) && $data['pagination_btn_space_btween'] === 'space-between' ? ' tpg-prev-next-space-between' : null;
+		$dynamicClass .= ! empty( $data['pagination_btn_position'] ) && $data['pagination_btn_position'] === 'absolute' ? ' tpg-prev-next-absolute' : null;
+		$dynamicClass .= ! empty( $data['box_border_bottom'] ) && $data['box_border_bottom'] === 'enable' ? ' tpg-border-bottom-enable' : null;
+		$dynamicClass .= ! empty( $data['offset_img_position'] ) && $data['offset_img_position'] === 'offset-image-right' ? ' offset-image-right' : null;
+		$dynamicClass .= ! empty( $data['scroll_visibility'] ) && $data['scroll_visibility'] === 'yes' ? '' : ' slider-scroll-hide';
+		$dynamicClass .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
 
-		//ACF
+		// ACF
 		$dynamicClass .= ! empty( $data['acf_label_style'] ) ? " act-label-style-{$data['acf_label_style']}" : null;
 		$dynamicClass .= ! empty( $data['acf_alignment'] ) && ! is_array( $data['acf_alignment'] ) ? " tpg-acf-align-{$data['acf_alignment']}" : null;
 
@@ -1009,17 +999,17 @@ class Fns {
 			$_is_link = true;
 		}
 
-		ob_start();
 		?>
 
-        <div class="tpg-widget-heading-wrapper rt-clear heading-<?php echo esc_attr( $data['section_title_style'] ); ?> ">
-            <span class="tpg-widget-heading-line line-left"></span>
+		<div class="tpg-widget-heading-wrapper rt-clear heading-<?php echo esc_attr( $data['section_title_style'] ); ?> ">
+			<span class="tpg-widget-heading-line line-left"></span>
 
-			<?php printf( "<%s class='tpg-widget-heading'>", $data['section_title_tag'] ); ?>
+			<?php printf( "<%s class='tpg-widget-heading'>", esc_attr( $data['section_title_tag'] ) ); ?>
 
 			<?php
-			if ( $_is_link ) : ?>
-            <a href="#">
+			if ( $_is_link ) :
+				?>
+			<a href="#">
 				<?php endif; ?>
 
 				<?php
@@ -1029,46 +1019,51 @@ class Fns {
 					printf( "<span class='prefix-text'>%s</span>", esc_html( $archive_prefix ) );
 					if ( is_archive() ) {
 						self::get_archive_title();
-					} else if ( is_search() ) {
-						echo get_query_var( 's' );
+					} elseif ( is_search() ) {
+						echo esc_html( get_query_var( 's' ) );
 					} else {
 						the_title();
 					}
 					printf( "<span class='suffix-text'>%s</span>", esc_html( $archive_suffix ) );
 				} else {
 					?>
-                    <span>
-                        <?php echo $data['section_title_text'] ?>
-                    </span>
+					<span>
+						<?php echo esc_html( $data['section_title_text'] ); ?>
+					</span>
 					<?php
 				}
 				?>
 
 				<?php if ( $_is_link ) : ?>
-            </a>
+			</a>
 
 		<?php endif; ?>
-			<?php printf( "</%s>", $data['section_title_tag'] ); ?>
-            <span class="tpg-widget-heading-line line-right"></span>
+			<?php printf( '</%s>', esc_attr( $data['section_title_tag'] ) ); ?>
+			<span class="tpg-widget-heading-line line-right"></span>
 
 			<?php if ( isset( $data['enable_external_link'] ) && 'show' === $data['enable_external_link'] ) : ?>
-                <a class='external-link' href='<?php echo esc_url( $data['section_external_link'] ?? '#' ) ?>'>
+				<a class='external-link' href='<?php echo esc_url( $data['section_external_link'] ?? '#' ); ?>'>
 					<?php if ( $data['section_external_text'] ) : ?>
-                        <span class="external-lable"><?php echo esc_html( $data['section_external_text'] ) ?></span>
+						<span class="external-lable"><?php echo esc_html( $data['section_external_text'] ); ?></span>
 					<?php endif; ?>
-					<?php echo "<i class='left-icon " . Fns::change_icon( 'fas fa-angle-right', 'right-arrow', 'left-icon' ) . "'></i>"; ?>
-                </a>
+					<?php
+					printf(
+						"<i class='left-icon %s'></i>",
+						esc_attr( self::change_icon( 'fas fa-angle-right', 'right-arrow', 'left-icon' ) )
+					);
+					?>
+				</a>
 			<?php endif; ?>
 
-        </div>
+		</div>
 
 		<?php if ( isset( $data['show_cat_desc'] ) && $data['show_cat_desc'] == 'yes' && category_description( self::get_last_category_id() ) ) : ?>
-            <div class="tpg-category-description">
+			<div class="tpg-category-description">
 				<?php echo category_description( self::get_last_category_id() ); ?>
-            </div>
+			</div>
 		<?php endif; ?>
 
-		<?php echo ob_get_clean();
+		<?php
 	}
 
 	/**
@@ -1131,7 +1126,7 @@ class Fns {
 				$args = [
 					'taxonomy'   => $taxonomy,
 					'orderby'    => 'meta_value_num',
-					'meta_key'   => '_rt_order',
+					'meta_key'   => '_rt_order', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 					'hide_empty' => apply_filters( 'rttpg_category_hide_empty', false ),
 				];
 
@@ -1140,7 +1135,7 @@ class Fns {
 				}
 
 				$args['orderby']  = 'meta_value_num';
-				$args['meta_key'] = '_rt_order';
+				$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
 				$termObjs = get_terms( $args );
 
@@ -1184,7 +1179,7 @@ class Fns {
 				$args = [
 					'taxonomy'   => $taxonomy,
 					'orderby'    => 'meta_value_num',
-					'meta_key'   => '_rt_order',
+					'meta_key'   => '_rt_order', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 					'include'    => $include,
 					'hide_empty' => false,
 				];
@@ -1194,7 +1189,7 @@ class Fns {
 				}
 
 				$args['orderby']  = 'meta_value_num';
-				$args['meta_key'] = '_rt_order';
+				$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
 				$termObjs = get_terms( $args );
 
@@ -1282,7 +1277,7 @@ class Fns {
 	 * Sanitize field value
 	 *
 	 * @param array $field
-	 * @param null $value
+	 * @param null  $value
 	 *
 	 * @return array|null
 	 * @internal param $value
@@ -1296,23 +1291,23 @@ class Fns {
 			if ( empty( $field['multiple'] ) ) {
 				if ( $type == 'text' || $type == 'number' || $type == 'select' || $type == 'checkbox' || $type == 'radio' ) {
 					$newValue = sanitize_text_field( $value );
-				} else if ( $type == 'url' ) {
+				} elseif ( $type == 'url' ) {
 					$newValue = esc_url( $value );
-				} else if ( $type == 'slug' ) {
+				} elseif ( $type == 'slug' ) {
 					$newValue = sanitize_title_with_dashes( $value );
-				} else if ( $type == 'textarea' ) {
+				} elseif ( $type == 'textarea' ) {
 					$newValue = wp_kses_post( $value );
-				} else if ( $type == 'script' ) {
+				} elseif ( $type == 'script' ) {
 					$newValue = trim( $value );
-				} else if ( $type == 'colorpicker' ) {
+				} elseif ( $type == 'colorpicker' ) {
 					$newValue = self::sanitize_hex_color( $value );
-				} else if ( $type == 'image_size' ) {
+				} elseif ( $type == 'image_size' ) {
 					$newValue = [];
 
 					foreach ( $value as $k => $v ) {
 						$newValue[ $k ] = esc_attr( $v );
 					}
-				} else if ( $type == 'style' ) {
+				} elseif ( $type == 'style' ) {
 					$newValue = [];
 
 					foreach ( $value as $k => $v ) {
@@ -1398,26 +1393,26 @@ class Fns {
 				$h .= '<div class="field-label"><label>' . esc_html( $label ) . '' . self::htmlKses( $proText, 'basic' ) . '</label></div>';
 				$h .= "<div class='field'>";
 				// color.
-				$h      .= "<div class='field-inner col-4'>";
-				$h      .= "<div class='field-inner-container size'>";
-				$h      .= "<span class='label'>Color</span>";
+				$h     .= "<div class='field-inner col-4'>";
+				$h     .= "<div class='field-inner-container size'>";
+				$h     .= "<span class='label'>Color</span>";
 				$cValue = get_post_meta( get_the_ID(), $key . '_color', true );
-				$h      .= '<input type="text" value="' . esc_attr( $cValue ) . '" class="rt-color" name="' . esc_attr( $key ) . '_color">';
-				$h      .= '</div>';
-				$h      .= '</div>';
+				$h     .= '<input type="text" value="' . esc_attr( $cValue ) . '" class="rt-color" name="' . esc_attr( $key ) . '_color">';
+				$h     .= '</div>';
+				$h     .= '</div>';
 
 				// Font size.
-				$h      .= "<div class='field-inner col-4'>";
-				$h      .= "<div class='field-inner-container size'>";
-				$h      .= "<span class='label'>Font size</span>";
-				$h      .= '<select ' . self::htmlKses( $atts, 'basic' ) . ' name="' . esc_attr( $key ) . '_size" class="rt-select2">';
+				$h     .= "<div class='field-inner col-4'>";
+				$h     .= "<div class='field-inner-container size'>";
+				$h     .= "<span class='label'>Font size</span>";
+				$h     .= '<select ' . self::htmlKses( $atts, 'basic' ) . ' name="' . esc_attr( $key ) . '_size" class="rt-select2">';
 				$fSizes = Options::scFontSize();
 				$sValue = get_post_meta( get_the_ID(), $key . '_size', true );
-				$h      .= "<option value=''>Default</option>";
+				$h     .= "<option value=''>Default</option>";
 
 				foreach ( $fSizes as $size => $sizeLabel ) {
 					$sSlt = ( $size == $sValue ? 'selected' : null );
-					$h    .= '<option value="' . esc_attr( $size ) . '" ' . esc_attr( $sSlt ) . '>' . esc_html( $sizeLabel ) . '</option>';
+					$h   .= '<option value="' . esc_attr( $size ) . '" ' . esc_attr( $sSlt ) . '>' . esc_html( $sizeLabel ) . '</option>';
 				}
 
 				$h .= '</select>';
@@ -1425,17 +1420,17 @@ class Fns {
 				$h .= '</div>';
 
 				// Weight.
-				$h       .= "<div class='field-inner col-4'>";
-				$h       .= "<div class='field-inner-container weight'>";
-				$h       .= "<span class='label'>Weight</span>";
-				$h       .= '<select ' . self::htmlKses( $atts, 'basic' ) . ' name="' . esc_attr( $key ) . '_weight" class="rt-select2">';
-				$h       .= "<option value=''>Default</option>";
+				$h      .= "<div class='field-inner col-4'>";
+				$h      .= "<div class='field-inner-container weight'>";
+				$h      .= "<span class='label'>Weight</span>";
+				$h      .= '<select ' . self::htmlKses( $atts, 'basic' ) . ' name="' . esc_attr( $key ) . '_weight" class="rt-select2">';
+				$h      .= "<option value=''>Default</option>";
 				$weights = Options::scTextWeight();
 				$wValue  = get_post_meta( get_the_ID(), $key . '_weight', true );
 
 				foreach ( $weights as $weight => $weightLabel ) {
 					$wSlt = ( $weight == $wValue ? 'selected' : null );
-					$h    .= '<option value="' . esc_attr( $weight ) . '" ' . esc_attr( $wSlt ) . '>' . esc_html( $weightLabel ) . '</option>';
+					$h   .= '<option value="' . esc_attr( $weight ) . '" ' . esc_attr( $wSlt ) . '>' . esc_html( $weightLabel ) . '</option>';
 				}
 
 				$h .= '</select>';
@@ -1443,17 +1438,17 @@ class Fns {
 				$h .= '</div>';
 
 				// Alignment.
-				$h      .= "<div class='field-inner col-4'>";
-				$h      .= "<div class='field-inner-container alignment'>";
-				$h      .= "<span class='label'>Alignment</span>";
-				$h      .= '<select ' . self::htmlKses( $atts, 'basic' ) . ' name="' . esc_attr( $key ) . '_alignment" class="rt-select2">';
-				$h      .= "<option value=''>Default</option>";
+				$h     .= "<div class='field-inner col-4'>";
+				$h     .= "<div class='field-inner-container alignment'>";
+				$h     .= "<span class='label'>Alignment</span>";
+				$h     .= '<select ' . self::htmlKses( $atts, 'basic' ) . ' name="' . esc_attr( $key ) . '_alignment" class="rt-select2">';
+				$h     .= "<option value=''>Default</option>";
 				$aligns = Options::scAlignment();
 				$aValue = get_post_meta( get_the_ID(), $key . '_alignment', true );
 
 				foreach ( $aligns as $align => $alignLabel ) {
 					$aSlt = ( $align == $aValue ? 'selected' : null );
-					$h    .= '<option value="' . esc_attr( $align ) . '" ' . esc_attr( $aSlt ) . '>' . esc_html( $alignLabel ) . '</option>';
+					$h   .= '<option value="' . esc_attr( $align ) . '" ' . esc_attr( $aSlt ) . '>' . esc_html( $alignLabel ) . '</option>';
 				}
 
 				$h .= '</select>';
@@ -1494,6 +1489,7 @@ class Fns {
 				'order'          => 'DESC',
 				'post_status'    => 'publish',
 				'posts_per_page' => - 1,
+                //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'meta_query'     => [
 					[
 						'key'     => 'layout',
@@ -1534,7 +1530,7 @@ class Fns {
 	}
 
 	public static function socialShare( $pLink ) {
-		$html = null;
+		$html  = null;
 		$html .= "<div class='single-tpg-share'>
 					<div class='fb-share'>
 						<div class='fb-share-button' data-href='" . esc_url( $pLink ) . "' data-layout='button_count'></div>
@@ -1580,7 +1576,7 @@ class Fns {
 					$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
 					$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
 					$sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
-				} else if ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
+				} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
 					$sizes[ $_size ] = [
 						'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
 						'height' => $_wp_additional_image_sizes[ $_size ]['height'],
@@ -1648,7 +1644,7 @@ class Fns {
 
 				$imgSrc = ! empty( $imgSrc ) ? $imgSrc[0] : $imgSrc;
 			}
-		} else if ( $mediaSource == 'first_image' ) {
+		} elseif ( $mediaSource == 'first_image' ) {
 			if ( $img = preg_match_all(
 				'/<img.+src=[\'"]([^\'"]+)[\'"].*>/i',
 				get_the_content( $post_id ),
@@ -1725,7 +1721,7 @@ class Fns {
 	}
 
 	public static function tpgCharacterLimit( $limit, $content ) {
-		$limit ++;
+		$limit++;
 
 		$text = '';
 
@@ -1763,7 +1759,7 @@ class Fns {
 		} else {
 			if ( class_exists( 'ET_GB_Block_Layout' ) ) {
 				$defaultExcerpt = $post->post_excerpt ?: wp_trim_words( $post->post_content, 55 );
-			} else if ( defined( 'WPB_VC_VERSION' ) ) {
+			} elseif ( defined( 'WPB_VC_VERSION' ) ) {
 				$the_content    = $post->post_excerpt ?: wp_trim_words( $post->post_content, 55 );
 				$shortcode_tags = [ 'VC_COLUMN_INNTER' ];
 				$values         = array_values( $shortcode_tags );
@@ -1812,7 +1808,7 @@ class Fns {
 				$excerpt = nl2br( wp_kses( $excerpt, $allowed_html ) );
 			}
 
-			$excerpt = ( $more ? rtrim( $excerpt, " .,-_" ) . $more : $excerpt );
+			$excerpt = ( $more ? rtrim( $excerpt, ' .,-_' ) . $more : $excerpt );
 
 			return apply_filters( 'tpg_get_the_excerpt', $excerpt, $post_id, $data, $defaultExcerpt );
 		}
@@ -1885,16 +1881,16 @@ class Fns {
 			}
 
 			if ( $paged > 1 && $showitems < $pages && ! $ajax ) {
-				$p    = $paged - 1;
+				$p     = $paged - 1;
 				$html .= "<li><a data-paged='{$p}' href='" . get_pagenum_link( $p ) . "' aria-label='Previous'>&lsaquo;</a></li>";
 			}
 
 			if ( $ajax ) {
-				for ( $i = 1; $i <= $pages; $i ++ ) {
+				for ( $i = 1; $i <= $pages; $i++ ) {
 					$html .= ( $paged == $i ) ? '<li class="active"><span>' . $i . '</span></li>' : "<li><a data-paged='{$i}' href='" . get_pagenum_link( $i ) . "'>" . $i . '</a></li>';
 				}
 			} else {
-				for ( $i = 1; $i <= $pages; $i ++ ) {
+				for ( $i = 1; $i <= $pages; $i++ ) {
 					if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) ) {
 						$html .= ( $paged == $i ) ? '<li class="active"><span>' . $i . '</span></li>' : "<li><a data-paged='{$i}' href='" . get_pagenum_link( $i ) . "'>" . $i . '</a></li>';
 					}
@@ -1902,7 +1898,7 @@ class Fns {
 			}
 
 			if ( $paged < $pages && $showitems < $pages && ! $ajax ) {
-				$p    = $paged + 1;
+				$p     = $paged + 1;
 				$html .= "<li><a data-paged='{$p}' href=\"" . get_pagenum_link( $paged + 1 ) . "\"  aria-label='Next'>&rsaquo;</a></li>";
 			}
 
@@ -1930,10 +1926,10 @@ class Fns {
 	 * Call the Image resize model for resize function
 	 *
 	 * @param              $url
-	 * @param null $width
-	 * @param null $height
-	 * @param null $crop
-	 * @param bool|true $single
+	 * @param null       $width
+	 * @param null       $height
+	 * @param null       $crop
+	 * @param bool|true  $single
 	 * @param bool|false $upscale
 	 *
 	 * @return array|bool|string
@@ -1964,7 +1960,7 @@ class Fns {
 		// Check if color has 6 or 3 characters and get values.
 		if ( strlen( $color ) == 6 ) {
 			$hex = [ $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] ];
-		} else if ( strlen( $color ) == 3 ) {
+		} elseif ( strlen( $color ) == 3 ) {
 			$hex = [ $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] ];
 		} else {
 			return $default;
@@ -2007,10 +2003,10 @@ class Fns {
 			if ( $col == 12 ) {
 				$return['big']   = 12;
 				$return['small'] = 12;
-			} else if ( $col == 6 ) {
+			} elseif ( $col == 6 ) {
 				$return['big']   = 6;
 				$return['small'] = 6;
-			} else if ( $col == 4 ) {
+			} elseif ( $col == 4 ) {
 				$return['big']   = 4;
 				$return['small'] = 8;
 			}
@@ -2034,7 +2030,7 @@ class Fns {
 	}
 
 	public static function layoutStyle( $layoutID, $scMeta, $layout, $scId = null ) {
-		$css = null;
+		$css  = null;
 		$css .= "<style type='text/css' media='all'>";
 		// primary color
 		if ( $scId ) {
@@ -2196,7 +2192,7 @@ class Fns {
 			$css .= 'background-color:' . $primaryColor . ';';
 			$css .= '}';
 
-			$ocp = self::rtHex2rgba(
+			$ocp  = self::rtHex2rgba(
 				$primaryColor,
 				! empty( $scMeta['overlay_opacity'][0] ) ? absint( $scMeta['overlay_opacity'][0] ) / 10 : .8
 			);
@@ -2367,17 +2363,17 @@ class Fns {
 		if ( $overlay_color || $overlay_padding ) {
 			if ( in_array( $layout, [ 'layout15', 'isotope11', 'carousel11' ] ) ) {
 				$css .= "#{$layoutID} .{$layout} .rt-holder:hover .overlay .post-info{";
-			} else if ( in_array(
+			} elseif ( in_array(
 				$layout,
 				[ 'layout10', 'isotope7', 'carousel6', 'carousel7', 'layout9', 'offset04' ]
 			)
 			) {
 				$css .= "#{$layoutID} .{$layout} .rt-holder .post-info{";
-			} else if ( in_array( $layout, [ 'layout7', 'isotope4', 'carousel4' ] ) ) {
+			} elseif ( in_array( $layout, [ 'layout7', 'isotope4', 'carousel4' ] ) ) {
 				$css .= "#{$layoutID} .{$layout} .rt-holder .overlay:hover{";
-			} else if ( in_array( $layout, [ 'layout16', 'isotope12', 'carousel12' ] ) ) {
+			} elseif ( in_array( $layout, [ 'layout16', 'isotope12', 'carousel12' ] ) ) {
 				$css .= "#{$layoutID} .{$layout} .rt-holder .overlay .post-info {";
-			} else if ( in_array( $layout, [ 'offset03', 'carousel5' ] ) ) {
+			} elseif ( in_array( $layout, [ 'offset03', 'carousel5' ] ) ) {
 				$css .= "#{$layoutID} .{$layout} .rt-holder .overlay{";
 			} else {
 				$css .= "#{$layoutID} .rt-post-overlay .post-img > a:first-of-type::after,";
@@ -2574,8 +2570,8 @@ class Fns {
 
 			if ( $title_size ) {
 				$lineHeight = $title_size + 10;
-				$css        .= 'font-size:' . $title_size . 'px;';
-				$css        .= 'line-height:' . $lineHeight . 'px;';
+				$css       .= 'font-size:' . $title_size . 'px;';
+				$css       .= 'line-height:' . $lineHeight . 'px;';
 			}
 
 			if ( $title_weight ) {
@@ -2753,7 +2749,6 @@ class Fns {
 
 		if ( $post_type ) {
 			global $wpdb;
-
 			$query     = "SELECT DISTINCT($wpdb->postmeta.meta_key)
 					FROM $wpdb->posts
 					LEFT JOIN $wpdb->postmeta
@@ -2762,7 +2757,7 @@ class Fns {
 					AND $wpdb->postmeta.meta_key != ''
 					AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
 					AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'";
-			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) );
+			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) ); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		return $meta_keys;
@@ -2947,7 +2942,7 @@ class Fns {
 				esc_attr( $external_link['target'] ?? $data['link_target'] )
 			);
 			$link_end   = $readmore_link_end = '</a>';
-		} else if ( 'popup' == $data['post_link_type'] ) {
+		} elseif ( 'popup' == $data['post_link_type'] ) {
 			$link_class = 'tpg-single-popup tpg-post-link';
 
 			if ( did_action( 'elementor/loaded' ) && \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
@@ -2962,7 +2957,7 @@ class Fns {
 				esc_attr( $data['link_target'] )
 			);
 			$link_end   = $readmore_link_end = '</a>';
-		} else if ( 'multi_popup' == $data['post_link_type'] ) {
+		} elseif ( 'multi_popup' == $data['post_link_type'] ) {
 			$link_class = 'tpg-multi-popup tpg-post-link';
 			$link_start = $readmore_link_start = sprintf(
 				'<a data-id="%s" href="%s" class="%s" target="%s">',
@@ -3000,7 +2995,7 @@ class Fns {
 	public static function get_post_types() {
 		$post_types = get_post_types(
 			[
-				'public'            => true,
+				'public' => true,
 			],
 			'objects'
 		);
@@ -3037,7 +3032,7 @@ class Fns {
 
 		foreach ( $terms as $term ) {
 			$meta_color      = get_term_meta( $term->term_id, 'rttpg_category_color', true );
-			$meta_color_code = $meta_color ? "--tpg-primary-color:#" . ltrim( $meta_color, '#' ) : '';
+			$meta_color_code = $meta_color ? '--tpg-primary-color:#' . ltrim( $meta_color, '#' ) : '';
 
 			$link = get_term_link( $term, $taxonomy );
 			if ( is_wp_error( $link ) ) {
@@ -3084,8 +3079,7 @@ class Fns {
 		$comments_text = sprintf( '%s (%s)', esc_html( $comment_label ), number_format_i18n( $comments_number ) );
 		$date          = get_the_date( '', $post );
 
-
-		//Category and Tags Management
+		// Category and Tags Management
 		$_cat_id            = isset( $data['post_type'] ) ? $data['post_type'] . '_taxonomy' : 'category';
 		$_tag_id            = isset( $data['post_type'] ) ? $data['post_type'] . '_tags' : 'post_tag';
 		$_category_id       = isset( $data[ $_cat_id ] ) ? $data[ $_cat_id ] : 'category';
@@ -3097,10 +3091,13 @@ class Fns {
 		$meta_separator     = ( $data['meta_separator'] && 'default' !== $data['meta_separator'] ) ? sprintf( "<span class='separator'>%s</span>", $data['meta_separator'] ) : null;
 		$category_condition = ( $categories && 'show' == $data['show_category'] );
 		if ( ! isset( $data['is_guten_builder'] ) && rtTPG()->hasPro() ) {
-			$category_condition = ( $categories && 'show' == $data['show_category'] && self::el_ignore_layout( $data ) && in_array( $data['category_position'], [
+			$category_condition = ( $categories && 'show' == $data['show_category'] && self::el_ignore_layout( $data ) && in_array(
+				$data['category_position'],
+				[
 					'default',
-					'with_meta'
-				] ) );
+					'with_meta',
+				]
+			) );
 		}
 		$post_meta_html = [];
 
@@ -3113,7 +3110,7 @@ class Fns {
 				$is_author_avatar = 'has-author-avatar';
 			}
 			?>
-            <span class='author <?php echo esc_attr( $is_author_avatar ); ?>'>
+			<span class='author <?php echo esc_attr( $is_author_avatar ); ?>'>
 
 				<?php
 				if ( isset( $data['author_icon_visibility'] ) && $data['author_icon_visibility'] !== 'hide' ) {
@@ -3124,7 +3121,10 @@ class Fns {
 							if ( did_action( 'elementor/loaded' ) && isset( $data['user_icon']['value'] ) && $data['user_icon']['value'] ) {
 								\Elementor\Icons_Manager::render_icon( $data['user_icon'], [ 'aria-hidden' => 'true' ] );
 							} else {
-								echo "<i class='" . Fns::change_icon( 'fa fa-user', 'user' ) . "'></i>";
+								printf(
+									"<i class='%s'></i>",
+									esc_attr( self::change_icon( 'fa fa-user', 'user' ) )
+								);
 							}
 						}
 					}
@@ -3142,20 +3142,21 @@ class Fns {
 
 		$post_meta_html['author'] = ob_get_clean();
 
-
 		// Category Meta.
-
 
 		ob_start();
 		if ( $category_condition ) {
 			?>
-            <span class='categories-links'>
+			<span class='categories-links'>
 				<?php
 				if ( $data['show_meta_icon'] === 'yes' ) {
 					if ( did_action( 'elementor/loaded' ) && isset( $data['cat_icon']['value'] ) && $data['cat_icon']['value'] ) {
 						\Elementor\Icons_Manager::render_icon( $data['cat_icon'], [ 'aria-hidden' => 'true' ] );
 					} else {
-						echo "<i class='" . Fns::change_icon( 'fas fa-folder-open', 'folder' ) . "'></i>";
+						printf(
+							"<i class='%s'></i>",
+							esc_attr( self::change_icon( 'fas fa-folder-open', 'folder' ) )
+						);
 					}
 				}
 				echo wp_kses( $categories, self::allowedHtml() );
@@ -3174,13 +3175,16 @@ class Fns {
 			$archive_month = get_the_date( 'm', $post );
 			$archive_day   = get_the_date( 'j', $post );
 			?>
-            <span class='date'>
+			<span class='date'>
 				<?php
 				if ( $data['show_meta_icon'] === 'yes' ) {
 					if ( did_action( 'elementor/loaded' ) && isset( $data['date_icon']['value'] ) && $data['date_icon']['value'] ) {
 						\Elementor\Icons_Manager::render_icon( $data['date_icon'], [ 'aria-hidden' => 'true' ] );
 					} else {
-						echo "<i class='" . Fns::change_icon( 'far fa-calendar-alt', 'calendar' ) . "'></i>";
+						printf(
+							"<i class='%s'></i>",
+							esc_attr( self::change_icon( 'far fa-calendar-alt', 'calendar' ) )
+						);
 					}
 				}
 				?>
@@ -3198,13 +3202,17 @@ class Fns {
 		// Tags Meta.
 		if ( $tags && 'show' == $data['show_tags'] ) {
 			?>
-            <span class='post-tags-links'>
+			<span class='post-tags-links'>
 				<?php
 				if ( $data['show_meta_icon'] === 'yes' ) {
 					if ( did_action( 'elementor/loaded' ) && isset( $data['tag_icon']['value'] ) && $data['tag_icon']['value'] ) {
 						\Elementor\Icons_Manager::render_icon( $data['tag_icon'], [ 'aria-hidden' => 'true' ] );
 					} else {
-						echo "<i class='" . Fns::change_icon( 'fa fa-tags', 'tag' ) . "'></i>";
+						printf(
+							"<i class='%s'></i>",
+							esc_attr( self::change_icon( 'fa fa-tags', 'tag' ) )
+						);
+
 					}
 				}
 				echo wp_kses( $tags, self::allowedHtml() );
@@ -3219,13 +3227,16 @@ class Fns {
 		// Comment Meta.
 		if ( 'show' == $data['show_comment_count'] ) {
 			?>
-            <span class="comment-count">
+			<span class="comment-count">
 				<?php
 				if ( $data['show_meta_icon'] === 'yes' ) {
 					if ( did_action( 'elementor/loaded' ) && isset( $data['comment_icon']['value'] ) && $data['comment_icon']['value'] ) {
 						\Elementor\Icons_Manager::render_icon( $data['comment_icon'], [ 'aria-hidden' => 'true' ] );
 					} else {
-						echo "<i class='" . Fns::change_icon( 'fas fa-comments', 'chat' ) . "'></i>";
+						printf(
+							"<i class='%s'></i>",
+							esc_attr( self::change_icon( 'fas fa-comments', 'chat' ) )
+						);
 					}
 				}
 				echo wp_kses( $comments_text, self::allowedHtml() );
@@ -3241,13 +3252,17 @@ class Fns {
 		// Post Count.
 		if ( rtTPG()->hasPro() && 'show' == $data['show_post_count'] && ! empty( $get_view_count ) ) {
 			?>
-            <span class="post-count">
+			<span class="post-count">
 				<?php
 				if ( $data['show_meta_icon'] === 'yes' ) {
 					if ( did_action( 'elementor/loaded' ) && isset( $data['post_count_icon']['value'] ) && $data['post_count_icon']['value'] ) {
 						\Elementor\Icons_Manager::render_icon( $data['post_count_icon'], [ 'aria-hidden' => 'true' ] );
 					} else {
-						echo "<i class='" . Fns::change_icon( 'fa fa-eye', 'visible' ) . "'></i>";
+						printf(
+							"<i class='%s'></i>",
+							esc_attr( self::change_icon( 'fa fa-eye', 'visible' ) )
+						);
+
 					}
 				}
 				echo wp_kses( $get_view_count, self::allowedHtml() );
@@ -3281,11 +3296,11 @@ class Fns {
 					$meta_ordering = array_merge( $meta_ordering, $extra_meta );
 				}
 			}
-			$_meta_html = "";
+			$_meta_html = '';
 
 			foreach ( $meta_ordering as $val ) {
 				$_meta_html .= $post_meta_html[ $val ];
-//				echo $post_meta_html[ $val ];
+				// echo $post_meta_html[ $val ];
 			}
 
 			if ( $echo ) {
@@ -3293,14 +3308,12 @@ class Fns {
 			} else {
 				return $_meta_html;
 			}
-
 		} else {
 			$meta_ordering = isset( $data['meta_ordering'] ) && is_array( $data['meta_ordering'] ) ? $data['meta_ordering'] : [];
 			foreach ( $meta_ordering as $val ) {
 				if ( isset( $post_meta_html[ $val['meta_name'] ] ) ) {
 					echo wp_kses_post( $post_meta_html[ $val['meta_name'] ] );
 				}
-
 			}
 		}
 	}
@@ -3326,7 +3339,7 @@ class Fns {
 			'br'     => [ [] ],
 		];
 
-		return wp_kses( $string, $allowed_html );
+		echo wp_kses( $string, $allowed_html );
 	}
 
 
@@ -3339,7 +3352,6 @@ class Fns {
 	 * @param $link_end
 	 * @param $data
 	 */
-
 	public static function get_el_post_title( $title_tag, $title, $link_start, $link_end, $data ) {
 
 		echo '<div class="entry-title-wrapper">';
@@ -3367,20 +3379,29 @@ class Fns {
 		$categories        = self::rt_get_the_term_list( $pID, $_post_taxonomy, null, '<span class="rt-separator">,</span>' );
 		$category_position = $data['category_position'];
 
-		if ( in_array( $data['layout'], [
+		if ( in_array(
+			$data['layout'],
+			[
 				'grid-layout4',
 				'slider-layout3',
-				'grid_hover-layout11'
-			] ) && 'default' === $data['category_position'] ) {
+				'grid_hover-layout11',
+			]
+		) && 'default' === $data['category_position'] ) {
 			$category_position = 'top_left';
 		}
 		?>
-        <div class="tpg-separate-category <?php echo esc_attr( $data['category_style'] . ' ' . $category_position . ' ' . $class ); ?>">
+		<div class="tpg-separate-category <?php echo esc_attr( $data['category_style'] . ' ' . $category_position . ' ' . $class ); ?>">
 			<span class='categories-links'>
-			<?php echo ( 'yes' === $data['show_cat_icon'] ) ? "<i class='" . Fns::change_icon( 'fas fa-folder-open', 'folder' ) . "'></i>" : null; ?>
+			<?php
+			if ( 'yes' === $data['show_cat_icon'] ) {
+				echo "<i class='" . esc_attr( self::change_icon( 'fas fa-folder-open', 'folder' ) ) . "'></i>";
+			}
+			?>
+
+
 			<?php echo wp_kses( $categories, self::allowedHtml() ); ?>
 			</span>
-        </div>
+		</div>
 		<?php
 	}
 
@@ -3389,7 +3410,7 @@ class Fns {
 	 * Get first image from the content
 	 *
 	 * @param          $post_id
-	 * @param string $type
+	 * @param string  $type
 	 *
 	 * @return mixed|string
 	 */
@@ -3438,18 +3459,21 @@ class Fns {
 	 * @param         $data
 	 * @param         $link_start
 	 * @param         $link_end
-	 * @param false $offset_size
+	 * @param false      $offset_size
 	 */
 	public static function get_post_thumbnail( $pID, $data, $link_start, $link_end, $offset_size = false ) {
 		$thumb_cat_condition = ( ! ( 'above_title' === $data['category_position'] || 'default' === $data['category_position'] ) );
 
 		if ( 'grid-layout4' === $data['layout'] && 'default' === $data['category_position'] ) {
 			$thumb_cat_condition = true;
-		} else if ( in_array( $data['layout'], [
+		} elseif ( in_array(
+			$data['layout'],
+			[
 				'grid-layout4',
 				'grid_hover-layout11',
-				'slider-layout3'
-			] ) && 'default' === $data['category_position'] ) {
+				'slider-layout3',
+			]
+		) && 'default' === $data['category_position'] ) {
 			$thumb_cat_condition = true;
 		}
 
@@ -3459,7 +3483,6 @@ class Fns {
 
 		$img_link     = get_the_post_thumbnail_url( $pID, 'full' );
 		$img_size_key = 'image_size';
-
 
 		if ( $offset_size ) {
 			$img_size_key = 'image_offset_size';
@@ -3472,7 +3495,9 @@ class Fns {
 			$lazy_class = 'swiper-lazy';
 		}
 
-		echo 'yes' === $data['is_thumb_linked'] ? self::print_html( $link_start ) : null;
+		if ( 'yes' === $data['is_thumb_linked'] ) {
+			self::print_html( $link_start );
+		}
 
 		if ( has_post_thumbnail() && 'feature_image' === $data['media_source'] ) {
 			$fImgSize = $data['image_size'];
@@ -3486,20 +3511,20 @@ class Fns {
 					$thumb_alt     = trim( wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) );
 					if ( $lazy_load ) {
 						?>
-                        <img data-src="<?php echo esc_url( isset( $thumb_info[0] ) ? $thumb_info[0] : '' ); ?>"
-                             src="#none"
-                             class="<?php echo esc_attr( $lazy_class ); ?>"
-                             width="<?php echo esc_attr( isset( $thumb_info[1] ) ? $thumb_info[1] : '' ); ?>"
-                             height="<?php echo esc_attr( isset( $thumb_info[2] ) ? $thumb_info[2] : '' ); ?>"
-                             alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : the_title() ); ?>">
+						<img data-src="<?php echo esc_url( isset( $thumb_info[0] ) ? $thumb_info[0] : '' ); ?>"
+							 src="#none"
+							 class="<?php echo esc_attr( $lazy_class ); ?>"
+							 width="<?php echo esc_attr( isset( $thumb_info[1] ) ? $thumb_info[1] : '' ); ?>"
+							 height="<?php echo esc_attr( isset( $thumb_info[2] ) ? $thumb_info[2] : '' ); ?>"
+							 alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : the_title() ); ?>">
 						<?php
 					} else {
 						?>
-                        <img src="<?php echo esc_url( isset( $thumb_info[0] ) ? $thumb_info[0] : '' ); ?>"
-                             class="<?php echo esc_attr( $lazy_class ); ?>"
-                             width="<?php echo esc_attr( isset( $thumb_info[1] ) ? $thumb_info[1] : '' ); ?>"
-                             height="<?php echo esc_attr( isset( $thumb_info[2] ) ? $thumb_info[2] : '' ); ?>"
-                             alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : the_title() ); ?>">
+						<img src="<?php echo esc_url( isset( $thumb_info[0] ) ? $thumb_info[0] : '' ); ?>"
+							 class="<?php echo esc_attr( $lazy_class ); ?>"
+							 width="<?php echo esc_attr( isset( $thumb_info[1] ) ? $thumb_info[1] : '' ); ?>"
+							 height="<?php echo esc_attr( isset( $thumb_info[2] ) ? $thumb_info[2] : '' ); ?>"
+							 alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : the_title() ); ?>">
 						<?php
 					}
 					?>
@@ -3511,12 +3536,10 @@ class Fns {
 					$defaultImgId  = null;
 					$customImgSize = [];
 
-
 					if ( $data['is_gutenberg'] && isset( $data['c_image_width'] ) && isset( $data['c_image_height'] ) ) {
 						$data['image_custom_dimension']['width']  = intval( $data['c_image_width'] );
 						$data['image_custom_dimension']['height'] = intval( $data['c_image_height'] );
 					}
-
 
 					if ( isset( $data['image_custom_dimension'] ) ) {
 						$post_thumb_id           = get_post_thumbnail_id( $pID );
@@ -3534,11 +3557,11 @@ class Fns {
 					echo wp_kses_post( self::getFeatureImageSrc( $pID, $fImgSize, $mediaSource, $defaultImgId, $customImgSize, $lazy_class ) );
 				}
 			}
-		} else if ( 'first_image' === $data['media_source'] && self::get_content_first_image( $pID ) ) {
+		} elseif ( 'first_image' === $data['media_source'] && self::get_content_first_image( $pID ) ) {
 			echo wp_kses_post( self::get_content_first_image( $pID, 'markup', $lazy_class ) );
 			$img_link = self::get_content_first_image( $pID, 'url' );
-		} else if ( 'yes' === $data['is_default_img'] || 'grid_hover' == $data['prefix'] ) {
-			//echo \Elementor\Group_Control_Image_Size::get_attachment_image_html( $data, $img_size_key, 'default_image' );
+		} elseif ( 'yes' === $data['is_default_img'] || 'grid_hover' == $data['prefix'] ) {
+			// echo \Elementor\Group_Control_Image_Size::get_attachment_image_html( $data, $img_size_key, 'default_image' );
 			if ( isset( $data['default_image']['id'] ) ) {
 				echo wp_get_attachment_image( $data['default_image']['id'], $data[ $img_size_key ], '', [ 'class' => 'rt-img-responsive' ] );
 			}
@@ -3549,23 +3572,26 @@ class Fns {
 
 		?>
 		<?php if ( $lazy_load ) : ?>
-            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+			<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
 		<?php endif; ?>
 
 		<?php echo 'yes' === $data['is_thumb_linked'] ? wp_kses( $link_end, self::allowedHtml() ) : null; ?>
 
 		<?php
-		if ( 'show' === $data['is_thumb_lightbox'] || ( in_array( $data['layout'], [
-					'grid-layout7',
-					'slider-layout4'
-				] ) && in_array( $data['is_thumb_lightbox'], [ 'default', 'show' ] ) ) ) :
+		if ( 'show' === $data['is_thumb_lightbox'] || ( in_array(
+			$data['layout'],
+			[
+				'grid-layout7',
+				'slider-layout4',
+			]
+		) && in_array( $data['is_thumb_lightbox'], [ 'default', 'show' ] ) ) ) :
 			?>
 
-            <a class="tpg-zoom mfp-fade"
-               data-elementor-open-lightbox="yes"
-               data-elementor-lightbox-slideshow="<?php echo esc_attr( $data['layout'] ); ?>"
-               title="<?php echo esc_attr( get_the_title() ); ?>"
-               href="<?php echo esc_url( $img_link ) ?>">
+			<a class="tpg-zoom mfp-fade"
+			   data-elementor-open-lightbox="yes"
+			   data-elementor-lightbox-slideshow="<?php echo esc_attr( $data['layout'] ); ?>"
+			   title="<?php echo esc_attr( get_the_title() ); ?>"
+			   href="<?php echo esc_url( $img_link ); ?>">
 
 				<?php
 				if ( did_action( 'elementor/loaded' ) && isset( $data['light_box_icon']['value'] ) && $data['light_box_icon']['value'] ) {
@@ -3574,10 +3600,10 @@ class Fns {
 					echo "<i class='fa fa-plus'></i>";
 				}
 				?>
-            </a>
+			</a>
 
 		<?php endif; ?>
-        <div class="overlay grid-hover-content"></div>
+		<div class="overlay grid-hover-content"></div>
 		<?php
 	}
 
@@ -3597,7 +3623,6 @@ class Fns {
 
 		if ( isset( $data['show_acf'] ) && 'show' == $data['show_acf'] ) {
 			$cf_group = $data['cf_group'];
-
 
 			$format = [
 				'hide_empty'       => ( isset( $data['cf_hide_empty_value'] ) && $data['cf_hide_empty_value'] ) ? 'yes' : '',
@@ -3632,43 +3657,53 @@ class Fns {
 	 */
 	public static function get_read_more_button( $data, $readmore_link_start, $readmore_link_end, $type = 'elementor' ) {
 		?>
-        <div class="post-footer">
-            <div class="post-footer">
-                <div class="read-more">
+		<div class="post-footer">
+			<div class="post-footer">
+				<div class="read-more">
 					<?php
-					echo self::wp_kses( $readmore_link_start );
+					self::wp_kses( $readmore_link_start );
 					if ( 'yes' == $data['show_btn_icon'] && 'left' == $data['readmore_icon_position'] ) {
 						if ( $type === 'elementor' ) {
 							if ( did_action( 'elementor/loaded' ) ) {
-								\Elementor\Icons_Manager::render_icon( $data['readmore_btn_icon'], [
-									'aria-hidden' => 'true',
-									'class'       => 'left-icon'
-								] );
+								\Elementor\Icons_Manager::render_icon(
+									$data['readmore_btn_icon'],
+									[
+										'aria-hidden' => 'true',
+										'class'       => 'left-icon',
+									]
+								);
 							}
 						} else {
-							//TODO: FlatIcon should chagne
-							echo "<i class='left-icon " . Fns::change_icon( 'fas fa-angle-right', 'left-arrow', 'left-icon' ) . "'></i>";
+							printf(
+								"<i class='left-icon %s'></i>",
+								esc_attr( self::change_icon( 'fas fa-angle-right', 'left-arrow', 'left-icon' ) )
+							);
 						}
 					}
 					echo esc_html( $data['read_more_label'] );
 					if ( 'yes' == $data['show_btn_icon'] && 'right' == $data['readmore_icon_position'] ) {
 						if ( $type === 'elementor' ) {
 							if ( did_action( 'elementor/loaded' ) ) {
-								\Elementor\Icons_Manager::render_icon( $data['readmore_btn_icon'], [
-									'aria-hidden' => 'true',
-									'class'       => 'right-icon'
-								] );
+								\Elementor\Icons_Manager::render_icon(
+									$data['readmore_btn_icon'],
+									[
+										'aria-hidden' => 'true',
+										'class'       => 'right-icon',
+									]
+								);
 							}
 						} else {
-							//TODO: FlatIcon should chagne
-							echo "<i class='left-icon " . Fns::change_icon( 'fas fa-angle-right', 'right-arrow', 'right-icon' ) . "'></i>";
+							printf(
+								"<i class='left-icon %s'></i>",
+								esc_attr( self::change_icon( 'fas fa-angle-right', 'right-arrow', 'right-icon' ) )
+							);
 						}
 					}
-					echo self::wp_kses( $readmore_link_end );
+					self::wp_kses( $readmore_link_end );
 					?>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -3682,12 +3717,12 @@ class Fns {
 	 */
 	public static function is_filter_enable( $data ) {
 		if ( rtTPG()->hasPro()
-		     && ( $data['show_taxonomy_filter'] == 'show'
-		          || $data['show_author_filter'] == 'show'
-		          || $data['show_order_by'] == 'show'
-		          || $data['show_sort_order'] == 'show'
-		          || $data['show_search'] == 'show'
-		          || ( $data['show_pagination'] == 'show' && $data['pagination_type'] != 'pagination' ) )
+			 && ( $data['show_taxonomy_filter'] == 'show'
+				  || $data['show_author_filter'] == 'show'
+				  || $data['show_order_by'] == 'show'
+				  || $data['show_sort_order'] == 'show'
+				  || $data['show_search'] == 'show'
+				  || ( $data['show_pagination'] == 'show' && $data['pagination_type'] != 'pagination' ) )
 		) {
 			return true;
 		}
@@ -3696,12 +3731,14 @@ class Fns {
 	}
 
 
-	//Get Custom post category:
+	// Get Custom post category:
 	public static function tpg_get_categories_by_id( $cat = 'category' ) {
-		$terms = get_terms( [
-			'taxonomy'   => $cat,
-			'hide_empty' => true,
-		] );
+		$terms = get_terms(
+			[
+				'taxonomy'   => $cat,
+				'hide_empty' => true,
+			]
+		);
 
 		$options = [];
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
@@ -3763,22 +3800,20 @@ class Fns {
 	 *
 	 * @since 1.0.9
 	 */
-
 	public static function get_all_taxonomy_guten() {
-		$post_types     = Fns::get_post_types();
+		$post_types     = self::get_post_types();
 		$taxonomies     = get_taxonomies( [], 'objects' );
 		$all_taxonomies = [];
 		foreach ( $taxonomies as $taxonomy => $object ) {
 			if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+				 || in_array( $taxonomy, self::get_excluded_taxonomy() )
 			) {
 				continue;
 			}
-			$all_taxonomies[ $taxonomy ] = Fns::tpg_get_categories_by_id( $taxonomy );
+			$all_taxonomies[ $taxonomy ] = self::tpg_get_categories_by_id( $taxonomy );
 		}
 
 		return $all_taxonomies;
-
 	}
 
 	/**
@@ -3831,13 +3866,13 @@ class Fns {
 	 * Prints HTML.
 	 *
 	 * @param string $html HTML.
-	 * @param bool $allHtml All HTML.
+	 * @param bool   $allHtml All HTML.
 	 *
 	 * @return mixed
 	 */
 	public static function print_html( $html, $allHtml = false ) {
 		if ( $allHtml ) {
-			echo stripslashes_deep( $html );
+			echo stripslashes_deep( $html ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			echo wp_kses_post( stripslashes_deep( $html ) );
 		}
@@ -4038,7 +4073,7 @@ class Fns {
 		$settings = get_option( rtTPG()->options['settings'] );
 		if ( ! empty( $settings[ $option_name ] ) ) {
 			return $settings[ $option_name ];
-		} else if ( $default_value ) {
+		} elseif ( $default_value ) {
 			return $default_value;
 		}
 
@@ -4078,6 +4113,7 @@ class Fns {
 		if ( 'default' === $instant_query ) {
 			return $args;
 		}
+		//phpcs:disable WordPress.Security.NonceVerification.Missing
 
 		switch ( $instant_query ) {
 			case 'random_post_7_days':
@@ -4097,7 +4133,7 @@ class Fns {
 			case 'popular_post_7_days_view':
 			case 'popular_post_30_days_view':
 			case 'popular_post_all_times_view':
-				$args['meta_key'] = Fns::get_post_view_count_meta_key();
+				$args['meta_key'] = self::get_post_view_count_meta_key(); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
 				if ( $instant_query !== 'popular_post_all_times_view' ) {
@@ -4106,36 +4142,39 @@ class Fns {
 				break;
 			case 'related_category':
 				global $post;
-				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) ); //phpcs:disable ordPress.Security.NonceVerification.Missing
+				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) );
 				if ( $p_id ) {
+					//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query']    = [
 						[
 							'taxonomy' => 'category',
 							'terms'    => self::get_terms_id( $p_id, 'category' ),
 							'field'    => 'term_id',
-						]
+						],
 					];
-					$args['post__not_in'] = [ $p_id ];
+					$args['post__not_in'] = [ $p_id ]; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
 				break;
 			case 'related_tag':
 				global $post;
-				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) ); //phpcs:disable ordPress.Security.NonceVerification.Missing
+				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) );
 				if ( $p_id ) {
+					//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query']    = [
 						[
 							'taxonomy' => 'post_tag',
 							'terms'    => self::get_terms_id( $p_id, 'post_tag' ),
 							'field'    => 'term_id',
-						]
+						],
 					];
-					$args['post__not_in'] = [ $p_id ];
+					$args['post__not_in'] = [ $p_id ]; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
 				break;
 			case 'related_cat_tag':
 				global $post;
-				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) ); //phpcs:disable ordPress.Security.NonceVerification.Missing
+				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) );
 				if ( $p_id ) {
+					//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query']    = [
 						[
 							'taxonomy' => 'post_tag',
@@ -4146,9 +4185,9 @@ class Fns {
 							'taxonomy' => 'category',
 							'terms'    => self::get_terms_id( $p_id, 'category' ),
 							'field'    => 'term_id',
-						]
+						],
 					];
-					$args['post__not_in'] = [ $p_id ];
+					$args['post__not_in'] = [ $p_id ]; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
 				break;
 			default:
@@ -4175,7 +4214,7 @@ class Fns {
 	 * Get last post id
 	 *
 	 * @param string $post_type
-	 * @param false $all_content
+	 * @param false  $all_content
 	 *
 	 * @return int
 	 */
@@ -4190,9 +4229,8 @@ class Fns {
 
 		if ( false === $_post_id || 'publish' !== get_post_status( $_post_id ) ) {
 			delete_transient( $cache_key );
-			$_post_id = $wpdb->get_var(
-				$wpdb->prepare( "SELECT MAX(ID) FROM {$wpdb->prefix}posts WHERE post_type = %s AND post_status = %s", $post_type, 'publish' )
-			);
+			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$_post_id = $wpdb->get_var( $wpdb->prepare( "SELECT MAX(ID) FROM {$wpdb->prefix}posts WHERE post_type = %s AND post_status = %s", $post_type, 'publish' ) );
 			set_transient( $cache_key, $_post_id, 12 * HOUR_IN_SECONDS );
 		}
 
@@ -4201,17 +4239,21 @@ class Fns {
 
 	/**
 	 * Gutenberg
+	 *
 	 * @return mixed|null
 	 */
 	public static function get_builder_type_list() {
-		return apply_filters( 'tpg_builder_type_list', [
-			'single'           => __( "Single", "the-post-grid-pro" ),
-			'archive'          => __( "Post Archive", "the-post-grid-pro" ),
-			'author-archive'   => __( "Author Archive", "the-post-grid-pro" ),
-			'search-archive'   => __( "Search Archive", "the-post-grid-pro" ),
-			'date-archive'     => __( "Date Archive", "the-post-grid-pro" ),
-			'category-archive' => __( "Category Archive", "the-post-grid-pro" ),
-			'tags-archive'     => __( "Tags Archive", "the-post-grid-pro" ),
-		] );
+		return apply_filters(
+			'tpg_builder_type_list',
+			[
+				'single'           => __( 'Single', 'the-post-grid-pro' ),
+				'archive'          => __( 'Post Archive', 'the-post-grid-pro' ),
+				'author-archive'   => __( 'Author Archive', 'the-post-grid-pro' ),
+				'search-archive'   => __( 'Search Archive', 'the-post-grid-pro' ),
+				'date-archive'     => __( 'Date Archive', 'the-post-grid-pro' ),
+				'category-archive' => __( 'Category Archive', 'the-post-grid-pro' ),
+				'tags-archive'     => __( 'Tags Archive', 'the-post-grid-pro' ),
+			]
+		);
 	}
 }

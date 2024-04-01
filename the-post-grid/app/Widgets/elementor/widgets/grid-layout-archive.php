@@ -25,7 +25,6 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 	 *
 	 * @throws \Exception
 	 */
-
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
 		$this->prefix       = 'grid';
@@ -181,7 +180,6 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 
 		$post_data = Fns::get_render_data_set( $data, $query->max_num_pages, $posts_per_page, $_prefix );
 
-
 		/**
 		 * Post type render
 		 */
@@ -201,15 +199,15 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 		$template_path = Fns::tpg_template_path( $post_data );
 		$_layout       = $data[ $_prefix . '_layout' ];
 		$_layout_style = $data[ $_prefix . '_layout_style' ];
-		$dynamicClass  = ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? " has-external-link" : "";
+		$dynamicClass  = ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
 		?>
 
-		<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main'.' '.$dynamicClass ); ?>"
+		<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main' . ' ' . $dynamicClass ); ?>"
 			id="<?php echo esc_attr( $layoutID ); ?>"
 			data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
 			data-grid-style="<?php echo esc_attr( $data[ $_prefix . '_layout_style' ] ); ?>"
 			data-sc-id="elementor"
-			data-el-settings='<?php Fns::print_html( htmlspecialchars( wp_json_encode( $post_data, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES ) ), true ); ?>'
+			data-el-settings='<?php Fns::print_html( htmlspecialchars( wp_json_encode( $post_data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) ), true ); ?>'
 			data-el-query='<?php Fns::print_html( htmlspecialchars( wp_json_encode( $query_args ) ), true ); ?>'
 			data-el-path='<?php echo esc_attr( $template_path ); ?>'
 		>
@@ -237,9 +235,9 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 			}
 
 			// section title settings.
-			echo "<div class='tpg-header-wrapper '>";
+			echo "<div class='tpg-header-wrapper'>";
 			Fns::get_section_title( $data );
-			echo "</div>";
+			echo '</div>';
 
 			?>
 
@@ -253,7 +251,7 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 						set_query_var( 'tpg_post_count', $pCount );
 						set_query_var( 'tpg_total_posts', $query->post_count );
 						Fns::tpg_template( $post_data );
-						$pCount ++;
+						$pCount++;
 						// rtTPGElementorHelper::tpg_template($data, $this->tpg_dir);
 					}
 				} else {
@@ -278,5 +276,4 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 		}
 		do_action( 'tpg_elementor_script' );
 	}
-
 }

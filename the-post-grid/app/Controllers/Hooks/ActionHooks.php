@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use RT\ThePostGrid\Helpers\Fns;
+use WpOrg\Requests\Exception;
 
 /**
  * Action Hooks class.
@@ -23,7 +24,6 @@ class ActionHooks {
 	 *
 	 * @return void
 	 */
-
 	public static function init() {
 		add_action( 'pre_get_posts', [ __CLASS__, 'category_query' ], 10 );
 		add_filter( 'post_row_actions', [ __CLASS__, 'filter_post_row_actions' ], 11, 2 );
@@ -72,15 +72,15 @@ class ActionHooks {
 	public static function rttpg_daily_scheduled_events() {
 		try {
 			global $wpdb;
+			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$expired = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '_transient_timeout%' AND option_value < UNIX_TIMESTAMP()" );
 
 			foreach ( $expired as $transient ) {
-				$key = str_replace('_transient_timeout_tpg_cache_', 'tpg_cache_', $transient);
+				$key = str_replace( '_transient_timeout_tpg_cache_', 'tpg_cache_', $transient );
 				delete_transient( $key );
 			}
-
 		} catch ( \Exception $e ) {
-
 		}
 	}
 }
+

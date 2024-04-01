@@ -7,7 +7,7 @@ use RT\ThePostGrid\Controllers\Blocks\BlockController\StyleTabController;
 use RT\ThePostGrid\Controllers\Blocks\BlockController\ContentTabController;
 use RT\ThePostGrid\Helpers\Fns;
 
-require_once( RT_THE_POST_GRID_PLUGIN_PATH . '/app/Widgets/elementor/rtTPGElementorQuery.php' );
+require_once RT_THE_POST_GRID_PLUGIN_PATH . '/app/Widgets/elementor/rtTPGElementorQuery.php';
 
 class ListLayout extends BlockBase {
 
@@ -21,13 +21,14 @@ class ListLayout extends BlockBase {
 		$this->block_type     = 'rttpg/tpg-' . $this->prefix . '-layout';
 		$this->attribute_args = [
 			'prefix'         => $this->prefix,
-			'default_layout' => 'list-layout1'
+			'default_layout' => 'list-layout1',
 		];
 	}
 
 
 	/**
 	 * Register Block
+	 *
 	 * @return void
 	 */
 	public function register_blocks() {
@@ -77,12 +78,12 @@ class ListLayout extends BlockBase {
 			$data[ $_prefix . '_layout' ] = 'list-layout1';
 		}
 
-		//Query
-		$query_args     = $this->post_query_guten( $data, $_prefix );
+		// Query
+		$query_args = $this->post_query_guten( $data, $_prefix );
 
 		$query          = new \WP_Query( $query_args );
-		$rand           = mt_rand();
-		$layoutID       = "rt-tpg-container-" . $rand;
+		$rand           = wp_rand();
+		$layoutID       = 'rt-tpg-container-' . $rand;
 		$posts_per_page = $data['display_per_page'] ?? $data['post_limit'];
 
 		/**
@@ -91,11 +92,11 @@ class ListLayout extends BlockBase {
 
 		$post_data = Fns::get_render_data_set( $data, $query->max_num_pages, $posts_per_page, $_prefix, 'yes' );
 
-		//Category Source if exists
+		// Category Source if exists
 		if ( isset( $data['category_source'] ) ) {
 			$post_data[ $data['post_type'] . '_taxonomy' ] = $data['category_source'];
 		}
-		//Tag source
+		// Tag source
 		if ( isset( $data['tag_source'] ) ) {
 			$post_data[ $data['post_type'] . '_tags' ] = $data['tag_source'];
 		}
@@ -105,27 +106,26 @@ class ListLayout extends BlockBase {
 		$_layout_style = $data['grid_layout_style'];
 		$dynamicClass  = Fns::get_dynamic_class_gutenberg( $data );
 
-
 		ob_start();
 		?>
-        <div class="<?php echo esc_attr( $dynamicClass ) ?>">
-            <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main' ); ?>"
-                 id="<?php echo esc_attr( $layoutID ); ?>"
-                 data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
-                 data-grid-style="<?php echo esc_attr( $data['grid_layout_style'] ); ?>" data-sc-id="elementor"
-                 data-el-settings='<?php echo Fns::is_filter_enable( $data ) ? htmlspecialchars( wp_json_encode( $post_data ) ) : ''; ?>'
-                 data-el-query='<?php echo Fns::is_filter_enable( $data ) ? htmlspecialchars( wp_json_encode( $query_args ) ) : ''; ?>'
-                 data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'>
+		<div class="<?php echo esc_attr( $dynamicClass ); ?>">
+			<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main' ); ?>"
+				 id="<?php echo esc_attr( $layoutID ); ?>"
+				 data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
+				 data-grid-style="<?php echo esc_attr( $data['grid_layout_style'] ); ?>" data-sc-id="elementor"
+				 data-el-settings='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( htmlspecialchars( wp_json_encode( $post_data ) ) ) : ''; ?>'
+				 data-el-query='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( htmlspecialchars( wp_json_encode( $query_args ) ) ) : ''; ?>'
+				 data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'>
 				<?php
 
 				$settings = get_option( rtTPG()->options['settings'] );
 				if ( isset( $settings['tpg_load_script'] ) || isset( $settings['tpg_enable_preloader'] ) ) {
 					?>
-                    <div id="bottom-script-loader" class="bottom-script-loader">
-                        <div class="rt-ball-clip-rotate">
-                            <div></div>
-                        </div>
-                    </div>
+					<div id="bottom-script-loader" class="bottom-script-loader">
+						<div class="rt-ball-clip-rotate">
+							<div></div>
+						</div>
+					</div>
 					<?php
 				}
 
@@ -138,18 +138,19 @@ class ListLayout extends BlockBase {
 					$wrapper_class[] = 'tpg-masonry';
 				}
 
-				//section title settings
+				// section title settings
 				$is_carousel = '';
 				if ( rtTPG()->hasPro() && 'carousel' == $data['filter_btn_style'] && 'button' == $data['filter_type'] ) {
 					$is_carousel = 'carousel';
 				}
-				echo "<div class='tpg-header-wrapper {$is_carousel}'>";
-				Fns::get_section_title( $data );
-				Fns::print_html( Fns::get_frontend_filter_markup( $data, true ) );
-				echo "</div>";
 				?>
-
-                <div class="rt-row rt-content-loader gutenberg-inner <?php echo esc_attr( implode( ' ', $wrapper_class ) ) ?>">
+				<div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
+					<?php
+					Fns::get_section_title( $data );
+					Fns::print_html( Fns::get_frontend_filter_markup( $data, true ) );
+					?>
+				</div>
+				<div class="rt-row rt-content-loader gutenberg-inner <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
 					<?php
 					if ( $query->have_posts() ) {
 						$pCount = 1;
@@ -158,7 +159,7 @@ class ListLayout extends BlockBase {
 							set_query_var( 'tpg_post_count', $pCount );
 							set_query_var( 'tpg_total_posts', $query->post_count );
 							Fns::tpg_template( $post_data, 'gutenberg' );
-							$pCount ++;
+							$pCount++;
 						}
 					} else {
 						if ( $data['no_posts_found_text'] ) {
@@ -169,18 +170,16 @@ class ListLayout extends BlockBase {
 					}
 					wp_reset_postdata();
 					?>
-                </div>
+				</div>
 
-				<?php echo Fns::get_pagination_markup( $query, $data ); ?>
+				<?php Fns::print_html( Fns::get_pagination_markup( $query, $data ) ); ?>
 
-            </div>
-        </div>
+			</div>
+		</div>
 		<?php
-
 
 		do_action( 'tpg_elementor_script' );
 
 		return ob_get_clean();
 	}
-
 }

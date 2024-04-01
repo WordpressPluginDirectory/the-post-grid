@@ -134,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				line-height: 28px;
 			}
 			.rttpg-help-section iframe {
-			   height: 250px;
+				height: 250px;
 			}
 			.rttpg-feature-list ul {
 				display: block;
@@ -178,8 +178,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<H3>Elementor Demo</H3>
 				<iframe style="width:calc(100% - 40px);" width="800" height="450" src="https://www.youtube.com/embed/Px7c91A0W5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-                <H3>Gutenberg Demo</H3>
-                <iframe style="width:calc(100% - 40px);" width="800" height="450" src="https://www.youtube.com/embed/wHWAnfL0VhU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<H3>Gutenberg Demo</H3>
+				<iframe style="width:calc(100% - 40px);" width="800" height="450" src="https://www.youtube.com/embed/wHWAnfL0VhU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 		</div>
 		<div class="rt-document-box">
@@ -204,7 +204,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</ul>
 			</div>
 		</div>
-		<div class="rttpg-call-to-action" style="background-image: url('<?php echo rtTPG()->get_assets_uri( 'images/admin/banner.png' ); ?>')">
+		<div class="rttpg-call-to-action" style="background-image: url('<?php echo esc_url( rtTPG()->get_assets_uri( 'images/admin/banner.png' ) ); ?>')">
 			<a href="<?php echo esc_url( rtTpg()->proLink() ); ?>" target="_blank" class="rt-update-pro-btn">
 				Update Pro To Get More Features
 			</a>
@@ -217,7 +217,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="rttpg-testimonial">
 						<p>So much functionality in the free version. Thank you very much! Many plugins offer a crippled free version to push into going to their PRO. The guys here provide a free version that brings lots of value also. I needed a flexible grid solution to my website that has dozen of grids in different configurations and the plugin could do everything I needed. Very easy to use and support it fantastic. Highly Recomended!</p>
 						<div class="client-info">
-							<img src="<?php echo esc_url(rtTPG()->get_assets_uri( 'images/admin/client1.jpeg' ) ); ?>">
+							<img src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/admin/client1.jpeg' ) ); ?>">
 							<div>
 								<div class="rttpg-star">
 									<i class="dashicons dashicons-star-filled"></i>

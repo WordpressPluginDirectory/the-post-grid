@@ -1649,6 +1649,7 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     box-sizing: border-box;
     flex: 1 0 auto;
 }
+
 .rttpg-toc-headings-list .components-base-control > div,
 .rttpg-toc-headings-list .components-base-control .components-base-control__field {
     display: flex;
@@ -1657,6 +1658,7 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     align-items: center;
     gap: 5px;
 }
+
 .rttpg-toc-headings-list .components-base-control * {
     margin-left: 0;
     margin-right: 0;

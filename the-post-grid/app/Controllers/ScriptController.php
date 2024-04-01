@@ -49,6 +49,7 @@ class ScriptController {
 	 */
 	public function init() {
 
+        //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		if ( 'rttpg_settings' === $current_page ) {

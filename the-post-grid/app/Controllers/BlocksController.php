@@ -18,7 +18,7 @@ class BlocksController {
 
 	public function __construct() {
 
-		//Layout initialize
+		// Layout initialize
 		new GridLayout();
 		new ListLayout();
 		new GridHoverLayout();
@@ -28,7 +28,7 @@ class BlocksController {
 		$this->version = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : RT_THE_POST_GRID_VERSION;
 		add_action( 'enqueue_block_editor_assets', [ $this, 'editor_assets' ] );
 
-		//All css/js file load in back-end and front-end
+		// All css/js file load in back-end and front-end
 		add_action( 'wp_enqueue_scripts', [ $this, 'tpg_block_enqueue' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'tpg_block_enqueue' ] );
 
@@ -54,7 +54,7 @@ class BlocksController {
 	}
 
 	public function rttpg_guten_layout_count() {
-		$BASE_URL = "https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/wp-json/rttpgapi/v1/layoutinfo/";
+		$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/wp-json/rttpgapi/v1/layoutinfo/';
 
 		// Verify the request.
 		check_ajax_referer( 'rttpg_nonce', 'nonce' );
@@ -64,19 +64,22 @@ class BlocksController {
 		$allowed_roles = [ 'editor', 'administrator', 'author' ];
 
 		if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-			wp_die( __( 'You don\'t have permission to perform this action', 'rttpg' ) );
+			wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
 		}
 
 		// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
 		if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-			wp_die( __( 'You don\'t have proper authorization to perform this action', 'rttpg' ) );
+			wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
 		}
 
 		$status    = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
 		$layout_id = isset( $_REQUEST['layout_id'] ) ? $_REQUEST['layout_id'] : '';
 
 		$post_args         = [ 'timeout' => 120 ];
-		$post_args['body'] = [ 'status' => $status, 'layout_id' => $layout_id ];
+		$post_args['body'] = [
+			'status'    => $status,
+			'layout_id' => $layout_id,
+		];
 		$layoutRequest     = wp_remote_post( $BASE_URL, $post_args );
 		if ( is_wp_error( $layoutRequest ) ) {
 			wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
@@ -90,7 +93,7 @@ class BlocksController {
 	 * @return void
 	 */
 	public function rttpg_get_layouts() {
-		$BASE_URL = "https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/wp-json/rttpgapi/v1/layouts/";
+		$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/wp-json/rttpgapi/v1/layouts/';
 
 		// Verify the request.
 		check_ajax_referer( 'rttpg_nonce', 'nonce' );
@@ -100,12 +103,12 @@ class BlocksController {
 		$allowed_roles = [ 'editor', 'administrator', 'author' ];
 
 		if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-			wp_die( __( 'You don\'t have permission to perform this action', 'rttpg' ) );
+			wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
 		}
 
 		// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
 		if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-			wp_die( __( 'You don\'t have proper authorization to perform this action', 'rttpg' ) );
+			wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
 		}
 
 		$status            = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
@@ -161,7 +164,7 @@ class BlocksController {
 					wp_enqueue_style( 'rttpg-block-post-preview', $rttpg_upload_url . 'rttpg-block-preview.css', false, $this->version );
 				}
 			}
-		} else if ( $post_id ) {
+		} elseif ( $post_id ) {
 			$css_dir_path = $rttpg_upload_dir . "rttpg-block-$post_id.css";
 			$css_dir_url  = $rttpg_upload_dir . "rttpg-block-$post_id.css";
 
@@ -171,7 +174,7 @@ class BlocksController {
 				}
 				$this->add_reusable_css();
 			} else {
-				// phpcs: ignore
+				// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 				wp_register_style( 'rttpg-post-data', false );
 				wp_enqueue_style( 'rttpg-post-data' );
 				wp_add_inline_style( 'rttpg-post-data', get_post_meta( get_the_ID(), '_rttpg_block_css', true ) );
@@ -181,6 +184,7 @@ class BlocksController {
 
 	/**
 	 * Common css load
+	 *
 	 * @return void
 	 */
 	public function tpg_block_enqueue() {
@@ -193,7 +197,7 @@ class BlocksController {
 		wp_enqueue_style( 'rt-flaticon' );
 		wp_enqueue_style( 'rt-tpg-block' );
 
-		//Custom CSS From Settings
+		// Custom CSS From Settings
 		$css = isset( $settings['custom_css'] ) ? stripslashes( $settings['custom_css'] ) : null;
 		if ( $css ) {
 			wp_add_inline_style( 'rt-tpg-block', $css );
@@ -210,6 +214,7 @@ class BlocksController {
 	 * @since v.1.0.0
 	 */
 	private function is_editor_screen() {
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['action'] ) && 'wppb_editor' === $_GET['action'] ) {
 			return true;
 		}
@@ -220,28 +225,35 @@ class BlocksController {
 
 	/**
 	 * Load Editor Assets
+	 *
 	 * @return void
 	 */
 	public function editor_assets() {
 
-		//Block editor css
+		// Block editor css
 		wp_enqueue_style( 'rttpg-block-admin-css', rtTPG()->get_assets_uri( 'css/admin/block-admin.css' ), '', $this->version );
 
-		//Main compile css and js file
+		// Main compile css and js file
 		wp_enqueue_style( 'rttpg-blocks-css', rtTPG()->get_assets_uri( 'blocks/main.css' ), '', $this->version );
-		wp_enqueue_script( 'rttpg-blocks-js', rtTPG()->get_assets_uri( 'blocks/main.js' ), [
-			'wp-block-editor',
-			'wp-blocks',
-			'wp-components',
-			'wp-element',
-			'wp-i18n',
-		], $this->version, true );
+		wp_enqueue_script(
+			'rttpg-blocks-js',
+			rtTPG()->get_assets_uri( 'blocks/main.js' ),
+			[
+				'wp-block-editor',
+				'wp-blocks',
+				'wp-components',
+				'wp-element',
+				'wp-i18n',
+			],
+			$this->version,
+			true
+		);
 
 		global $pagenow;
 		$editor_type = 'edit-post';
 
 		if ( 'site-editor.php' === $pagenow ) {
-			$editor_type        = 'edit-site';
+			$editor_type = 'edit-site';
 		}
 
 		$get_tax_object = get_taxonomies( [], 'objects' );
@@ -250,32 +262,37 @@ class BlocksController {
 			unset( $get_tax_object[ $_tax ] );
 		}
 
-		$settings = get_option( rtTPG()->options['settings'] );
-		$ssList   = ! empty( $settings['social_share_items'] ) ? $settings['social_share_items'] : [];
+		$settings       = get_option( rtTPG()->options['settings'] );
+		$ssList         = ! empty( $settings['social_share_items'] ) ? $settings['social_share_items'] : [];
+		$chatgpt_status = ! empty( $settings['chatgpt_status'] ) ? $settings['chatgpt_status'] : '';
 
-		wp_localize_script( 'rttpg-blocks-js', 'rttpgParams', [
-				'editor_type'         => $editor_type,
-				'nonce'               => wp_create_nonce( 'rttpg_nonce' ),
-				'ajaxurl'             => admin_url( 'admin-ajax.php' ),
-				'site_url'            => site_url(),
-				'admin_url'           => admin_url(),
-				'plugin_url'          => RT_THE_POST_GRID_PLUGIN_URL,
-				'plugin_pro_url'      => rtTPG()->getProPath(),
-				'post_type'           => Fns::get_post_types(),
-				'all_term_list'       => Fns::get_all_taxonomy_guten(),
-				'get_taxonomies'      => $get_tax_object,
-				'get_users'           => Fns::rt_get_users(),
-				'hasPro'              => rtTPG()->hasPro(),
-				'pageTitle'           => get_the_title(),
-				'hasWoo'              => Fns::is_woocommerce(),
-				'hasAcf'              => Fns::is_acf(),
-				'ssList'              => $ssList,
-				'current_user_id'     => get_current_user_id(),
-				'disableImportButton' => apply_filters( 'rttpg_disable_gutenberg_import_button', 'no' ),
-				'iconFont'            => Fns::tpg_option( 'tpg_icon_font' )
+		wp_localize_script(
+			'rttpg-blocks-js',
+			'rttpgParams',
+			[
+				'editor_type'          => $editor_type,
+				'nonce'                => wp_create_nonce( 'rttpg_nonce' ),
+				'ajaxurl'              => admin_url( 'admin-ajax.php' ),
+				'site_url'             => site_url(),
+				'admin_url'            => admin_url(),
+				'plugin_url'           => RT_THE_POST_GRID_PLUGIN_URL,
+				'plugin_pro_url'       => rtTPG()->getProPath(),
+				'post_type'            => Fns::get_post_types(),
+				'all_term_list'        => Fns::get_all_taxonomy_guten(),
+				'get_taxonomies'       => $get_tax_object,
+				'get_users'            => Fns::rt_get_users(),
+				'hasPro'               => rtTPG()->hasPro(),
+				'pageTitle'            => get_the_title(),
+				'hasWoo'               => Fns::is_woocommerce(),
+				'hasAcf'               => Fns::is_acf(),
+				'ssList'               => $ssList,
+				'current_user_id'      => get_current_user_id(),
+				'disableImportButton'  => apply_filters( 'rttpg_disable_gutenberg_import_button', 'no' ),
+				'disableChatGPTButton' => $chatgpt_status != 'yes' ? 'no' : 'yes',
+				'iconFont'             => Fns::tpg_option( 'tpg_icon_font' ),
+				'avatar'               => esc_url( get_avatar_url( get_current_user_id() ) ),
 			]
 		);
-
 	}
 
 
@@ -286,21 +303,20 @@ class BlocksController {
 	 */
 	public function add_block_inline_css() {
 
-		$post_id = apply_filters('tpg_page_id_for_block_css',get_the_ID());
+		$post_id = apply_filters( 'tpg_page_id_for_block_css', get_the_ID() );
 
 		if ( $post_id ) {
 			$rttpg_upload_dir = wp_upload_dir()['basedir'] . '/rttpg/';
 			$css_dir_path     = $rttpg_upload_dir . "rttpg-block-$post_id.css";
 			if ( file_exists( $css_dir_path ) ) {
-				$blockCss = file_get_contents( $css_dir_path );
-				echo '<style>' . sanitize_textarea_field( $blockCss ) . '</style>';
-			} else if ( $metaCss = get_post_meta( $post_id, '_rttpg_block_css', true ) ) {
-				echo '<style>' . sanitize_textarea_field( $metaCss ) . '</style>';
+				$blockCss = file_get_contents( $css_dir_path ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+				echo '<style>' . sanitize_textarea_field( $blockCss ) . '</style>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			} elseif ( $metaCss = get_post_meta( $post_id, '_rttpg_block_css', true ) ) {
+				echo '<style>' . sanitize_textarea_field( $metaCss ) . '</style>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 
 		$this->add_reusable_css();
-
 	}
 
 
@@ -346,7 +362,7 @@ class BlocksController {
 			check_ajax_referer( 'rttpg_nonce', 'nonce' );
 			global $wp_filesystem;
 			if ( ! $wp_filesystem ) {
-				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				require_once ABSPATH . 'wp-admin/includes/file.php';
 			}
 
 			$post_id  = ! empty( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
@@ -380,7 +396,7 @@ class BlocksController {
 			} else {
 				delete_post_meta( $post_id, '_rttpg_block_active' );
 				if ( file_exists( $dir . $filename ) ) {
-					unlink( $dir . $filename );
+					unlink( $dir . $filename ); //phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 				}
 				delete_post_meta( $post_id, '_rttpg_block_css' );
 				wp_send_json_success( [ 'message' => __( 'Data Delete Done', 'the-post-grid' ) ] );
@@ -407,12 +423,15 @@ class BlocksController {
 				$fonts   = $matches[0];
 				$get_css = str_replace( $fonts, '', $get_css );
 				if ( preg_match_all( '/font-weight[ ]?:[ ]?[\d]{3}[ ]?;/', $get_css, $matche_weight ) ) {
-					$weight = array_map( function ( $val ) {
-						$process = trim( str_replace( [ 'font-weight', ':', ';' ], '', $val ) );
-						if ( is_numeric( $process ) ) {
-							return $process;
-						}
-					}, $matche_weight[0] );
+					$weight = array_map(
+						function ( $val ) {
+							$process = trim( str_replace( [ 'font-weight', ':', ';' ], '', $val ) );
+							if ( is_numeric( $process ) ) {
+								  return $process;
+							}
+						},
+						$matche_weight[0]
+					);
 					foreach ( $fonts as $key => $val ) {
 						$fonts[ $key ] = str_replace( "');", '', $val ) . ':' . implode( ',', $weight ) . "');";
 					}
@@ -443,7 +462,6 @@ class BlocksController {
 	/**
 	 * Save Import CSS in the top of the File
 	 *
-	 *
 	 * @return void
 	 * @throws Exception
 	 * @since v.1.0.0
@@ -455,7 +473,7 @@ class BlocksController {
 		check_ajax_referer( 'rttpg_nonce', 'nonce' );
 		global $wp_filesystem;
 		if ( ! $wp_filesystem ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 		$post    = $server->get_params();
 		$css     = $post['inner_css'];

@@ -21,11 +21,10 @@ class TPGRelatedPost extends Custom_Widget_Base {
 	 * GridLayout constructor.
 	 *
 	 * @param array $data
-	 * @param null $args
+	 * @param null  $args
 	 *
 	 * @throws \Exception
 	 */
-
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
 		$this->prefix       = 'slider';
@@ -178,7 +177,7 @@ class TPGRelatedPost extends Custom_Widget_Base {
 		}
 
 		if ( ! rtTPG()->hasPro() ) { ?>
-            <h3 style="text-align: center"><?php echo esc_html__( 'Please upgrade to pro for slider layout!', 'the-post-grid' ); ?></h3>
+			<h3 style="text-align: center"><?php echo esc_html__( 'Please upgrade to pro for slider layout!', 'the-post-grid' ); ?></h3>
 			<?php
 			return;
 		}
@@ -191,7 +190,7 @@ class TPGRelatedPost extends Custom_Widget_Base {
 		}
 
 		// if ( 'show' == $data['show_pagination'] && 'pagination_ajax' == $data['pagination_type'] ) {
-		// 	wp_enqueue_script( 'rt-pagination' );
+		// wp_enqueue_script( 'rt-pagination' );
 		// }
 
 		// Query.
@@ -234,33 +233,32 @@ class TPGRelatedPost extends Custom_Widget_Base {
 		$grid_column_tab     = '0' !== $post_data['grid_column_tablet'] ? $post_data['grid_column_tablet'] : $default_grid_column_tab;
 		$grid_column_mobile  = '0' !== $post_data['grid_column_mobile'] ? $post_data['grid_column_mobile'] : $default_grid_column_mobile;
 
-
 		$item_column = "rt-col-md-{$grid_column_desktop} rt-col-sm-{$grid_column_tab} rt-col-xs-{$grid_column_mobile}";
 
 		$slider_main_class = $enable_related_slider ? 'slider-layout-main loading' : 'slider-is-disable';
-		$dynamicClass      = ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? " has-external-link" : "";
+		$dynamicClass      = ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
 
 		if ( $query->have_posts() ) :
 			?>
-        <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper <?php echo esc_attr( $_layout . '-main' . ' ' . $slider_main_class . ' ' . $dynamicClass ); ?>"
-             id="<?php echo esc_attr( $layoutID ); ?>"
-             data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
-             data-grid-style=""
-             data-desktop-col="<?php echo esc_attr( $grid_column_desktop ); ?>"
-             data-tab-col="<?php echo esc_attr( $grid_column_tab ); ?>"
-             data-mobile-col="<?php echo esc_attr( $grid_column_mobile ); ?>"
-             data-sc-id="elementor"
-             data-el-query=''
-        >
+		<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper <?php echo esc_attr( $_layout . '-main' . ' ' . $slider_main_class . ' ' . $dynamicClass ); ?>"
+			 id="<?php echo esc_attr( $layoutID ); ?>"
+			 data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
+			 data-grid-style=""
+			 data-desktop-col="<?php echo esc_attr( $grid_column_desktop ); ?>"
+			 data-tab-col="<?php echo esc_attr( $grid_column_tab ); ?>"
+			 data-mobile-col="<?php echo esc_attr( $grid_column_mobile ); ?>"
+			 data-sc-id="elementor"
+			 data-el-query=''
+		>
 			<?php
 			$settings = get_option( rtTPG()->options['settings'] );
 			if ( isset( $settings['tpg_load_script'] ) || isset( $settings['tpg_enable_preloader'] ) ) {
 				?>
-                <div id="bottom-script-loader" class="bottom-script-loader">
-                    <div class="rt-ball-clip-rotate">
-                        <div></div>
-                    </div>
-                </div>
+				<div id="bottom-script-loader" class="bottom-script-loader">
+					<div class="rt-ball-clip-rotate">
+						<div></div>
+					</div>
+				</div>
 				<?php
 			}
 
@@ -295,10 +293,10 @@ class TPGRelatedPost extends Custom_Widget_Base {
 
 			$wrapper_class[] = $_prefix . '_layout_wrapper';
 
-			//section title settings
-            echo "<div class='tpg-header-wrapper'>";
+			// section title settings
+			echo "<div class='tpg-header-wrapper'>";
 			Fns::get_section_title( $data );
-            echo '</div>';
+			echo '</div>';
 
 			$slider_data = [
 				'speed'           => $data['speed'],
@@ -318,16 +316,16 @@ class TPGRelatedPost extends Custom_Widget_Base {
 			?>
 
 			<?php if ( $enable_related_slider ) { ?>
-            <div class="slider-main-wrapper <?php echo esc_attr( $_layout ); ?>">
+			<div class="slider-main-wrapper <?php echo esc_attr( $_layout ); ?>">
 
-            <div class="rt-swiper-holder swiper"
-                 data-rtowl-options='<?php echo wp_json_encode( $slider_data ); ?>'
-                 dir="<?php echo esc_attr( $data['slider_direction'] ); ?>">
-            <div class="swiper-wrapper <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
+			<div class="rt-swiper-holder swiper"
+				 data-rtowl-options='<?php echo wp_json_encode( $slider_data ); ?>'
+				 dir="<?php echo esc_attr( $data['slider_direction'] ); ?>">
+			<div class="swiper-wrapper <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
 			<?php } else { ?>
-            <div class="rt-row rt-content-loader <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
-			<?php
-		}
+			<div class="rt-row rt-content-loader <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
+				<?php
+			}
 			?>
 
 			<?php
@@ -339,13 +337,13 @@ class TPGRelatedPost extends Custom_Widget_Base {
 				set_query_var( 'tpg_total_posts', $query->post_count );
 				?>
 				<?php if ( ! $enable_related_slider ) { ?>
-                    <div class='<?php echo esc_attr( $item_column ); ?>'>
+					<div class='<?php echo esc_attr( $item_column ); ?>'>
 				<?php } ?>
 				<?php
 				Fns::tpg_template( $post_data );
 				?>
 				<?php if ( ! $enable_related_slider ) { ?>
-                    </div>
+					</div>
 				<?php } ?>
 				<?php
 
@@ -353,38 +351,37 @@ class TPGRelatedPost extends Custom_Widget_Base {
 					$pCount = 0;
 				}
 
-				$pCount ++;
+				$pCount++;
 			}
 			wp_reset_postdata();
 			?>
 
 
 			<?php if ( $enable_related_slider ) { ?>
-            </div>
+			</div>
 
-            </div>
+			</div>
 
 
-            <!--swiper-pagination-horizontal-->
-			<?php if ( $data['dots'] == 'yes' ) : ?>
-                <div class="swiper-pagination"></div>
+			<!--swiper-pagination-horizontal-->
+				<?php if ( $data['dots'] == 'yes' ) : ?>
+				<div class="swiper-pagination"></div>
 			<?php endif; ?>
 
-			<?php if ( $data['arrows'] == 'yes' ) : ?>
-                <div class="swiper-navigation">
-                    <div class="slider-btn swiper-button-prev"></div>
-                    <div class="slider-btn swiper-button-next"></div>
-                </div>
+				<?php if ( $data['arrows'] == 'yes' ) : ?>
+				<div class="swiper-navigation">
+					<div class="slider-btn swiper-button-prev"></div>
+					<div class="slider-btn swiper-button-next"></div>
+				</div>
 			<?php endif; ?>
 
 
 		<?php } ?>
-            </div>
-            </div>
-		<?php
+			</div>
+			</div>
+			<?php
 		endif;
 
 		do_action( 'tpg_elementor_script' );
 	}
-
 }

@@ -18,7 +18,7 @@ if ( in_array( 'categories', $items ) && $categories ) {
 	$catHtml .= "<span class='categories-links'>";
 
 	if ( $catIcon ) {
-		$catHtml .= "<i class='".Fns::change_icon( 'fas fa-folder-open', 'folder' )."'></i>";
+		$catHtml .= "<i class='" . Fns::change_icon( 'fas fa-folder-open', 'folder' ) . "'></i>";
 	}
 
 	$catHtml .= "{$categories}</span>";
@@ -60,7 +60,7 @@ if ( in_array( 'comment_count', $items ) ) {
 	$metaHtml .= '<span class="comment-count">';
 
 	if ( $metaIcon ) {
-		$metaHtml .= "<i class='". Fns::change_icon( 'fas fa-comments', 'chat' ) . "'></i>";
+		$metaHtml .= "<i class='" . Fns::change_icon( 'fas fa-comments', 'chat' ) . "'></i>";
 	}
 
 	$metaHtml .= $comment . '</span>';

@@ -10,6 +10,8 @@ namespace RT\ThePostGrid\Controllers\Admin;
 use RT\ThePostGrid\Helpers\Fns;
 use RT\ThePostGrid\Helpers\Options;
 
+//phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
@@ -122,11 +124,11 @@ class AdminAjaxController {
 
 			if ( $post__not_in ) {
 				$post__not_in         = explode( ',', $post__not_in );
-				$args['post__not_in'] = $post__not_in;
+				$args['post__not_in'] = $post__not_in; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 			}
 
 			/* LIMIT */
-			$limit                  = ( ( empty( $_REQUEST['limit'] ) || '-1' === $_REQUEST['limit'] ) ? -1 : absint( $_REQUEST['limit'] ) );
+			$limit                  = ( ( empty( $_REQUEST['limit'] ) || '-1' === $_REQUEST['limit'] ) ? - 1 : absint( $_REQUEST['limit'] ) );
 			$queryOffset            = empty( $_REQUEST['offset'] ) ? 0 : absint( $_REQUEST['offset'] );
 			$args['posts_per_page'] = $limit;
 			$pagination             = isset( $_REQUEST['pagination'] ) && ! empty( $_REQUEST['pagination'] );
@@ -189,7 +191,7 @@ class AdminAjaxController {
 			}
 
 			if ( ! empty( $taxQ ) ) {
-				$args['tax_query'] = $taxQ;
+				$args['tax_query'] = $taxQ; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			}
 
 			if ( in_array( 'order', $adv_filter ) ) {
@@ -206,7 +208,7 @@ class AdminAjaxController {
 
 					if ( in_array( $order_by, array_keys( Options::rtMetaKeyType() ), true ) && $meta_key ) {
 						$args['orderby']  = $order_by;
-						$args['meta_key'] = $meta_key;
+						$args['meta_key'] = $meta_key; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 					}
 				}
 			}
@@ -225,12 +227,12 @@ class AdminAjaxController {
 						break;
 					case 'price':
 						$args['orderby']  = 'meta_value_num';
-						$args['meta_key'] = '_price';
+						$args['meta_key'] = '_price'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						$args['order']    = 'ASC';
 						break;
 					case 'price-desc':
 						$args['orderby']  = 'meta_value_num';
-						$args['meta_key'] = '_price';
+						$args['meta_key'] = '_price'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						$args['order']    = 'DESC';
 						break;
 					case 'rating':
@@ -473,6 +475,7 @@ class AdminAjaxController {
 			}
 
 			if ( in_array( '_taxonomy_filter', $filters ) && $taxFilter && $action_term ) {
+				//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				$args['tax_query'] = [
 					[
 						'taxonomy' => $taxFilter,
@@ -560,6 +563,7 @@ class AdminAjaxController {
 
 			$data              .= Fns::layoutStyle( $layoutID, $styleMeta, $layout );
 			$containerDataAttr .= '';
+			$parentClass        = esc_attr( $parentClass );
 			$data              .= "<div class='rt-container-fluid rt-tpg-container tpg-shortcode-main-wrapper {$parentClass}' id='{$layoutID}' {$dataArchive} {$containerDataAttr}>";
 			// widget heading.
 			$heading_tag       = isset( $_REQUEST['tpg_heading_tag'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tpg_heading_tag'] ) ) : 'h2';
@@ -670,7 +674,7 @@ class AdminAjaxController {
 									$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
 								}
 
-								$i ++;
+								$i++;
 							}
 						}
 
@@ -931,10 +935,11 @@ class AdminAjaxController {
 					global $wp_version;
 
 					if ( version_compare( $wp_version, '4.5', '>=' ) ) {
+						//phpcs:ignore WordPress.WP.DeprecatedParameters.Get_termsParam2Found
 						$terms = get_terms(
 							$isotope_filter,
 							[
-								'meta_key'   => '_rt_order',
+								'meta_key'   => '_rt_order', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 								'orderby'    => 'meta_value_num',
 								'order'      => 'ASC',
 								'hide_empty' => false,
@@ -943,8 +948,8 @@ class AdminAjaxController {
 						);
 					} else {
 						$terms = get_terms(
-							$isotope_filter,
 							[
+								'taxonomy'   => $isotope_filter,
 								'orderby'    => 'name',
 								'order'      => 'ASC',
 								'hide_empty' => false,
@@ -1026,7 +1031,7 @@ class AdminAjaxController {
 						$l = 0;
 					}
 
-					$arg['postCount']     = $gridPostCount ++;
+					$arg['postCount']     = $gridPostCount++;
 					$pID                  = get_the_ID();
 					$arg['pID']           = $pID;
 					$arg['title']         = Fns::get_the_title( $pID, $arg );
@@ -1112,8 +1117,8 @@ class AdminAjaxController {
 						) : null;
 						$data         .= Fns::get_template_html( 'layouts/' . $layout, $arg );
 					}
-					$offLoop ++;
-					$l ++;
+					$offLoop++;
+					$l++;
 				endwhile;
 
 				if ( $isOffset ) {
@@ -1235,5 +1240,4 @@ class AdminAjaxController {
 		);
 		die();
 	}
-
 }

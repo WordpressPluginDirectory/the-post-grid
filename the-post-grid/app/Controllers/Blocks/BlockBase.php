@@ -139,6 +139,7 @@ abstract class BlockBase {
 
 				$_term_list = wp_list_pluck( $_taxonomy_list[ $object->name ]['options'], 'value' );
 				if ( ! empty( $_term_list ) ) {
+					//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query'][] = [
 						'taxonomy' => $object->name,
 						'field'    => 'term_id',
@@ -150,7 +151,7 @@ abstract class BlockBase {
 		}
 
 		if ( ! empty( $args['tax_query'] ) && $data['relation'] ) {
-			$args['tax_query']['relation'] = $data['relation'];
+			$args['tax_query']['relation'] = $data['relation']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		}
 
 		if ( $data['post_keyword'] ) {
@@ -174,7 +175,7 @@ abstract class BlockBase {
 			}
 
 			$excluded_post_ids    = array_merge( $offset_posts, $excluded_ids );
-			$args['post__not_in'] = array_unique( $excluded_post_ids );
+			$args['post__not_in'] = array_unique( $excluded_post_ids ); //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 		}
 
 		if ( $prefix !== 'slider' ) {
@@ -187,7 +188,7 @@ abstract class BlockBase {
 					$tempArgs['paged']          = 1;
 					$tempArgs['fields']         = 'ids';
 					if ( ! empty( $offset_posts ) ) {
-						$tempArgs['post__not_in'] = $offset_posts;
+						$tempArgs['post__not_in'] = $offset_posts; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 					}
 					$tempQ = new \WP_Query( $tempArgs );
 					if ( ! empty( $tempQ->posts ) ) {

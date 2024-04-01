@@ -33,7 +33,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 	public $last_post_id;
 
 	public function __construct( $data = [], $args = null ) {
-		$this->tpg_category         = RT_THE_POST_GRID_PLUGIN_SLUG . '-elements'; // Category /@dev
+		$this->tpg_category         = RT_THE_POST_GRID_PLUGIN_SLUG . '-elements'; // Category /@dev.
 		$this->tpg_archive_category = 'tpg-block-builder-widgets';
 		$this->tpg_icon             = 'eicon-gallery-grid tpg-grid-icon';
 		$this->tpg_dir              = dirname( ( new ReflectionClass( $this ) )->getFileName() );
@@ -44,7 +44,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 		$this->last_post_id         = Fns::get_last_post_id();
 
 		if ( ! rtTPG()->hasPro() ) {
-			$this->pro_label       = __( '<span class="tpg-pro-label">Pro</span>', 'the-post-grid' );
+			$this->pro_label       = sprintf( '<span class="tpg-pro-label">%s</span>', esc_html__( 'Pro', 'the-post-grid' ) );
 			$this->is_post_layout  = ' the-post-grid-pro-needed';
 			$this->get_pro_message = 'Please <a target="_blank" href="' . esc_url( rtTpg()->proLink() ) . '">upgrade</a> to pro for more options';
 		}
@@ -80,11 +80,11 @@ abstract class Custom_Widget_Base extends Widget_Base {
 		if ( ! rtTPG()->hasPro() ) {
 			return esc_html__( '[Pro]', 'the-post-grid' );
 		}
-        return "";
+		return '';
 	}
 
 
-	//post category list
+	// post category list.
 	function tpg_category_list() {
 		$categories = get_categories( [ 'hide_empty' => false ] );
 		$lists      = [];
@@ -323,7 +323,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 							$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
 						}
 
-						$i ++;
+						$i++;
 					}
 				}
 				$pAllCount = null;
@@ -642,7 +642,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 			$day         = get_query_var( 'day' );
 			$time_string = $year . '/' . $monthnum . '/' . $day;
 			$time_stamp  = strtotime( $time_string );
-			Fns::print_html( date( get_option( 'date_format' ), $time_stamp ) );
+			Fns::print_html( gmdate( get_option( 'date_format' ), $time_stamp ) );
 		}
 	}
 
@@ -687,7 +687,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 					if ( is_archive() ) {
 						Fns::get_archive_title();
 					} elseif ( is_search() ) {
-						echo get_query_var( 's' );
+						echo esc_html( get_query_var( 's' ) );
 					} else {
 						the_title();
 					}
@@ -706,14 +706,14 @@ abstract class Custom_Widget_Base extends Widget_Base {
 			</a>
 
 		<?php endif; ?>
-			<?php printf( '</%s>', $data['section_title_tag'] ); ?>
+			<?php printf( '</%s>', esc_attr( $data['section_title_tag'] ) ); ?>
 			<span class="tpg-widget-heading-line line-right"></span>
 		</div>
 
 		<?php if ( isset( $data['show_cat_desc'] ) && $data['show_cat_desc'] == 'yes' && category_description( Fns::get_last_category_id() ) ) : ?>
-            <div class="tpg-category-description">
+			<div class="tpg-category-description">
 				<?php echo category_description( Fns::get_last_category_id() ); ?>
-            </div>
+			</div>
 
 		<?php endif; ?>
 

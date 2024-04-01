@@ -224,7 +224,7 @@ class RttpgV1 {
 			$upload_dir = wp_upload_dir()['basedir'] . '/rttpg/';
 			$css_path   = $upload_dir . 'rttpg-block-' . $post_id . '.css';
 			if ( file_exists( $css_path ) ) {
-				unlink( $css_path );
+				unlink( $css_path ); //phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 			}
 		}
 	}
@@ -263,9 +263,9 @@ class RttpgV1 {
 				$upload_dir = wp_upload_dir();
 				$dir        = trailingslashit( $upload_dir['basedir'] ) . 'rttpg/';
 				if ( file_exists( $dir . $filename ) ) {
-					$file = fopen( $dir . $filename, 'a' );
-					fwrite( $file, $css );
-					fclose( $file );
+					$file = fopen( $dir . $filename, 'a' ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+					fwrite( $file, $css ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+					fclose( $file ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 				}
 				$get_data = get_post_meta( $post_id, '_rttpg_block_css', true );
 				update_post_meta( $post_id, '_rttpg_block_css', $get_data . $css );
@@ -306,9 +306,9 @@ class RttpgV1 {
 			$upload_dir = wp_upload_dir();
 			$dir        = trailingslashit( $upload_dir['basedir'] ) . 'rttpg/';
 			if ( file_exists( $dir . $filename ) ) {
-				$file = fopen( $dir . $filename, 'a' );
-				fwrite( $file, $css );
-				fclose( $file );
+				$file = fopen( $dir . $filename, 'a' ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+				fwrite( $file, $css ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+				fclose( $file ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 			}
 			wp_send_json_success(
 				[

@@ -29,17 +29,15 @@ class TPGWidget extends WP_Widget {
 		];
 
 		parent::__construct( 'widget_tpg_post_grid', esc_html__( 'The Post Grid', 'the-post-grid' ), $widget_ops );
-
 	}
 
 	/**
 	 * display the widgets on the screen.
 	 */
 	public function widget( $args, $instance ) {
-		extract( $args );
 		$id = ( ! empty( $instance['id'] ) ? absint( $instance['id'] ) : null );
 
-		echo $before_widget; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', ( isset( $instance['title'] ) ? $instance['title'] : 'The Post Grid' ) ) . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -49,7 +47,7 @@ class TPGWidget extends WP_Widget {
 			echo do_shortcode( '[the-post-grid id="' . absint( $id ) . '" ]' );
 		}
 
-		echo $after_widget; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function form( $instance ) {
@@ -84,7 +82,7 @@ class TPGWidget extends WP_Widget {
 
 	public function update( $new_instance, $old_instance ) {
 		$instance          = [];
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
 		$instance['id']    = ( ! empty( $new_instance['id'] ) ) ? absint( $new_instance['id'] ) : '';
 
 		return $instance;

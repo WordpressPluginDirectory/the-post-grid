@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
 
+//phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 /**
  * Meta Controller class.
  */
@@ -40,7 +42,7 @@ class MetaController {
 	public function manage_rttpg_columns( $column ) {
 		switch ( $column ) {
 			case 'shortcode':
-				echo '<input type="text" onfocus="this.select();" readonly="readonly" value="[the-post-grid id=&quot;' . get_the_ID() . '&quot; title=&quot;' . get_the_title() . '&quot;]" class="large-text code rt-code-sc">';
+				echo '<input type="text" onfocus="this.select();" readonly="readonly" value="[the-post-grid id=&quot;' . get_the_ID() . '&quot; title=&quot;' . get_the_title() . '&quot;]" class="large-text code rt-code-sc">'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			default:
 				break;
@@ -473,6 +475,7 @@ class MetaController {
 			}
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['_tpg_last_active_tab'] ) && $active_tab = sanitize_text_field( wp_unslash( $_POST['_tpg_last_active_tab'] ) ) ) {
 			update_post_meta( $post_id, '_tpg_last_active_tab', $active_tab );
 		}

@@ -94,6 +94,7 @@ class GetPostsV1 {
 			$filtered_taxonomy_lists[ $object->name ] = isset( $_taxonomy_list[ $object->name ] ) ? $_taxonomy_list[ $object->name ]['options'] : null;
 			$_term_list                               = isset( $_taxonomy_list[ $object->name ] ) ? wp_list_pluck( $_taxonomy_list[ $object->name ]['options'], 'value' ) : null;
 			if ( ! empty( $_term_list ) ) {
+				//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				$args['tax_query'][] = [
 					'taxonomy' => $object->name,
 					'field'    => 'term_id',
@@ -101,7 +102,7 @@ class GetPostsV1 {
 				];
 			}
 			if ( ! empty( $args['tax_query'] ) && $data['relation'] ) {
-				$args['tax_query']['relation'] = $data['relation'];
+				$args['tax_query']['relation'] = $data['relation']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			}
 		}
 
@@ -127,7 +128,7 @@ class GetPostsV1 {
 			}
 
 			$excluded_post_ids    = array_merge( $offset_posts, $excluded_ids );
-			$args['post__not_in'] = array_unique( $excluded_post_ids );
+			$args['post__not_in'] = array_unique( $excluded_post_ids ); //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 		}
 
 		if ( $prefix !== 'slider' ) {
@@ -140,7 +141,7 @@ class GetPostsV1 {
 					$tempArgs['paged']          = 1;
 					$tempArgs['fields']         = 'ids';
 					if ( ! empty( $offset_posts ) ) {
-						$tempArgs['post__not_in'] = $offset_posts;
+						$tempArgs['post__not_in'] = $offset_posts; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 					}
 					$tempQ = new WP_Query( $tempArgs );
 					if ( ! empty( $tempQ->posts ) ) {

@@ -13,6 +13,7 @@ use RT\ThePostGrid\Helpers\Fns;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
 }
+//phpcs:disable WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
 /**
  * Elementor: ACF Widget.
@@ -23,12 +24,10 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 	 * GridLayout constructor.
 	 *
 	 * @param array $data
-	 * @param null $args
+	 * @param null  $args
 	 *
 	 * @throws \Exception
 	 */
-
-
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
 		$this->tpg_name = esc_html__( 'TPG - Category Block', 'the-post-grid' );
@@ -52,11 +51,13 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 
 	protected function register_controls() {
 
-		$this->start_controls_section( 'tpg_acf_section', [
-			'label' => esc_html__( 'TPG Advance Custom Field', 'the-post-grid' ),
-			'tab'   => Controls_Manager::TAB_CONTENT,
-		] );
-
+		$this->start_controls_section(
+			'tpg_acf_section',
+			[
+				'label' => esc_html__( 'TPG Advance Custom Field', 'the-post-grid' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
 
 		$layout_options = [
 			'category-layout1' => [
@@ -84,32 +85,38 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_responsive_control( 'grid_column', [
-			'label'          => esc_html__( 'Column', 'the-post-grid' ),
-			'type'           => Controls_Manager::SELECT,
-			'options'        => [
-				'0'  => esc_html__( 'Default from layout', 'the-post-grid' ),
-				'12' => esc_html__( '1 Columns', 'the-post-grid' ),
-				'6'  => esc_html__( '2 Columns', 'the-post-grid' ),
-				'4'  => esc_html__( '3 Columns', 'the-post-grid' ),
-				'3'  => esc_html__( '4 Columns', 'the-post-grid' ),
-				'24' => esc_html__( '5 Columns', 'the-post-grid' ),
-				'2'  => esc_html__( '6 Columns', 'the-post-grid' ),
-			],
-			'default'        => '0',
-			'tablet_default' => '0',
-			'mobile_default' => '0',
-			'description'    => esc_html__( 'Choose Column for layout.', 'the-post-grid' ),
-//			'render_type'    => 'template'
-		] );
+		$this->add_responsive_control(
+			'grid_column',
+			[
+				'label'          => esc_html__( 'Column', 'the-post-grid' ),
+				'type'           => Controls_Manager::SELECT,
+				'options'        => [
+					'0'  => esc_html__( 'Default from layout', 'the-post-grid' ),
+					'12' => esc_html__( '1 Columns', 'the-post-grid' ),
+					'6'  => esc_html__( '2 Columns', 'the-post-grid' ),
+					'4'  => esc_html__( '3 Columns', 'the-post-grid' ),
+					'3'  => esc_html__( '4 Columns', 'the-post-grid' ),
+					'24' => esc_html__( '5 Columns', 'the-post-grid' ),
+					'2'  => esc_html__( '6 Columns', 'the-post-grid' ),
+				],
+				'default'        => '0',
+				'tablet_default' => '0',
+				'mobile_default' => '0',
+				'description'    => esc_html__( 'Choose Column for layout.', 'the-post-grid' ),
+				// 'render_type'    => 'template'
+			]
+		);
 
-		$this->add_control( 'category', [
-			'label'       => esc_html__( "Choose Category", 'the-post-grid' ),
-			'type'        => \Elementor\Controls_Manager::SELECT2,
-			'label_block' => true,
-			'multiple'    => true,
-			'options'     => Fns::tpg_get_categories_by_id(),
-		] );
+		$this->add_control(
+			'category',
+			[
+				'label'       => esc_html__( 'Choose Category', 'the-post-grid' ),
+				'type'        => \Elementor\Controls_Manager::SELECT2,
+				'label_block' => true,
+				'multiple'    => true,
+				'options'     => Fns::tpg_get_categories_by_id(),
+			]
+		);
 
 		$this->add_control(
 			'category_number',
@@ -122,100 +129,118 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_responsive_control( 'cat_gap', [
-			'label'      => esc_html__( 'Grid Gap', 'the-post-grid' ),
-			'type'       => Controls_Manager::SLIDER,
-			'size_units' => [ 'px' ],
-			'range'      => [
-				'px' => [
-					'min'  => 0,
-					'max'  => 100,
-					'step' => 1,
+		$this->add_responsive_control(
+			'cat_gap',
+			[
+				'label'      => esc_html__( 'Grid Gap', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => 0,
+						'max'  => 100,
+						'step' => 1,
+					],
 				],
-			],
-			'selectors'  => [
-				'{{WRAPPER}} .rt-row'                 => 'margin-left: -{{SIZE}}px;margin-right: -{{SIZE}}px',
-				'{{WRAPPER}} .rt-row > .cat-item-col' => 'padding-left: {{SIZE}}px;padding-right: {{SIZE}}px; padding-bottom: calc({{SIZE}}px * 2)',
-			],
-		] );
-
-
-		$this->add_control( 'category_alignment', [
-			'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
-			'type'      => \Elementor\Controls_Manager::CHOOSE,
-			'options'   => [
-				'left'   => [
-					'title' => esc_html__( 'Left', 'the-post-grid' ),
-					'icon'  => 'eicon-text-align-left',
+				'selectors'  => [
+					'{{WRAPPER}} .rt-row'                 => 'margin-left: -{{SIZE}}px;margin-right: -{{SIZE}}px',
+					'{{WRAPPER}} .rt-row > .cat-item-col' => 'padding-left: {{SIZE}}px;padding-right: {{SIZE}}px; padding-bottom: calc({{SIZE}}px * 2)',
 				],
-				'center' => [
-					'title' => esc_html__( 'Center', 'the-post-grid' ),
-					'icon'  => 'eicon-text-align-center',
-				],
-				'right'  => [
-					'title' => esc_html__( 'Right', 'the-post-grid' ),
-					'icon'  => 'eicon-text-align-right',
-				],
-			],
-			'selectors' => [ '{{WRAPPER}} .tpg-category-block-wrapper' => 'text-align: {{VALUE}};', ],
-			'condition' => [
-				'category_layout' => 'category-layout1'
 			]
-		] );
+		);
 
+		$this->add_control(
+			'category_alignment',
+			[
+				'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
+				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'options'   => [
+					'left'   => [
+						'title' => esc_html__( 'Left', 'the-post-grid' ),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'the-post-grid' ),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right'  => [
+						'title' => esc_html__( 'Right', 'the-post-grid' ),
+						'icon'  => 'eicon-text-align-right',
+					],
+				],
+				'selectors' => [ '{{WRAPPER}} .tpg-category-block-wrapper' => 'text-align: {{VALUE}};' ],
+				'condition' => [
+					'category_layout' => 'category-layout1',
+				],
+			]
+		);
 
 		$this->end_controls_section();
 
-		//TODO: Category Style
-		$this->start_controls_section( 'category_style', [
-			'label' => esc_html__( 'Category', 'the-post-grid' ),
-			'tab'   => Controls_Manager::TAB_STYLE,
-		] );
+		// TODO: Category Style
+		$this->start_controls_section(
+			'category_style',
+			[
+				'label' => esc_html__( 'Category', 'the-post-grid' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
 
-		$this->add_control( 'cat_tag', [
-			'label'   => esc_html__( 'Choose Category Tag', 'the-post-grid' ),
-			'type'    => Controls_Manager::SELECT,
-			'default' => 'h3',
-			'options' => [
-				'h1' => esc_html__( 'H1', 'the-post-grid' ),
-				'h2' => esc_html__( 'H2', 'the-post-grid' ),
-				'h3' => esc_html__( 'H3', 'the-post-grid' ),
-				'h4' => esc_html__( 'H4', 'the-post-grid' ),
-				'h5' => esc_html__( 'H5', 'the-post-grid' ),
-				'h6' => esc_html__( 'H6', 'the-post-grid' ),
-			],
-		] );
+		$this->add_control(
+			'cat_tag',
+			[
+				'label'   => esc_html__( 'Choose Category Tag', 'the-post-grid' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'h3',
+				'options' => [
+					'h1' => esc_html__( 'H1', 'the-post-grid' ),
+					'h2' => esc_html__( 'H2', 'the-post-grid' ),
+					'h3' => esc_html__( 'H3', 'the-post-grid' ),
+					'h4' => esc_html__( 'H4', 'the-post-grid' ),
+					'h5' => esc_html__( 'H5', 'the-post-grid' ),
+					'h6' => esc_html__( 'H6', 'the-post-grid' ),
+				],
+			]
+		);
 
-		$this->add_group_control( \Elementor\Group_Control_Typography::get_type(), [
-			'name'     => 'category_typography',
-			'label'    => esc_html__( 'Typography', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .category-name a',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name'     => 'category_typography',
+				'label'    => esc_html__( 'Typography', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .category-name a',
+			]
+		);
 
-		$this->add_control( 'cat_spacing', [
-			'label'              => esc_html__( 'Category Spacing', 'the-post-grid' ),
-			'type'               => Controls_Manager::DIMENSIONS,
-			'size_units'         => [ 'px' ],
-			'selectors'          => [ '{{WRAPPER}} .category-name' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};', ],
-			'allowed_dimensions' => 'vertical',
-			'default'            => [
-				'top'      => '',
-				'right'    => '',
-				'bottom'   => '',
-				'left'     => '',
-				'isLinked' => false,
-			],
-		] );
+		$this->add_control(
+			'cat_spacing',
+			[
+				'label'              => esc_html__( 'Category Spacing', 'the-post-grid' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => [ 'px' ],
+				'selectors'          => [ '{{WRAPPER}} .category-name' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+				'allowed_dimensions' => 'vertical',
+				'default'            => [
+					'top'      => '',
+					'right'    => '',
+					'bottom'   => '',
+					'left'     => '',
+					'isLinked' => false,
+				],
+			]
+		);
 
-		$this->add_control( 'cat_padding', [
-			'label'      => esc_html__( 'Category Padding', 'the-post-grid' ),
-			'type'       => Controls_Manager::DIMENSIONS,
-			'size_units' => [ 'px' ],
-			'selectors'  => [
-				'{{WRAPPER}} .category-name' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-			],
-		] );
-
+		$this->add_control(
+			'cat_padding',
+			[
+				'label'      => esc_html__( 'Category Padding', 'the-post-grid' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px' ],
+				'selectors'  => [
+					'{{WRAPPER}} .category-name' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 
 		$this->start_controls_tabs(
 			'category_style_tabs'
@@ -228,11 +253,14 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_control( 'category_color', [
-			'label'     => esc_html__( 'Category Color', 'the-post-grid' ),
-			'type'      => \Elementor\Controls_Manager::COLOR,
-			'selectors' => [ '{{WRAPPER}} .tpg-category-block-wrapper .category-name a' => 'color: {{VALUE}}', ],
-		] );
+		$this->add_control(
+			'category_color',
+			[
+				'label'     => esc_html__( 'Category Color', 'the-post-grid' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [ '{{WRAPPER}} .tpg-category-block-wrapper .category-name a' => 'color: {{VALUE}}' ],
+			]
+		);
 
 		$this->end_controls_tab();
 
@@ -243,39 +271,51 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_control( 'category_color_hover', [
-			'label'     => esc_html__( 'Category Color - Hover', 'the-post-grid' ),
-			'type'      => \Elementor\Controls_Manager::COLOR,
-			'selectors' => [ '{{WRAPPER}} .tpg-category-block-wrapper .category-name a:hover' => 'color: {{VALUE}}', ],
-		] );
+		$this->add_control(
+			'category_color_hover',
+			[
+				'label'     => esc_html__( 'Category Color - Hover', 'the-post-grid' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [ '{{WRAPPER}} .tpg-category-block-wrapper .category-name a:hover' => 'color: {{VALUE}}' ],
+			]
+		);
 
 		$this->end_controls_tab();
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
 
-		//TODO: Image Style
-		$this->start_controls_section( 'image_style', [
-			'label' => esc_html__( 'Image', 'the-post-grid' ),
-			'tab'   => Controls_Manager::TAB_STYLE,
-		] );
+		// TODO: Image Style
+		$this->start_controls_section(
+			'image_style',
+			[
+				'label' => esc_html__( 'Image', 'the-post-grid' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
 
-		$this->add_control( 'img_visibility', [
-			'label'        => esc_html__( 'Count Visibility', 'the-post-grid' ),
-			'type'         => \Elementor\Controls_Manager::SWITCHER,
-			'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
-			'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
-			'return_value' => 'yes',
-			'default'      => 'yes',
-		] );
+		$this->add_control(
+			'img_visibility',
+			[
+				'label'        => esc_html__( 'Count Visibility', 'the-post-grid' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			]
+		);
 
-		//Default Image
-		$this->add_group_control( Group_Control_Image_Size::get_type(), [
-			'name'    => 'image',
-			'exclude' => [ 'custom' ],
-			'default' => 'medium_large',
-			'label'   => esc_html__( 'Image Size', 'the-post-grid' ),
-		] );
+		// Default Image
+		$this->add_group_control(
+			Group_Control_Image_Size::get_type(),
+			[
+				'name'    => 'image',
+				'exclude' => [ 'custom' ],
+				'default' => 'medium_large',
+				'label'   => esc_html__( 'Image Size', 'the-post-grid' ),
+			]
+		);
 
 		$this->add_responsive_control(
 			'image_width',
@@ -284,7 +324,7 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 
 				'size_units' => [ '%', 'px' ],
-                'range'      => [
+				'range'      => [
 					'px' => [
 						'min'  => 0,
 						'max'  => 1000,
@@ -303,7 +343,7 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 
 				'size_units' => [ 'px' ],
-                'range'      => [
+				'range'      => [
 					'px' => [
 						'min'  => 0,
 						'max'  => 1000,
@@ -315,13 +355,16 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 				],
 			]
 		);
-		$this->add_responsive_control( 'image_border_radius', [
-			'label'              => esc_html__( 'Border Radius', 'the-post-grid' ),
-			'type'               => Controls_Manager::DIMENSIONS,
-			'size_units'         => [ 'px', '%' ],
-			'selectors'          => [ '{{WRAPPER}} .cat-thumb .cat-link' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};', ],
-			'allowed_dimensions' => 'all',
-		] );
+		$this->add_responsive_control(
+			'image_border_radius',
+			[
+				'label'              => esc_html__( 'Border Radius', 'the-post-grid' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => [ 'px', '%' ],
+				'selectors'          => [ '{{WRAPPER}} .cat-thumb .cat-link' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+				'allowed_dimensions' => 'all',
+			]
+		);
 
 		$this->start_controls_tabs(
 			'image_style_tabs'
@@ -334,11 +377,14 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_group_control( \Elementor\Group_Control_Border::get_type(), [
-			'name'     => 'img_border',
-			'label'    => esc_html__( 'Image Border', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .cat-thumb .cat-link',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name'     => 'img_border',
+				'label'    => esc_html__( 'Image Border', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .cat-thumb .cat-link',
+			]
+		);
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Background::get_type(),
@@ -371,11 +417,14 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_group_control( \Elementor\Group_Control_Border::get_type(), [
-			'name'     => 'img_border_hover',
-			'label'    => esc_html__( 'Image Border - Hover', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .cat-thumb:hover .cat-link',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name'     => 'img_border_hover',
+				'label'    => esc_html__( 'Image Border - Hover', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .cat-thumb:hover .cat-link',
+			]
+		);
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Background::get_type(),
@@ -403,115 +452,144 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 		$this->end_controls_tabs();
 		$this->end_controls_section();
 
-		//TODO: Count Style
-		$this->start_controls_section( 'count_style', [
-			'label' => esc_html__( 'Count', 'the-post-grid' ),
-			'tab'   => Controls_Manager::TAB_STYLE,
-		] );
+		// TODO: Count Style
+		$this->start_controls_section(
+			'count_style',
+			[
+				'label' => esc_html__( 'Count', 'the-post-grid' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
 
-		$this->add_control( 'count_visibility', [
-			'label'        => esc_html__( 'Count Visibility', 'the-post-grid' ),
-			'type'         => \Elementor\Controls_Manager::SWITCHER,
-			'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
-			'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
-			'return_value' => 'yes',
-			'default'      => 'no',
-		] );
+		$this->add_control(
+			'count_visibility',
+			[
+				'label'        => esc_html__( 'Count Visibility', 'the-post-grid' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'no',
+			]
+		);
 
-		$this->add_control( 'show_bracket', [
-			'label'        => esc_html__( 'Show Bracket', 'the-post-grid' ),
-			'type'         => \Elementor\Controls_Manager::SWITCHER,
-			'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
-			'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
-			'return_value' => 'yes',
-			'default'      => 'no',
-		] );
+		$this->add_control(
+			'show_bracket',
+			[
+				'label'        => esc_html__( 'Show Bracket', 'the-post-grid' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'no',
+			]
+		);
 
-		$this->add_group_control( \Elementor\Group_Control_Typography::get_type(), [
-			'name'     => 'count_typography',
-			'label'    => esc_html__( 'Typography', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .count',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name'     => 'count_typography',
+				'label'    => esc_html__( 'Typography', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .count',
+			]
+		);
 
-		$this->add_control( 'count_position', [
-			'label'   => esc_html__( 'Count Position', 'the-post-grid' ),
-			'type'    => \Elementor\Controls_Manager::SELECT,
-			'default' => 'thumb',
-			'options' => [
-				'thumb' => esc_html__( 'With Image', 'the-post-grid' ),
-				'title' => esc_html__( 'With Title', 'the-post-grid' ),
-			],
-		] );
+		$this->add_control(
+			'count_position',
+			[
+				'label'   => esc_html__( 'Count Position', 'the-post-grid' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => 'thumb',
+				'options' => [
+					'thumb' => esc_html__( 'With Image', 'the-post-grid' ),
+					'title' => esc_html__( 'With Title', 'the-post-grid' ),
+				],
+			]
+		);
 
-		$this->add_control( 'count_absolute_position', [
-			'label'        => esc_html__( 'Change Count Position', 'the-post-grid' ),
-			'type'         => \Elementor\Controls_Manager::POPOVER_TOGGLE,
-			'label_off'    => esc_html__( 'Default', 'the-post-grid' ),
-			'label_on'     => esc_html__( 'Custom', 'the-post-grid' ),
-			'return_value' => 'yes',
-			'default'      => 'yes',
-			'condition'    => [ 'count_position' => [ 'thumb' ], ],
-		] );
+		$this->add_control(
+			'count_absolute_position',
+			[
+				'label'        => esc_html__( 'Change Count Position', 'the-post-grid' ),
+				'type'         => \Elementor\Controls_Manager::POPOVER_TOGGLE,
+				'label_off'    => esc_html__( 'Default', 'the-post-grid' ),
+				'label_on'     => esc_html__( 'Custom', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [ 'count_position' => [ 'thumb' ] ],
+			]
+		);
 
 		$this->start_popover();
 
-
-		$this->add_responsive_control( 'count_left_pos', [
-			'label'      => esc_html__( 'Left Position', 'the-post-grid' ),
-			'type'       => Controls_Manager::SLIDER,
-			'size_units' => [ 'px' ],
-			'range'      => [
-				'px' => [
-					'min'  => - 300,
-					'max'  => 300,
-					'step' => 1,
+		$this->add_responsive_control(
+			'count_left_pos',
+			[
+				'label'      => esc_html__( 'Left Position', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => - 300,
+						'max'  => 300,
+						'step' => 1,
+					],
 				],
-			],
-			'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'left: {{SIZE}}px;right:auto;', ],
+				'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'left: {{SIZE}}px;right:auto;' ],
 
-		] );
-		$this->add_responsive_control( 'count_top_pos', [
-			'label'      => esc_html__( 'Top Position', 'the-post-grid' ),
-			'type'       => Controls_Manager::SLIDER,
-			'size_units' => [ 'px' ],
-			'range'      => [
-				'px' => [
-					'min'  => - 300,
-					'max'  => 300,
-					'step' => 1,
+			]
+		);
+		$this->add_responsive_control(
+			'count_top_pos',
+			[
+				'label'      => esc_html__( 'Top Position', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => - 300,
+						'max'  => 300,
+						'step' => 1,
+					],
 				],
-			],
-			'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'top: {{SIZE}}px;bottom:auto;', ],
+				'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'top: {{SIZE}}px;bottom:auto;' ],
 
-		] );
-		$this->add_responsive_control( 'count_right_pos', [
-			'label'      => esc_html__( 'Right Position', 'the-post-grid' ),
-			'type'       => Controls_Manager::SLIDER,
-			'size_units' => [ 'px' ],
-			'range'      => [
-				'px' => [
-					'min'  => - 300,
-					'max'  => 300,
-					'step' => 1,
+			]
+		);
+		$this->add_responsive_control(
+			'count_right_pos',
+			[
+				'label'      => esc_html__( 'Right Position', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => - 300,
+						'max'  => 300,
+						'step' => 1,
+					],
 				],
-			],
-			'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'right: {{SIZE}}px;left:auto;', ],
+				'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'right: {{SIZE}}px;left:auto;' ],
 
-		] );
-		$this->add_responsive_control( 'count_bottom_pos', [
-			'label'      => esc_html__( 'Bottom Position', 'the-post-grid' ),
-			'type'       => Controls_Manager::SLIDER,
-			'size_units' => [ 'px' ],
-			'range'      => [
-				'px' => [
-					'min'  => - 300,
-					'max'  => 300,
-					'step' => 1,
+			]
+		);
+		$this->add_responsive_control(
+			'count_bottom_pos',
+			[
+				'label'      => esc_html__( 'Bottom Position', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => - 300,
+						'max'  => 300,
+						'step' => 1,
+					],
 				],
-			],
-			'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'bottom: {{SIZE}}px;top:auto;', ],
+				'selectors'  => [ '{{WRAPPER}} .tpg-category-block-wrapper .count-thumb' => 'bottom: {{SIZE}}px;top:auto;' ],
 
-		] );
+			]
+		);
 
 		$this->end_popover();
 
@@ -527,47 +605,65 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_control( 'count_color', [
-			'label'     => esc_html__( 'Count Color', 'the-post-grid' ),
-			'type'      => \Elementor\Controls_Manager::COLOR,
-			'selectors' => [ '{{WRAPPER}} .count' => 'color: {{VALUE}}', ],
-			'separator' => 'before',
-		] );
+		$this->add_control(
+			'count_color',
+			[
+				'label'     => esc_html__( 'Count Color', 'the-post-grid' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [ '{{WRAPPER}} .count' => 'color: {{VALUE}}' ],
+				'separator' => 'before',
+			]
+		);
 
-		$this->add_control( 'count_bg', [
-			'label'     => esc_html__( 'Count Background', 'the-post-grid' ),
-			'type'      => \Elementor\Controls_Manager::COLOR,
-			'selectors' => [ '{{WRAPPER}} .count' => 'background-color: {{VALUE}}', ],
-		] );
+		$this->add_control(
+			'count_bg',
+			[
+				'label'     => esc_html__( 'Count Background', 'the-post-grid' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [ '{{WRAPPER}} .count' => 'background-color: {{VALUE}}' ],
+			]
+		);
 
-		$this->add_group_control( \Elementor\Group_Control_Border::get_type(), [
-			'name'     => 'count_border',
-			'label'    => esc_html__( 'Count Border', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .count',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name'     => 'count_border',
+				'label'    => esc_html__( 'Count Border', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .count',
+			]
+		);
 
 		$this->end_controls_section();
 
-		//TODO: Count Style
-		$this->start_controls_section( 'card_style', [
-			'label' => esc_html__( 'Card', 'the-post-grid' ),
-			'tab'   => Controls_Manager::TAB_STYLE,
-		] );
+		// TODO: Count Style
+		$this->start_controls_section(
+			'card_style',
+			[
+				'label' => esc_html__( 'Card', 'the-post-grid' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
 
-		$this->add_responsive_control( 'card_padding', [
-			'label'      => esc_html__( 'Card Padding', 'the-post-grid' ),
-			'type'       => Controls_Manager::DIMENSIONS,
-			'size_units' => [ 'px' ],
-			'selectors'  => [ '{{WRAPPER}} .card-inner-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};', ],
-		] );
+		$this->add_responsive_control(
+			'card_padding',
+			[
+				'label'      => esc_html__( 'Card Padding', 'the-post-grid' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px' ],
+				'selectors'  => [ '{{WRAPPER}} .card-inner-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+			]
+		);
 
-		$this->add_responsive_control( 'card_radius', [
-			'label'              => esc_html__( 'Border Radius', 'the-post-grid' ),
-			'type'               => Controls_Manager::DIMENSIONS,
-			'size_units'         => [ '%', 'px' ],
-			'selectors'          => [ '{{WRAPPER}} .card-inner-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};', ],
-			'allowed_dimensions' => 'all',
-		] );
+		$this->add_responsive_control(
+			'card_radius',
+			[
+				'label'              => esc_html__( 'Border Radius', 'the-post-grid' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => [ '%', 'px' ],
+				'selectors'          => [ '{{WRAPPER}} .card-inner-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
+				'allowed_dimensions' => 'all',
+			]
+		);
 
 		$this->start_controls_tabs(
 			'card_style_tabs'
@@ -580,11 +676,14 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_group_control( \Elementor\Group_Control_Border::get_type(), [
-			'name'     => 'card_border',
-			'label'    => esc_html__( 'Border', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .card-inner-wrapper',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name'     => 'card_border',
+				'label'    => esc_html__( 'Border', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .card-inner-wrapper',
+			]
+		);
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Background::get_type(),
@@ -617,11 +716,14 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			]
 		);
 
-		$this->add_group_control( \Elementor\Group_Control_Border::get_type(), [
-			'name'     => 'card_border_hover',
-			'label'    => esc_html__( 'Border - Hover', 'the-post-grid' ),
-			'selector' => '{{WRAPPER}} .card-inner-wrapper:hover',
-		] );
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name'     => 'card_border_hover',
+				'label'    => esc_html__( 'Border - Hover', 'the-post-grid' ),
+				'selector' => '{{WRAPPER}} .card-inner-wrapper:hover',
+			]
+		);
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Background::get_type(),
@@ -648,7 +750,6 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 		$this->end_controls_tab();
 		$this->end_controls_tabs();
 
-
 		$this->end_controls_section();
 	}
 
@@ -658,23 +759,26 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 		$categories = $data['category'];
 
 		if ( empty( $categories ) ) {
-			$categories = get_terms( 'category', array(
-				'orderby'    => 'count',
-				'order'      => 'DESC',
-				'hide_empty' => 0,
-				'fields'     => 'ids',
-				'number'     => !empty($data['category_number']) ? $data['category_number'] : 5
-			) );
+			$categories = get_terms(
+				array(
+					'taxonomy'   => 'category',
+					'orderby'    => 'count',
+					'order'      => 'DESC',
+					'hide_empty' => 0,
+					'fields'     => 'ids',
+					'number'     => ! empty( $data['category_number'] ) ? $data['category_number'] : 5,
+				)
+			);
 		}
 
-		$uniqueId        = isset( $data['uniqueId'] ) ? $data['uniqueId'] : null;
+		$uniqueId        = $data['uniqueId'] ?? null;
 		$uniqueClass     = 'rttpg-block-postgrid rttpg-block-wrapper rttpg-block-' . $uniqueId;
-		$dynamic_classes = $data['category_layout'] == 'category-layout3' ? ' category-layout2' : '';
+		$dynamic_classes = 'category-layout3' == $data['category_layout'] ? ' category-layout2' : '';
 		?>
-        <div class="<?php echo esc_attr( $uniqueClass ) ?>">
-            <div class="tpg-category-block-wrapper clearfix <?php echo esc_attr( $data['category_layout'] . ' ' . $dynamic_classes ) ?>">
+		<div class="<?php echo esc_attr( $uniqueClass ); ?>">
+			<div class="tpg-category-block-wrapper clearfix <?php echo esc_attr( $data['category_layout'] . ' ' . $dynamic_classes ); ?>">
 				<?php if ( is_array( $categories ) ) { ?>
-                <div class="rt-row">
+				<div class="rt-row">
 					<?php
 					$category_date                       = [];
 					$category_date['layout']             = $data['category_layout'];
@@ -690,25 +794,25 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 
 					$count = 1;
 
-
 					foreach ( $categories as $cat ) {
-						if ( !empty($data['category_number']) && $data['category_number'] < $count ) {
+						if ( ! empty( $data['category_number'] ) && $data['category_number'] < $count ) {
 							break;
 						}
 						$category_date['cat'] = $cat;
 						Fns::tpg_template( $category_date );
-						$count ++;
+						$count++;
 					}
 					?>
-                </div>
-            </div>
-			<?php } else {
+				</div>
+			</div>
+					<?php
+				} else {
+					?>
+				<p style="padding: 30px;background: #d1ecf1;"><?php echo esc_html__( 'Please choose few categories from the category lists.', 'the-post-grid' ); ?></p>
+					<?php
+				}
 				?>
-                <p style="padding: 30px;background: #d1ecf1;"><?php echo esc_html__( "Please choose few categories from the category lists.", 'the-post-grid' ); ?></p>
-				<?php
-			} ?>
-        </div>
+		</div>
 		<?php
 	}
-
 }

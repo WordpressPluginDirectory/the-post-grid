@@ -21,7 +21,7 @@ class Options {
 		$args = apply_filters(
 			'tpg_get_post_type',
 			[
-				'public'            => true,
+				'public' => true,
 			]
 		);
 
@@ -41,7 +41,6 @@ class Options {
 		}
 
 		return $post_types;
-
 	}
 
 	public static function rtPostOrders() {
@@ -74,7 +73,7 @@ class Options {
 
 	public static function rtMetaKeyType() {
 		return [
-			'meta_value'          => esc_html__( 'Meta value', 'the-post-grid' ),
+			'meta_value'          => esc_html__( 'Meta value', 'the-post-grid' ), //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			'meta_value_num'      => esc_html__( 'Meta value number', 'the-post-grid' ),
 			'meta_value_datetime' => esc_html__( 'Meta value datetime', 'the-post-grid' ),
 		];
@@ -123,7 +122,7 @@ class Options {
 		$settings = get_option( rtTPG()->options['settings'] );
 
 		$other_settings = [
-			'template_author'   => [
+			'template_author'          => [
 				'type'        => 'select',
 				'name'        => 'template_author',
 				'label'       => esc_html__( 'Template Author', 'the-post-grid' ),
@@ -134,7 +133,7 @@ class Options {
 				'options'     => Fns::getTPGShortCodeList(),
 				'value'       => isset( $settings['template_author'] ) ? $settings['template_author'] : [],
 			],
-			'template_category' => [
+			'template_category'        => [
 				'type'        => 'select',
 				'name'        => 'template_category',
 				'label'       => esc_html__( 'Template Category', 'the-post-grid' ),
@@ -145,7 +144,7 @@ class Options {
 				'options'     => Fns::getTPGShortCodeList(),
 				'value'       => isset( $settings['template_category'] ) ? $settings['template_category'] : [],
 			],
-			'template_search'   => [
+			'template_search'          => [
 				'type'        => 'select',
 				'name'        => 'template_search',
 				'label'       => esc_html__( 'Template Search', 'the-post-grid' ),
@@ -156,7 +155,7 @@ class Options {
 				'options'     => Fns::getTPGShortCodeList(),
 				'value'       => isset( $settings['template_search'] ) ? $settings['template_search'] : [],
 			],
-			'template_tag'      => [
+			'template_tag'             => [
 				'type'        => 'select',
 				'name'        => 'template_tag',
 				'label'       => esc_html__( 'Template Tag', 'the-post-grid' ),
@@ -168,7 +167,7 @@ class Options {
 				'value'       => isset( $settings['template_tag'] ) ? $settings['template_tag'] : [],
 			],
 
-			'tpg_primary_color_main' => [
+			'tpg_primary_color_main'   => [
 				'type'    => 'text',
 				'label'   => esc_html__( 'Primary Color', 'the-post-grid' ),
 				'class'   => 'rt-color',
@@ -182,14 +181,14 @@ class Options {
 				'default' => isset( $settings['tpg_secondary_color_main'] ) ? $settings['tpg_secondary_color_main'] : '#0654c4',
 			],
 
-			'tpg_loader_color' => [
+			'tpg_loader_color'         => [
 				'type'    => 'text',
 				'label'   => esc_html__( 'Preloader Color', 'the-post-grid' ),
 				'class'   => 'rt-color',
 				'default' => isset( $settings['tpg_loader_color'] ) ? $settings['tpg_loader_color'] : '#0367bf',
 			],
 
-			'template_class' => [
+			'template_class'           => [
 				'type'        => 'text',
 				'name'        => 'template_class',
 				'label'       => esc_html__( 'Template class', 'the-post-grid' ),
@@ -226,7 +225,7 @@ class Options {
 
 		if ( $plugin ) {
 			$acf_settings = [
-				'show_acf_details' => [
+				'show_acf_details'            => [
 					'type'        => 'switch',
 					'name'        => 'show_acf_details',
 					'label'       => esc_html__( 'Enable Advanced Custom Field (ACF) for Single page', 'the-post-grid' ),
@@ -235,7 +234,7 @@ class Options {
 					'value'       => isset( $settings['show_acf_details'] ) ? $settings['show_acf_details'] : false,
 				],
 
-				'cf_group_details' => [
+				'cf_group_details'            => [
 					'type'        => 'checkbox',
 					'name'        => 'cf_group_details',
 					'label'       => esc_html__( 'Choose ACF Group', 'the-post-grid' ),
@@ -255,7 +254,7 @@ class Options {
 					'holderClass' => 'pro-field',
 				],
 
-				'cf_show_only_value_details' => [
+				'cf_show_only_value_details'  => [
 					'type'        => 'switch',
 					'name'        => 'cf_show_only_value_details',
 					'label'       => esc_html__( 'Show Title', 'the-post-grid' ),
@@ -279,6 +278,67 @@ class Options {
 		return $other_settings;
 	}
 
+	public static function rtTPGChatGPGSettings() {
+		$settings = get_option( rtTPG()->options['settings'] );
+
+		$other_settings = [
+
+			'chatgpt_status'        => [
+				'type'  => 'switch',
+				'name'  => 'chatgpt_status',
+				'label' => esc_html__( 'Enable ChatGPT', 'the-post-grid' ),
+				'value' => isset( $settings['chatgpt_status'] ) ? $settings['chatgpt_status'] : false,
+			],
+
+			'chatgpt_secret_key'    => [
+				'type'        => 'text',
+				'name'        => 'chatgpt_secret_key',
+				'label'       => esc_html__( 'OpenAI API Secret Key', 'the-post-grid' ),
+				'id'          => 'template_author',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Enter the OpenAI API Secret Key <a target="_blank" href="https://platform.openai.com/account/api-keys">Make your own API</a>', 'the-post-grid' ),
+				'value'       => isset( $settings['chatgpt_secret_key'] ) ? $settings['chatgpt_secret_key'] : '',
+			],
+			'chatgpt_model'         => [
+				'type'        => 'select',
+				'name'        => 'chatgpt_model',
+				'label'       => esc_html__( 'OpenAI Model', 'the-post-grid' ),
+				'id'          => 'chatgpt_model',
+				'holderClass' => 'pro-field',
+				'class'       => 'select2',
+				'description' => __( 'Choose OpenAI model. Default: gpt-3.5-turbo', 'the-post-grid' ),
+				'options'     => [
+					'gpt-3.5-turbo'    => 'gpt-3.5-turbo',
+					'text-davinci-002' => 'text-davinci-002',
+					'text-davinci-003' => 'text-davinci-003',
+					'gpt-4'            => 'gpt-4',
+				],
+				'value'       => isset( $settings['chatgpt_model'] ) ? $settings['chatgpt_model'] : 'gpt-3.5-turbo',
+			],
+			'chatgpt_response_time' => [
+				'type'        => 'number',
+				'name'        => 'chatgpt_response_time',
+				'label'       => esc_html__( 'Response Time', 'the-post-grid' ),
+				'id'          => 'chatgpt_response_time',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Choose OpenAI response time', 'the-post-grid' ),
+				'value'       => isset( $settings['chatgpt_response_time'] ) ? $settings['chatgpt_response_time'] : 60,
+			],
+			'chatgpt_max_tokens'    => [
+				'type'        => 'number',
+				'name'        => 'chatgpt_max_tokens',
+				'label'       => esc_html__( 'Max Tokens', 'the-post-grid' ),
+				'id'          => 'chatgpt_max_tokens',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Enter OpenAi max token number', 'the-post-grid' ),
+				'value'       => isset( $settings['chatgpt_max_tokens'] ) ? $settings['chatgpt_max_tokens'] : 1200,
+			],
+
+		];
+
+		return $other_settings;
+	}
+
 
 	public static function rtTPGSettingsCommonSettingsFields() {
 		$settings = get_option( rtTPG()->options['settings'] );
@@ -292,7 +352,7 @@ class Options {
 				'description' => esc_html__( 'Please choose a Resource Load Type first. Otherwise, all CSS & JS for shortcode, gutenberg and elementor will load on your site which can create a bad performance issues.', 'the-post-grid' ),
 			],
 
-			'tpg_block_type'       => [
+			'tpg_block_type'              => [
 				'type'        => 'select',
 				'name'        => 'tpg_block_type',
 				'label'       => 'Resource Load Type',
@@ -306,7 +366,7 @@ class Options {
 				'description' => esc_html__( 'Please choose which type of block you want to use. If you select Default then all styles and scripts will load on your site. But if you use one then just this style and script will load on your site.', 'the-post-grid' ),
 				'value'       => isset( $settings['tpg_block_type'] ) ? $settings['tpg_block_type'] : 'default',
 			],
-			'tpg_load_script'      => [
+			'tpg_load_script'             => [
 				'type'        => 'switch',
 				'name'        => 'tpg_load_script',
 				'label'       => esc_html__( 'Load Script dependent on block', 'the-post-grid' ),
@@ -317,20 +377,20 @@ class Options {
 				),
 				'value'       => isset( $settings['tpg_load_script'] ) ? $settings['tpg_load_script'] : false,
 			],
-			'tpg_enable_preloader' => [
+			'tpg_enable_preloader'        => [
 				'type'  => 'switch',
 				'name'  => 'tpg_enable_preloader',
 				'label' => esc_html__( 'Enable Pre-loader', 'the-post-grid' ),
 				'value' => isset( $settings['tpg_enable_preloader'] ) ? $settings['tpg_enable_preloader'] : false,
 			],
-			'tpg_skip_fa'          => [
+			'tpg_skip_fa'                 => [
 				'type'        => 'switch',
 				'name'        => 'tpg_skip_fa',
 				'label'       => esc_html__( 'Disable Font Awesome Script', 'the-post-grid' ),
 				'description' => esc_html__( "If Font Awesome 5 exist with theme, don't need to load twice.", 'the-post-grid' ),
 				'value'       => isset( $settings['tpg_skip_fa'] ) ? $settings['tpg_skip_fa'] : false,
 			],
-			'tpg_icon_font'        => [
+			'tpg_icon_font'               => [
 				'type'        => 'select',
 				'name'        => 'tpg_icon_font',
 				'label'       => 'Icon Type',
@@ -343,10 +403,10 @@ class Options {
 				'description' => esc_html__( 'You can change icon font from here', 'the-post-grid' ),
 				'value'       => isset( $settings['tpg_icon_font'] ) ? $settings['tpg_icon_font'] : 'fontawesome',
 			],
-			'tpg_pagination_range' => [
+			'tpg_pagination_range'        => [
 				'type'        => 'number',
 				'label'       => esc_html__( 'Pagination Range', 'the-post-grid' ),
-				'description' => esc_html__( "If the pagination items are greater than 4 it will enable the next and previous button.", 'the-post-grid' ),
+				'description' => esc_html__( 'If the pagination items are greater than 4 it will enable the next and previous button.', 'the-post-grid' ),
 				'value'       => $settings['tpg_pagination_range'] ?? '4',
 			],
 		];
@@ -424,7 +484,7 @@ class Options {
 				'class'       => 'full',
 				'description' => esc_html__( 'List of post IDs to show (comma-separated values, for example: 1,2,3)', 'the-post-grid' ),
 			],
-			'post__not_in' => [
+			'post__not_in' => [ //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				'name'        => 'post__not_in',
 				'label'       => esc_html__( 'Exclude', 'the-post-grid' ),
 				'type'        => 'text',
@@ -589,10 +649,10 @@ class Options {
 				'id'          => 'rt-tpg-sc-isotope-default-filter',
 				'class'       => 'rt-select2',
 				'attr'        => "data-selected='" . get_post_meta(
-						get_the_ID(),
-						'isotope_default_filter',
-						true
-					) . "'",
+					get_the_ID(),
+					'isotope_default_filter',
+					true
+				) . "'",
 				'options'     => [ '' => esc_html__( 'Show all', 'the-post-grid' ) ],
 			],
 			'tpg_show_all_text'                => [
@@ -696,7 +756,7 @@ class Options {
 
 	public static function layoutMiscSettings() {
 		$options = [
-			'pagination'         => [
+			'pagination'            => [
 				'type'        => 'switch',
 				'label'       => esc_html__( 'Pagination', 'the-post-grid' ),
 				'holderClass' => 'pagination',
@@ -705,14 +765,14 @@ class Options {
 				'option'      => 'Enable',
 				'default'     => 1,
 			],
-			'posts_per_page'     => [
+			'posts_per_page'        => [
 				'type'        => 'number',
 				'label'       => esc_html__( 'Display per page', 'the-post-grid' ),
 				'holderClass' => 'pagination-item posts-per-page tpg-hidden',
 				'default'     => 9,
 				'description' => esc_html__( 'If value of Limit setting is not blank (empty), this value should be smaller than Limit value.', 'the-post-grid' ),
 			],
-			'posts_loading_type' => [
+			'posts_loading_type'    => [
 				'type'        => 'radio',
 				'label'       => esc_html__( 'Pagination Type', 'the-post-grid' ),
 				'holderClass' => 'pagination-item posts-loading-type tpg-hidden pro-field',
@@ -721,7 +781,7 @@ class Options {
 				'options'     => self::postLoadingType(),
 			],
 
-			'load_more_text' => [
+			'load_more_text'        => [
 				'type'        => 'text',
 				'name'        => 'load_more_text',
 				'label'       => esc_html__( 'Load More Text', 'the-post-grid' ),
@@ -892,11 +952,11 @@ class Options {
 
 		$offset                    = array_search( 'title', array_keys( $fields ) ) + 1;
 		$newFields                 = array_slice( $fields, 0, $offset, true ) + $inserted + array_slice(
-				$fields,
-				$offset,
-				null,
-				true
-			);
+			$fields,
+			$offset,
+			null,
+			true
+		);
 		$newFields['social_share'] = 'Social Share';
 
 		return $newFields;
@@ -1639,7 +1699,7 @@ class Options {
 
 	public static function scFontSize() {
 		$num = [];
-		for ( $i = 10; $i <= 50; $i ++ ) {
+		for ( $i = 10; $i <= 50; $i++ ) {
 			$num[ $i ] = $i . 'px';
 		}
 

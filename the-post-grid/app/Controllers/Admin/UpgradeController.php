@@ -69,7 +69,7 @@ class UpgradeController {
 							esc_attr( $class ),
 							esc_url( $link_pro ),
 							esc_html( $text ),
-							self::$compare_version
+							esc_html( self::$compare_version )
 						);
 					}
 				}
@@ -80,7 +80,7 @@ class UpgradeController {
 	/**
 	 * Notification
 	 *
-	 * @param array $links Link.
+	 * @param array  $links Link.
 	 * @param string $file File.
 	 *
 	 * @return array

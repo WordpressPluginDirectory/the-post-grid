@@ -4,6 +4,9 @@ namespace RT\ThePostGrid\Controllers\Api;
 
 use RT\ThePostGrid\Helpers\Fns;
 
+/**
+ * RestApi Class
+ */
 class RestApi {
 	/**
 	 * Register rest route
@@ -122,7 +125,7 @@ class RestApi {
 	function rttpg_get_category_list( $object ) {
 		$taxonomies = get_post_taxonomies( $object['id'] );
 		if ( 'post' === get_post_type() ) {
-			return get_the_category_list( esc_html__( ' ' ), '', $object['id'] );
+			return get_the_category_list( esc_html( ' ' ), '', $object['id'] );
 		} else {
 			if ( ! empty( $taxonomies ) ) {
 				return get_the_term_list( $object['id'], $taxonomies[0], ' ' );

@@ -4,12 +4,15 @@ Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
 Tested up to: 6.2
-Stable tag: 7.4.3
+Stable tag: 7.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Post Grid Plugin allows you to create grid, list, grid hover, filter and slider view. Post Grid Plugin is Easy to use as shortcode, Gutenberg Blocks or Elementor Addon.
+Post Grid Plugin offers various options such as grid, list, filter & slider. Post Grid is easy to use as Shortcode, Gutenberg Blocks, Elementor Addon
 
+== Description ==
+
+Post Grid Plugin allows you to create grid, list, grid hover, filter and slider view. Post Grid Plugin is Easy to use as shortcode, Gutenberg Blocks or Elementor Addon.
 
 👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/the-post-grid/) | [Elementor Demo](https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/) | [Gutenberg Demo](https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/) | [Documentation](https://www.radiustheme.com/docs/the-post-grid/) | [Get Pro](https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/) 👈
 
@@ -371,6 +374,18 @@ With the Post Grid PRO, you get to use the Single Page Builder, which is based o
 11. Elementor Page builder
 
 == Changelog ==
+
+= 7.6.1 =
+* Fixed: Shortcode data not saved
+
+= 7.6.0 =
+* Fixed: Shortcode Layout images broken
+* Fixed: Vulnerability issue fixed
+* Updated: Security updated
+
+= 7.5.0 =
+* Added: ChatGPT integration
+* Fixed: Security Updated
 
 = 7.4.3 =
 * Fixed: PHP 8.3 compatible

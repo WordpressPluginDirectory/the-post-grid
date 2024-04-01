@@ -57,20 +57,16 @@ class Field {
 
 			if ( ! Fns::meta_exist( $this->name, $post_id ) && $pagenow == 'post-new.php' ) {
 				$this->value = $this->default;
-			} else {
-				if ( $this->multiple ) {
-					if ( metadata_exists( 'post', $post_id, $this->name ) ) {
-						$this->value = get_post_meta( $post_id, $this->name );
-					} else {
-						$this->value = $this->default;
-					}
+			} elseif ( $this->multiple ) {
+				if ( metadata_exists( 'post', $post_id, $this->name ) ) {
+					$this->value = get_post_meta( $post_id, $this->name );
 				} else {
-					if ( metadata_exists( 'post', $post_id, $this->name ) ) {
-						$this->value = get_post_meta( $post_id, $this->name, true );
-					} else {
-						$this->value = $this->default;
-					}
+					$this->value = $this->default;
 				}
+			} elseif ( metadata_exists( 'post', $post_id, $this->name ) ) {
+					$this->value = get_post_meta( $post_id, $this->name, true );
+			} else {
+				$this->value = $this->default;
 			}
 		}
 
@@ -86,7 +82,6 @@ class Field {
 		$this->attr           = isset( $attr['attr'] ) ? ( $attr['attr'] ? $attr['attr'] : null ) : null;
 		$this->alignment      = isset( $attr['alignment'] ) ? ( $attr['alignment'] ? $attr['alignment'] : null ) : null;
 		$this->blank          = ! empty( $attr['blank'] ) ? $attr['blank'] : null;
-
 	}
 
 	public function Field( $key, $attr = [] ) {
@@ -477,16 +472,16 @@ class Field {
 										]
 									);
 									$h .= Fns::rtFieldGenerator(
-										[
-											'term_operator_' . $tax => [
+										array(
+											'term_operator_' . $tax => array(
 												'type'    => 'select',
 												'label'   => esc_html__( 'Operator', 'the-post-grid' ),
 												'class'   => 'rt-select2 full',
 												'holderClass' => "term-filter-item-operator {$tax}",
 												'value'   => get_post_meta( $post->ID, 'term_operator_' . $tax, true ),
 												'options' => Options::rtTermOperators(),
-											],
-										]
+											),
+										)
 									);
 									$h .= '</div>';
 								}
@@ -496,16 +491,16 @@ class Field {
 							$h .= '</div>';
 
 							$h .= Fns::rtFieldGenerator(
-								[
-									'taxonomy_relation' => [
+								array(
+									'taxonomy_relation' => array(
 										'type'        => 'select',
 										'label'       => esc_html__( 'Relation', 'the-post-grid' ),
 										'class'       => 'rt-select2',
 										'holderClass' => 'term-filter-item-relation ' . ( count( $taxA ) > 1 ? null : 'hidden' ),
 										'value'       => get_post_meta( $post->ID, 'taxonomy_relation', true ),
 										'options'     => Options::rtTermRelations(),
-									],
-								]
+									),
+								)
 							);
 
 							$h .= '</div>';
@@ -520,16 +515,16 @@ class Field {
 							$h .= '</div>';
 							$h .= '</div>';
 							$h .= Fns::rtFieldGenerator(
-								[
-									'taxonomy_relation' => [
+								array(
+									'taxonomy_relation' => array(
 										'type'        => 'select',
 										'label'       => esc_html__( 'Relation', 'the-post-grid' ),
 										'class'       => 'rt-select2',
 										'holderClass' => 'term-filter-item-relation tpg-hidden',
 										'default'     => 'OR',
 										'options'     => Options::rtTermRelations(),
-									],
-								]
+									),
+								)
 							);
 						}
 
@@ -540,31 +535,31 @@ class Field {
 						$h .= "<div class='field-holder'>";
 						$h .= "<div class='field'>";
 						$h .= Fns::rtFieldGenerator(
-							[
-								'order_by' => [
+							array(
+								'order_by' => array(
 									'type'        => 'select',
 									'label'       => esc_html__( 'Order by', 'the-post-grid' ),
 									'class'       => 'rt-select2 filter-item',
 									'value'       => get_post_meta( $post->ID, 'order_by', true ),
 									'options'     => Options::rtPostOrderBy( false, true ),
 									'description' => esc_html__( 'If "Meta value", "Meta value Number" or "Meta value datetime" is chosen then meta key is required.', 'the-post-grid' ),
-								],
-							]
+								),
+							)
 						);
 						$h .= Fns::rtFieldGenerator(
-							[
-								'tpg_meta_key' => [
+							array(
+								'tpg_meta_key' => array(
 									'type'        => 'text',
 									'label'       => esc_html__( 'Meta key', 'the-post-grid' ),
 									'class'       => 'rt-select2 filter-item',
 									'holderClass' => 'tpg-hidden',
 									'value'       => get_post_meta( $post->ID, 'tpg_meta_key', true ),
-								],
-							]
+								),
+							)
 						);
 						$h .= Fns::rtFieldGenerator(
-							[
-								'order' => [
+							array(
+								'order' => array(
 									'type'      => 'radio',
 									'label'     => esc_html__( 'Order', 'the-post-grid' ),
 									'class'     => 'rt-select2 filter-item',
@@ -572,8 +567,8 @@ class Field {
 									'default'   => 'DESC',
 									'value'     => get_post_meta( $post->ID, 'order', true ),
 									'options'   => Options::rtPostOrders(),
-								],
-							]
+								),
+							)
 						);
 						$h .= '</div>';
 						$h .= '</div>';
@@ -583,16 +578,16 @@ class Field {
 						$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h .= "<div class='rt-tpg-filter-item'>";
 						$h .= Fns::rtFieldGenerator(
-							[
-								$key => [
+							array(
+								$key => array(
 									'type'     => 'select',
 									'label'    => '',
 									'class'    => 'rt-select2 filter-item full',
 									'value'    => get_post_meta( $post->ID, $key ),
 									'multiple' => true,
 									'options'  => Fns::rt_get_users(),
-								],
-							]
+								),
+							)
 						);
 						$h .= '</div>';
 						$h .= '</div>';
@@ -600,17 +595,17 @@ class Field {
 						$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h .= "<div class='rt-tpg-filter-item'>";
 						$h .= Fns::rtFieldGenerator(
-							[
-								$key => [
+							array(
+								$key => array(
 									'type'     => 'select',
 									'label'    => '',
 									'class'    => 'rt-select2 filter-item full',
-									'default'  => [ 'publish' ],
+									'default'  => array( 'publish' ),
 									'value'    => get_post_meta( $post->ID, $key ),
 									'multiple' => true,
 									'options'  => Options::rtTPGPostStatus(),
-								],
-							]
+								),
+							)
 						);
 						$h .= '</div>';
 						$h .= '</div>';
@@ -618,36 +613,36 @@ class Field {
 						$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h .= "<div class='rt-tpg-filter-item'>";
 						$h .= Fns::rtFieldGenerator(
-							[
-								$key => [
+							array(
+								$key => array(
 									'type'  => 'text',
 									'label' => esc_html__( 'Keyword', 'the-post-grid' ),
 									'class' => 'filter-item full',
 									'value' => get_post_meta( $post->ID, $key, true ),
-								],
-							]
+								),
+							)
 						);
 						$h .= '</div>';
 						$h .= '</div>';
 					} elseif ( $key == 'date_range' ) {
 						$range_start = get_post_meta( $post->ID, 'date_range_start', true );
 						$range_end   = get_post_meta( $post->ID, 'date_range_end', true );
-						$range_value = [
+						$range_value = array(
 							'start' => $range_start,
 							'end'   => $range_end,
-						];
+						);
 						$h          .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h          .= "<div class='rt-tpg-filter-item'>";
 						$h          .= Fns::rtFieldGenerator(
-							[
-								$key => [
+							array(
+								$key => array(
 									'type'        => 'date_range',
 									'label'       => '',
 									'class'       => 'filter-item full rt-date-range',
 									'value'       => $range_value,
 									'description' => "Date format should be 'yyyy-mm-dd'",
-								],
-							]
+								),
+							)
 						);
 						$h          .= '</div>';
 						$h          .= '</div>';
@@ -735,7 +730,7 @@ class Field {
 
 	private function dateRange() {
 		$h          = null;
-		$this->name = ( $this->name ? $this->name : 'date-range-' . rand( 0, 1000 ) );
+		$this->name = ( $this->name ? $this->name : 'date-range-' . wp_rand( 0, 1000 ) );
 		$h         .= '<div class="date-range-container" id="' . esc_attr( $this->id ) . '">';
 		$h         .= "<div class='date-range-content start'><span>" . esc_html__( 'Start', 'the-post-grid' ) . "</span><input
 						type='text'

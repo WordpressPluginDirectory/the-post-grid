@@ -16,6 +16,7 @@ class SectionTitle extends BlockBase {
 
 	/**
 	 * Register Block
+	 *
 	 * @return void
 	 */
 	public function register_blocks() {
@@ -54,23 +55,22 @@ class SectionTitle extends BlockBase {
 	 * @return false|string
 	 */
 	public function render_block( $data ) {
-		$uniqueId     = isset( $data['uniqueId'] ) ? $data['uniqueId'] : null;
-		$uniqueClass  = 'rttpg-block-postgrid rttpg-block-wrapper rttpg-block-' . $uniqueId;
-		$dynamicClass = $uniqueClass;
+		$uniqueId      = isset( $data['uniqueId'] ) ? $data['uniqueId'] : null;
+		$uniqueClass   = 'rttpg-block-postgrid rttpg-block-wrapper rttpg-block-' . $uniqueId;
+		$dynamicClass  = $uniqueClass;
 		$dynamicClass .= ! empty( $data['section_title_style'] ) ? " section-title-style-{$data['section_title_style']}" : null;
 		$dynamicClass .= ! empty( $data['section_title_alignment'] ) ? " section-title-align-{$data['section_title_alignment']}" : null;
-		$dynamicClass .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? " has-external-link" : "";
-
+		$dynamicClass .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
 
 		ob_start();
 		?>
-        <div class="<?php echo esc_attr( $dynamicClass ) ?>">
-            <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix">
-                <div class='tpg-header-wrapper'>
+		<div class="<?php echo esc_attr( $dynamicClass ); ?>">
+			<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix">
+				<div class='tpg-header-wrapper'>
 					<?php Fns::get_section_title( $data ); ?>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
+		</div>
 		<?php
 
 		do_action( 'tpg_elementor_script' );

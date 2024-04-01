@@ -23,11 +23,10 @@ class SectionTitle extends Custom_Widget_Base {
 	 * GridLayout constructor.
 	 *
 	 * @param array $data
-	 * @param null $args
+	 * @param null  $args
 	 *
 	 * @throws \Exception
 	 */
-
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
 		$this->prefix   = 'grid';
@@ -62,7 +61,6 @@ class SectionTitle extends Custom_Widget_Base {
 			]
 		);
 
-
 		$this->add_control(
 			'section_title_style',
 			[
@@ -81,7 +79,6 @@ class SectionTitle extends Custom_Widget_Base {
 			]
 		);
 
-
 		$this->add_control(
 			'section_title_source',
 			[
@@ -95,21 +92,19 @@ class SectionTitle extends Custom_Widget_Base {
 			]
 		);
 
-
 		$this->add_control(
 			'section_title_text',
 			[
 				'label'       => esc_html__( 'Title', 'the-post-grid' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Type your title here', 'the-post-grid' ),
-				'default'     => esc_html__( "Section Title", 'the-post-grid' ),
+				'default'     => esc_html__( 'Section Title', 'the-post-grid' ),
 				'label_block' => true,
 				'condition'   => [
 					'section_title_source' => 'custom_title',
 				],
 			]
 		);
-
 
 		$this->add_control(
 			'title_prefix',
@@ -269,7 +264,6 @@ class SectionTitle extends Custom_Widget_Base {
 			]
 		);
 
-
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -304,7 +298,6 @@ class SectionTitle extends Custom_Widget_Base {
 				],
 			]
 		);
-
 
 		$this->add_control(
 			'section_title_dot_color',
@@ -417,7 +410,6 @@ class SectionTitle extends Custom_Widget_Base {
 			]
 		);
 
-
 		$this->add_control(
 			'external_icon_color',
 			[
@@ -489,18 +481,17 @@ class SectionTitle extends Custom_Widget_Base {
 		$data['show_section_title']    = 'show';
 		$data['section_external_link'] = $data['section_external_url']['url'] ?? '#';
 		$dynamicClass                  = ! empty( $data['section_title_style'] ) ? " section-title-style-{$data['section_title_style']}" : null;
-		$dynamicClass                  .= ! empty( $data['section_title_alignment'] ) ? " section-title-align-{$data['section_title_alignment']}" : null;
-		$dynamicClass                  .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? " has-external-link" : "";
+		$dynamicClass                 .= ! empty( $data['section_title_alignment'] ) ? " section-title-align-{$data['section_title_alignment']}" : null;
+		$dynamicClass                 .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
 
 		?>
-        <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $dynamicClass ) ?>">
+		<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $dynamicClass ); ?>">
 			<?php
 			echo "<div class='tpg-header-wrapper'>";
 			Fns::get_section_title( $data );
 			echo '</div>';
 			?>
-        </div>
+		</div>
 		<?php
 	}
-
 }

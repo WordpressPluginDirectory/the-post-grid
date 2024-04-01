@@ -1907,3 +1907,8 @@ Date Picker CSS
 .rt-pagination .pagination-list > li > span {
     pointer-events: none;
 }
+
+.post-type-rttpg .field-holder span.rt-loading {
+    transition: 0.4s 1s;
+    opacity: 0;
+}

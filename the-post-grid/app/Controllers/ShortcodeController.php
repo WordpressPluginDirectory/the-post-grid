@@ -180,11 +180,11 @@ class ShortcodeController {
 			}
 
 			/* post__not_in */
-			$post__not_in = ( isset( $scMeta['post__not_in'][0] ) ? $scMeta['post__not_in'][0] : null );
+			$post__not_in = ( isset( $scMeta['post__not_in'][0] ) ? $scMeta['post__not_in'][0] : null ); //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 
 			if ( $post__not_in ) {
 				$post__not_in         = explode( ',', $post__not_in );
-				$args['post__not_in'] = $post__not_in;
+				$args['post__not_in'] = $post__not_in; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 			}
 
 			/* LIMIT */
@@ -241,7 +241,7 @@ class ShortcodeController {
 			}
 
 			if ( ! empty( $taxQ ) ) {
-				$args['tax_query'] = $taxQ;
+				$args['tax_query'] = $taxQ; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			}
 
 			// Order.
@@ -261,7 +261,7 @@ class ShortcodeController {
 
 					if ( in_array( $order_by, array_keys( Options::rtMetaKeyType() ) ) && $meta_key ) {
 						$args['orderby']  = $order_by;
-						$args['meta_key'] = $meta_key;
+						$args['meta_key'] = $meta_key; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
 						if ( $order_by === 'meta_value_datetime' ) {
 							$args['orderby'] = 'meta_value_num';
@@ -512,6 +512,7 @@ class ShortcodeController {
 			}
 
 			if ( in_array( '_taxonomy_filter', $filters ) && $taxFilter && $action_term ) {
+				//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				$args['tax_query'] = [
 					[
 						'taxonomy' => $taxFilter,
@@ -575,13 +576,15 @@ class ShortcodeController {
 				}
 			}
 
+			$parentClass = esc_attr($parentClass);
+
 			$html .= "<div class='rt-container-fluid rt-tpg-container tpg-shortcode-main-wrapper {$parentClass}' id='{$layoutID}' {$dataArchive} {$containerDataAttr}>";
 
 			// widget heading.
-			$heading_tag       = isset( $scMeta['tpg_heading_tag'][0] ) ? $scMeta['tpg_heading_tag'][0] : 'h2';
-			$heading_style     = isset( $scMeta['tpg_heading_style'][0] ) && ! empty( $scMeta['tpg_heading_style'][0] ) ? $scMeta['tpg_heading_style'][0] : 'style1';
-			$heading_alignment = isset( $scMeta['tpg_heading_alignment'][0] ) ? $scMeta['tpg_heading_alignment'][0] : '';
-			$heading_link      = isset( $scMeta['tpg_heading_link'][0] ) ? $scMeta['tpg_heading_link'][0] : '';
+			$heading_tag       = isset( $scMeta['tpg_heading_tag'][0] ) ? esc_attr($scMeta['tpg_heading_tag'][0]) : 'h2';
+			$heading_style     = isset( $scMeta['tpg_heading_style'][0] ) && ! empty( $scMeta['tpg_heading_style'][0] ) ? esc_attr($scMeta['tpg_heading_style'][0]) : 'style1';
+			$heading_alignment = isset( $scMeta['tpg_heading_alignment'][0] ) ? esc_attr($scMeta['tpg_heading_alignment'][0]) : '';
+			$heading_link      = isset( $scMeta['tpg_heading_link'][0] ) ? esc_attr($scMeta['tpg_heading_link'][0]) : '';
 
 			if ( ! empty( $arg['items'] ) && in_array( 'heading', $arg['items'] ) ) {
 				$html .= sprintf( '<div class="tpg-widget-heading-wrapper heading-%1$s %2$s">', $heading_style, $heading_alignment );
@@ -940,7 +943,7 @@ class ShortcodeController {
 					$html              .= sprintf(
 						'<div class="rt-swiper-holder swiper"  data-rtowl-options="%s" dir="%s"><div class="swiper-wrapper">',
 						htmlspecialchars( wp_json_encode( $slider_js_options ) ),
-						$slider_js_options['rtl']
+						esc_attr($slider_js_options['rtl'])
 					);
 
 					if ( in_array( 'lazy_load', $cOpt ) ) {
@@ -977,7 +980,7 @@ class ShortcodeController {
 					];
 
 					if ( rtTPG()->hasPro() ) {
-						$termArgs['meta_key'] = '_rt_order';
+						$termArgs['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 					}
 
 					$terms = get_terms( $termArgs );

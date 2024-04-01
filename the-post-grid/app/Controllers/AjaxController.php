@@ -10,6 +10,8 @@ namespace RT\ThePostGrid\Controllers;
 use RT\ThePostGrid\Helpers\Fns;
 use RT\ThePostGrid\Helpers\Options;
 
+//phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );

@@ -54,7 +54,7 @@ class FilterHooks {
 		$classes[] = 'rttpg';
 		$classes[] = 'rttpg-' . RT_THE_POST_GRID_VERSION;
 		$classes[] = 'radius-frontend rttpg-body-wrap';
-		if('fontawesome' !== $icon_font){
+		if ( 'fontawesome' !== $icon_font ) {
 			$classes[] = 'rttpg-flaticon';
 		}
 
@@ -68,20 +68,23 @@ class FilterHooks {
 	 *
 	 * @return string
 	 */
-
 	public static function admin_body_class( $classes ) {
 		$settings = get_option( 'rt_the_post_grid_settings' );
 		global $pagenow;
 
-		if ( isset( $settings['tpg_block_type'] ) && in_array( $settings['tpg_block_type'], [
+		if ( isset( $settings['tpg_block_type'] ) && in_array(
+			$settings['tpg_block_type'],
+			[
 				'elementor',
-				'shortcode'
-			] ) ) {
+				'shortcode',
+			]
+		) ) {
 			$classes .= ' tpg-block-type-elementor-or-shortcode';
 		}
 
-		//check if the current page is post.php and if the post parameteris set
-		if ( $pagenow === 'post.php' && isset( $_GET['post'] ) ) {
+		// Check if the current page is post.php and if the post parameteris set.
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( 'post.php' === $pagenow && isset( $_GET['post'] ) ) {
 
 			if ( rtTPG()->hasPro() ) {
 				$classes .= ' the-post-grid the-post-grid-pro';
@@ -156,7 +159,7 @@ class FilterHooks {
 	/**
 	 * Add plugin row meta
 	 *
-	 * @param array $links Links.
+	 * @param array  $links Links.
 	 * @param string $file File.
 	 *
 	 * @return array
@@ -202,5 +205,4 @@ class FilterHooks {
 
 		return $content;
 	}
-
 }

@@ -65,7 +65,7 @@ class rtTPGElementorQuery {
 			$args['orderby'] = $order_by;
 
 			if ( in_array( $orderby, [ 'meta_value', 'meta_value_num', 'meta_value_datetime' ] ) && $data['meta_key'] ) {
-				$args['meta_key'] = $data['meta_key'];
+				$args['meta_key'] = $data['meta_key']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			}
 		}
 
@@ -107,6 +107,7 @@ class rtTPGElementorQuery {
 
 			if ( $prefix !== 'slider' && rtTPG()->hasPro() && 'show' === $data['show_taxonomy_filter'] ) {
 				if ( ( $data[ $data['post_type'] . '_filter_taxonomy' ] == $object->name ) && isset( $data[ $object->name . '_default_terms' ] ) && $data[ $object->name . '_default_terms' ] !== '0' ) {
+					//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query'][] = [
 						'taxonomy' => $data[ $data['post_type'] . '_filter_taxonomy' ],
 						'field'    => 'term_id',
@@ -114,6 +115,7 @@ class rtTPGElementorQuery {
 					];
 				} else {
 					if ( ! empty( $data[ $setting_key ] ) ) {
+						//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						$args['tax_query'][] = [
 							'taxonomy' => $object->name,
 							'field'    => 'term_id',
@@ -123,6 +125,7 @@ class rtTPGElementorQuery {
 				}
 			} else {
 				if ( ! empty( $data[ $setting_key ] ) ) {
+					//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query'][] = [
 						'taxonomy' => $object->name,
 						'field'    => 'term_id',
@@ -133,7 +136,7 @@ class rtTPGElementorQuery {
 		}
 
 		if ( ! empty( $args['tax_query'] ) && $data['relation'] ) {
-			$args['tax_query']['relation'] = $data['relation'];
+			$args['tax_query']['relation'] = $data['relation']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		}
 
 		if ( $data['post_keyword'] ) {
@@ -158,7 +161,7 @@ class rtTPGElementorQuery {
 			}
 
 			$excluded_post_ids    = array_merge( $offset_posts, $excluded_ids );
-			$args['post__not_in'] = array_unique( $excluded_post_ids );
+			$args['post__not_in'] = array_unique( $excluded_post_ids );  //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 		}
 
 		if ( $prefix !== 'slider' ) {
@@ -171,7 +174,7 @@ class rtTPGElementorQuery {
 					$tempArgs['paged']          = 1;
 					$tempArgs['fields']         = 'ids';
 					if ( ! empty( $offset_posts ) ) {
-						$tempArgs['post__not_in'] = $offset_posts;
+						$tempArgs['post__not_in'] = $offset_posts; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 					}
 					$tempQ = new WP_Query( $tempArgs );
 					if ( ! empty( $tempQ->posts ) ) {
@@ -264,6 +267,7 @@ class rtTPGElementorQuery {
 			$args        = [
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
+				//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				'tax_query'    => [
 					[
 						'taxonomy' => $data['taxonomy_lists'],
@@ -271,7 +275,7 @@ class rtTPGElementorQuery {
 						'terms'    => $rt_post_cat,
 					],
 				],
-				'post__not_in' => [ $data['last_post_id'] ],
+				'post__not_in' => [ $data['last_post_id'] ], //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 			];
 
 			if ( $orderby = $data['orderby'] ) {
@@ -279,7 +283,7 @@ class rtTPGElementorQuery {
 				$args['orderby'] = $order_by;
 
 				if ( in_array( $orderby, [ 'meta_value', 'meta_value_num' ] ) && $data['meta_key'] ) {
-					$args['meta_key'] = $data['meta_key'];
+					$args['meta_key'] = $data['meta_key']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				}
 			}
 
@@ -352,7 +356,7 @@ class rtTPGElementorQuery {
 				}
 
 				$excluded_post_ids    = array_merge( $offset_posts, $excluded_ids );
-				$args['post__not_in'] = array_unique( $excluded_post_ids );
+				$args['post__not_in'] = array_unique( $excluded_post_ids ); //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 			}
 
 			if ( $data['post_id'] ) {

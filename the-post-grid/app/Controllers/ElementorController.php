@@ -53,11 +53,11 @@ if ( ! class_exists( 'ElementorController' ) ) :
 			add_action( 'wp_ajax_rttpg_el_layout_count', [ $this, 'rttpg_el_layout_count' ] );
 		}
 
-		//TODO Import
+		// TODO Import
 
 		public function editor_el_enqueue() {
 
-
+			//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			wp_enqueue_style(
 				'rttpg-elementor-edition',
 				rtTPG()->get_assets_uri( 'elementor/main.css' ) .
@@ -65,9 +65,9 @@ if ( ! class_exists( 'ElementorController' ) ) :
 				$this->version
 			);
 
-
 			wp_enqueue_script(
-				'rttpg-elementor-import', rtTPG()->get_assets_uri( 'elementor/main.js' ),
+				'rttpg-elementor-import',
+				rtTPG()->get_assets_uri( 'elementor/main.js' ),
 				[
 					'wp-block-editor',
 					'wp-blocks',
@@ -77,13 +77,16 @@ if ( ! class_exists( 'ElementorController' ) ) :
 					'wp-util',
 					'wp-components',
 					'elementor-editor',
-					'jquery'
+					'jquery',
 				],
 				$this->version,
 				true
 			);
 
-			wp_localize_script( 'rttpg-elementor-import', 'rttpgParams', [
+			wp_localize_script(
+				'rttpg-elementor-import',
+				'rttpgParams',
+				[
 					'nonce'           => wp_create_nonce( 'rttpg_nonce' ),
 					'hasPro'          => rtTPG()->hasPro(),
 					'current_user_id' => get_current_user_id(),
@@ -96,12 +99,11 @@ if ( ! class_exists( 'ElementorController' ) ) :
 					'all_term_list'   => Fns::get_all_taxonomy_guten(),
 				]
 			);
-
 		}
 
 		public function rttpg_el_layout_count() {
 
-			$BASE_URL = "https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/wp-json/rttpgapi/v1/layoutinfo/";
+			$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/wp-json/rttpgapi/v1/layoutinfo/';
 			// Verify the request.
 			check_ajax_referer( 'rttpg_nonce', 'nonce' );
 
@@ -110,19 +112,22 @@ if ( ! class_exists( 'ElementorController' ) ) :
 			$allowed_roles = [ 'editor', 'administrator', 'author' ];
 
 			if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-				wp_die( __( 'You don\'t have permission to perform this action', 'rttpg' ) );
+				wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
 			}
 
 			// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
 			if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-				wp_die( __( 'You don\'t have proper authorization to perform this action', 'rttpg' ) );
+				wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
 			}
 
 			$status    = $_REQUEST['status'] ?? '';
 			$layout_id = $_REQUEST['layout_id'] ?? '';
 
 			$post_args         = [ 'timeout' => 120 ];
-			$post_args['body'] = [ 'status' => $status, 'layout_id' => $layout_id ];
+			$post_args['body'] = [
+				'status'    => $status,
+				'layout_id' => $layout_id,
+			];
 			$layoutRequest     = wp_remote_post( $BASE_URL, $post_args );
 			if ( is_wp_error( $layoutRequest ) ) {
 				wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
@@ -138,7 +143,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 		 */
 		public function rttpg_get_el_layouts() {
 
-			$BASE_URL = "https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/wp-json/rttpgelapi/v1/layouts/";
+			$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/wp-json/rttpgelapi/v1/layouts/';
 
 			// Verify the request.
 			check_ajax_referer( 'rttpg_nonce', 'nonce' );
@@ -148,12 +153,12 @@ if ( ! class_exists( 'ElementorController' ) ) :
 			$allowed_roles = [ 'editor', 'administrator', 'author' ];
 
 			if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-				wp_die( __( 'You don\'t have permission to perform this action', 'rttpg' ) );
+				wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
 			}
 
 			// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
 			if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-				wp_die( __( 'You don\'t have proper authorization to perform this action', 'rttpg' ) );
+				wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
 			}
 
 			$status            = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
@@ -255,7 +260,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 
 				if ( file_exists( get_stylesheet_directory() . $template_name ) ) {
 					$file = get_stylesheet_directory() . $template_name;
-				} else if ( file_exists( get_template_directory() . $template_name ) ) {
+				} elseif ( file_exists( get_template_directory() . $template_name ) ) {
 					$file = get_template_directory() . $template_name;
 				} else {
 					$file = RT_THE_POST_GRID_PLUGIN_PATH . '/app/Widgets/elementor/widgets/' . $file_name . '.php';
@@ -324,7 +329,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 					'description' => esc_html__( 'TPG - Category Block', 'the-post-grid' ),
 					'icon'        => 'eicon-folder-o tpg-grid-icon tss-promotional-element',
 					'categories'  => '[ "the-post-grid-elements" ]',
-				]
+				],
 			];
 
 			$config['promotionWidgets'] = array_merge( $config['promotionWidgets'], $pro_widgets );

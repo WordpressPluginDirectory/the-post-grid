@@ -63,7 +63,7 @@ class ElementorWidget extends Widget_Base {
 		if ( isset( $settings['post_grid_id'] ) && ! empty( $settings['post_grid_id'] ) && $id = $settings['post_grid_id'] ) {
 			echo do_shortcode( '[the-post-grid id="' . absint( $id ) . '"]' );
 		} else {
-			echo 'Please select a post grid';
+			echo esc_html__( 'Please select a post grid', 'the-post-grid' );
 		}
 	}
 }
