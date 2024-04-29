@@ -746,6 +746,9 @@
         if (n < 0) {
             data = data + "&rttpg_nonce=" + rttpg.nonce;
         }
+
+        data += "&uid="+rttpg.uid;
+
         $.ajax({
             type: "post",
             url: rttpg.ajaxurl,

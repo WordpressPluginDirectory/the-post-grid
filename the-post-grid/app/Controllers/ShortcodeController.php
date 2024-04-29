@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Shortcode Controller class.
  */
 class ShortcodeController {
-	private $scA = [];
+	private $scA      = [];
 	private $l4toggle = false;
 
 	public function __construct() {
@@ -48,6 +48,7 @@ class ShortcodeController {
 			'nonceID' => esc_attr( rtTPG()->nonceId() ),
 			'nonce'   => esc_attr( wp_create_nonce( rtTPG()->nonceText() ) ),
 			'ajaxurl' => esc_url( $ajaxurl ),
+			'uid'     => get_current_user_id(),
 		];
 
 		foreach ( $this->scA as $sc ) {
@@ -69,7 +70,7 @@ class ShortcodeController {
 		}
 
 		if ( $isSinglePopUp && rtTPG()->hasPro() ) {
-			$html = null;
+			$html  = null;
 			$html .= '<div class="md-modal rt-md-effect" id="rt-modal">
 						<div class="md-content">
 							<div class="rt-md-content-holder">
@@ -249,7 +250,6 @@ class ShortcodeController {
 				$order_by = ( isset( $scMeta['order_by'][0] ) ? $scMeta['order_by'][0] : null );
 				$order    = ( isset( $scMeta['order'][0] ) ? $scMeta['order'][0] : null );
 
-
 				if ( $order ) {
 					$args['order'] = $order;
 				}
@@ -257,7 +257,6 @@ class ShortcodeController {
 				if ( $order_by ) {
 					$args['orderby'] = $order_by;
 					$meta_key        = ! empty( $scMeta['tpg_meta_key'][0] ) ? trim( $scMeta['tpg_meta_key'][0] ) : null;
-
 
 					if ( in_array( $order_by, array_keys( Options::rtMetaKeyType() ) ) && $meta_key ) {
 						$args['orderby']  = $order_by;
@@ -268,7 +267,6 @@ class ShortcodeController {
 						}
 					}
 				}
-
 			}
 
 			// Status.
@@ -331,15 +329,15 @@ class ShortcodeController {
 						$aValue = $args['tag'] = $obj->slug;
 						$aType  = 'tag';
 					}
-				} else if ( $oLayoutCategory && is_category() ) {
+				} elseif ( $oLayoutCategory && is_category() ) {
 					if ( ! empty( $obj->slug ) ) {
 						$aValue = $args['category_name'] = $obj->slug;
 					}
 					$aType = 'category';
-				} else if ( $oLayoutAuthor && is_author() ) {
+				} elseif ( $oLayoutAuthor && is_author() ) {
 					$aValue = $args['author'] = $obj->ID;
 					$aType  = 'author';
-				} else if ( $oLayoutSearch && is_search() ) {
+				} elseif ( $oLayoutSearch && is_search() ) {
 					$aValue = $args['s'] = get_search_query();
 					$aType  = 'search';
 				}
@@ -349,7 +347,7 @@ class ShortcodeController {
 			}
 
 			// Validation.
-			$containerDataAttr = null;
+			$containerDataAttr  = null;
 			$containerDataAttr .= " data-layout='{$layout}' data-grid-style='{$gridStyle}' data-desktop-col='{$dCol}'  data-tab-col='{$tCol}'  data-mobile-col='{$mCol}'";
 
 			$dCol = $dCol == 5 ? '24' : round( 12 / $dCol );
@@ -368,7 +366,7 @@ class ShortcodeController {
 				$cCol                = 12 - $iCol;
 				$arg['image_area']   = "rt-col-sm-{$iCol} rt-col-xs-12 ";
 				$arg['content_area'] = "rt-col-sm-{$cCol} rt-col-xs-12 ";
-			} else if ( $layout == 'layout4' ) {
+			} elseif ( $layout == 'layout4' ) {
 				$arg['image_area']   = 'rt-col-md-6 rt-col-sm-12 rt-col-xs-12 ';
 				$arg['content_area'] = 'rt-col-md-6 rt-col-sm-12 rt-col-xs-12 ';
 			}
@@ -378,7 +376,7 @@ class ShortcodeController {
 
 			if ( $isIsotope && ! rtTPG()->hasPro() ) {
 				$arg_class[] = 'masonry-grid-item';
-			} else if ( ! $isCarousel && ! $isOffset ) {
+			} elseif ( ! $isCarousel && ! $isOffset ) {
 				$arg_class[] = $gridType . '-grid-item';
 			}
 
@@ -406,7 +404,7 @@ class ShortcodeController {
 
 			if ( $gridType == 'even' && ! $isIsotope && ! $isCarousel ) {
 				$masonryG = ' tpg-even';
-			} else if ( $gridType == 'masonry' && ! $isIsotope && ! $isCarousel ) {
+			} elseif ( $gridType == 'masonry' && ! $isIsotope && ! $isCarousel ) {
 				$masonryG = ' tpg-masonry';
 			}
 
@@ -454,7 +452,7 @@ class ShortcodeController {
 
 					if ( $popupType == 'single' ) {
 						$arg['anchorClass'] .= ' tpg-single-popup';
-						$isSinglePopUp      = true;
+						$isSinglePopUp       = true;
 					} else {
 						$arg['anchorClass'] .= ' tpg-multi-popup';
 					}
@@ -576,15 +574,15 @@ class ShortcodeController {
 				}
 			}
 
-			$parentClass = esc_attr($parentClass);
+			$parentClass = esc_attr( $parentClass );
 
 			$html .= "<div class='rt-container-fluid rt-tpg-container tpg-shortcode-main-wrapper {$parentClass}' id='{$layoutID}' {$dataArchive} {$containerDataAttr}>";
 
 			// widget heading.
-			$heading_tag       = isset( $scMeta['tpg_heading_tag'][0] ) ? esc_attr($scMeta['tpg_heading_tag'][0]) : 'h2';
-			$heading_style     = isset( $scMeta['tpg_heading_style'][0] ) && ! empty( $scMeta['tpg_heading_style'][0] ) ? esc_attr($scMeta['tpg_heading_style'][0]) : 'style1';
-			$heading_alignment = isset( $scMeta['tpg_heading_alignment'][0] ) ? esc_attr($scMeta['tpg_heading_alignment'][0]) : '';
-			$heading_link      = isset( $scMeta['tpg_heading_link'][0] ) ? esc_attr($scMeta['tpg_heading_link'][0]) : '';
+			$heading_tag       = isset( $scMeta['tpg_heading_tag'][0] ) ? esc_attr( $scMeta['tpg_heading_tag'][0] ) : 'h2';
+			$heading_style     = isset( $scMeta['tpg_heading_style'][0] ) && ! empty( $scMeta['tpg_heading_style'][0] ) ? esc_attr( $scMeta['tpg_heading_style'][0] ) : 'style1';
+			$heading_alignment = isset( $scMeta['tpg_heading_alignment'][0] ) ? esc_attr( $scMeta['tpg_heading_alignment'][0] ) : '';
+			$heading_link      = isset( $scMeta['tpg_heading_link'][0] ) ? esc_attr( $scMeta['tpg_heading_link'][0] ) : '';
 
 			if ( ! empty( $arg['items'] ) && in_array( 'heading', $arg['items'] ) ) {
 				$html .= sprintf( '<div class="tpg-widget-heading-wrapper heading-%1$s %2$s">', $heading_style, $heading_alignment );
@@ -604,8 +602,8 @@ class ShortcodeController {
 				$html .= '<div id="bottom-script-loader" class="bottom-script-loader"><div class="rt-ball-clip-rotate"><div></div></div></div>';
 			}
 
-			if ( ! empty( $filters ) && ( $isGrid || $isOffset || $isWooCom || $isEdd ) ) {
-				$html                      .= "<div class='rt-layout-filter-container rt-clear'><div class='rt-filter-wrap'>";
+			if ( ! empty( $filters ) && ( $isGrid || $isOffset || $isWooCom || $isEdd || $isGridHover ) ) {
+				$html                     .= "<div class='rt-layout-filter-container rt-clear'><div class='rt-filter-wrap'>";
 				$selectedSubTermsForButton = null;
 				$allText                   = apply_filters( 'tpg_filter_all_text', esc_html__( 'All', 'the-post-grid' ), $scMeta );
 
@@ -622,7 +620,7 @@ class ShortcodeController {
 					}
 
 					if ( ! $filterType || $filterType == 'dropdown' ) {
-						$html             .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}'>";
+						$html            .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}'>";
 						$termDefaultText  = $allText;
 						$dataTerm         = 'all';
 						$htmlButton       = '';
@@ -646,7 +644,7 @@ class ShortcodeController {
 										foreach ( $subTerms as $stId => $t ) {
 											$count       = $count + absint( $t['count'] );
 											$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-											$item        .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
+											$item       .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
 										}
 
 										if ( $post_count ) {
@@ -690,7 +688,7 @@ class ShortcodeController {
 									$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
 								}
 
-								$i ++;
+								$i++;
 							}
 						}
 						$pAllCount = null;
@@ -731,7 +729,7 @@ class ShortcodeController {
 
 										foreach ( $subTerms as $stId => $t ) {
 											$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-											$sT          .= "<span class='rt-filter-button-item' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
+											$sT         .= "<span class='rt-filter-button-item' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
 										}
 
 										$sT .= '</div>';
@@ -769,7 +767,7 @@ class ShortcodeController {
 
 						if ( ! $hide_all_button ) {
 							$pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
-							$html    .= "<span class='term-button-item rt-filter-button-item {$allSelect}' data-term='all'>" . $allText . "{$pCountH}</span>";
+							$html   .= "<span class='term-button-item rt-filter-button-item {$allSelect}' data-term='all'>" . $allText . "{$pCountH}</span>";
 						}
 
 						$html .= $bItems;
@@ -791,12 +789,13 @@ class ShortcodeController {
 						$allSelect      = null;
 					}
 
+					$postCountClass = $postCountClass ?? '';
 					if ( ! $filterType || $filterType == 'dropdown' ) {
-						$html            .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}'>";
+						$html           .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}'>";
 						$termDefaultText = $allText;
 						$dataAuthor      = 'all';
 						$htmlButton      = '';
-						$htmlButton      .= '<span class="author-dropdown rt-filter-dropdown">';
+						$htmlButton     .= '<span class="author-dropdown rt-filter-dropdown">';
 
 						if ( ! empty( $users ) ) {
 							foreach ( $users as $user ) {
@@ -851,7 +850,7 @@ class ShortcodeController {
 
 						if ( ! $hide_all_button ) {
 							$pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
-							$html    .= "<span class='author-button-item rt-filter-button-item {$allSelect}' data-author='all'>" . $allText . "{$pCountH}</span>";
+							$html   .= "<span class='author-button-item rt-filter-button-item {$allSelect}' data-author='all'>" . $allText . "{$pCountH}</span>";
 						}
 
 						$html .= $bItems;
@@ -878,7 +877,7 @@ class ShortcodeController {
 
 					if ( $action_orderby == 'none' ) {
 						$action_orderby_label = esc_html__( 'Sort By None', 'the-post-grid' );
-					} else if ( in_array( $action_orderby, array_keys( Options::rtMetaKeyType() ) ) ) {
+					} elseif ( in_array( $action_orderby, array_keys( Options::rtMetaKeyType() ) ) ) {
 						$action_orderby_label = esc_html__( 'Meta value', 'the-post-grid' );
 					} else {
 						$action_orderby_label = isset( $orders[ $action_orderby ] ) ? $orders[ $action_orderby ] : '';
@@ -904,9 +903,9 @@ class ShortcodeController {
 
 				if ( in_array( '_sort_order', $filters ) ) {
 					$action_order = ( ! empty( $args['order'] ) ? strtoupper( trim( $args['order'] ) ) : 'DESC' );
-					$html         .= '<div class="rt-filter-item-wrap rt-sort-order-action">';
-					$html         .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
-					$html         .= '</div>';
+					$html        .= '<div class="rt-filter-item-wrap rt-sort-order-action">';
+					$html        .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
+					$html        .= '</div>';
 				}
 
 				$html .= "</div>$selectedSubTermsForButton</div>";
@@ -940,10 +939,10 @@ class ShortcodeController {
 						],
 						$scMeta
 					);
-					$html              .= sprintf(
+					$html             .= sprintf(
 						'<div class="rt-swiper-holder swiper"  data-rtowl-options="%s" dir="%s"><div class="swiper-wrapper">',
 						htmlspecialchars( wp_json_encode( $slider_js_options ) ),
-						esc_attr($slider_js_options['rtl'])
+						esc_attr( $slider_js_options['rtl'] )
 					);
 
 					if ( in_array( 'lazy_load', $cOpt ) ) {
@@ -959,15 +958,15 @@ class ShortcodeController {
 					$selectedTerms           = [];
 
 					if ( isset( $scMeta['post_filter'] )
-					     && in_array(
-						     'tpg_taxonomy',
-						     $scMeta['post_filter']
-					     )
-					     && isset( $scMeta['tpg_taxonomy'] )
-					     && in_array(
-						     $isotope_filter,
-						     $scMeta['tpg_taxonomy']
-					     )
+						&& in_array(
+							'tpg_taxonomy',
+							$scMeta['post_filter']
+						)
+						 && isset( $scMeta['tpg_taxonomy'] )
+						&& in_array(
+							$isotope_filter,
+							$scMeta['tpg_taxonomy']
+						)
 					) {
 						$selectedTerms = ( isset( $scMeta[ 'term_' . $isotope_filter ] ) ? $scMeta[ 'term_' . $isotope_filter ] : [] );
 					}
@@ -985,7 +984,7 @@ class ShortcodeController {
 
 					$terms = get_terms( $termArgs );
 
-					$html           .= '<div class="tpg-iso-filter">';
+					$html          .= '<div class="tpg-iso-filter">';
 					$htmlButton     = $drop = null;
 					$fSelectTrigger = false;
 
@@ -1054,7 +1053,7 @@ class ShortcodeController {
 					}
 					$pID              = get_the_ID();
 					$external_link    = get_post_meta( $pID, 'tpg_read_more', true );
-					$arg['postCount'] = $gridPostCount ++;
+					$arg['postCount'] = $gridPostCount++;
 					$arg['pID']       = $pID;
 					$arg['title']     = Fns::get_the_title( $pID, $arg );
 					$arg['pLink']     = $external_link['url'] ?? get_permalink();
@@ -1072,14 +1071,20 @@ class ShortcodeController {
 					$default_taxonomy = 'category';
 					$_all_post_types  = array_keys( Fns::get_post_types() );
 
-					if ( $postType && ! in_array( $postType, [ 'post', 'page' ] ) && in_array( $postType, $_all_post_types ) ) {
+					if ( $postType && ! in_array(
+						$postType,
+						[
+							'post',
+							'page',
+						]
+					) && in_array( $postType, $_all_post_types ) ) {
 						$taxonomies = get_object_taxonomies( $postType );
 
 						if ( in_array( '_taxonomy_filter', $filters ) && $taxFilter ) {
 							$default_taxonomy = $taxFilter;
-						} else if ( ! empty( $scMeta['tpg_taxonomy'] ) ) {
+						} elseif ( ! empty( $scMeta['tpg_taxonomy'] ) ) {
 							$default_taxonomy = $scMeta['tpg_taxonomy'][0];
-						} else if ( ! empty( $taxonomies ) ) {
+						} elseif ( ! empty( $taxonomies ) ) {
 							$default_taxonomy = $taxonomies[0];
 						}
 					}
@@ -1141,7 +1146,7 @@ class ShortcodeController {
 								$defaultImgId,
 								$customImgSize
 							) : null;
-							$offsetSmallHtml  .= Fns::get_template_html( 'layouts/' . $layout, $arg );
+							$offsetSmallHtml .= Fns::get_template_html( 'layouts/' . $layout, $arg );
 						}
 					} else {
 						$arg['imgSrc'] = ! $fImg ? Fns::getFeatureImageSrc(
@@ -1152,11 +1157,11 @@ class ShortcodeController {
 							$customImgSize,
 							$is_lazy_load
 						) : null;
-						$html          .= Fns::get_template_html( 'layouts/' . $layout, $arg );
+						$html         .= Fns::get_template_html( 'layouts/' . $layout, $arg );
 					}
 
-					$offLoop ++;
-					$l ++;
+					$offLoop++;
+					$l++;
 				endwhile;
 
 				if ( $isOffset ) {
@@ -1167,7 +1172,7 @@ class ShortcodeController {
 					if ( $layout == 'offset03' || $layout == 'offset04' ) {
 						$oDCol['big'] = $oTCol['big'] = $oDCol['small'] = $oTCol['small'] = 6;
 						$oMCol['big'] = $oMCol['small'] = 12;
-					} else if ( $layout == 'offset06' ) {
+					} elseif ( $layout == 'offset06' ) {
 						$oDCol['big']   = 7;
 						$oDCol['small'] = 5;
 					}
@@ -1202,14 +1207,14 @@ class ShortcodeController {
 				);
 			}
 
-			$html        .= $preLoaderHtml;
-			$html        .= '</div>'; // End row.
+			$html       .= $preLoaderHtml;
+			$html       .= '</div>'; // End row.
 			$htmlUtility = null;
 
 			if ( $pagination && ! $isCarousel ) {
 				if ( $isOffset || $isGridHover ) {
 					$posts_loading_type = 'page_prev_next';
-					$htmlUtility        .= "<div class='rt-cb-page-prev-next'>
+					$htmlUtility       .= "<div class='rt-cb-page-prev-next'>
 											<span class='rt-cb-prev-btn'><i class='fa fa-angle-left' aria-hidden='true'></i></span>
 											<span class='rt-cb-next-btn'><i class='fa fa-angle-right' aria-hidden='true'></i></span>
 										</div>";
@@ -1219,9 +1224,9 @@ class ShortcodeController {
 						if ( ( $isGrid || $isWooCom || $isEdd ) && empty( $filters ) ) {
 							$htmlUtility .= Fns::rt_pagination( $gridQuery );
 						}
-					} else if ( $posts_loading_type == 'pagination_ajax' && ! $isIsotope ) {
+					} elseif ( $posts_loading_type == 'pagination_ajax' && ! $isIsotope ) {
 						$htmlUtility .= "<div class='rt-page-numbers'></div>";
-					} else if ( $posts_loading_type == 'load_more' && rtTPG()->hasPro() ) {
+					} elseif ( $posts_loading_type == 'load_more' && rtTPG()->hasPro() ) {
 						$load_more_btn_text = ( ! empty( $scMeta['load_more_text'][0] ) ? $scMeta['load_more_text'][0] : '' );
 						$load_more_text     = $load_more_btn_text ? esc_html( $load_more_btn_text ) : esc_html__( 'Load More', 'the-post-grid' );
 
@@ -1229,7 +1234,7 @@ class ShortcodeController {
 											<span class='rt-loadmore-text'>" . $load_more_text . "</span>
 											<div class='rt-loadmore-loading rt-ball-scale-multiple rt-2x'><div></div><div></div><div></div></div>
 										</div>";
-					} else if ( $posts_loading_type == 'load_on_scroll' && rtTPG()->hasPro() ) {
+					} elseif ( $posts_loading_type == 'load_on_scroll' && rtTPG()->hasPro() ) {
 						$htmlUtility .= "<div class='rt-infinite-action'>
 												<div class='rt-infinite-loading la-fire la-2x'>
 													<div></div>
@@ -1334,9 +1339,9 @@ class ShortcodeController {
 						$html = $html;
 					} else {
 						$html = '<p>' . esc_html__(
-								'You are not permitted to view this content.',
-								'the-post-grid'
-							) . '</p>';
+							'You are not permitted to view this content.',
+							'the-post-grid'
+						) . '</p>';
 					}
 				}
 			} else {

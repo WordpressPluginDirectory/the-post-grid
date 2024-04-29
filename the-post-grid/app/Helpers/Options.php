@@ -340,6 +340,75 @@ class Options {
 	}
 
 
+	public static function rtTPGCMyAccountSettings() {
+		$settings = get_option( rtTPG()->options['settings'] );
+
+		$other_settings = [
+
+			'tpg_myaccount'      => [
+				'type'        => 'select',
+				'name'        => 'tpg_myaccount',
+				'label'       => 'My Account Page',
+				'id'          => 'tpg_myaccount',
+				'class'       => 'select2',
+				'options'     => Fns::get_pages(),
+				'description' => esc_html__( 'Choose My Account Page. Use must use the shortcode [tpg_my_account] in the page.', 'the-post-grid' ),
+				'value'       => isset( $settings['tpg_myaccount'] ) ? $settings['tpg_myaccount'] : '',
+			],
+
+			'post_status'        => [
+				'type'        => 'select',
+				'name'        => 'post_status',
+				'label'       => esc_html__( 'Post Status', 'the-post-grid' ),
+				'id'          => 'post_status',
+				'holderClass' => 'pro-field',
+				'class'       => 'select2',
+				'description' => __( 'Submitted Post Status', 'the-post-grid' ),
+				'options'     => [
+					'pending' => esc_html__( 'Pending Review', 'the-post-grid' ),
+					'draft'   => esc_html__( 'Draft', 'the-post-grid' ),
+					'private' => esc_html__( 'Private', 'the-post-grid' ),
+					'publish' => esc_html__( 'Publish', 'the-post-grid' ),
+				],
+				'value'       => isset( $settings['post_status'] ) ? $settings['post_status'] : 'pending',
+			],
+
+			'max_upload_file'    => [
+				'type'        => 'text',
+				'name'        => 'max_upload_file',
+				'label'       => esc_html__( 'Max Image Size', 'the-post-grid' ),
+				'id'          => 'max_upload_file',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Input max upload image size by byte. Default is: 1048576 (1MB)', 'the-post-grid' ),
+				'options'     => [
+					'pending' => esc_html__( 'Pending Review', 'the-post-grid' ),
+					'draft'   => esc_html__( 'Draft', 'the-post-grid' ),
+					'private' => esc_html__( 'Private', 'the-post-grid' ),
+					'publish' => esc_html__( 'Publish', 'the-post-grid' ),
+				],
+				'value'       => isset( $settings['max_upload_file'] ) ? $settings['max_upload_file'] : '1048576',
+			],
+
+			'delete_post_status' => [
+				'type'        => 'select',
+				'name'        => 'delete_post_status',
+				'label'       => esc_html__( 'Deleted Post', 'the-post-grid' ),
+				'id'          => 'delete_post_status',
+				'holderClass' => 'pro-field',
+				'class'       => 'select2',
+				'description' => __( 'What will it happen when the user delete the post?', 'the-post-grid' ),
+				'options'     => [
+					'trash'  => esc_html__( 'Go to Trash', 'the-post-grid' ),
+					'delete' => esc_html__( 'Delete Forever', 'the-post-grid' ),
+				],
+				'value'       => isset( $settings['delete_post_status'] ) ? $settings['delete_post_status'] : 'trash',
+			],
+
+		];
+
+		return $other_settings;
+	}
+
 	public static function rtTPGSettingsCommonSettingsFields() {
 		$settings = get_option( rtTPG()->options['settings'] );
 
@@ -403,6 +472,7 @@ class Options {
 				'description' => esc_html__( 'You can change icon font from here', 'the-post-grid' ),
 				'value'       => isset( $settings['tpg_icon_font'] ) ? $settings['tpg_icon_font'] : 'fontawesome',
 			],
+
 			'tpg_pagination_range'        => [
 				'type'        => 'number',
 				'label'       => esc_html__( 'Pagination Range', 'the-post-grid' ),

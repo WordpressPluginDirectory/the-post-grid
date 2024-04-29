@@ -1222,7 +1222,7 @@ class rtTPGElementorHelper {
 				$term_first = [ '0' => esc_html__( '--Select--', 'the-post-grid' ) ];
 				$term_lists = get_terms(
 					[
-						'taxonomy'   => $tax->name, // Custom taxonomy name
+						'taxonomy'   => $tax->name, // Custom taxonomy name.
 						'hide_empty' => true,
 						'fields'     => 'id=>name',
 					]
@@ -1230,8 +1230,14 @@ class rtTPGElementorHelper {
 
 				$term_lists = $term_first + $term_lists;
 
+				$terms_prefix = '';
+				if ( 'post' != $post_type ) {
+					$terms_prefix = $post_type . '_';
+				}
+				$terms_prefix .= $tax->name;
+
 				$ref->add_control(
-					$tax->name . '_default_terms',
+					$terms_prefix . '_default_terms',
 					[
 						'label'     => esc_html__( 'Default ', 'the-post-grid' ) . $tax->label,
 						'type'      => \Elementor\Controls_Manager::SELECT,

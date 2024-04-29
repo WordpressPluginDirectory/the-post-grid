@@ -161,6 +161,7 @@ class SettingsController {
 				'nonceID' => esc_attr( rtTPG()->nonceId() ),
 				'nonce'   => esc_attr( $nonce ),
 				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'uid'     => get_current_user_id(),
 			]
 		);
 	}

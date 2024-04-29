@@ -125,12 +125,34 @@ class AjaxController {
 	 * @return void
 	 */
 	public function rtTPGSaveSettings() {
-		$error = true;
+		$error  = true;
+		$userId = get_current_user_id();
+
+		if ( $userId != $_REQUEST['uid'] ) {
+			wp_send_json(
+				[
+					'error' => true,
+					'msg'   => esc_html__( 'You have no permission to modification.', 'the-post-grid' ),
+				]
+			);
+			die();
+		}
+
+		if ( ! ( current_user_can( 'manage_options' ) ) ) {
+			wp_send_json(
+				[
+					'error' => true,
+					'msg'   => esc_html__( 'You have no permission to modification.', 'the-post-grid' ),
+				]
+			);
+			die();
+		}
 
 		if ( Fns::verifyNonce() ) {
 			unset( $_REQUEST['action'] );
 			unset( $_REQUEST[ rtTPG()->nonceId() ] );
 			unset( $_REQUEST['_wp_http_referer'] );
+			unset( $_REQUEST['uid'] );
 
 			update_option( rtTPG()->options['settings'], wp_unslash( $_REQUEST ) );
 

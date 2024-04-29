@@ -40,6 +40,7 @@ class FilterHooks {
 		add_filter( 'body_class', [ __CLASS__, 'body_classes' ] );
 		add_filter( 'admin_body_class', [ __CLASS__, 'admin_body_class' ] );
 		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'tpg_custom_wpkses_post_tags' ], 10, 2 );
+		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'custom_wpkses_post_tags' ], 10, 2 );
 	}
 
 	/**
@@ -50,6 +51,12 @@ class FilterHooks {
 	 * @return mixed
 	 */
 	public static function body_classes( $classes ) {
+		global $post;
+
+		if ( isset( $post->post_content ) && has_shortcode( $post->post_content, 'tpg_my_account' ) ) {
+			$classes[] = 'tpg-myaccount-page';
+		}
+
 		$icon_font = Fns::tpg_option( 'tpg_icon_font' );
 		$classes[] = 'rttpg';
 		$classes[] = 'rttpg-' . RT_THE_POST_GRID_VERSION;
@@ -204,5 +211,53 @@ class FilterHooks {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Add exceptions in wp_kses_post tags.
+	 *
+	 * @param array  $tags Allowed tags, attributes, and/or entities.
+	 * @param string $context Context to judge allowed tags by. Allowed values are 'post'.
+	 *
+	 * @return array
+	 */
+	public static function custom_wpkses_post_tags( $tags, $context ) {
+		if ( 'post' === $context ) {
+			$tags['iframe'] = [
+				'src'             => true,
+				'height'          => true,
+				'width'           => true,
+				'frameborder'     => true,
+				'allowfullscreen' => true,
+			];
+
+			$tags['svg'] = [
+				'class'           => true,
+				'aria-hidden'     => true,
+				'aria-labelledby' => true,
+				'role'            => true,
+				'xmlns'           => true,
+				'width'           => true,
+				'height'          => true,
+				'viewbox'         => true,
+				'stroke'          => true,
+				'fill'            => true,
+			];
+
+			$tags['g']     = [ 'fill' => true ];
+			$tags['title'] = [ 'title' => true ];
+			$tags['path']  = [
+				'd'               => true,
+				'fill'            => true,
+				'stroke-width'    => true,
+				'stroke-linecap'  => true,
+				'stroke-linejoin' => true,
+				'fill-rule'       => true,
+				'clip-rule'       => true,
+				'stroke'          => true,
+			];
+		}
+
+		return $tags;
 	}
 }

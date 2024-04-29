@@ -123,6 +123,7 @@ class MetaController {
 				'nonceID' => esc_attr( rtTPG()->nonceId() ),
 				'nonce'   => esc_attr( wp_create_nonce( rtTPG()->nonceText() ) ),
 				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'uid'     => get_current_user_id(),
 			]
 		);
 
@@ -327,6 +328,10 @@ class MetaController {
 	public function save_post( $post_id, $post ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return $post_id;
+		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return false;
 		}
 
 		if ( ! Fns::verifyNonce() ) {

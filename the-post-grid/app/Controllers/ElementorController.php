@@ -205,6 +205,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 				'nonceID' => esc_attr( rtTPG()->nonceId() ),
 				'nonce'   => esc_attr( wp_create_nonce( rtTPG()->nonceText() ) ),
 				'ajaxurl' => esc_url( $ajaxurl ),
+				'uid'     => get_current_user_id(),
 			];
 
 			wp_localize_script( 'rt-tpg', 'rttpg', $variables );
