@@ -1,3 +1,0 @@
-<div>
-	edit-account
-</div>

@@ -1004,6 +1004,27 @@ class Fns {
 		return $dynamicClass;
 	}
 
+	/**
+	 * Print Validated html tags
+	 *
+	 * @param $tag
+	 *
+	 * @return string|null
+	 */
+	public static function print_validated_html_tag( $tag ) {
+		$allowed_html_wrapper_tags = [
+			'h1',
+			'h2',
+			'h3',
+			'h4',
+			'h5',
+			'h6',
+			'p',
+			'div',
+		];
+
+		return in_array( strtolower( $tag ), $allowed_html_wrapper_tags, true ) ? $tag : 'div';
+	}
 
 	/**
 	 * Get Section Title
@@ -1024,8 +1045,10 @@ class Fns {
 
 		<div class="tpg-widget-heading-wrapper rt-clear heading-<?php echo esc_attr( $data['section_title_style'] ); ?> ">
 			<span class="tpg-widget-heading-line line-left"></span>
-
-			<?php printf( "<%s class='tpg-widget-heading'>", esc_attr( $data['section_title_tag'] ) ); ?>
+			<?php
+			// Start Section title tag.
+			printf( "<%s class='tpg-widget-heading'>", esc_attr( self::print_validated_html_tag( $data['section_title_tag'] ) ) );
+			?>
 
 			<?php
 			if ( $_is_link ) :
@@ -1035,8 +1058,8 @@ class Fns {
 
 				<?php
 				if ( 'page_title' == $data['section_title_source'] ) {
-					$archive_prefix = $data['title_prefix'] ? $data['title_prefix'] . ' ' : null;
-					$archive_suffix = $data['title_suffix'] ? ' ' . $data['title_suffix'] : null;
+					$archive_prefix = $data['title_prefix'] ? $data['title_prefix'] . ' ' : '';
+					$archive_suffix = $data['title_suffix'] ? ' ' . $data['title_suffix'] : '';
 					printf( "<span class='prefix-text'>%s</span>", esc_html( $archive_prefix ) );
 					if ( is_archive() ) {
 						self::get_archive_title();
@@ -1059,7 +1082,7 @@ class Fns {
 			</a>
 
 		<?php endif; ?>
-			<?php printf( '</%s>', esc_attr( $data['section_title_tag'] ) ); ?>
+			<?php printf( '</%s>', esc_attr( self::print_validated_html_tag( $data['section_title_tag'] ) ) ); // End Section Title tag ?>
 			<span class="tpg-widget-heading-line line-right"></span>
 
 			<?php if ( isset( $data['enable_external_link'] ) && 'show' === $data['enable_external_link'] ) : ?>
@@ -1785,16 +1808,16 @@ class Fns {
 				$shortcode_tags = [ 'VC_COLUMN_INNTER' ];
 				$values         = array_values( $shortcode_tags );
 				$exclude_codes  = implode( '|', $values );
-				$defaultExcerpt = trim( preg_replace( "~(?:\[/?)(?!(?:$exclude_codes))[^/\]]+/?\]~s", '', $the_content ) );
+				$defaultExcerpt = trim( preg_replace( "~(?:\[/?)(?!(?:$exclude_codes))[^/\]]+/?\]~s", '', $the_content ?? '' ) );
 			} else {
 				$defaultExcerpt = get_the_excerpt( $post_id );
 			}
 
 			$limit   = isset( $data['excerpt_limit'] ) && $data['excerpt_limit'] ? abs( $data['excerpt_limit'] ) : 0;
 			$more    = $data['excerpt_more_text'] ?? '';
-			$excerpt = preg_replace( '`\[[^\]]*\]`', '', $defaultExcerpt );
+			$excerpt = preg_replace( '`\[[^\]]*\]`', '', $defaultExcerpt ?? '' );
 			$excerpt = strip_shortcodes( $excerpt );
-			$excerpt = preg_replace( '`[[^]]*]`', '', $excerpt );
+			$excerpt = preg_replace( '`[[^]]*]`', '', $excerpt ?? '' );
 			$excerpt = str_replace( '…', '', $excerpt );
 
 			if ( $limit ) {
@@ -1854,7 +1877,7 @@ class Fns {
 			} else {
 				if ( $limit > 0 && strlen( $title ) > $limit ) {
 					$title = mb_substr( $title, 0, $limit, 'utf-8' );
-					$title = preg_replace( '/\W\w+\s*(\W*)$/', '$1', $title );
+					$title = preg_replace( '/\W\w+\s*(\W*)$/', '$1', $title ?? '' );
 				}
 			}
 		}
@@ -2785,13 +2808,11 @@ class Fns {
 	}
 
 	public static function remove_all_shortcode( $content ) {
-		return preg_replace( '#\[[^\]]+\]#', '', $content );
+		return preg_replace( '#\[[^\]]+\]#', '', $content ?? '' );
 	}
 
 	public static function remove_divi_shortcodes( $content ) {
-		$content = preg_replace( '/\[\/?et_pb.*?\]/', '', $content );
-
-		return $content;
+		return preg_replace( '/\[\/?et_pb.*?\]/', '', $content ?? '' );
 	}
 
 	public static function is_acf() {
@@ -3109,7 +3130,7 @@ class Fns {
 		$tags               = self::rt_get_the_term_list( $post_id, $_tag_id, null, '<span class="rt-separator">,</span>' );
 		$count_key          = self::get_post_view_count_meta_key();
 		$get_view_count     = get_post_meta( $post_id, $count_key, true );
-		$meta_separator     = ( $data['meta_separator'] && 'default' !== $data['meta_separator'] ) ? sprintf( "<span class='separator'>%s</span>", $data['meta_separator'] ) : null;
+		$meta_separator     = ( $data['meta_separator'] && 'default' !== $data['meta_separator'] ) ? sprintf( "<span class='separator'>%s</span>", $data['meta_separator'] ) : '';
 		$category_condition = ( $categories && 'show' == $data['show_category'] );
 		if ( ! isset( $data['is_guten_builder'] ) && rtTPG()->hasPro() ) {
 			$category_condition = ( $categories && 'show' == $data['show_category'] && self::el_ignore_layout( $data ) && in_array(
@@ -3381,11 +3402,11 @@ class Fns {
 			self::get_el_thumb_cat( $data, 'cat-above-title' );
 		}
 
-		printf( '<%s class="entry-title">', esc_attr( $title_tag ) );
+		printf( '<%s class="entry-title">', esc_attr( self::print_validated_html_tag( $title_tag ) ) );
 		self::print_html( $link_start );
 		self::print_html( $title );
 		self::print_html( $link_end );
-		printf( '</%s>', esc_attr( $title_tag ) );
+		printf( '</%s>', esc_attr( self::print_validated_html_tag( $title_tag ) ) );
 		echo '</div>';
 	}
 
@@ -3898,6 +3919,9 @@ class Fns {
 	 * @return mixed
 	 */
 	public static function print_html( $html, $allHtml = false ) {
+		if ( ! $html ) {
+			return '';
+		}
 		if ( $allHtml ) {
 			echo stripslashes_deep( $html ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
@@ -4296,6 +4320,8 @@ class Fns {
 				'my-post',
 				'edit-account',
 				'edit-post',
+				'submit-post',
+				'view-post',
 			]
 		);
 	}
@@ -4310,7 +4336,7 @@ class Fns {
 				'dashboard' => esc_html__( 'Dashboard', 'the-post-grid' ),
 				'my-post'   => esc_html__( 'My Post', 'the-post-grid' ),
 				// 'edit-account' => esc_html__( 'Account Details', 'the-post-grid' ),
-				//'logout'    => esc_html__( 'Logout', 'the-post-grid' ),
+				// 'logout'    => esc_html__( 'Logout', 'the-post-grid' ),
 			],
 			$endpoints
 		);
@@ -4468,20 +4494,21 @@ class Fns {
 			'delete'       => '<svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.20005 1.7C5.06744 1.7 4.94026 1.75268 4.8465 1.84645C4.75273 1.94022 4.70005 2.0674 4.70005 2.2V2.7H8.10005V2.2C8.10005 2.0674 8.04737 1.94022 7.9536 1.84645C7.85983 1.75268 7.73266 1.7 7.60005 1.7H5.20005ZM9.50005 2.7V2.2C9.50005 1.69609 9.29987 1.21282 8.94355 0.8565C8.58723 0.500181 8.10396 0.300003 7.60005 0.300003H5.20005C4.69614 0.300003 4.21287 0.500181 3.85655 0.8565C3.50023 1.21282 3.30005 1.69609 3.30005 2.2V2.7H1.00005C0.613449 2.7 0.300049 3.0134 0.300049 3.4C0.300049 3.7866 0.613449 4.1 1.00005 4.1H1.50005V11.8C1.50005 12.3039 1.70023 12.7872 2.05655 13.1435C2.41286 13.4998 2.89614 13.7 3.40005 13.7H9.40005C9.90396 13.7 10.3872 13.4998 10.7436 13.1435C11.0999 12.7872 11.3 12.3039 11.3 11.8V4.1H11.8C12.1866 4.1 12.5 3.7866 12.5 3.4C12.5 3.0134 12.1866 2.7 11.8 2.7H9.50005ZM2.90005 4.1V11.8C2.90005 11.9326 2.95273 12.0598 3.0465 12.1536C3.14026 12.2473 3.26744 12.3 3.40005 12.3H9.40005C9.53266 12.3 9.65983 12.2473 9.7536 12.1536C9.84737 12.0598 9.90005 11.9326 9.90005 11.8V4.1H2.90005Z" fill="#F11212"/>
 </svg>',
-            'calender'=>'<svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			'calender'     => '<svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 0.279999C5.89764 0.279999 6.22 0.602354 6.22 0.999999V2.08H11.98V0.999999C11.98 0.602354 12.3024 0.279999 12.7 0.279999C13.0976 0.279999 13.42 0.602354 13.42 0.999999V2.08H15.4C16.7918 2.08 17.92 3.20824 17.92 4.6V17.2C17.92 18.5918 16.7918 19.72 15.4 19.72H2.8C1.40824 19.72 0.279999 18.5918 0.279999 17.2V4.6C0.279999 3.20824 1.40824 2.08 2.8 2.08H4.78V0.999999C4.78 0.602354 5.10235 0.279999 5.5 0.279999ZM4.78 3.52H2.8C2.20353 3.52 1.72 4.00353 1.72 4.6V7.48H16.48V4.6C16.48 4.00353 15.9965 3.52 15.4 3.52H13.42V4.6C13.42 4.99764 13.0976 5.32 12.7 5.32C12.3024 5.32 11.98 4.99764 11.98 4.6V3.52H6.22V4.6C6.22 4.99764 5.89764 5.32 5.5 5.32C5.10235 5.32 4.78 4.99764 4.78 4.6V3.52ZM16.48 8.92H1.72V17.2C1.72 17.7965 2.20353 18.28 2.8 18.28H15.4C15.9965 18.28 16.48 17.7965 16.48 17.2V8.92Z" fill="#444444"/>
 </svg>',
-            'comment'=>'<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			'comment'      => '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.75C2.66848 1.75 2.35054 1.8817 2.11612 2.11612C1.8817 2.35054 1.75 2.66848 1.75 3V17.1893L4.46967 14.4697C4.61032 14.329 4.80109 14.25 5 14.25H17C17.3315 14.25 17.6495 14.1183 17.8839 13.8839C18.1183 13.6495 18.25 13.3315 18.25 13V3C18.25 2.66848 18.1183 2.35054 17.8839 2.11612C17.6495 1.8817 17.3315 1.75 17 1.75H3ZM1.05546 1.05546C1.57118 0.539731 2.27065 0.25 3 0.25H17C17.7293 0.25 18.4288 0.539731 18.9445 1.05546C19.4603 1.57118 19.75 2.27065 19.75 3V13C19.75 13.7293 19.4603 14.4288 18.9445 14.9445C18.4288 15.4603 17.7293 15.75 17 15.75H5.31066L1.53033 19.5303C1.31583 19.7448 0.993243 19.809 0.712987 19.6929C0.432732 19.5768 0.25 19.3033 0.25 19V3C0.25 2.27065 0.539731 1.57118 1.05546 1.05546Z" fill="#444444"/>
 </svg>',
-            'folder'=>'<svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+			'folder'       => '<svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M2.7 1.75C2.4433 1.75 2.20004 1.85011 2.02297 2.02371C1.84641 2.19681 1.75 2.4284 1.75 2.66667V14.3333C1.75 14.5716 1.84641 14.8032 2.02297 14.9763C2.20004 15.1499 2.44331 15.25 2.7 15.25H16.3C16.5567 15.25 16.8 15.1499 16.977 14.9763C17.1536 14.8032 17.25 14.5716 17.25 14.3333V5.16667C17.25 4.9284 17.1536 4.69681 16.977 4.52371C16.8 4.35011 16.5567 4.25 16.3 4.25H8.65C8.40167 4.25 8.16944 4.12708 8.02981 3.92173L6.55303 1.75H2.7ZM0.972865 0.952601C1.43342 0.501077 2.05496 0.25 2.7 0.25H6.95C7.19833 0.25 7.43056 0.372918 7.5702 0.578267L9.04697 2.75H16.3C16.945 2.75 17.5666 3.00108 18.0271 3.4526C18.4882 3.90462 18.75 4.52088 18.75 5.16667V14.3333C18.75 14.9791 18.4882 15.5954 18.0271 16.0474C17.5666 16.4989 16.945 16.75 16.3 16.75H2.7C2.05496 16.75 1.43342 16.4989 0.972865 16.0474C0.511807 15.5954 0.25 14.9791 0.25 14.3333V2.66667C0.25 2.02088 0.511807 1.40462 0.972865 0.952601Z" fill="#444444"/>
 </svg>
 ',
-            'tags'=>'<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+			'tags'         => '<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.25 1C0.25 0.585786 0.585786 0.25 1 0.25H8.91667C9.11558 0.25 9.30634 0.329018 9.447 0.46967L16.249 7.27166C16.6836 7.70885 16.9275 8.30023 16.9275 8.91667C16.9275 9.5331 16.6836 10.1245 16.249 10.5617L16.2474 10.5632L10.5715 16.2392C10.5714 16.2393 10.5716 16.2391 10.5715 16.2392C10.3548 16.456 10.0973 16.6283 9.81415 16.7457C9.53089 16.8631 9.22726 16.9235 8.92062 16.9235C8.61399 16.9235 8.31036 16.8631 8.0271 16.7457C7.74398 16.6283 7.48676 16.4563 7.27013 16.2395C7.27002 16.2394 7.27024 16.2397 7.27013 16.2395L0.469979 9.4473C0.329138 9.30663 0.25 9.11573 0.25 8.91667V1ZM1.75 1.75V8.60575L8.33044 15.1785C8.40783 15.256 8.50034 15.3181 8.60151 15.36C8.70267 15.402 8.81111 15.4235 8.92062 15.4235C9.03014 15.4235 9.13858 15.402 9.23974 15.36C9.34091 15.3181 9.43281 15.2566 9.51021 15.1791L15.1852 9.50417C15.1854 9.50398 15.185 9.50435 15.1852 9.50417C15.34 9.34809 15.4275 9.13656 15.4275 8.91667C15.4275 8.69683 15.3406 8.48591 15.1858 8.32984C15.1856 8.32962 15.1861 8.33007 15.1858 8.32984L8.60601 1.75H1.75Z" fill="#444444"/>
 </svg>
-'
+',
+			'eye'          => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z"/></svg>',
 		];
 
 		if ( isset( $icons[ $name ] ) ) {

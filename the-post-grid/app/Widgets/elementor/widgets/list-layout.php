@@ -236,7 +236,7 @@ class TPGListLayout extends Custom_Widget_Base {
 			}
 
 			$wrapper_class   = [];
-			$wrapper_class[] = str_replace( '-2', null, $_layout );
+			$wrapper_class[] = str_replace( '-2', '', $_layout );
 			$wrapper_class[] = 'tpg-even list-behaviour';
 			$wrapper_class[] = $_prefix . '-layout-wrapper';
 
@@ -250,7 +250,6 @@ class TPGListLayout extends Custom_Widget_Base {
 			if ( rtTPG()->hasPro() && 'carousel' == $data['filter_btn_style'] && 'button' == $data['filter_type'] ) {
 				$is_carousel = 'carousel';
 			}
-
 			?>
 			<div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
 				<?php

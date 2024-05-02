@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-29 09:33+0000\n"
+"POT-Creation-Date: 2024-05-02 10:37+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -122,26 +122,6 @@ msgstr ""
 msgid "TPG - Category Block"
 msgstr ""
 
-#: ../app/Controllers/MyAccountController.php:57
-msgid "Are you sure?"
-msgstr ""
-
-#: ../app/Controllers/MyAccountController.php:62
-msgid "File size exceeds %s bytes limit. Please choose a smaller file."
-msgstr ""
-
-#: ../app/Controllers/MyAccountController.php:375
-msgid "Session expired."
-msgstr ""
-
-#: ../app/Controllers/MyAccountController.php:372
-msgid "Permission Error."
-msgstr ""
-
-#: ../app/Controllers/MyAccountController.php:369
-msgid "Successfully deleted."
-msgstr ""
-
 #: ../app/Controllers/PageTemplateController.php:62
 msgid "The Post Grid Full Width"
 msgstr ""
@@ -182,7 +162,7 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:919, ../app/Controllers/Admin/AdminAjaxController.php:1157, ../app/Controllers/Blocks/GridHoverLayout.php:188, ../app/Controllers/Blocks/GridLayout.php:184, ../app/Controllers/Blocks/ListLayout.php:168, ../app/Widgets/elementor/widgets/grid-hover-layout-archive.php:266, ../app/Widgets/elementor/widgets/grid-hover-layout.php:285, ../app/Widgets/elementor/widgets/grid-layout-archive.php:261, ../app/Widgets/elementor/widgets/grid-layout.php:289, ../app/Widgets/elementor/widgets/list-layout-archive.php:260, ../app/Widgets/elementor/widgets/list-layout.php:278, ../app/Widgets/elementor/widgets/slider-layout-archive.php:322, ../app/Widgets/elementor/widgets/slider-layout-archive.php:383, ../app/Widgets/elementor/widgets/slider-layout.php:310, ../app/Widgets/elementor/widgets/slider-layout.php:383
+#: ../app/Controllers/ShortcodeController.php:919, ../app/Controllers/Admin/AdminAjaxController.php:1157, ../app/Controllers/Blocks/GridHoverLayout.php:188, ../app/Controllers/Blocks/GridLayout.php:184, ../app/Controllers/Blocks/ListLayout.php:168, ../app/Widgets/elementor/widgets/grid-hover-layout-archive.php:266, ../app/Widgets/elementor/widgets/grid-hover-layout.php:285, ../app/Widgets/elementor/widgets/grid-layout-archive.php:261, ../app/Widgets/elementor/widgets/grid-layout.php:289, ../app/Widgets/elementor/widgets/list-layout-archive.php:260, ../app/Widgets/elementor/widgets/list-layout.php:277, ../app/Widgets/elementor/widgets/slider-layout-archive.php:322, ../app/Widgets/elementor/widgets/slider-layout-archive.php:383, ../app/Widgets/elementor/widgets/slider-layout.php:310, ../app/Widgets/elementor/widgets/slider-layout.php:383
 msgid "No post found"
 msgstr ""
 
@@ -228,35 +208,35 @@ msgstr ""
 msgid "Sort By"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:1613
+#: ../app/Helpers/Fns.php:1636
 msgid "Full Size"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:3859
+#: ../app/Helpers/Fns.php:3880
 msgid "Full"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:3884, ../app/Widgets/elementor/rtTPGElementorHelper.php:2753, ../app/Widgets/elementor/widgets/category-block.php:516
+#: ../app/Helpers/Fns.php:3905, ../app/Widgets/elementor/rtTPGElementorHelper.php:2753, ../app/Widgets/elementor/widgets/category-block.php:516
 msgid "Custom"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:4310, ../templates/my-account/user-info.php:18
+#: ../app/Helpers/Fns.php:4336
 msgid "Dashboard"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:4311, ../templates/my-account/my-post.php:18
+#: ../app/Helpers/Fns.php:4337
 msgid "My Post"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:4561
+#: ../app/Helpers/Fns.php:4588
 msgid "You are not authorize to submit a post."
 msgstr ""
 
-#: ../app/Helpers/Fns.php:4559
+#: ../app/Helpers/Fns.php:4586
 msgid "Post submit fail."
 msgstr ""
 
-#: ../app/Helpers/Fns.php:4557
+#: ../app/Helpers/Fns.php:4584
 msgid "Post submit successful"
 msgstr ""
 
@@ -296,7 +276,7 @@ msgstr ""
 msgid "Meta value datetime"
 msgstr ""
 
-#: ../app/Helpers/Options.php:84, ../app/Helpers/Options.php:1729, ../app/Helpers/Options.php:1762, ../app/Widgets/elementor/rtTPGElementorHelper.php:221, ../app/Widgets/elementor/rtTPGElementorHelper.php:375, ../app/Widgets/elementor/rtTPGElementorHelper.php:2013, ../app/Widgets/elementor/widgets/section-title.php:98, ../resources/settings/sc-settings.php:32, ../templates/my-account/edit-post.php:26, ../templates/my-account/submit-post.php:18
+#: ../app/Helpers/Options.php:84, ../app/Helpers/Options.php:1729, ../app/Helpers/Options.php:1762, ../app/Widgets/elementor/rtTPGElementorHelper.php:221, ../app/Widgets/elementor/rtTPGElementorHelper.php:375, ../app/Widgets/elementor/rtTPGElementorHelper.php:2013, ../app/Widgets/elementor/widgets/section-title.php:98, ../resources/settings/sc-settings.php:32
 msgid "Title"
 msgstr ""
 
@@ -465,7 +445,7 @@ msgid "Max Image Size"
 msgstr ""
 
 #: ../app/Helpers/Options.php:382
-msgid "Input max upload image size by byte. Default is: 1048576 (1MB)"
+msgid "Input max upload image size KB. Default is: 1024 (1MB)"
 msgstr ""
 
 #: ../app/Helpers/Options.php:395
@@ -940,7 +920,7 @@ msgstr ""
 msgid "Hide group title"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1014, ../templates/my-account/edit-post.php:31, ../templates/my-account/submit-post.php:25
+#: ../app/Helpers/Options.php:1014
 msgid "Content"
 msgstr ""
 
@@ -1396,7 +1376,7 @@ msgstr ""
 msgid "ShortCode Heading"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1730, ../app/Helpers/Options.php:1764, ../resources/settings/sc-settings.php:50, ../templates/my-account/edit-post.php:47, ../templates/my-account/submit-post.php:42
+#: ../app/Helpers/Options.php:1730, ../app/Helpers/Options.php:1764, ../resources/settings/sc-settings.php:50
 msgid "Excerpt"
 msgstr ""
 
@@ -1408,7 +1388,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1735, ../app/Widgets/elementor/rtTPGElementorHelper.php:3230, ../templates/my-account/edit-post.php:85, ../templates/my-account/submit-post.php:68
+#: ../app/Helpers/Options.php:1735, ../app/Widgets/elementor/rtTPGElementorHelper.php:3230
 msgid "Tags"
 msgstr ""
 
@@ -2741,7 +2721,7 @@ msgstr ""
 msgid "Meta Ordering (Drag and Drop)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3226, ../app/Widgets/elementor/widgets/category-block.php:184, ../resources/settings/sc-settings.php:25, ../templates/my-account/edit-post.php:53, ../templates/my-account/submit-post.php:47
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3226, ../app/Widgets/elementor/widgets/category-block.php:184, ../resources/settings/sc-settings.php:25
 msgid "Category"
 msgstr ""
 
@@ -4067,48 +4047,4 @@ msgstr ""
 
 #: ../resources/settings/style.php:38
 msgid "Full Area / Section"
-msgstr ""
-
-#: ../templates/my-account/edit-post.php:108, ../templates/my-account/submit-post.php:89
-msgid "Set Featured Image"
-msgstr ""
-
-#: ../templates/my-account/edit-post.php:123
-msgid "Save Post"
-msgstr ""
-
-#: ../templates/my-account/my-post.php:90, ../templates/my-account/user-info.php:134
-msgid "Edit"
-msgstr ""
-
-#: ../templates/my-account/my-post.php:94, ../templates/my-account/user-info.php:138
-msgid "Delete"
-msgstr ""
-
-#: ../templates/my-account/navigation.php:53
-msgid "Logout"
-msgstr ""
-
-#: ../templates/my-account/navigation.php:59, ../templates/my-account/submit-post.php:102
-msgid "Submit Post"
-msgstr ""
-
-#: ../templates/my-account/user-info.php:27
-msgid "Total Post"
-msgstr ""
-
-#: ../templates/my-account/user-info.php:37
-msgid "Publish Post"
-msgstr ""
-
-#: ../templates/my-account/user-info.php:47
-msgid "Draft Post"
-msgstr ""
-
-#: ../templates/my-account/user-info.php:57
-msgid "Pending Post"
-msgstr ""
-
-#: ../templates/my-account/user-info.php:64
-msgid "Latest Post"
 msgstr ""

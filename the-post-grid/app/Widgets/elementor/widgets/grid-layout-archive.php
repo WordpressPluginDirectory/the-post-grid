@@ -225,7 +225,7 @@ class TPGGridLayoutArchive extends Custom_Widget_Base {
 			}
 
 			$wrapper_class   = [];
-			$wrapper_class[] = str_replace( '-2', null, $_layout );
+			$wrapper_class[] = str_replace( '-2', '', $_layout );
 			$wrapper_class[] = 'grid-behaviour';
 			$wrapper_class[] = ( in_array( $_layout, [ 'grid-layout2' ] ) ) ? 'tpg-even' : $_layout_style;
 			$wrapper_class[] = $_prefix . '_layout_wrapper';

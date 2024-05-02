@@ -82,13 +82,6 @@ class ScriptController {
 			'footer' => false,
 		];
 
-		$scripts[] = [
-			'handle' => 'rt-tpg-myaccount',
-			'src'    => rtTPG()->get_assets_uri( 'js/my-account.js' ),
-			'deps'   => [ 'jquery', 'media-upload', 'rt-select2' ],
-			'footer' => true,
-		];
-
 		// register acf styles.
 		$styles['rt-fontawsome'] = rtTPG()->get_assets_uri( 'vendor/font-awesome/css/font-awesome.min.css' );
 

@@ -236,7 +236,7 @@ class TPGGridHoverLayoutArchive extends Custom_Widget_Base {
 			) {
 				$wrapper_class[] = 'grid_hover-layout5';
 			}
-			$wrapper_class[] = str_replace( '-2', null, $_layout );
+			$wrapper_class[] = str_replace( '-2', '', $_layout );
 			$wrapper_class[] = 'tpg-even grid-behaviour';
 			$wrapper_class[] = $_prefix . '_layout_wrapper';
 

@@ -28,7 +28,6 @@ use RT\ThePostGrid\Controllers\PageTemplateController;
 use RT\ThePostGrid\Controllers\Hooks\FilterHooks;
 use RT\ThePostGrid\Controllers\Hooks\ActionHooks;
 use RT\ThePostGrid\Controllers\WidgetController;
-use RT\ThePostGrid\Controllers\MyAccountController;
 use RT\ThePostGrid\Helpers\Install;
 use RT\ThePostGrid\Controllers\Admin\UpgradeController;
 
@@ -120,7 +119,6 @@ if ( ! class_exists( RtTpg::class ) ) {
 			new AjaxController();
 			new ScriptController();
 			new WidgetController();
-//			new MyAccountController();
 			new PageTemplateController();
 
 			if ( is_admin() ) {

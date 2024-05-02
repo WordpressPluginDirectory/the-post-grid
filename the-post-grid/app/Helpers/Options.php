@@ -379,14 +379,14 @@ class Options {
 				'label'       => esc_html__( 'Max Image Size', 'the-post-grid' ),
 				'id'          => 'max_upload_file',
 				'holderClass' => 'pro-field',
-				'description' => __( 'Input max upload image size by byte. Default is: 1048576 (1MB)', 'the-post-grid' ),
+				'description' => __( 'Input max upload image size KB. Default is: 1024 (1MB)', 'the-post-grid' ),
 				'options'     => [
 					'pending' => esc_html__( 'Pending Review', 'the-post-grid' ),
 					'draft'   => esc_html__( 'Draft', 'the-post-grid' ),
 					'private' => esc_html__( 'Private', 'the-post-grid' ),
 					'publish' => esc_html__( 'Publish', 'the-post-grid' ),
 				],
-				'value'       => isset( $settings['max_upload_file'] ) ? $settings['max_upload_file'] : '1048576',
+				'value'       => isset( $settings['max_upload_file'] ) ? $settings['max_upload_file'] : '1024',
 			],
 
 			'delete_post_status' => [

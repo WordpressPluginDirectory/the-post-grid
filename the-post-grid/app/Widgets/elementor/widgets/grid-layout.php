@@ -252,7 +252,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 				$wrapper_class[] = 'tpg-masonry';
 			}
 
-			if ( in_array( $_layout, [ 'grid-layout6', 'grid-layout6-2' ] ) && $data['middle_border'] === 'no' ) {
+			if ( in_array( $_layout, [ 'grid-layout6', 'grid-layout6-2' ] ) && 'no' === $data['middle_border'] ) {
 				$wrapper_class[] = 'disable-middle-border';
 			}
 
