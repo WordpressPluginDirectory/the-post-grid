@@ -1624,7 +1624,6 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
 
 .components-base-control.rttpg-repeater {
     position: relative;
-    z-index: 99;
 }
 
 .rttpg-repeater #react-select-2-listbox {

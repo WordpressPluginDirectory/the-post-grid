@@ -35,6 +35,7 @@ class rtTPGElementorQuery {
 	 * @return array
 	 */
 	public static function post_query( $data, $prefix = '' ): array {
+
 		$post_type = isset( $data['post_type'] ) ? $data['post_type'] : 'post';
 		$args      = [
 			'post_type'   => [ $post_type ],
