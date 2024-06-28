@@ -164,7 +164,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				margin-left: 0;
 			}
 		}
-
 	</style>
 	<div class="rttpg-help-wrapper" >
 		<div class="rttpg-help-section rt-document-box">
@@ -172,13 +171,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="rt-box-content">
 				<h3 class="rt-box-title">Thank you for installing The Post Grid</h3>
 
-				<H3>Shortcode Demo</H3>
+				<h3>Shortcode Demo</h3>
 				<iframe style="width:calc(100% - 40px);" width="800" height="450" src="https://www.youtube.com/embed/_xZBDU4kgKk" title="The Post Grid" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-				<H3>Elementor Demo</H3>
+				<h3>Elementor Demo</h3>
 				<iframe style="width:calc(100% - 40px);" width="800" height="450" src="https://www.youtube.com/embed/Px7c91A0W5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-				<H3>Gutenberg Demo</H3>
+				<h3>Gutenberg Demo</h3>
 				<iframe style="width:calc(100% - 40px);" width="800" height="450" src="https://www.youtube.com/embed/wHWAnfL0VhU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 		</div>

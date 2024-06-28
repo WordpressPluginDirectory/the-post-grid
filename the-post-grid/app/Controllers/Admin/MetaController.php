@@ -345,7 +345,7 @@ class MetaController {
 		$mates = Fns::rtAllOptionFields();
 
 		foreach ( $mates as $metaKey => $field ) {
-			$rValue = ! empty( $_REQUEST[ $metaKey ] ) ? $_REQUEST[ $metaKey ] : null;
+			$rValue = ! empty( $_REQUEST[ $metaKey ] ) ? $_REQUEST[ $metaKey ] : null; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$value  = Fns::sanitize( $field, $rValue );
 
 			if ( empty( $field['multiple'] ) ) {

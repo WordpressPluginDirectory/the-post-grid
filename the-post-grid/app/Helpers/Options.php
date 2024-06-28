@@ -410,13 +410,13 @@ class Options {
 	}
 
 	public static function rtTPGSettingsCommonSettingsFields() {
-		$settings = get_option( rtTPG()->options['settings'] );
+		$settings   = get_option( rtTPG()->options['settings'] );
+		$block_type = $settings['tpg_block_type'] ?? 'default';
 
 		$common_settings = [
 			'tpg_common_settings_heading' => [
 				'type'        => 'heading',
 				'name'        => 'tpg_common_settings_heading',
-				'class'       => 'tpg_common_settings_heading',
 				'label'       => esc_html__( 'Improve Performance', 'the-post-grid' ),
 				'description' => esc_html__( 'Please choose a Resource Load Type first. Otherwise, all CSS & JS for shortcode, gutenberg and elementor will load on your site which can create a bad performance issues.', 'the-post-grid' ),
 			],
@@ -480,6 +480,10 @@ class Options {
 				'value'       => $settings['tpg_pagination_range'] ?? '4',
 			],
 		];
+
+		if ( 'default' != $block_type ) {
+			unset( $common_settings['tpg_common_settings_heading'] );
+		}
 
 		return $common_settings;
 	}

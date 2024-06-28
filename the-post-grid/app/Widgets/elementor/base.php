@@ -670,7 +670,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 		<div class="tpg-widget-heading-wrapper rt-clear heading-<?php echo esc_attr( $data['section_title_style'] ); ?> ">
 			<span class="tpg-widget-heading-line line-left"></span>
 
-			<?php printf( "<%s class='tpg-widget-heading'>", esc_attr( $data['section_title_tag'] ) ); ?>
+			<?php printf( "<%s class='tpg-widget-heading'>", esc_attr( Fns::print_validated_html_tag( $data['section_title_tag'] ) ) ); ?>
 
 			<?php
 			if ( $_is_link ) :
@@ -706,7 +706,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 			</a>
 
 		<?php endif; ?>
-			<?php printf( '</%s>', esc_attr( $data['section_title_tag'] ) ); ?>
+			<?php printf( '</%s>', esc_attr( Fns::print_validated_html_tag( $data['section_title_tag'] ) ) ); ?>
 			<span class="tpg-widget-heading-line line-right"></span>
 		</div>
 
