@@ -143,7 +143,7 @@ class rtTPGElementorHelper {
 
 		foreach ( $taxonomies as $taxonomy => $object ) {
 			if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-				 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 			) {
 				continue;
 			}
@@ -351,7 +351,7 @@ class rtTPGElementorHelper {
 			$get_all_taxonomy = [];
 			foreach ( $taxonomies as $taxonomy => $object ) {
 				if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-					 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+				     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 				) {
 					continue;
 				}
@@ -928,7 +928,7 @@ class rtTPGElementorHelper {
 				'render_type'  => 'template',
 				'toggle'       => true,
 				'selectors'    => [
-					'{{WRAPPER}} .tpg-post-holder div' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .tpg-post-holder div'               => 'text-align: {{VALUE}};',
 					'{{WRAPPER}} .rt-tpg-container .rt-el-post-meta' => 'justify-content: {{VALUE}};',
 				],
 				'condition'    => [
@@ -1245,8 +1245,8 @@ class rtTPGElementorHelper {
 						'options'   => $term_lists,
 						'condition' => [
 							$post_type . '_filter_taxonomy' => $tax->name,
-							'post_type'            => $post_type,
-							'show_taxonomy_filter' => 'show',
+							'post_type'                     => $post_type,
+							'show_taxonomy_filter'          => 'show',
 						],
 					]
 				);
@@ -1574,6 +1574,17 @@ class rtTPGElementorHelper {
 			]
 		);
 
+		if ( 'archive' !== $layout_type ) {
+			$ref->add_control(
+				'display_per_page',
+				[
+					'label'       => esc_html__( 'Display Per Page', 'the-post-grid' ),
+					'type'        => \Elementor\Controls_Manager::NUMBER,
+					'description' => esc_html__( 'Enter how may posts will display per page', 'the-post-grid' ),
+				]
+			);
+		}
+
 		$ref->add_control(
 			'show_pagination',
 			[
@@ -1587,21 +1598,6 @@ class rtTPGElementorHelper {
 				// 'prefix_class' => 'pagination-visibility-',
 			]
 		);
-
-		if ( 'archive' !== $layout_type ) {
-			$ref->add_control(
-				'display_per_page',
-				[
-					'label'       => esc_html__( 'Display Per Page', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::NUMBER,
-					'default'     => 6,
-					'description' => esc_html__( 'Enter how may posts will display per page', 'the-post-grid' ),
-					'condition'   => [
-						'show_pagination' => 'show',
-					],
-				]
-			);
-		}
 
 		$default_pagination = 'pagination';
 		if ( 'archive' == $layout_type ) {
@@ -3554,9 +3550,9 @@ class rtTPGElementorHelper {
 			[
 				'type' => Controls_Manager::RAW_HTML,
 				'raw'  => '<div class="elementor-nerd-box"><div class="elementor-nerd-box-title" style="margin-top: 0; margin-bottom: 20px;">Unlock more possibilities</div><div class="elementor-nerd-box-message"><span class="pro-feature" style="font-size: 13px;"> Get the <a href="'
-						  . $pro_url
-						  . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
-						  . $pro_url . '" target="_blank">Get Pro</a></div>',
+				          . $pro_url
+				          . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
+				          . $pro_url . '" target="_blank">Get Pro</a></div>',
 			]
 		);
 
@@ -8326,7 +8322,7 @@ class rtTPGElementorHelper {
 				'label'     => esc_html__( 'Popup Content Color', 'the-post-grid' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'body .md-content .rt-md-content *' => 'color: {{VALUE}}',
+					'body .md-content .rt-md-content *'                       => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container .tpg-content *' => 'color: {{VALUE}}',
 				],
 

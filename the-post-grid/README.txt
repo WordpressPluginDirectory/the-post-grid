@@ -4,7 +4,7 @@ Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
 Tested up to: 6.5
-Stable tag: 7.7.4
+Stable tag: 7.7.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -51,6 +51,10 @@ Gutenberg post grid blocks has multiple blocks like grid, list, grid hover, grid
 == REVIEW FROM WORDPRESS COMMUNITY EXPERT Mak ==
 
 [youtube https://www.youtube.com/watch?v=eelP7LkEWD0]
+
+== REVIEW FROM WORDPRESS COMMUNITY EXPERT Mr Web ==
+
+[youtube https://www.youtube.com/watch?v=SCA945URSDY]
 
 
 === 🏆 5 Easy Steps to Use Shortcode in the Post Grid Plugin: ===
@@ -247,6 +251,16 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 11. Elementor Page builder
 
 == Changelog ==
+
+= 7.7.6 (2 Aug, 2024) =
+* Fixed: Import Layout and ChatGPT buttons not displaying in Gutenberg.
+* Fixed: Extra scrollbar issue in the Gutenberg editor settings panel.
+* Fixed: Dependency of posts per page on pagination removed.
+
+= 7.7.5 (2 July, 2024) =
+* Fixed: Security update : app/Controllers/BlocksController.php (line- 359)
+* Fixed: Remove unnecessary api and functionality
+* Added: Added User edit permission to all API and Ajax callback
 
 = 7.7.4 (28 June, 2024) =
 * Fixed: Pagination conflict issue fixed

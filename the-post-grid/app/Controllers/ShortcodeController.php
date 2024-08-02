@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Shortcode Controller class.
  */
 class ShortcodeController {
-	private $scA      = [];
+	private $scA = [];
 	private $l4toggle = false;
 
 	public function __construct() {
@@ -70,7 +70,7 @@ class ShortcodeController {
 		}
 
 		if ( $isSinglePopUp && rtTPG()->hasPro() ) {
-			$html  = null;
+			$html = null;
 			$html .= '<div class="md-modal rt-md-effect" id="rt-modal">
 						<div class="md-content">
 							<div class="rt-md-content-holder">
@@ -195,10 +195,13 @@ class ShortcodeController {
 			$pagination             = ! empty( $scMeta['pagination'][0] );
 			$posts_loading_type     = ( ! empty( $scMeta['posts_loading_type'][0] ) ? $scMeta['posts_loading_type'][0] : 'pagination' );
 
-			if ( $pagination && ! $isCarousel ) {
+			if ( ! $isCarousel ) {
 				$posts_per_page         = ( isset( $scMeta['posts_per_page'][0] ) ? intval( $scMeta['posts_per_page'][0] ) : $limit );
 				$args['posts_per_page'] = $posts_per_page;
-				$args['paged']          = get_query_var( 'page' ) ? get_query_var( 'page' ) : ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
+			}
+
+			if ( $pagination && ! $isCarousel ) {
+				$args['paged'] = get_query_var( 'page' ) ? get_query_var( 'page' ) : ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
 			}
 
 			// Advanced Filters.
@@ -347,7 +350,7 @@ class ShortcodeController {
 			}
 
 			// Validation.
-			$containerDataAttr  = null;
+			$containerDataAttr = null;
 			$containerDataAttr .= " data-layout='{$layout}' data-grid-style='{$gridStyle}' data-desktop-col='{$dCol}'  data-tab-col='{$tCol}'  data-mobile-col='{$mCol}'";
 
 			$dCol = $dCol == 5 ? '24' : round( 12 / $dCol );
@@ -452,7 +455,7 @@ class ShortcodeController {
 
 					if ( $popupType == 'single' ) {
 						$arg['anchorClass'] .= ' tpg-single-popup';
-						$isSinglePopUp       = true;
+						$isSinglePopUp      = true;
 					} else {
 						$arg['anchorClass'] .= ' tpg-multi-popup';
 					}
@@ -589,9 +592,9 @@ class ShortcodeController {
 				$html .= '<span class="tpg-widget-heading-line line-left"></span>';
 
 				if ( $heading_link ) {
-					$html .= sprintf( '<%1$s class="tpg-widget-heading"><a href="%2$s" title="%3$s">%3$s</a></%1$s>', esc_attr( Fns::print_validated_html_tag( $heading_tag ) ), $heading_link, esc_html(get_the_title()) );
+					$html .= sprintf( '<%1$s class="tpg-widget-heading"><a href="%2$s" title="%3$s">%3$s</a></%1$s>', esc_attr( Fns::print_validated_html_tag( $heading_tag ) ), $heading_link, esc_html( get_the_title() ) );
 				} else {
-					$html .= sprintf( '<%1$s class="tpg-widget-heading">%2$s</%1$s>', esc_attr( Fns::print_validated_html_tag( $heading_tag ) ), esc_html(get_the_title( $scID )) );
+					$html .= sprintf( '<%1$s class="tpg-widget-heading">%2$s</%1$s>', esc_attr( Fns::print_validated_html_tag( $heading_tag ) ), esc_html( get_the_title( $scID ) ) );
 				}
 
 				$html .= '<span class="tpg-widget-heading-line"></span>';
@@ -603,7 +606,7 @@ class ShortcodeController {
 			}
 
 			if ( ! empty( $filters ) && ( $isGrid || $isOffset || $isWooCom || $isEdd || $isGridHover ) ) {
-				$html                     .= "<div class='rt-layout-filter-container rt-clear'><div class='rt-filter-wrap'>";
+				$html                      .= "<div class='rt-layout-filter-container rt-clear'><div class='rt-filter-wrap'>";
 				$selectedSubTermsForButton = null;
 				$allText                   = apply_filters( 'tpg_filter_all_text', esc_html__( 'All', 'the-post-grid' ), $scMeta );
 
@@ -620,7 +623,7 @@ class ShortcodeController {
 					}
 
 					if ( ! $filterType || $filterType == 'dropdown' ) {
-						$html            .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}'>";
+						$html             .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}'>";
 						$termDefaultText  = $allText;
 						$dataTerm         = 'all';
 						$htmlButton       = '';
@@ -644,7 +647,7 @@ class ShortcodeController {
 										foreach ( $subTerms as $stId => $t ) {
 											$count       = $count + absint( $t['count'] );
 											$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-											$item       .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
+											$item        .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
 										}
 
 										if ( $post_count ) {
@@ -688,7 +691,7 @@ class ShortcodeController {
 									$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
 								}
 
-								$i++;
+								$i ++;
 							}
 						}
 						$pAllCount = null;
@@ -729,7 +732,7 @@ class ShortcodeController {
 
 										foreach ( $subTerms as $stId => $t ) {
 											$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-											$sT         .= "<span class='rt-filter-button-item' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
+											$sT          .= "<span class='rt-filter-button-item' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
 										}
 
 										$sT .= '</div>';
@@ -767,7 +770,7 @@ class ShortcodeController {
 
 						if ( ! $hide_all_button ) {
 							$pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
-							$html   .= "<span class='term-button-item rt-filter-button-item {$allSelect}' data-term='all'>" . $allText . "{$pCountH}</span>";
+							$html    .= "<span class='term-button-item rt-filter-button-item {$allSelect}' data-term='all'>" . $allText . "{$pCountH}</span>";
 						}
 
 						$html .= $bItems;
@@ -791,11 +794,11 @@ class ShortcodeController {
 
 					$postCountClass = $postCountClass ?? '';
 					if ( ! $filterType || $filterType == 'dropdown' ) {
-						$html           .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}'>";
+						$html            .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}'>";
 						$termDefaultText = $allText;
 						$dataAuthor      = 'all';
 						$htmlButton      = '';
-						$htmlButton     .= '<span class="author-dropdown rt-filter-dropdown">';
+						$htmlButton      .= '<span class="author-dropdown rt-filter-dropdown">';
 
 						if ( ! empty( $users ) ) {
 							foreach ( $users as $user ) {
@@ -850,7 +853,7 @@ class ShortcodeController {
 
 						if ( ! $hide_all_button ) {
 							$pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
-							$html   .= "<span class='author-button-item rt-filter-button-item {$allSelect}' data-author='all'>" . $allText . "{$pCountH}</span>";
+							$html    .= "<span class='author-button-item rt-filter-button-item {$allSelect}' data-author='all'>" . $allText . "{$pCountH}</span>";
 						}
 
 						$html .= $bItems;
@@ -903,9 +906,9 @@ class ShortcodeController {
 
 				if ( in_array( '_sort_order', $filters ) ) {
 					$action_order = ( ! empty( $args['order'] ) ? strtoupper( trim( $args['order'] ) ) : 'DESC' );
-					$html        .= '<div class="rt-filter-item-wrap rt-sort-order-action">';
-					$html        .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
-					$html        .= '</div>';
+					$html         .= '<div class="rt-filter-item-wrap rt-sort-order-action">';
+					$html         .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
+					$html         .= '</div>';
 				}
 
 				$html .= "</div>$selectedSubTermsForButton</div>";
@@ -939,7 +942,7 @@ class ShortcodeController {
 						],
 						$scMeta
 					);
-					$html             .= sprintf(
+					$html              .= sprintf(
 						'<div class="rt-swiper-holder swiper"  data-rtowl-options="%s" dir="%s"><div class="swiper-wrapper">',
 						htmlspecialchars( wp_json_encode( $slider_js_options ) ),
 						esc_attr( $slider_js_options['rtl'] )
@@ -958,15 +961,15 @@ class ShortcodeController {
 					$selectedTerms           = [];
 
 					if ( isset( $scMeta['post_filter'] )
-						&& in_array(
-							'tpg_taxonomy',
-							$scMeta['post_filter']
-						)
-						 && isset( $scMeta['tpg_taxonomy'] )
-						&& in_array(
-							$isotope_filter,
-							$scMeta['tpg_taxonomy']
-						)
+					     && in_array(
+						     'tpg_taxonomy',
+						     $scMeta['post_filter']
+					     )
+					     && isset( $scMeta['tpg_taxonomy'] )
+					     && in_array(
+						     $isotope_filter,
+						     $scMeta['tpg_taxonomy']
+					     )
 					) {
 						$selectedTerms = ( isset( $scMeta[ 'term_' . $isotope_filter ] ) ? $scMeta[ 'term_' . $isotope_filter ] : [] );
 					}
@@ -984,7 +987,7 @@ class ShortcodeController {
 
 					$terms = get_terms( $termArgs );
 
-					$html          .= '<div class="tpg-iso-filter">';
+					$html           .= '<div class="tpg-iso-filter">';
 					$htmlButton     = $drop = null;
 					$fSelectTrigger = false;
 
@@ -1053,7 +1056,7 @@ class ShortcodeController {
 					}
 					$pID              = get_the_ID();
 					$external_link    = get_post_meta( $pID, 'tpg_read_more', true );
-					$arg['postCount'] = $gridPostCount++;
+					$arg['postCount'] = $gridPostCount ++;
 					$arg['pID']       = $pID;
 					$arg['title']     = Fns::get_the_title( $pID, $arg );
 					$arg['pLink']     = $external_link['url'] ?? get_permalink();
@@ -1072,12 +1075,12 @@ class ShortcodeController {
 					$_all_post_types  = array_keys( Fns::get_post_types() );
 
 					if ( $postType && ! in_array(
-						$postType,
-						[
-							'post',
-							'page',
-						]
-					) && in_array( $postType, $_all_post_types ) ) {
+							$postType,
+							[
+								'post',
+								'page',
+							]
+						) && in_array( $postType, $_all_post_types ) ) {
 						$taxonomies = get_object_taxonomies( $postType );
 
 						if ( in_array( '_taxonomy_filter', $filters ) && $taxFilter ) {
@@ -1146,7 +1149,7 @@ class ShortcodeController {
 								$defaultImgId,
 								$customImgSize
 							) : null;
-							$offsetSmallHtml .= Fns::get_template_html( 'layouts/' . $layout, $arg );
+							$offsetSmallHtml  .= Fns::get_template_html( 'layouts/' . $layout, $arg );
 						}
 					} else {
 						$arg['imgSrc'] = ! $fImg ? Fns::getFeatureImageSrc(
@@ -1157,11 +1160,11 @@ class ShortcodeController {
 							$customImgSize,
 							$is_lazy_load
 						) : null;
-						$html         .= Fns::get_template_html( 'layouts/' . $layout, $arg );
+						$html          .= Fns::get_template_html( 'layouts/' . $layout, $arg );
 					}
 
-					$offLoop++;
-					$l++;
+					$offLoop ++;
+					$l ++;
 				endwhile;
 
 				if ( $isOffset ) {
@@ -1207,14 +1210,14 @@ class ShortcodeController {
 				);
 			}
 
-			$html       .= $preLoaderHtml;
-			$html       .= '</div>'; // End row.
+			$html        .= $preLoaderHtml;
+			$html        .= '</div>'; // End row.
 			$htmlUtility = null;
 
 			if ( $pagination && ! $isCarousel ) {
 				if ( $isOffset || $isGridHover ) {
 					$posts_loading_type = 'page_prev_next';
-					$htmlUtility       .= "<div class='rt-cb-page-prev-next'>
+					$htmlUtility        .= "<div class='rt-cb-page-prev-next'>
 											<span class='rt-cb-prev-btn'><i class='fa fa-angle-left' aria-hidden='true'></i></span>
 											<span class='rt-cb-next-btn'><i class='fa fa-angle-right' aria-hidden='true'></i></span>
 										</div>";
@@ -1339,9 +1342,9 @@ class ShortcodeController {
 						$html = $html;
 					} else {
 						$html = '<p>' . esc_html__(
-							'You are not permitted to view this content.',
-							'the-post-grid'
-						) . '</p>';
+								'You are not permitted to view this content.',
+								'the-post-grid'
+							) . '</p>';
 					}
 				}
 			} else {

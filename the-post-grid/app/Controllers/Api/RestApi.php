@@ -17,8 +17,7 @@ class RestApi {
 		new GetPostsV1();
 		new ACFV1();
 		new FrontEndFilterV1();
-		new ElImport();
-		new CountLayoutInstall();
+		//new ElImport();
 		new GetCategories();
 		new GetBuilderData();
 	}
@@ -29,8 +28,6 @@ class RestApi {
 	 * @return void
 	 */
 	public function init_rest_routes() {
-		$auth = new RttpgV1();
-		$auth->register_routes();
 		$this->rttpg_register_rest_fields();
 	}
 

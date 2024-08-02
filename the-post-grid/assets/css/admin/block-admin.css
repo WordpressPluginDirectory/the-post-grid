@@ -969,12 +969,6 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     margin: 15px 0;
 }
 
-@media (min-width: 768px) {
-    .interface-complementary-area {
-        width: 300px !important;
-    }
-}
-
 .rttpg-panel-control-wrapper .components-circular-option-picker {
     position: relative;
 }
@@ -1528,7 +1522,19 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
 }
 
 /*RTTPG Import button style*/
-.edit-post-header__toolbar .rttpg-import-button-wrapper button.rttpg-import-btn {
+.rttpg-import-button-wrapper {
+    margin-right: 5px;
+    order: -1;
+    display: flex;
+    gap: 10px;
+    padding: 0 10px;
+}
+
+.editor-header__toolbar .edit-post-header-toolbar {
+    order: -2;
+}
+
+.rttpg-import-button-wrapper button.rttpg-import-btn {
     background: #002DCB linear-gradient(89.93deg, #002DCB 13.33%, #02A7FB 99.94%);
     color: #ffffff;
     border: none;
@@ -1538,10 +1544,11 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     z-index: 1;
     white-space: nowrap;
     overflow: hidden;
-    margin-left: 15px;
 }
-
-.edit-post-header__toolbar .rttpg-import-button-wrapper button.rttpg-import-btn::before {
+.rttpg-import-button-wrapper button.rttpg-import-btn:hover {
+    color: #FFFFFF;
+}
+.rttpg-import-button-wrapper button.rttpg-import-btn::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1554,17 +1561,19 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     transition: 0.4s;
 }
 
-.edit-post-header__toolbar .rttpg-import-button-wrapper button.rttpg-import-btn:hover::before {
+.rttpg-import-button-wrapper button.rttpg-import-btn:hover::before {
     opacity: 1;
 }
 
-.edit-post-header__toolbar .rttpg-import-button-wrapper button.rttpg-import-btn:focus {
+.rttpg-import-button-wrapper button.rttpg-import-btn:focus {
     outline: none;
     border: none;
     box-shadow: none;
+    background: #002DCB linear-gradient(89.93deg, #02A7FB 13.33%, #002DCB 99.94%);
+    color: #FFFFFF;
 }
 
-.edit-post-header__toolbar .rttpg-import-button-wrapper button.rttpg-import-btn svg {
+.rttpg-import-button-wrapper button.rttpg-import-btn svg {
     margin-right: 10px;
     margin-top: -3px;
 }

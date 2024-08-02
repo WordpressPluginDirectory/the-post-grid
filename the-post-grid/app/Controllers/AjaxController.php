@@ -42,8 +42,14 @@ class AjaxController {
 	public function getCfGroupListAsField() {
 		$error = true;
 		$data  = $msg = null;
-
-		if ( Fns::verifyNonce() ) {
+		$is_ok = true;
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			$is_ok = false;
+		}
+		if ( ! Fns::verifyNonce() ) {
+			$is_ok = false;
+		}
+		if ( $is_ok ) {
 			$fields    = [];
 			$post_type = isset( $_REQUEST['post_type'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_type'] ) ) : null;
 
@@ -83,8 +89,14 @@ class AjaxController {
 	public function defaultFilterItem() {
 		$error = true;
 		$data  = $msg = null;
-
-		if ( Fns::verifyNonce() ) {
+		$is_ok = true;
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			$is_ok = false;
+		}
+		if ( ! Fns::verifyNonce() ) {
+			$is_ok = false;
+		}
+		if ( $is_ok ) {
 			$filter = isset( $_REQUEST['filter'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['filter'] ) ) : null;
 			$term   = isset( $_REQUEST['include'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['include'] ) ) : null;
 
@@ -97,7 +109,7 @@ class AjaxController {
 
 				$error = false;
 				$msg   = esc_html__( 'Success', 'the-post-grid' );
-				$data .= "<option value=''>" . esc_html__( 'Show All', 'the-post-grid' ) . '</option>';
+				$data  .= "<option value=''>" . esc_html__( 'Show All', 'the-post-grid' ) . '</option>';
 				$items = Fns::rt_get_selected_term_by_taxonomy( $filter, $include, '', 0 );
 
 				if ( ! empty( $items ) ) {
@@ -179,8 +191,14 @@ class AjaxController {
 	public function rtTPGTaxonomyListByPostType() {
 		$error = true;
 		$msg   = $data = null;
-
-		if ( Fns::verifyNonce() ) {
+		$is_ok = true;
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			$is_ok = false;
+		}
+		if ( ! Fns::verifyNonce() ) {
+			$is_ok = false;
+		}
+		if ( $is_ok ) {
 			$error      = false;
 			$taxonomies = Fns::rt_get_all_taxonomy_by_post_type( $_REQUEST['post_type'] );
 
@@ -223,7 +241,14 @@ class AjaxController {
 		$error = true;
 		$msg   = $data = null;
 
-		if ( Fns::verifyNonce() ) {
+		$is_ok = true;
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			$is_ok = false;
+		}
+		if ( ! Fns::verifyNonce() ) {
+			$is_ok = false;
+		}
+		if ( $is_ok ) {
 			$error      = false;
 			$post_type  = isset( $_REQUEST['post_type'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post_type'] ) ) : null;
 			$taxonomies = Fns::rt_get_taxonomy_for_filter( $post_type );
@@ -256,7 +281,14 @@ class AjaxController {
 		$error = true;
 		$msg   = $data = null;
 
-		if ( Fns::verifyNonce() ) {
+		$is_ok = true;
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			$is_ok = false;
+		}
+		if ( ! Fns::verifyNonce() ) {
+			$is_ok = false;
+		}
+		if ( $is_ok ) {
 			$error    = false;
 			$taxonomy = isset( $_REQUEST['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['taxonomy'] ) ) : null;
 
@@ -306,39 +338,49 @@ class AjaxController {
 	 * @return void
 	 */
 	public function shortCodeList() {
-		$html = null;
-		$scQ  = new \WP_Query(
-			apply_filters(
-				'tpg_sc_list_query_args',
-				[
-					'post_type'      => rtTPG()->post_type,
-					'order_by'       => 'title',
-					'order'          => 'DESC',
-					'post_status'    => 'publish',
-					'posts_per_page' => - 1,
-				]
-			)
-		);
-		if ( $scQ->have_posts() ) {
-			$html .= "<div class='mce-container mce-form'>";
-			$html .= "<div class='mce-container-body'>";
-			$html .= '<label class="mce-widget mce-label" style="padding: 20px;font-weight: bold;" for="scid">' . esc_html__( 'Select Short code', 'the-post-grid' ) . '</label>';
-			$html .= "<select name='id' id='scid' style='width: 150px;margin: 15px;'>";
-			$html .= "<option value=''>" . esc_html__( 'Default', 'the-post-grid' ) . '</option>';
 
-			while ( $scQ->have_posts() ) {
-				$scQ->the_post();
-				$html .= "<option value='" . get_the_ID() . "'>" . get_the_title() . '</option>';
+		$is_ok = true;
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			$is_ok = false;
+		}
+		if ( $is_ok ) {
+
+			$html = null;
+			$scQ  = new \WP_Query(
+				apply_filters(
+					'tpg_sc_list_query_args',
+					[
+						'post_type'      => rtTPG()->post_type,
+						'order_by'       => 'title',
+						'order'          => 'DESC',
+						'post_status'    => 'publish',
+						'posts_per_page' => - 1,
+					]
+				)
+			);
+			if ( $scQ->have_posts() ) {
+				$html .= "<div class='mce-container mce-form'>";
+				$html .= "<div class='mce-container-body'>";
+				$html .= '<label class="mce-widget mce-label" style="padding: 20px;font-weight: bold;" for="scid">' . esc_html__( 'Select Short code', 'the-post-grid' ) . '</label>';
+				$html .= "<select name='id' id='scid' style='width: 150px;margin: 15px;'>";
+				$html .= "<option value=''>" . esc_html__( 'Default', 'the-post-grid' ) . '</option>';
+
+				while ( $scQ->have_posts() ) {
+					$scQ->the_post();
+					$html .= "<option value='" . get_the_ID() . "'>" . get_the_title() . '</option>';
+				}
+
+				$html .= '</select>';
+				$html .= '</div>';
+				$html .= '</div>';
+			} else {
+				$html .= '<div>' . esc_html__( 'No shortCode found.', 'the-post-grid' ) . '</div>';
 			}
 
-			$html .= '</select>';
-			$html .= '</div>';
-			$html .= '</div>';
+			Fns::print_html( $html, true );
 		} else {
-			$html .= '<div>' . esc_html__( 'No shortCode found.', 'the-post-grid' ) . '</div>';
+			echo esc_html__( 'Security error', 'the-post-grid' );
 		}
-
-		Fns::print_html( $html, true );
 		die();
 	}
 }

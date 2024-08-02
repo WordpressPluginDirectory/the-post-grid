@@ -17,13 +17,15 @@ class ImageSizeV1 {
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_image_sizes' ),
 				'permission_callback' => function () {
-					return true; },
+					return current_user_can( 'edit_posts' );
+				},
 			]
 		);
 	}
 
 	public function get_image_sizes() {
 		$data = Fns::get_all_image_sizes_guten();
+
 		return rest_ensure_response( $data );
 	}
 }

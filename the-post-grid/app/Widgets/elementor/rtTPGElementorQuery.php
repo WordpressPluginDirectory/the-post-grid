@@ -235,7 +235,7 @@ class rtTPGElementorQuery {
 				$args['posts_per_page'] = $_posts_per_page;
 			}
 
-			if ( 'show' === $data['show_pagination'] && $data['display_per_page'] ) {
+			if ( $data['display_per_page'] ) {
 				$args['posts_per_page'] = $data['display_per_page'];
 			}
 		} else {

@@ -499,7 +499,7 @@
             $(".field-holder.pagination-item").show();
 
         } else if (pagination && (isLOffset)) {
-            $(".field-holder.posts-per-page").show();
+
             $("#posts_loading_type_holder").hide();
         } else {
             $(".field-holder.pagination-item").hide();

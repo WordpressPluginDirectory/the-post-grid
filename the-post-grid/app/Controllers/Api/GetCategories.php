@@ -15,7 +15,7 @@ class GetCategories {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_all_posts' ],
 				'permission_callback' => function () {
-					return true;
+					return current_user_can( 'edit_posts' );
 				},
 			]
 		);

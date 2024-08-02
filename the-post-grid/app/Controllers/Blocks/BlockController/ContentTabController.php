@@ -289,7 +289,7 @@ class ContentTabController {
 
 			'display_per_page'                 => [
 				'type'    => 'string',
-				'default' => '6',
+				'default' => '',
 			],
 
 			'pagination_type'                  => [

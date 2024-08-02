@@ -839,13 +839,7 @@ class Options {
 				'option'      => 'Enable',
 				'default'     => 1,
 			],
-			'posts_per_page'        => [
-				'type'        => 'number',
-				'label'       => esc_html__( 'Display per page', 'the-post-grid' ),
-				'holderClass' => 'pagination-item posts-per-page tpg-hidden',
-				'default'     => 9,
-				'description' => esc_html__( 'If value of Limit setting is not blank (empty), this value should be smaller than Limit value.', 'the-post-grid' ),
-			],
+
 			'posts_loading_type'    => [
 				'type'        => 'radio',
 				'label'       => esc_html__( 'Pagination Type', 'the-post-grid' ),
@@ -853,6 +847,14 @@ class Options {
 				'alignment'   => 'vertical',
 				'default'     => 'pagination',
 				'options'     => self::postLoadingType(),
+			],
+
+			'posts_per_page'        => [
+				'type'        => 'number',
+				'label'       => esc_html__( 'Display per page', 'the-post-grid' ),
+				'holderClass' => 'posts-per-page',
+				'default'     => 9,
+				'description' => esc_html__( 'If value of Limit setting is not blank (empty), this value should be smaller than Limit value.', 'the-post-grid' ),
 			],
 
 			'load_more_text'        => [

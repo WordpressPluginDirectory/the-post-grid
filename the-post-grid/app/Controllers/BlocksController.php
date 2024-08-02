@@ -356,7 +356,7 @@ class BlocksController {
 	public function save_block_css() {
 
 		try {
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! current_user_can( 'edit_others_posts' ) ) {
 				throw new Exception( __( 'User permission error', 'the-post-grid' ) );
 			}
 			check_ajax_referer( 'rttpg_nonce', 'nonce' );
@@ -450,6 +450,9 @@ class BlocksController {
 	 * @return void
 	 */
 	public function get_posts_call() {
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
+		}
 		$post_id = absint( $_POST['postId'] );
 		check_ajax_referer( 'rttpg_nonce', 'nonce' );
 		if ( $post_id ) {

@@ -44,6 +44,10 @@ class AdminAjaxController {
 		$msg   = $data = null;
 		$error = true;
 
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
+		}
+
 		if ( Fns::verifyNonce() ) {
 			$error    = false;
 			$rand     = wp_rand();

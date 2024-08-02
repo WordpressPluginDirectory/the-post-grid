@@ -7,26 +7,30 @@ use WP_Query;
 
 class GetPostsV1 {
 	public function __construct() {
-		add_action( "rest_api_init", [ $this, 'register_post_route' ] );
+		add_action( 'rest_api_init', [ $this, 'register_post_route' ] );
 	}
 
 	public function register_post_route() {
-		register_rest_route( 'rttpg/v1', 'query', [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'get_all_posts' ],
-			'permission_callback' => function () {
-				return true;
-			}
-		] );
+		register_rest_route(
+			'rttpg/v1',
+			'query',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_all_posts' ],
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
 	}
 
 
 	public function get_all_posts( $data ) {
 
-		$prefix = isset( $data["prefix"] ) ? $data["prefix"] : 'grid';
+		$prefix = isset( $data['prefix'] ) ? $data['prefix'] : 'grid';
 
 		$args = [
-			'post_type'   => $data["post_type"],
+			'post_type'   => $data['post_type'],
 			'post_status' => 'publish',
 		];
 
@@ -44,7 +48,7 @@ class GetPostsV1 {
 		}
 
 		if ( $prefix !== 'slider' && 'show' === $data['show_pagination'] ) {
-			$_paged        = is_front_page() ? "page" : "paged";
+			$_paged        = is_front_page() ? 'page' : 'paged';
 			$args['paged'] = get_query_var( $_paged ) ? absint( get_query_var( $_paged ) ) : absint( $data['page'] );
 		}
 
@@ -81,7 +85,7 @@ class GetPostsV1 {
 			];
 		}
 
-		//TODO: Taxonomy should implement after
+		// TODO: Taxonomy should implement after
 		$_taxonomies             = get_object_taxonomies( $data['post_type'], 'objects' );
 		$_taxonomy_list          = $data['taxonomy_lists'];
 		$filtered_taxonomy_lists = [];
@@ -154,46 +158,57 @@ class GetPostsV1 {
 				if ( 'grid' === $prefix ) {
 					if ( $data['grid_layout'] == 'grid-layout5' ) {
 						$_posts_per_page = 5;
-					} else if ( in_array( $data['grid_layout'], [ 'grid-layout6', 'grid-layout6-2' ] ) ) {
+					} elseif ( in_array( $data['grid_layout'], [ 'grid-layout6', 'grid-layout6-2' ] ) ) {
 						$_posts_per_page = 3;
-					} else if ( in_array( $data['grid_layout'], [ 'grid-layout5', 'grid-layout5-2' ] ) ) {
+					} elseif ( in_array( $data['grid_layout'], [ 'grid-layout5', 'grid-layout5-2' ] ) ) {
 						$_posts_per_page = 5;
 					}
-				} else if ( 'list' === $prefix ) {
+				} elseif ( 'list' === $prefix ) {
 					if ( in_array( $data['list_layout'], [ 'list-layout2', 'list-layout2-2' ] ) ) {
 						$_posts_per_page = 7;
-					} else if ( in_array( $data['list_layout'], [ 'list-layout3', 'list-layout3-2' ] ) ) {
+					} elseif ( in_array( $data['list_layout'], [ 'list-layout3', 'list-layout3-2' ] ) ) {
 						$_posts_per_page = 5;
 					}
-				} else if ( 'grid_hover' === $prefix ) {
+				} elseif ( 'grid_hover' === $prefix ) {
 					if ( in_array( $data['grid_hover_layout'], [ 'grid_hover-layout4', 'grid_hover-layout4-2' ] ) ) {
 						$_posts_per_page = 7;
-					} else if ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout5',
-						'grid_hover-layout5-2'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout5',
+							'grid_hover-layout5-2',
+						]
+					) ) {
 						$_posts_per_page = 3;
-					} else if ( in_array( $data['grid_hover_layout'],
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
 						[
 							'grid_hover-layout6',
 							'grid_hover-layout6-2',
 							'grid_hover-layout9',
 							'grid_hover-layout9-2',
 							'grid_hover-layout10',
-							'grid_hover-layout11'
-						] )
+							'grid_hover-layout11',
+						]
+					)
 					) {
 						$_posts_per_page = 4;
-					} else if ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout7',
-						'grid_hover-layout7-2',
-						'grid_hover-layout8'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout7',
+							'grid_hover-layout7-2',
+							'grid_hover-layout8',
+						]
+					) ) {
 						$_posts_per_page = 5;
-					} else if ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout6',
-						'grid_hover-layout6-2'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout6',
+							'grid_hover-layout6-2',
+						]
+					) ) {
 						$_posts_per_page = 4;
 					}
 				}
@@ -201,7 +216,7 @@ class GetPostsV1 {
 				$args['posts_per_page'] = $_posts_per_page;
 			}
 
-			if ( isset( $data['display_per_page'] ) && 'show' === $data['show_pagination'] && $data['display_per_page'] > 0 ) {
+			if ( isset( $data['display_per_page'] ) && $data['display_per_page'] > 0 ) {
 				$args['posts_per_page'] = $data['display_per_page'];
 			}
 		} else {
@@ -217,17 +232,25 @@ class GetPostsV1 {
 
 		$_all_taxs = wp_list_pluck( $_taxonomies, 'label', 'name' );
 
-		$post_tax_list = array_filter( $_all_taxs, function ( $item ) {
-			return ( ! in_array( $item, [
-				'post_format',
-				'elementor_library_type',
-				'product_visibility',
-				'product_shipping_class'
-			], true ) );
-		}, ARRAY_FILTER_USE_KEY );
+		$post_tax_list = array_filter(
+			$_all_taxs,
+			function ( $item ) {
+				return ( ! in_array(
+					$item,
+					[
+						'post_format',
+						'elementor_library_type',
+						'product_visibility',
+						'product_shipping_class',
+					],
+					true
+				) );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
 
 		if ( ! empty( $data['is_builder'] ) && $data['is_builder'] === 'yes' ) {
-			$args['posts_per_page'] = get_option('posts_per_page');
+			$args['posts_per_page'] = get_option( 'posts_per_page' );
 		}
 
 		$query = new WP_Query( $args );
@@ -241,11 +264,11 @@ class GetPostsV1 {
 			'query_info' => [
 				'prefix'   => $prefix,
 				'layout'   => $post_layout,
-				'taxonomy' => $post_tax_list
-			]
+				'taxonomy' => $post_tax_list,
+			],
 		];
 
-		//		$send_data['total_post'] = esc_html( $query->found_posts );
+		// $send_data['total_post'] = esc_html( $query->found_posts );
 		if ( $query->have_posts() ) {
 			$pCount = 1;
 			while ( $query->have_posts() ) {
@@ -256,7 +279,7 @@ class GetPostsV1 {
 				set_query_var( 'tpg_total_posts', $post_count );
 				global $post;
 
-				$cf_group            = isset( $data['acf_data_lists'][ $data["post_type"] . '_cf_group' ] ) ? $data['acf_data_lists'][ $data["post_type"] . '_cf_group' ]['options'] : [];
+				$cf_group            = isset( $data['acf_data_lists'][ $data['post_type'] . '_cf_group' ] ) ? $data['acf_data_lists'][ $data['post_type'] . '_cf_group' ]['options'] : [];
 				$cf_group_collection = wp_list_pluck( $cf_group, 'value' );
 
 				$acfArgs = [
@@ -270,15 +293,13 @@ class GetPostsV1 {
 
 				$acf_data = Fns::tpg_get_acf_data_elementor( $acfArgs, $id, false );
 
-
-				//First image from the post
+				// First image from the post
 				preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches );
-				if ( empty( $first_img ) ) { //Defines a default image
-					$first_img = RT_THE_POST_GRID_PLUGIN_PATH . "/images/default.png";
+				if ( empty( $first_img ) ) { // Defines a default image
+					$first_img = RT_THE_POST_GRID_PLUGIN_PATH . '/images/default.png';
 				} else {
 					$first_img = $matches [1] [0];
 				}
-
 
 				$category_terms_list = get_the_terms( $id, $data['category_source'] ? $data['category_source'] : 'category' );
 				$tags_terms_list     = get_the_terms( $id, $data['tag_source'] ? $data['tag_source'] : 'post_tag' );
@@ -286,17 +307,16 @@ class GetPostsV1 {
 				$category_terms = wp_list_pluck( $category_terms_list, 'name' );
 				$tags_terms     = wp_list_pluck( $tags_terms_list, 'name' );
 
-				//TODO: Working Here 13-12-22
+				// TODO: Working Here 13-12-22
 
 				$_cat_bg_meta = [];
-				if ( $data["post_type"] == 'post' ) {
+				if ( $data['post_type'] == 'post' ) {
 					$_category_list_term = wp_list_pluck( $category_terms_list, 'term_id' );
 					foreach ( $_category_list_term as $item_id ) {
 						$meta_color     = get_term_meta( $item_id, 'rttpg_category_color', true );
 						$_cat_bg_meta[] = $meta_color ? "#{$meta_color}" : '';
 					}
 				}
-
 
 				$img_url        = esc_url_raw( get_the_post_thumbnail_url( $id, $data['image_size'] ) );
 				$img_offset_url = '';
@@ -329,37 +349,37 @@ class GetPostsV1 {
 				$get_view_count = get_post_meta( $id, $count_key, true );
 
 				$send_data['posts'][] = [
-					"author_name"      => esc_html( get_the_author_meta( 'display_name', $author_id ) ),
-					"avatar_url"       => esc_url( $author_avatar_url ),
-					"comment_count"    => esc_html( get_comments_number( $id ) ),
-					"content"          => get_the_content(),
-					"category"         => ! empty( $category_terms ) ? $category_terms : [],
-					"category_bg"      => ! empty( $_cat_bg_meta ) ? $_cat_bg_meta : [],
-					"tags"             => ! empty( $tags_terms ) ? $tags_terms : '',
-					"excerpt"          => $exerpt,
-					"id"               => $id,
-					"image_url"        => $img_url,
-					"thumb_url"        => get_the_post_thumbnail_url( $id, 'thumbnail' ),
-					"offset_image_url" => $img_offset_url,
-					"post_date"        => esc_html( get_the_date() ),
-					"post_link"        => get_the_permalink(),
-					"post_type"        => $data["post_type"],
-					"prefix"           => $prefix,
-					"post_count"       => esc_html( $get_view_count ),
-					"title"            => Fns::get_the_title( $id, $data ), //wp_kses( $post->post_title, Fns::allowedHtml() ),
+					'author_name'      => esc_html( get_the_author_meta( 'display_name', $author_id ) ),
+					'avatar_url'       => esc_url( $author_avatar_url ),
+					'comment_count'    => esc_html( get_comments_number( $id ) ),
+					'content'          => get_the_content(),
+					'category'         => ! empty( $category_terms ) ? $category_terms : [],
+					'category_bg'      => ! empty( $_cat_bg_meta ) ? $_cat_bg_meta : [],
+					'tags'             => ! empty( $tags_terms ) ? $tags_terms : '',
+					'excerpt'          => $exerpt,
+					'id'               => $id,
+					'image_url'        => $img_url,
+					'thumb_url'        => get_the_post_thumbnail_url( $id, 'thumbnail' ),
+					'offset_image_url' => $img_offset_url,
+					'post_date'        => esc_html( get_the_date() ),
+					'post_link'        => get_the_permalink(),
+					'post_type'        => $data['post_type'],
+					'prefix'           => $prefix,
+					'post_count'       => esc_html( $get_view_count ),
+					'title'            => Fns::get_the_title( $id, $data ), // wp_kses( $post->post_title, Fns::allowedHtml() ),
 					'taxonomy_lists'   => $filtered_taxonomy_lists,
-					"post_class"       => join( ' ', get_post_class( null, $id ) ),
-					"layout_style"     => $data['layout_style'],
-					"hover_animation"  => $data['hover_animation'],
+					'post_class'       => join( ' ', get_post_class( null, $id ) ),
+					'layout_style'     => $data['layout_style'],
+					'hover_animation'  => $data['hover_animation'],
 					'acf_data'         => $acf_data,
 					'tpg_post_count'   => $pCount,
-					'tpg_total_posts'  => $post_count
+					'tpg_total_posts'  => $post_count,
 				];
 
-				$pCount ++;
+				$pCount++;
 			}
 		} else {
-			$send_data['message'] = $data['no_posts_found_text'] ?? __( "No posts found", "the-post-grid" );
+			$send_data['message'] = $data['no_posts_found_text'] ?? __( 'No posts found', 'the-post-grid' );
 			$send_data['args']    = $args;
 		}
 

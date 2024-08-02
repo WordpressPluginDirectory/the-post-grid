@@ -6,20 +6,25 @@ use RT\ThePostGrid\Helpers\Fns;
 
 class ACFV1 {
 	public function __construct() {
-		add_action( "rest_api_init", [ $this, 'register_acf_data_route' ] );
+		add_action( 'rest_api_init', [ $this, 'register_acf_data_route' ] );
 	}
 
 	public function register_acf_data_route() {
-		register_rest_route( 'rttpg/v1', 'acf', [
-			'methods'             => 'GET',
-			'callback'            => [ $this, 'get_acf_data' ],
-			'permission_callback' => function () {
-				return true;
-			}
-		] );
+		register_rest_route(
+			'rttpg/v1',
+			'acf',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_acf_data' ],
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
 	}
 
 	public function get_acf_data() {
+
 		$post_types = Fns::get_post_types();
 
 		$acf_data = [];
@@ -33,7 +38,10 @@ class ACFV1 {
 			$options       = Fns::get_groups_by_post_type( $post_type );
 			$options_field = [];
 			foreach ( $options as $value => $label ) {
-				$options_field[] = [ 'value' => $value, 'label' => $label ];
+				$options_field[] = [
+					'value' => $value,
+					'label' => $label,
+				];
 			}
 			if ( ! empty( $options ) ) {
 				$acf_data[ $post_type . '_cf_group' ] = [
@@ -46,5 +54,4 @@ class ACFV1 {
 
 		return rest_ensure_response( $acf_data );
 	}
-
 }

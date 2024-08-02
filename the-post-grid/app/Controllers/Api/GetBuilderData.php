@@ -8,17 +8,21 @@ use WP_Query;
 
 class GetBuilderData {
 	public function __construct() {
-		add_action( "rest_api_init", [ $this, 'register_post_route' ] );
+		add_action( 'rest_api_init', [ $this, 'register_post_route' ] );
 	}
 
 	public function register_post_route() {
-		register_rest_route( 'rttpg/v1', 'builder', [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'get_all_posts' ],
-			'permission_callback' => function () {
-				return true;
-			}
-		] );
+		register_rest_route(
+			'rttpg/v1',
+			'builder',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_all_posts' ],
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
 	}
 
 
@@ -36,21 +40,21 @@ class GetBuilderData {
 
 		if ( ! empty( $data['fetch'] ) ) {
 			switch ( $data['fetch'] ) {
-				case "title" :
+				case 'title':
 					return rest_ensure_response( $post_args->post_title );
-				case "thumbnail" :
+				case 'thumbnail':
 					return rest_ensure_response( get_the_post_thumbnail( $post_args, $data['image_size'] ) );
-				case "content" :
+				case 'content':
 					return rest_ensure_response( $post_args->post_content );
-				case "meta" :
+				case 'meta':
 					$post_meta = Fns::get_post_meta_html( $last_post_id, $data, false );
 
 					return rest_ensure_response( $post_meta );
-				case "share" :
+				case 'share':
 					$share_html = Functions::rtShare( $last_post_id );
 
 					return rest_ensure_response( $share_html );
-				case "comment" :
+				case 'comment':
 					$comment_form = Functions::get_dummy_comment_box();
 
 					return rest_ensure_response( $comment_form );
