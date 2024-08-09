@@ -200,6 +200,14 @@ class ShortcodeController {
 				$args['posts_per_page'] = $posts_per_page;
 			}
 
+			if ( $isIsotope && ! $pagination ) {
+				$args['posts_per_page'] = $limit;
+			}
+
+			if ( ( $posts_per_page == '-1' && $limit ) || empty( $posts_per_page ) ) {
+				$args['posts_per_page'] = $limit;
+			}
+
 			if ( $pagination && ! $isCarousel ) {
 				$args['paged'] = get_query_var( 'page' ) ? get_query_var( 'page' ) : ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
 			}

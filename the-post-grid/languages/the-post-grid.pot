@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-02 09:52+0000\n"
+"POT-Creation-Date: 2024-08-09 10:28+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -130,7 +130,7 @@ msgstr ""
 msgid "The Post Grid Canvas"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:1329
+#: ../app/Controllers/ShortcodeController.php:1337
 msgid "No shortCode found"
 msgstr ""
 
@@ -142,43 +142,43 @@ msgstr ""
 msgid "Show all"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:611, ../app/Controllers/Admin/AdminAjaxController.php:596
+#: ../app/Controllers/ShortcodeController.php:619, ../app/Controllers/Admin/AdminAjaxController.php:596
 msgid "All"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:866, ../app/Helpers/Fns.php:854, ../app/Controllers/Admin/AdminAjaxController.php:854, ../app/Widgets/elementor/base.php:549
+#: ../app/Controllers/ShortcodeController.php:874, ../app/Helpers/Fns.php:854, ../app/Controllers/Admin/AdminAjaxController.php:854, ../app/Widgets/elementor/base.php:549
 msgid "Search..."
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:884, ../app/Helpers/Fns.php:830, ../app/Helpers/Options.php:76, ../app/Controllers/Admin/AdminAjaxController.php:868, ../app/Widgets/elementor/base.php:522, ../app/Widgets/elementor/rtTPGElementorHelper.php:231
+#: ../app/Controllers/ShortcodeController.php:892, ../app/Helpers/Fns.php:830, ../app/Helpers/Options.php:76, ../app/Controllers/Admin/AdminAjaxController.php:868, ../app/Widgets/elementor/base.php:522, ../app/Widgets/elementor/rtTPGElementorHelper.php:231
 msgid "Meta value"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:882, ../app/Controllers/ShortcodeController.php:890, ../app/Controllers/Admin/AdminAjaxController.php:866, ../app/Controllers/Admin/AdminAjaxController.php:874
+#: ../app/Controllers/ShortcodeController.php:890, ../app/Controllers/ShortcodeController.php:898, ../app/Controllers/Admin/AdminAjaxController.php:866, ../app/Controllers/Admin/AdminAjaxController.php:874
 msgid "Sort By None"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:920, ../app/Controllers/Admin/AdminAjaxController.php:902
+#: ../app/Controllers/ShortcodeController.php:928, ../app/Controllers/Admin/AdminAjaxController.php:902
 msgid "Loading ..."
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:922, ../app/Controllers/Admin/AdminAjaxController.php:1161, ../app/Controllers/Blocks/GridHoverLayout.php:188, ../app/Controllers/Blocks/GridLayout.php:184, ../app/Controllers/Blocks/ListLayout.php:168, ../app/Widgets/elementor/widgets/grid-hover-layout-archive.php:266, ../app/Widgets/elementor/widgets/grid-hover-layout.php:285, ../app/Widgets/elementor/widgets/grid-layout-archive.php:261, ../app/Widgets/elementor/widgets/grid-layout.php:289, ../app/Widgets/elementor/widgets/list-layout-archive.php:260, ../app/Widgets/elementor/widgets/list-layout.php:277, ../app/Widgets/elementor/widgets/slider-layout-archive.php:322, ../app/Widgets/elementor/widgets/slider-layout-archive.php:383, ../app/Widgets/elementor/widgets/slider-layout.php:310, ../app/Widgets/elementor/widgets/slider-layout.php:383
+#: ../app/Controllers/ShortcodeController.php:930, ../app/Controllers/Admin/AdminAjaxController.php:1161, ../app/Controllers/Blocks/GridHoverLayout.php:188, ../app/Controllers/Blocks/GridLayout.php:184, ../app/Controllers/Blocks/ListLayout.php:168, ../app/Widgets/elementor/widgets/grid-hover-layout-archive.php:266, ../app/Widgets/elementor/widgets/grid-hover-layout.php:285, ../app/Widgets/elementor/widgets/grid-layout-archive.php:261, ../app/Widgets/elementor/widgets/grid-layout.php:289, ../app/Widgets/elementor/widgets/list-layout-archive.php:260, ../app/Widgets/elementor/widgets/list-layout.php:277, ../app/Widgets/elementor/widgets/slider-layout-archive.php:322, ../app/Widgets/elementor/widgets/slider-layout-archive.php:383, ../app/Widgets/elementor/widgets/slider-layout.php:310, ../app/Widgets/elementor/widgets/slider-layout.php:383
 msgid "No post found"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:1033, ../app/Helpers/Options.php:605, ../app/Controllers/Admin/AdminAjaxController.php:1008
+#: ../app/Controllers/ShortcodeController.php:1041, ../app/Helpers/Options.php:605, ../app/Controllers/Admin/AdminAjaxController.php:1008
 msgid "Search"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:1234, ../app/Helpers/Fns.php:327, ../app/Controllers/Admin/AdminAjaxController.php:1190, ../app/Widgets/elementor/base.php:589, ../app/Widgets/elementor/rtTPGElementorHelper.php:1657
+#: ../app/Controllers/ShortcodeController.php:1242, ../app/Helpers/Fns.php:327, ../app/Controllers/Admin/AdminAjaxController.php:1190, ../app/Widgets/elementor/base.php:589, ../app/Widgets/elementor/rtTPGElementorHelper.php:1657
 msgid "Load More"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:1351
+#: ../app/Controllers/ShortcodeController.php:1359
 msgid "This is a restricted content, you need to logged in to view this content."
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:1344
+#: ../app/Controllers/ShortcodeController.php:1352
 msgid "You are not permitted to view this content."
 msgstr ""
 
@@ -1512,11 +1512,11 @@ msgstr ""
 msgid "Relation"
 msgstr ""
 
-#: ../app/Models/Field.php:735, ../app/Widgets/elementor/rtTPGElementorHelper.php:853, ../app/Widgets/elementor/rtTPGElementorHelper.php:885, ../app/Widgets/elementor/rtTPGElementorHelper.php:1440
+#: ../app/Models/Field.php:736, ../app/Widgets/elementor/rtTPGElementorHelper.php:853, ../app/Widgets/elementor/rtTPGElementorHelper.php:885, ../app/Widgets/elementor/rtTPGElementorHelper.php:1440
 msgid "Start"
 msgstr ""
 
-#: ../app/Models/Field.php:744, ../app/Widgets/elementor/rtTPGElementorHelper.php:855, ../app/Widgets/elementor/rtTPGElementorHelper.php:887, ../app/Widgets/elementor/rtTPGElementorHelper.php:1442
+#: ../app/Models/Field.php:745, ../app/Widgets/elementor/rtTPGElementorHelper.php:855, ../app/Widgets/elementor/rtTPGElementorHelper.php:887, ../app/Widgets/elementor/rtTPGElementorHelper.php:1442
 msgid "End"
 msgstr ""
 
@@ -2250,7 +2250,7 @@ msgid "Display Per Page"
 msgstr ""
 
 #: ../app/Widgets/elementor/rtTPGElementorHelper.php:1583
-msgid "Enter how may posts will display per page"
+msgid "Enter how may posts will display per page. It works only for the the pagination and ajax-filer."
 msgstr ""
 
 #: ../app/Widgets/elementor/rtTPGElementorHelper.php:1591

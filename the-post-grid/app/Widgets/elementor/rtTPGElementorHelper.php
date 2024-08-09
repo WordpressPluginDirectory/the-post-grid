@@ -1580,7 +1580,7 @@ class rtTPGElementorHelper {
 				[
 					'label'       => esc_html__( 'Display Per Page', 'the-post-grid' ),
 					'type'        => \Elementor\Controls_Manager::NUMBER,
-					'description' => esc_html__( 'Enter how may posts will display per page', 'the-post-grid' ),
+					'description' => esc_html__( 'Enter how may posts will display per page. It works only for the the pagination and ajax-filer.', 'the-post-grid' ),
 				]
 			);
 		}

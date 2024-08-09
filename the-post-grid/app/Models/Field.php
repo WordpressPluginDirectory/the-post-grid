@@ -64,7 +64,7 @@ class Field {
 					$this->value = $this->default;
 				}
 			} elseif ( metadata_exists( 'post', $post_id, $this->name ) ) {
-					$this->value = get_post_meta( $post_id, $this->name, true );
+				$this->value = get_post_meta( $post_id, $this->name, true );
 			} else {
 				$this->value = $this->default;
 			}
@@ -94,7 +94,7 @@ class Field {
 			$class = str_replace( 'pro-field', '', $this->holderClass );
 		}
 
-		$html  = null;
+		$html = null;
 		$html .= '<div class="field-holder ' . esc_attr( $class ) . '" id="' . esc_attr( $holderId ) . '">';
 
 		$holderClass = explode( ' ', $this->holderClass );
@@ -187,7 +187,7 @@ class Field {
 	private function text() {
 		$holderClass = explode( ' ', $this->holderClass );
 
-		$h  = null;
+		$h = null;
 		$h .= '<input
 				type="text"
 				class="' . esc_attr( $this->class ) . '"
@@ -208,7 +208,7 @@ class Field {
 			$type = 'css';
 		}
 
-		$h  = null;
+		$h = null;
 		$h .= '<div class="rt-script-wrapper" data-type="' . esc_attr( $type ) . '">';
 		$h .= '<div class="rt-script-container">';
 		$h .= "<div name='" . esc_attr( $this->name ) . "' id='ret-" . absint( wp_rand() ) . "' class='rt-script'>";
@@ -227,7 +227,7 @@ class Field {
 	}
 
 	private function url() {
-		$h  = null;
+		$h = null;
 		$h .= '<input
 				type="url"
 				class="' . esc_attr( $this->class ) . '"
@@ -244,12 +244,12 @@ class Field {
 	private function number() {
 		$holderClass = explode( ' ', $this->holderClass );
 
-		$h  = null;
+		$h = null;
 		$h .= '<input
 				type="number"
 				class="' . esc_attr( $this->class ) . '"
 				id="' . esc_attr( $this->id ) . '"
-				value="' . ( ! empty( $this->value ) ? absint( $this->value ) : null ) . '"
+				value="' . ( ! empty( $this->value ) ? esc_html( $this->value ) : null ) . '"
 				name="' . esc_attr( $this->name ) . '"
 				placeholder="' . esc_attr( $this->placeholder ) . '"
 				' . Fns::htmlKses( $this->attr, 'basic' ) . '
@@ -281,7 +281,7 @@ class Field {
 		if ( is_array( $this->options ) && ! empty( $this->options ) ) {
 			foreach ( $this->options as $key => $value ) {
 				$slt = ( in_array( $key, $this->value ) ? 'selected' : null );
-				$h  .= '<option ' . esc_attr( $slt ) . ' value="' . esc_attr( $key ) . '">' . esc_html( $value ) . '</option>';
+				$h   .= '<option ' . esc_attr( $slt ) . ' value="' . esc_attr( $key ) . '">' . esc_html( $value ) . '</option>';
 			}
 		}
 
@@ -293,7 +293,7 @@ class Field {
 	private function textArea() {
 		$holderClass = explode( ' ', $this->holderClass );
 
-		$h  = null;
+		$h = null;
 		$h .= '<textarea
 				class="' . esc_attr( $this->class ) . ' rt-textarea"
 				id="' . esc_attr( $this->id ) . '"
@@ -313,7 +313,7 @@ class Field {
 
 		$h .= "<div class='rt-image-holder'>";
 		$h .= '<input type="hidden" name="' . esc_attr( $this->name ) . '" value="' . absint( $this->value ) . '" id="' . esc_attr( $this->id ) . '" class="hidden-image-id" />';
-		$c  = 'hidden';
+		$c = 'hidden';
 
 		if ( $id = absint( $this->value ) ) {
 			$aImg = wp_get_attachment_image_src( $id, 'thumbnail' );
@@ -333,7 +333,7 @@ class Field {
 		$height = ( ! empty( $this->value[1] ) ? $this->value[1] : null );
 		$cropV  = ( ! empty( $this->value[2] ) ? $this->value[2] : 'soft' );
 
-		$h  = null;
+		$h = null;
 		$h .= "<div class='rt-image-size-holder'>";
 		$h .= "<div class='rt-image-size-width rt-image-size'>";
 		$h .= '<label>Width</label>';
@@ -351,7 +351,7 @@ class Field {
 
 		foreach ( $cropList as $crop => $cropLabel ) {
 			$cSl = ( $crop == $cropV ? 'selected' : null );
-			$h  .= '<option value="' . esc_attr( $crop ) . '" ' . esc_attr( $cSl ) . '>' . esc_html( $cropLabel ) . '</option>';
+			$h   .= '<option value="' . esc_attr( $crop ) . '" ' . esc_attr( $cSl ) . '>' . esc_html( $cropLabel ) . '</option>';
 		}
 
 		$h .= '</select>';
@@ -362,9 +362,9 @@ class Field {
 	}
 
 	private function checkbox() {
-		$holderClass      = explode( ' ', $this->holderClass );
+		$holderClass     = explode( ' ', $this->holderClass );
 		$this->alignment .= ( in_array( 'pro-field', $holderClass, true ) ) && ! rtTPG()->hasPro() ? ' disabled' : '';
-		$h                = null;
+		$h               = null;
 
 		if ( $this->multiple ) {
 			$this->name  = $this->name . '[]';
@@ -385,7 +385,7 @@ class Field {
 			$h .= '</div>';
 		} else {
 			$checked = ( $this->value ? 'checked' : null );
-			$h      .= '<label><input type="checkbox" ' . esc_attr( $checked ) . ' id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" value="1" />' . esc_html( $this->option ) . '</label>';
+			$h       .= '<label><input type="checkbox" ' . esc_attr( $checked ) . ' id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" value="1" />' . esc_html( $this->option ) . '</label>';
 		}
 
 		return $h;
@@ -394,7 +394,7 @@ class Field {
 	private function switchField() {
 		$h       = null;
 		$checked = $this->value ? 'checked' : null;
-		$h      .= '<label class="rttm-switch"><input type="checkbox" ' . esc_attr( $checked ) . ' id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" value="1" /><span class="rttm-switch-slider round"></span></label>';
+		$h       .= '<label class="rttm-switch"><input type="checkbox" ' . esc_attr( $checked ) . ' id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" value="1" /><span class="rttm-switch-slider round"></span></label>';
 
 		return $h;
 	}
@@ -461,25 +461,25 @@ class Field {
 									$h .= Fns::rtFieldGenerator(
 										[
 											'term_' . $tax => [
-												'type'     => 'select',
-												'label'    => ucfirst( str_replace( '_', ' ', $tax ) ),
-												'class'    => 'rt-select2 full',
+												'type'        => 'select',
+												'label'       => ucfirst( str_replace( '_', ' ', $tax ) ),
+												'class'       => 'rt-select2 full',
 												'holderClass' => "term-filter-item {$tax}",
-												'value'    => get_post_meta( $post->ID, 'term_' . $tax ),
-												'multiple' => true,
-												'options'  => Fns::rt_get_all_term_by_taxonomy( $tax ),
+												'value'       => get_post_meta( $post->ID, 'term_' . $tax ),
+												'multiple'    => true,
+												'options'     => Fns::rt_get_all_term_by_taxonomy( $tax ),
 											],
 										]
 									);
 									$h .= Fns::rtFieldGenerator(
 										array(
 											'term_operator_' . $tax => array(
-												'type'    => 'select',
-												'label'   => esc_html__( 'Operator', 'the-post-grid' ),
-												'class'   => 'rt-select2 full',
+												'type'        => 'select',
+												'label'       => esc_html__( 'Operator', 'the-post-grid' ),
+												'class'       => 'rt-select2 full',
 												'holderClass' => "term-filter-item-operator {$tax}",
-												'value'   => get_post_meta( $post->ID, 'term_operator_' . $tax, true ),
-												'options' => Options::rtTermOperators(),
+												'value'       => get_post_meta( $post->ID, 'term_operator_' . $tax, true ),
+												'options'     => Options::rtTermOperators(),
 											),
 										)
 									);
@@ -631,9 +631,9 @@ class Field {
 							'start' => $range_start,
 							'end'   => $range_end,
 						);
-						$h          .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
-						$h          .= "<div class='rt-tpg-filter-item'>";
-						$h          .= Fns::rtFieldGenerator(
+						$h           .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
+						$h           .= "<div class='rt-tpg-filter-item'>";
+						$h           .= Fns::rtFieldGenerator(
 							array(
 								$key => array(
 									'type'        => 'date_range',
@@ -644,8 +644,8 @@ class Field {
 								),
 							)
 						);
-						$h          .= '</div>';
-						$h          .= '</div>';
+						$h           .= '</div>';
+						$h           .= '</div>';
 					}
 					// }
 
@@ -655,16 +655,16 @@ class Field {
 			$h .= '</div>';
 		} else {
 			$checked = ( $this->value ? 'checked' : null );
-			$h      .= '<label><input type="checkbox" ' . esc_attr( $checked ) . ' id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" value="1" />' . esc_html( $this->option ) . '</label>';
+			$h       .= '<label><input type="checkbox" ' . esc_attr( $checked ) . ' id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" value="1" />' . esc_html( $this->option ) . '</label>';
 		}
 
 		return $h;
 	}
 
 	private function radioField() {
-		$holderClass      = explode( ' ', $this->holderClass );
+		$holderClass     = explode( ' ', $this->holderClass );
 		$this->alignment .= ( in_array( 'pro-field', $holderClass, true ) ) && ! rtTPG()->hasPro() ? ' disabled' : '';
-		$h                = null;
+		$h               = null;
 
 		$h .= '<div class="radio-group ' . esc_attr( $this->alignment ) . '" id="' . esc_attr( $this->id ) . '">';
 
@@ -690,7 +690,7 @@ class Field {
 		$h  = null;
 		$id = 'rttpg-' . $this->name;
 
-		$h             .= sprintf( "<div class='rttpg-radio-image %s' id='%s'>", esc_attr( $this->alignment ), esc_attr( $id ) );
+		$h              .= sprintf( "<div class='rttpg-radio-image %s' id='%s'>", esc_attr( $this->alignment ), esc_attr( $id ) );
 		$selected_value = $this->value;
 
 		if ( is_array( $this->options ) && ! empty( $this->options ) ) {
@@ -701,7 +701,7 @@ class Field {
 				$linkHtml = empty( $link ) ? esc_html( $title ) : '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html( $title ) . '</a>';
 				$layout   = isset( $value['layout'] ) ? $value['layout'] : '';
 				$taghtml  = isset( $value['tag'] ) ? '<div class="rt-tpg-layout-tag"><span>' . $value['tag'] . '</span></div>' : '';
-				$h       .= sprintf(
+				$h        .= sprintf(
 					'<div class="rt-tpg-radio-layout %7$s"><label data-type="%7$s" class="radio-image %7$s"  for="%2$s">
 						<input type="radio" id="%2$s" %3$s name="%4$s" value="%2$s">
 						<div class="rttpg-radio-image-wrap">
@@ -725,14 +725,15 @@ class Field {
 			}
 		}
 		$h .= '</div>';
+
 		return $h;
 	}
 
 	private function dateRange() {
 		$h          = null;
 		$this->name = ( $this->name ? $this->name : 'date-range-' . wp_rand( 0, 1000 ) );
-		$h         .= '<div class="date-range-container" id="' . esc_attr( $this->id ) . '">';
-		$h         .= "<div class='date-range-content start'><span>" . esc_html__( 'Start', 'the-post-grid' ) . "</span><input
+		$h          .= '<div class="date-range-container" id="' . esc_attr( $this->id ) . '">';
+		$h          .= "<div class='date-range-content start'><span>" . esc_html__( 'Start', 'the-post-grid' ) . "</span><input
 						type='text'
 						class='date-range date-range-start {$this->class}'
 						id='" . esc_attr( $this->id ) . "-start'
@@ -741,7 +742,7 @@ class Field {
 						placeholder='" . esc_attr( $this->name ) . "'
 						" . Fns::htmlKses( $this->attr, 'basic' ) . '
 						/></div>';
-		$h         .= "<div class='date-range-content end'><span>" . esc_html__( 'End', 'the-post-grid' ) . "</span><input
+		$h          .= "<div class='date-range-content end'><span>" . esc_html__( 'End', 'the-post-grid' ) . "</span><input
 						type='text'
 						class='date-range date-range-end {$this->class}'
 						id='" . esc_attr( $this->id ) . "-end'
@@ -750,7 +751,7 @@ class Field {
 						placeholder='" . esc_attr( $this->name ) . "'
 						" . Fns::htmlKses( $this->attr, 'basic' ) . '
 						/></div>';
-		$h         .= '</div>';
+		$h          .= '</div>';
 
 		return $h;
 	}
