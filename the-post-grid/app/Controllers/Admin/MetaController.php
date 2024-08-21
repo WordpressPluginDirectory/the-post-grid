@@ -31,12 +31,14 @@ class MetaController {
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
 		add_filter( 'manage_edit-rttpg_columns', [ $this, 'arrange_rttpg_columns' ] );
 		add_action( 'manage_rttpg_posts_custom_column', [ $this, 'manage_rttpg_columns' ], 10, 2 );
+		add_action( 'created_term', [ $this, 'save_taxonomy_fields' ], 10, 3 );
 	}
 
 	/**
 	 * manage Column
 	 *
 	 * @param string $column Column.
+	 *
 	 * @return void
 	 */
 	public function manage_rttpg_columns( $column ) {
@@ -53,6 +55,7 @@ class MetaController {
 	 * Arrange Columns
 	 *
 	 * @param array $columns Columns.
+	 *
 	 * @return array
 	 */
 	public function arrange_rttpg_columns( $columns ) {
@@ -126,7 +129,6 @@ class MetaController {
 				'uid'     => get_current_user_id(),
 			]
 		);
-
 	}
 
 	/**
@@ -167,6 +169,7 @@ class MetaController {
 	 * Marketing.
 	 *
 	 * @param string $post Post.
+	 *
 	 * @return void
 	 */
 	public function rt_plugin_sc_pro_information( $post ) {
@@ -233,6 +236,7 @@ class MetaController {
 	 * Text after title
 	 *
 	 * @param object $post Post object.
+	 *
 	 * @return void
 	 */
 	public function tpg_sc_after_title( $post ) {
@@ -255,6 +259,7 @@ class MetaController {
 	 * Meta settings
 	 *
 	 * @param object $post Post object.
+	 *
 	 * @return void
 	 */
 	public function rttpg_meta_settings_selection( $post ) {
@@ -323,6 +328,7 @@ class MetaController {
 	 *
 	 * @param int    $post_id Post ID.
 	 * @param object $post Post object.
+	 *
 	 * @return mixed
 	 */
 	public function save_post( $post_id, $post ) {
@@ -484,6 +490,22 @@ class MetaController {
 		if ( isset( $_POST['_tpg_last_active_tab'] ) && $active_tab = sanitize_text_field( wp_unslash( $_POST['_tpg_last_active_tab'] ) ) ) {
 			update_post_meta( $post_id, '_tpg_last_active_tab', $active_tab );
 		}
+	}
 
+	/**
+	 * save_taxonomy_fields function.
+	 *
+	 * @param mixed  $term_id Term ID being saved
+	 * @param mixed  $tt_id
+	 * @param string $taxonomy
+	 */
+	public function save_taxonomy_fields( $term_id, $tt_id = '', $taxonomy = '' ) {
+
+		$nonce = ! empty( $_POST['_wpnonce_add-tag'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce_add-tag'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'add-tag' ) ) {
+			return;
+		}
+
+		update_term_meta( $term_id, '_rt_order', 0 );
 	}
 }

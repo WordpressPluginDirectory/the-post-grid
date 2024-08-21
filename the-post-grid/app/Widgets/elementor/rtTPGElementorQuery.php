@@ -36,21 +36,23 @@ class rtTPGElementorQuery {
 	 */
 	public static function post_query( $data, $prefix = '' ): array {
 
-		$post_type = isset( $data['post_type'] ) ? $data['post_type'] : 'post';
-		$args      = [
-			'post_type'   => [ $post_type ],
-			'post_status' => isset( $data['post_status'] ) ? $data['post_status'] : 'publish',
+		$post_type   = isset( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
+		$post_status = isset( $data['post_status'] ) ? esc_html( $data['post_status'] ) : 'publish';
+
+		$args = [
+			'post_type'   => [ Fns::available_post_type( $post_type ) ],
+			'post_status' => Fns::available_user_post_status( $post_status ),
 		];
 
 		if ( $data['post_id'] ) {
-			$post_ids = explode( ',', $data['post_id'] );
+			$post_ids = explode( ',', esc_html( $data['post_id'] ) );
 			$post_ids = array_map( 'trim', $post_ids );
 
 			$args['post__in'] = $post_ids;
 		}
 
 		if ( $prefix !== 'slider' && 'show' === $data['show_pagination'] ) {
-			$_paged        = is_front_page() ? "page" : "paged";
+			$_paged        = is_front_page() ? 'page' : 'paged';
 			$args['paged'] = get_query_var( $_paged ) ? absint( get_query_var( $_paged ) ) : 1;
 		}
 
@@ -58,20 +60,19 @@ class rtTPGElementorQuery {
 			$args['ignore_sticky_posts'] = 1;
 		}
 
-
-		//TODO: should display conditionally
+		// TODO: should display conditionally
 		if ( $orderby = $data['orderby'] ) {
 
 			$order_by        = ( $orderby == 'meta_value_datetime' ) ? 'meta_value_num' : $orderby;
-			$args['orderby'] = $order_by;
+			$args['orderby'] = esc_html( $order_by );
 
 			if ( in_array( $orderby, [ 'meta_value', 'meta_value_num', 'meta_value_datetime' ] ) && $data['meta_key'] ) {
-				$args['meta_key'] = $data['meta_key']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				$args['meta_key'] = esc_html( $data['meta_key'] ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			}
 		}
 
 		if ( $data['order'] ) {
-			$args['order'] = $data['order'];
+			$args['order'] = esc_html( $data['order'] );
 		}
 
 		if ( $data['instant_query'] ) {
@@ -79,13 +80,13 @@ class rtTPGElementorQuery {
 		}
 
 		if ( $data['author'] ) {
-			$args['author__in'] = $data['author'];
+			$args['author__in'] = array_map( 'intval', $data['author'] );
 		}
 
 		if ( isset( $data['date_range'] ) ) :
 			if ( rtTPG()->hasPro() && $data['date_range'] ) {
 				if ( strpos( $data['date_range'], 'to' ) ) {
-					$date_range         = explode( 'to', $data['date_range'] );
+					$date_range         = explode( 'to', esc_html( $data['date_range'] ) );
 					$args['date_query'] = [
 						[
 							'after'     => trim( $date_range[0] ),
@@ -137,18 +138,17 @@ class rtTPGElementorQuery {
 		}
 
 		if ( ! empty( $args['tax_query'] ) && $data['relation'] ) {
-			$args['tax_query']['relation'] = $data['relation']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			$args['tax_query']['relation'] = esc_html( $data['relation'] ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		}
 
 		if ( $data['post_keyword'] ) {
-			$args['s'] = $data['post_keyword'];
+			$args['s'] = esc_html( $data['post_keyword'] );
 		}
-
 
 		$offset_posts = $excluded_ids = [];
 		if ( $data['exclude'] || $data['offset'] ) {
 			if ( $data['exclude'] ) {
-				$excluded_ids = explode( ',', $data['exclude'] );
+				$excluded_ids = explode( ',', esc_html( $data['exclude'] ) );
 				$excluded_ids = array_map( 'trim', $excluded_ids );
 			}
 
@@ -168,16 +168,18 @@ class rtTPGElementorQuery {
 		if ( $prefix !== 'slider' ) {
 			if ( $data['post_limit'] ) {
 				$tempArgs                   = $args;
-				$tempArgs['posts_per_page'] = $data['post_limit'];
+				$tempArgs['posts_per_page'] = intval( $data['post_limit'] );
 				$tempArgs['paged']          = 1;
 				$tempArgs['fields']         = 'ids';
 				if ( ! empty( $offset_posts ) ) {
 					$tempArgs['post__not_in'] = $offset_posts; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
+
 				$tempQ = new \WP_Query( $tempArgs );
 				if ( ! empty( $tempQ->posts ) ) {
+					$_post_per_page         = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
 					$args['post__in']       = $tempQ->posts;
-					$args['posts_per_page'] = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
+					$args['posts_per_page'] = intval( $_post_per_page );
 				}
 			} else {
 				$_posts_per_page = 9;
@@ -198,39 +200,49 @@ class rtTPGElementorQuery {
 				} elseif ( 'grid_hover' === $prefix ) {
 					if ( in_array( $data['grid_hover_layout'], [ 'grid_hover-layout4', 'grid_hover-layout4-2' ] ) ) {
 						$_posts_per_page = 7;
-					} elseif ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout5',
-						'grid_hover-layout5-2'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout5',
+							'grid_hover-layout5-2',
+						]
+					) ) {
 						$_posts_per_page = 3;
-					} elseif ( in_array( $data['grid_hover_layout'],
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
 						[
 							'grid_hover-layout6',
 							'grid_hover-layout6-2',
 							'grid_hover-layout9',
 							'grid_hover-layout9-2',
 							'grid_hover-layout10',
-							'grid_hover-layout11'
-						] )
+							'grid_hover-layout11',
+						]
+					)
 					) {
 						$_posts_per_page = 4;
-					} elseif ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout7',
-						'grid_hover-layout7-2',
-						'grid_hover-layout8'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout7',
+							'grid_hover-layout7-2',
+							'grid_hover-layout8',
+						]
+					) ) {
 						$_posts_per_page = 5;
-					} elseif ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout6',
-						'grid_hover-layout6-2'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout6',
+							'grid_hover-layout6-2',
+						]
+					) ) {
 						$_posts_per_page = 4;
 					}
 				}
 
 				$args['posts_per_page'] = $data['display_per_page'] ?: $_posts_per_page;
 			}
-
 		} else {
 			$slider_per_page = $data['post_limit'];
 			if ( $data['slider_layout'] == 'slider-layout10' ) {
@@ -239,9 +251,8 @@ class rtTPGElementorQuery {
 					$slider_per_page = ( $data['post_limit'] - $slider_reminder + 5 );
 				}
 			}
-			$args['posts_per_page'] = $slider_per_page;
+			$args['posts_per_page'] = intval( $slider_per_page );
 		}
-
 
 		return $args;
 	}
@@ -274,30 +285,30 @@ class rtTPGElementorQuery {
 
 			if ( $orderby = $data['orderby'] ) {
 				$order_by        = $data['orderby'] == 'meta_value_datetime' ? 'meta_value_num' : $data['orderby'];
-				$args['orderby'] = $order_by;
+				$args['orderby'] = esc_html( $order_by );
 
 				if ( in_array( $orderby, [ 'meta_value', 'meta_value_num' ] ) && $data['meta_key'] ) {
-					$args['meta_key'] = $data['meta_key']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					$args['meta_key'] = esc_html( $data['meta_key'] ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				}
 			}
 
 			if ( $data['order'] ) {
-				$args['order'] = $data['order'];
+				$args['order'] = esc_html( $data['order'] );
 			}
 
 			$slider_per_page = $data['post_limit'];
 			if ( $data['slider_layout'] == 'slider-layout10' ) {
-				$slider_reminder = ( intval( $data['post_limit'], 10 ) % 5 );
+				$slider_reminder = ( intval( $data['post_limit'] ) % 5 );
 				if ( $slider_reminder ) {
 					$slider_per_page = ( $data['post_limit'] - $slider_reminder + 5 );
 				}
 			}
-			$args['posts_per_page'] = $slider_per_page;
+			$args['posts_per_page'] = absint( $slider_per_page );
 		} else {
 			$args = [
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
-				'posts_per_page' => $data['post_limit'],
+				'posts_per_page' => absint( $data['post_limit'] ),
 			];
 
 			$excluded_ids = null;
@@ -313,7 +324,7 @@ class rtTPGElementorQuery {
 				if ( $data['offset'] ) {
 					$_temp_args = [
 						'post_type'      => 'post',
-						'posts_per_page' => $data['offset'],
+						'posts_per_page' => absint( $data['offset'] ),
 						'post_status'    => 'publish',
 						'fields'         => 'ids',
 					];
@@ -365,7 +376,7 @@ class rtTPGElementorQuery {
 			}
 
 			if ( 'slider' !== $prefix && 'show' === $data['show_pagination'] ) {
-				$args['paged'] = get_query_var( "paged" ) ? absint( get_query_var( "paged" ) ) : 1;
+				$args['paged'] = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 			}
 
 			if ( is_tag() ) {
@@ -404,5 +415,4 @@ class rtTPGElementorQuery {
 
 		return $args;
 	}
-
 }

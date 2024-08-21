@@ -270,6 +270,11 @@ class ContentTabController {
 				'default' => '',
 			],
 
+			'custom_taxonomy_order'            => [
+				'type'    => 'string',
+				'default' => 'yes',
+			],
+
 			'author_filter_all_text'           => [
 				'type'    => 'string',
 				'default' => '',

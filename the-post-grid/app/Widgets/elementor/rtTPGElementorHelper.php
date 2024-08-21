@@ -21,7 +21,7 @@ require_once RT_THE_POST_GRID_PLUGIN_PATH . '/app/Widgets/elementor/rtTPGElement
  */
 class rtTPGElementorHelper {
 	/**
-	 *  Post Query Builder
+	 *  Post Query Builderx
 	 *
 	 * @param $ref
 	 */
@@ -1312,6 +1312,22 @@ class rtTPGElementorHelper {
 				'conditions'   => $front_end_filter_tax_condition,
 				'condition'    => [
 					'filter_type' => 'button',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'custom_taxonomy_order',
+			[
+				'label'        => esc_html__( 'Taxonomy Order', 'the-post-grid' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => esc_html__( 'You must sort taxonomy from the dashboard first.', 'the-post-grid' ),
+				'condition'    => [
+					'show_taxonomy_filter' => 'show',
 				],
 			]
 		);

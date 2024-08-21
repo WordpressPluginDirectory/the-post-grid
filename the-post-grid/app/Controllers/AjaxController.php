@@ -144,7 +144,7 @@ class AjaxController {
 			wp_send_json(
 				[
 					'error' => true,
-					'msg'   => esc_html__( 'You have no permission to modification.', 'the-post-grid' ),
+					'msg'   => esc_html__( 'You are not a valid user to modification the options.', 'the-post-grid' ),
 				]
 			);
 			die();

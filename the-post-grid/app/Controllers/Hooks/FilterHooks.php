@@ -158,7 +158,7 @@ class FilterHooks {
 	 * @return array
 	 */
 	public static function filter_author_args( $args ) {
-		$defaults = [ 'role__in' => [ 'administrator', 'editor', 'author' ] ];
+		$defaults = [ 'role__in' => [ 'administrator', 'editor', 'author', 'contributor' ] ];
 
 		return wp_parse_args( $args, $defaults );
 	}

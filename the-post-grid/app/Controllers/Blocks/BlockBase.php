@@ -18,7 +18,6 @@ abstract class BlockBase {
 	 *
 	 * @return void
 	 */
-
 	public function get_script_depends( $data ) {
 
 		$settings           = get_option( rtTPG()->options['settings'] );
@@ -73,21 +72,23 @@ abstract class BlockBase {
 	 * @return array
 	 */
 	public function post_query_guten( $data, $prefix = '' ) {
-		$post_type = isset( $data['post_type'] ) ? $data['post_type'] : 'post';
-		$args      = [
-			'post_type'   => [ $post_type ],
-			'post_status' => isset( $data['post_status'] ) ? $data['post_status'] : 'publish',
+		$_post_type  = isset( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
+		$post_status = isset( $data['post_status'] ) ? esc_html( $data['post_status'] ) : 'publish';
+		$post_type   = Fns::available_post_type( $_post_type );
+		$args        = [
+			'post_type'   => [ Fns::available_post_type( $post_type ) ],
+			'post_status' => Fns::available_user_post_status( $post_status ),
 		];
 
 		if ( $data['post_id'] ) {
-			$post_ids         = explode( ',', $data['post_id'] );
+			$post_ids         = explode( ',', esc_html( $data['post_id'] ) );
 			$post_ids         = array_map( 'trim', $post_ids );
 			$args['post__in'] = $post_ids;
 		}
 
 		if ( $prefix !== 'slider' && 'show' === $data['show_pagination'] ) {
-			$_paged        = is_front_page() ? "page" : "paged";
-			$args['paged'] = get_query_var( $_paged ) ? absint( get_query_var( $_paged ) ) : 1;
+			$_paged        = is_front_page() ? 'page' : 'paged';
+			$args['paged'] = get_query_var( $_paged ) ? intval( get_query_var( $_paged ) ) : 1;
 		}
 
 		if ( rtTPG()->hasPro() && 'yes' == $data['ignore_sticky_posts'] ) {
@@ -98,11 +99,11 @@ abstract class BlockBase {
 			if ( ! rtTPG()->hasPro() && 'rand' == $orderby ) {
 				$orderby = 'date';
 			}
-			$args['orderby'] = $orderby;
+			$args['orderby'] = esc_html( $orderby );
 		}
 
 		if ( $data['order'] ) {
-			$args['order'] = $data['order'];
+			$args['order'] = esc_html( $data['order'] );
 		}
 
 		if ( $data['instant_query'] ) {
@@ -110,20 +111,20 @@ abstract class BlockBase {
 		}
 
 		if ( $data['author'] ) {
-			$args['author__in'] = $data['author'];
+			$args['author__in'] = esc_html( $data['author'] );
 		}
 
 		if ( rtTPG()->hasPro() && ( $data['start_date'] || $data['end_date'] ) ) {
 			$args['date_query'] = [
 				[
-					'after'     => trim( $data['start_date'] ),
-					'before'    => trim( $data['end_date'] ),
+					'after'     => trim( esc_html( $data['start_date'] ) ),
+					'before'    => trim( esc_html( $data['end_date'] ) ),
 					'inclusive' => true,
 				],
 			];
 		}
 
-		$_taxonomies             = get_object_taxonomies( $data['post_type'], 'objects' );
+		$_taxonomies             = get_object_taxonomies( $post_type, 'objects' );
 		$_taxonomy_list          = $data['taxonomy_lists'];
 		$filtered_taxonomy_lists = [];
 
@@ -146,29 +147,28 @@ abstract class BlockBase {
 						'terms'    => $_term_list,
 					];
 				}
-
 			}
 		}
 
 		if ( ! empty( $args['tax_query'] ) && $data['relation'] ) {
-			$args['tax_query']['relation'] = $data['relation']; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			$args['tax_query']['relation'] = esc_html( $data['relation'] ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		}
 
 		if ( $data['post_keyword'] ) {
-			$args['s'] = $data['post_keyword'];
+			$args['s'] = esc_html( $data['post_keyword'] );
 		}
 
 		$offset_posts = $excluded_ids = [];
 		if ( $data['exclude'] || $data['offset'] ) {
 			if ( $data['exclude'] ) {
-				$excluded_ids = explode( ',', $data['exclude'] );
+				$excluded_ids = explode( ',', esc_html( $data['exclude'] ) );
 				$excluded_ids = array_map( 'trim', $excluded_ids );
 			}
 
 			if ( $data['offset'] ) {
 				$_temp_args = $args;
 				unset( $_temp_args['paged'] );
-				$_temp_args['posts_per_page'] = $data['offset'];
+				$_temp_args['posts_per_page'] = esc_html( $data['offset'] );
 				$_temp_args['fields']         = 'ids';
 
 				$offset_posts = get_posts( $_temp_args );
@@ -181,7 +181,7 @@ abstract class BlockBase {
 		if ( $prefix !== 'slider' ) {
 			if ( $data['post_limit'] ) {
 				$tempArgs                   = $args;
-				$tempArgs['posts_per_page'] = $data['post_limit'];
+				$tempArgs['posts_per_page'] = esc_html( $data['post_limit'] );
 				$tempArgs['paged']          = 1;
 				$tempArgs['fields']         = 'ids';
 				if ( ! empty( $offset_posts ) ) {
@@ -190,7 +190,7 @@ abstract class BlockBase {
 				$tempQ = new \WP_Query( $tempArgs );
 				if ( ! empty( $tempQ->posts ) ) {
 					$args['post__in']       = $tempQ->posts;
-					$args['posts_per_page'] = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
+					$args['posts_per_page'] = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? esc_html( $data['display_per_page'] ) : esc_html( $data['post_limit'] );
 				}
 			} else {
 				$_posts_per_page = 9;
@@ -211,42 +211,50 @@ abstract class BlockBase {
 				} elseif ( 'grid_hover' === $prefix ) {
 					if ( in_array( $data['grid_hover_layout'], [ 'grid_hover-layout4', 'grid_hover-layout4-2' ] ) ) {
 						$_posts_per_page = 7;
-					} elseif ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout5',
-						'grid_hover-layout5-2'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout5',
+							'grid_hover-layout5-2',
+						]
+					) ) {
 						$_posts_per_page = 3;
-					} elseif ( in_array( $data['grid_hover_layout'],
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
 						[
 							'grid_hover-layout6',
 							'grid_hover-layout6-2',
 							'grid_hover-layout9',
 							'grid_hover-layout9-2',
 							'grid_hover-layout10',
-							'grid_hover-layout11'
-						] )
+							'grid_hover-layout11',
+						]
+					)
 					) {
 						$_posts_per_page = 4;
-					} elseif ( in_array( $data['grid_hover_layout'], [
-						'grid_hover-layout7',
-						'grid_hover-layout7-2',
-						'grid_hover-layout8'
-					] ) ) {
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
+						[
+							'grid_hover-layout7',
+							'grid_hover-layout7-2',
+							'grid_hover-layout8',
+						]
+					) ) {
 						$_posts_per_page = 5;
-					} elseif ( in_array( $data['grid_hover_layout'],
+					} elseif ( in_array(
+						$data['grid_hover_layout'],
 						[
 							'grid_hover-layout6',
-							'grid_hover-layout6-2'
-						] )
+							'grid_hover-layout6-2',
+						]
+					)
 					) {
 						$_posts_per_page = 4;
 					}
 				}
 
-				$args['posts_per_page'] = $data['display_per_page'] ?: $_posts_per_page;
+				$args['posts_per_page'] = intval( $data['display_per_page'] ?: $_posts_per_page );
 			}
-
-
 		} else {
 			$slider_per_page = $data['post_limit'];
 			if ( $data['slider_layout'] == 'slider-layout10' ) {
@@ -255,11 +263,10 @@ abstract class BlockBase {
 					$slider_per_page = ( $data['post_limit'] - $slider_reminder + 5 );
 				}
 			}
-			$args['posts_per_page'] = $slider_per_page;
+			$args['posts_per_page'] = intval( $slider_per_page );
 		}
 
-
-		//Builder query
+		// Builder query
 		if ( ! empty( $data['is_builder'] ) && $data['is_builder'] === 'yes' ) {
 			$args['posts_per_page'] = get_option( 'posts_per_page' );
 			if ( is_tag() ) {
@@ -292,12 +299,10 @@ abstract class BlockBase {
 
 			if ( is_search() ) {
 				$search    = get_query_var( 's' );
-				$args['s'] = $search;
+				$args['s'] = esc_html( $search );
 			}
 		}
 
-
 		return $args;
 	}
-
 }
