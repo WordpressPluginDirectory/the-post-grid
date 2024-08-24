@@ -116,7 +116,7 @@ class AdminAjaxController {
 			}
 
 			/* post__in */
-			$post__in = ( isset( $_REQUEST['post__in'] ) ? absint( $_REQUEST['post__in'] ) : null );
+			$post__in = ( isset( $_REQUEST['post__in'] ) ? sanitize_text_field( $_REQUEST['post__in'] ) : null );
 
 			if ( $post__in ) {
 				$post__in         = explode( ',', $post__in );

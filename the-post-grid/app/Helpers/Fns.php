@@ -4640,10 +4640,6 @@ class Fns {
 	 */
 	public static function available_post_type( $post_type ) {
 
-		if ( ! is_user_logged_in() ) {
-			return 'post';
-		}
-
 		$post_type_object = get_post_type_object( $post_type );
 
 		if ( ! $post_type_object ) {
@@ -4654,12 +4650,14 @@ class Fns {
 			return $post_type;
 		}
 
-		$user          = wp_get_current_user();
-		$roles         = (array) $user->roles;
-		$allowed_roles = [ 'administrator', 'editor', 'author', 'contributor' ];
+		if ( is_user_logged_in() ) {
+			$user          = wp_get_current_user();
+			$roles         = (array) $user->roles;
+			$allowed_roles = [ 'administrator', 'editor', 'author', 'contributor' ];
 
-		if ( array_intersect( $roles, $allowed_roles ) ) {
-			return $post_type;
+			if ( array_intersect( $roles, $allowed_roles ) ) {
+				return $post_type;
+			}
 		}
 
 		return 'post';

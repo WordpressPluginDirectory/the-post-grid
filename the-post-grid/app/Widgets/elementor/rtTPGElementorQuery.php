@@ -365,7 +365,7 @@ class rtTPGElementorQuery {
 			}
 
 			if ( $data['post_id'] ) {
-				$post_ids = explode( ',', $data['post_id'] );
+				$post_ids = explode( ',', esc_html( $data['post_id'] ) );
 				$post_ids = array_map( 'trim', $post_ids );
 
 				$args['post__in'] = $post_ids;
