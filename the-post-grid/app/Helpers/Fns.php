@@ -434,6 +434,7 @@ class Fns {
 			'img_crop_style'               => ( $data['image_size'] == 'custom' && isset( $data['img_crop_style'] ) ) ? $data['img_crop_style'] : '',
 			'show_acf'                     => $data['show_acf'] ?? '',
 			'search_by'                    => $data['search_by'] ?? '',
+			'multiple_taxonomy'            => $data['multiple_taxonomy'] ?? '',
 		];
 
 		$cf = self::is_acf();
@@ -472,10 +473,18 @@ class Fns {
 	 * @return string
 	 */
 	public static function get_frontend_filter_markup( $data, $is_guten = false ) {
-		if ( ! rtTPG()->hasPro()
-		     || ! ( $data['show_taxonomy_filter'] == 'show' || $data['show_author_filter'] == 'show' || $data['show_order_by'] == 'show'
-		            || $data['show_sort_order'] == 'show'
-		            || $data['show_search'] == 'show' )
+		if (
+			! rtTPG()->hasPro() ||
+			! in_array(
+				'show',
+				[
+					$data['show_taxonomy_filter'],
+					$data['show_author_filter'],
+					$data['show_order_by'],
+					$data['show_sort_order'],
+					$data['show_search'],
+				]
+			)
 		) {
 			return;
 		}
@@ -508,219 +517,10 @@ class Fns {
 		$post_count = ( 'yes' == $data['filter_post_count'] ) ? true : false;
 
 		if ( 'show' == $data['show_taxonomy_filter'] ) {
-			$postCountClass = ( $post_count ? ' has-post-count' : null );
-			$allSelect      = ' selected';
-			$isTermSelected = false;
-
-			$taxFilterOperator = $data['relation'];
-
-			$taxonomy_label = $default_term = '';
-			if ( $is_guten ) {
-				$taxFilter = $data['filter_taxonomy'];
+			if ( $data['multiple_taxonomy'] == 'yes' ) {
+				$html .= self::taxonomies_filter( $data, $is_guten, $filterType, $post_count, $wrapperClass, $itemClass );
 			} else {
-				$section_term_key = $data['post_type'] . '_filter_taxonomy';
-				$taxFilter        = $data[ $section_term_key ];
-			}
-
-			if ( $taxFilter ) {
-				$taxonomy_details = get_taxonomy( $taxFilter );
-				$taxonomy_label   = $taxonomy_details->label;
-				$default_term_key = $taxFilter . '_default_terms';
-				$default_term     = isset( $data[ $default_term_key ] ) ? $data[ $default_term_key ] : '';
-			}
-
-			$allText = $data['tax_filter_all_text'] ? $data['tax_filter_all_text'] : __( 'All ', 'the-post-grid' ) . $taxonomy_label;
-
-			$_taxonomies = get_object_taxonomies( $data['post_type'], 'objects' );
-			$terms       = [];
-
-			foreach ( $_taxonomies as $index => $object ) {
-				if ( $object->name != $taxFilter ) {
-					continue;
-				}
-				$setting_key = $object->name . '_ids';
-
-				// Gutenberg.
-				if ( $is_guten && ! empty( $data['taxonomy_lists'][ $object->name ]['options'] ) ) {
-					// This block execute if gutenberg editor has taxonomy query.
-					$terms = wp_list_pluck( $data['taxonomy_lists'][ $object->name ]['options'], 'value' );
-				} //Elementor.
-                elseif ( ! empty( $data[ $setting_key ] ) ) {
-					// This block execute for Elementor editor has taxonomy query.
-					$_terms = $data[ $setting_key ];
-					$args   = [
-						'taxonomy' => $taxFilter,
-						'fields'   => 'ids',
-						'include'  => $_terms,
-					];
-
-					if ( $data['custom_taxonomy_order'] ) {
-						$args['orderby']  = 'meta_value_num';
-						$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-						$args['order']    = 'ASC';
-					}
-					$terms = get_terms( $args );
-				} //Shortcode.
-				else {
-					// Execute if there is no taxonomy query.
-
-					$args = [
-						'taxonomy' => $taxFilter,
-						'fields'   => 'ids',
-					];
-
-					if ( $data['custom_taxonomy_order'] ) {
-						$args['orderby']  = 'meta_value_num';
-						$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-						$args['order']    = 'ASC';
-					}
-					$terms = get_terms( $args );
-
-				}
-			}
-
-			$taxFilterTerms = $terms;
-
-			if ( $default_term && $taxFilter ) {
-				$isTermSelected = true;
-				$allSelect      = null;
-			}
-
-			if ( $filterType == 'dropdown' ) {
-				$html             .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
-				$termDefaultText  = $allText;
-				$dataTerm         = 'all';
-				$htmlButton       = '';
-				$selectedSubTerms = null;
-				$pCount           = 0;
-
-				if ( ! empty( $terms ) ) {
-					$i = 0;
-					foreach ( $terms as $term_id ) {
-						$term   = get_term( $term_id, $taxFilter, ARRAY_A );
-						$id     = $term['term_id'];
-						$pCount = $pCount + $term['count'];
-						$sT     = null;
-						if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' ) {
-							$subTerms = self::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
-							if ( ! empty( $subTerms ) ) {
-								$count = 0;
-								$item  = $allCount = null;
-								foreach ( $subTerms as $stId => $t ) {
-									$count       = $count + absint( $t['count'] );
-									$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-									$item        .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
-								}
-								if ( $post_count ) {
-									$allCount = " (<span class='rt-post-count'>{$count}</span>)";
-								}
-								$sT .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap sub-dropdown-wrap{$postCountClass}'>";
-								$sT .= "<span class='term-default rt-filter-dropdown-default' data-term='{$id}'>
-								                        <span class='rt-text'>" . $allText . "</span>
-								                        <i class='fa fa-angle-down rt-arrow-angle' aria-hidden='true'></i>
-								                    </span>";
-								$sT .= '<span class="term-dropdown rt-filter-dropdown">';
-								$sT .= $item;
-								$sT .= '</span>';
-								$sT .= '</div>';
-							}
-							if ( $default_term === $id ) {
-								$selectedSubTerms = $sT;
-							}
-						}
-						$postCount = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
-						if ( $default_term && $default_term == $id ) {
-							$termDefaultText = $term['name'] . $postCount;
-							$dataTerm        = $id;
-						}
-						if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
-							if ( in_array( $id, $taxFilterTerms ) ) {
-								$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
-							}
-						} else {
-							$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
-						}
-						$i ++;
-					}
-				}
-				$pAllCount = null;
-				if ( $post_count ) {
-					$pAllCount = " (<span class='rt-post-count'>{$pCount}</span>)";
-					if ( ! $default_term ) {
-						$termDefaultText = $termDefaultText;
-					}
-				}
-
-				if ( 'yes' == $data['tpg_hide_all_button'] ) {
-					$htmlButton = "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'><span class='rt-text'>" . $allText . '</span></span>'
-					              . $htmlButton;
-				}
-				$htmlButton = sprintf( '<span class="term-dropdown rt-filter-dropdown">%s</span>', $htmlButton );
-
-				$showAllhtml = '<span class="term-default rt-filter-dropdown-default" data-term="' . $dataTerm . '">
-								                        <span class="rt-text">' . $termDefaultText . '</span>
-								                        <i class="fa fa-angle-down rt-arrow-angle" aria-hidden="true"></i>
-								                    </span>';
-
-				$html .= $showAllhtml . $htmlButton;
-				$html .= '</div>' . $selectedSubTerms;
-			} else {
-				// if Button the execute
-				// $termDefaultText = $allText;
-
-				$bCount = 0;
-				$bItems = null;
-
-				if ( ! empty( $terms ) ) {
-					foreach ( $terms as $term_id ) {
-						$term = get_term( $term_id, $taxFilter, ARRAY_A );
-						if ( ! isset( $term['term_id'] ) ) {
-							continue;
-						}
-						$id     = $term['term_id'];
-						$bCount = $bCount + absint( $term['count'] );
-						$sT     = null;
-						if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' && $data['filter_btn_style'] === 'default' && $data['filter_type'] == 'button' ) {
-							$subTerms = self::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
-							if ( ! empty( $subTerms ) ) {
-								$sT .= "<div class='rt-filter-sub-tax sub-button-group '>";
-								foreach ( $subTerms as $stId => $t ) {
-									$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
-									$sT          .= "<span class='term-button-item rt-filter-button-item ' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
-								}
-								$sT .= '</div>';
-								if ( $default_term === $id ) {
-									$selectedSubTermsForButton = $sT;
-								}
-							}
-						}
-						$postCount    = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
-						$termSelected = null;
-						if ( $isTermSelected && $id == $default_term ) {
-							$termSelected = ' selected';
-						}
-						if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
-							if ( in_array( $id, $taxFilterTerms ) ) {
-								$bItems .= "<span class='term-button-item rt-filter-button-item {$termSelected} {$itemClass}' data-term='{$id}'>{$term['name']}{$postCount}{$sT}</span>";
-							}
-						} else {
-							$bItems .= "<span class='term-button-item rt-filter-button-item {$termSelected} {$itemClass}' data-term='{$id}'>{$term['name']}{$postCount}{$sT}</span>";
-						}
-					}
-				}
-				$html .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-button-wrap{$postCountClass} {$wrapperClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
-
-				// $pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
-				if ( 'yes' == $data['tpg_hide_all_button'] ) {
-					$html .= "<span class='term-button-item rt-filter-button-item {$allSelect} {$itemClass}' data-term='all'>" . $allText . '</span>';
-				}
-
-				$html .= $bItems;
-
-				$html .= '</div>';
-				if ( 'carousel' === $data['filter_btn_style'] ) {
-					$html .= '<div class="swiper-navigation"><div class="swiper-button-prev slider-btn"></div><div class="swiper-button-next slider-btn"></div></div>';
-				}
+				$html .= self::taxonomy_filter( $data, $is_guten, $filterType, $post_count, $wrapperClass, $itemClass );
 			}
 		}
 
@@ -735,13 +535,9 @@ class Fns {
 			} else {
 				$users = get_users( apply_filters( 'tpg_author_arg', [] ) );
 			}
-			$allText   = $allText = $data['author_filter_all_text'] ? $data['author_filter_all_text'] : __( 'All Users', 'the-post-grid' );
+			$allText   = $data['author_filter_all_text'] ?: __( 'All Users', 'the-post-grid' );
 			$allSelect = ' selected';
-			// $isTermSelected = false;
-			// if ( $default_term && $taxFilter ) {
-			$isTermSelected = true;
-			// $allSelect      = null;
-			// }
+
 			if ( $filterType == 'dropdown' ) {
 				$html            .= "<div class='rt-filter-item-wrap rt-author-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-filter='author'>";
 				$termDefaultText = $allText;
@@ -756,26 +552,14 @@ class Fns {
 						$post_count ? '(' . count_user_posts( $user->ID, $data['post_type'] ) . ')' : null;
 						if ( is_array( $filterAuthors ) && ! empty( $filterAuthors ) ) {
 							if ( in_array( $user->ID, $filterAuthors ) ) {
-								if ( $default_term == $user->ID ) {
-									$termDefaultText = $user->display_name;
-									$dataTerm        = $user->ID;
-								} else {
-									$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$user->ID}'>{$user->display_name} <span class='rt-text'>{$user_post_count}</span></span>";
-								}
+								$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$user->ID}'>{$user->display_name} <span class='rt-text'>{$user_post_count}</span></span>";
 							}
 						} else {
-							if ( $default_term == $user->ID ) {
-								$termDefaultText = $user->display_name;
-								$dataTerm        = $user->ID;
-							} else {
-								$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$user->ID}'><span class='rt-text'>{$user->display_name} {$user_post_count}</span></span>";
-							}
+							$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$user->ID}'><span class='rt-text'>{$user->display_name} {$user_post_count}</span></span>";
 						}
 					}
 				}
-
-				$htmlButton .= '</span>';
-
+				$htmlButton  .= '</span>';
 				$showAllhtml = '<span class="term-default rt-filter-dropdown-default" data-term="' . $dataAuthor . '">
 								                        <span class="rt-text">' . $termDefaultText . '</span>
 								                        <i class="fa fa-angle-down rt-arrow-angle" aria-hidden="true"></i>
@@ -868,6 +652,444 @@ class Fns {
 		}
 
 		$html .= "</div>$selectedSubTermsForButton</div>";
+
+		return $html;
+	}
+
+	public static function taxonomies_filter( $data, $is_guten, $filterType, $post_count, $wrapperClass, $itemClass ) {
+		$postCountClass = ( $post_count ? ' has-post-count' : null );
+		$allSelect      = ' selected';
+		$isTermSelected = false;
+		$html           = '';
+
+		$taxonomy_label = $default_term = '';
+		if ( $is_guten ) {
+			if ( $data['multiple_taxonomy'] === 'yes' ) {
+				$taxFilter = wp_list_pluck( $data['filter_taxonomies'], 'value' );
+			} else {
+				$taxFilter = $data['filter_taxonomy'];
+			}
+		} else {
+			$section_term_key = $data['post_type'] . '_filter_taxonomies';
+			$taxFilter        = $data[ $section_term_key ];
+		}
+
+		$_taxonomies = get_object_taxonomies( $data['post_type'], 'objects' );
+
+		foreach ( $_taxonomies as $index => $object ) {
+			if ( ! is_array( $taxFilter ) || ! in_array( $object->name, $taxFilter ) ) {
+				continue;
+			}
+			$terms = [];
+
+			$taxonomy_details = get_taxonomy( $object->name );
+			$taxonomy_label   = $taxonomy_details->label;
+			$default_term_key = $object->name . '_default_terms';
+			$default_term     = isset( $data[ $default_term_key ] ) ? $data[ $default_term_key ] : '';
+			$allText          = $data['tax_filter_all_text'] ?: __( 'All ', 'the-post-grid' ) . $taxonomy_label;
+			$setting_key      = $object->name . '_ids';
+
+			// Gutenberg.
+			if ( $is_guten && ! empty( $data['taxonomy_lists'][ $object->name ]['options'] ) ) {
+				// This block execute if gutenberg editor has taxonomy query.
+				$terms = wp_list_pluck( $data['taxonomy_lists'][ $object->name ]['options'], 'value' );
+			} //Elementor.
+            elseif ( ! empty( $data[ $setting_key ] ) ) {
+				// This block execute for Elementor editor has taxonomy query.
+				$_terms = $data[ $setting_key ];
+				$args   = [
+					'taxonomy' => $object->name,
+					'fields'   => 'ids',
+					'include'  => $_terms,
+				];
+
+				if ( $data['custom_taxonomy_order'] ) {
+					$args['orderby']  = 'meta_value_num';
+					$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					$args['order']    = 'ASC';
+				}
+				$terms = get_terms( $args );
+			} else {
+				// Execute if there is no taxonomy query.
+
+				$args = [
+					'taxonomy' => $object->name,
+					'fields'   => 'ids',
+				];
+
+				if ( $data['custom_taxonomy_order'] ) {
+					$args['orderby']  = 'meta_value_num';
+					$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					$args['order']    = 'ASC';
+				}
+				$terms = get_terms( $args );
+
+			}
+
+			// TODO===========
+			$taxFilterTerms = $terms;
+
+			if ( $default_term ) {
+				$isTermSelected = true;
+				$allSelect      = null;
+			}
+
+			if ( $filterType == 'dropdown' ) {
+				$html             .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$object->name}' data-filter='taxonomy'>";
+				$termDefaultText  = $allText;
+				$dataTerm         = 'all';
+				$htmlButton       = '';
+				$selectedSubTerms = null;
+				$pCount           = 0;
+
+				if ( ! empty( $terms ) ) {
+					$i = 0;
+					foreach ( $terms as $term_id ) {
+						$term   = get_term( $term_id, $object->name, ARRAY_A );
+						$id     = $term['term_id'];
+						$pCount = $pCount + $term['count'];
+						$sT     = null;
+						if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' ) {
+							$subTerms = self::rt_get_all_term_by_taxonomy( $object->name, true, $id );
+							if ( ! empty( $subTerms ) ) {
+								$count = 0;
+								$item  = $allCount = null;
+								foreach ( $subTerms as $stId => $t ) {
+									$count       = $count + absint( $t['count'] );
+									$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
+									$item        .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
+								}
+								if ( $post_count ) {
+									$allCount = " (<span class='rt-post-count'>{$count}</span>)";
+								}
+								$sT .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap sub-dropdown-wrap{$postCountClass}'>";
+								$sT .= "<span class='term-default rt-filter-dropdown-default' data-term='{$id}'>
+                    								                        <span class='rt-text'>" . $allText . "</span>
+                    								                        <i class='fa fa-angle-down rt-arrow-angle' aria-hidden='true'></i>
+                    								                    </span>";
+								$sT .= '<span class="term-dropdown rt-filter-dropdown">';
+								$sT .= $item;
+								$sT .= '</span>';
+								$sT .= '</div>';
+							}
+							if ( $default_term === $id ) {
+								$selectedSubTerms = $sT;
+							}
+						}
+						$postCount = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
+						if ( $default_term && $default_term == $id ) {
+							$termDefaultText = $term['name'] . $postCount;
+							$dataTerm        = $id;
+						}
+						if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
+							if ( in_array( $id, $taxFilterTerms ) ) {
+								$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
+							}
+						} else {
+							$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
+						}
+						$i ++;
+					}
+				}
+				$pAllCount = null;
+				if ( $post_count ) {
+					$pAllCount = " (<span class='rt-post-count'>{$pCount}</span>)";
+					if ( ! $default_term ) {
+						$termDefaultText = $termDefaultText;
+					}
+				}
+
+				if ( 'yes' == $data['tpg_hide_all_button'] ) {
+					$htmlButton = "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'><span class='rt-text'>" . $allText . '</span></span>'
+					              . $htmlButton;
+				}
+				$htmlButton = sprintf( '<span class="term-dropdown rt-filter-dropdown">%s</span>', $htmlButton );
+
+				$showAllhtml = '<span class="term-default rt-filter-dropdown-default" data-term="' . $dataTerm . '">
+                    								                        <span class="rt-text">' . $termDefaultText . '</span>
+                    								                        <i class="fa fa-angle-down rt-arrow-angle" aria-hidden="true"></i>
+                    								                    </span>';
+
+				$html .= $showAllhtml . $htmlButton;
+				$html .= '</div>' . $selectedSubTerms;
+			} else {
+				// if Button the execute
+				// $termDefaultText = $allText;
+
+				$bCount = 0;
+				$bItems = null;
+
+				if ( ! empty( $terms ) ) {
+					foreach ( $terms as $term_id ) {
+						$term = get_term( $term_id, $object->name, ARRAY_A );
+						if ( ! isset( $term['term_id'] ) ) {
+							continue;
+						}
+						$id     = $term['term_id'];
+						$bCount = $bCount + absint( $term['count'] );
+						$sT     = null;
+						if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' && $data['filter_btn_style'] === 'default' && $data['filter_type'] == 'button' ) {
+							$subTerms = self::rt_get_all_term_by_taxonomy( $object->name, true, $id );
+							if ( ! empty( $subTerms ) ) {
+								$sT .= "<div class='rt-filter-sub-tax sub-button-group '>";
+								foreach ( $subTerms as $stId => $t ) {
+									$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
+									$sT          .= "<span class='term-button-item rt-filter-button-item ' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
+								}
+								$sT .= '</div>';
+								if ( $default_term === $id ) {
+									$selectedSubTermsForButton = $sT;
+								}
+							}
+						}
+						$postCount    = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
+						$termSelected = null;
+						if ( $isTermSelected && $id == $default_term ) {
+							$termSelected = ' selected';
+						}
+						if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
+							if ( in_array( $id, $taxFilterTerms ) ) {
+								$bItems .= "<span class='term-button-item rt-filter-button-item {$termSelected} {$itemClass}' data-term='{$id}'>{$term['name']}{$postCount}{$sT}</span>";
+							}
+						} else {
+							$bItems .= "<span class='term-button-item rt-filter-button-item {$termSelected} {$itemClass}' data-term='{$id}'>{$term['name']}{$postCount}{$sT}</span>";
+						}
+					}
+				}
+				$html .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-button-wrap{$postCountClass} {$wrapperClass}' data-taxonomy='{$object->name}' data-filter='taxonomy'>";
+
+				// $pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
+				if ( 'yes' == $data['tpg_hide_all_button'] ) {
+					$html .= "<span class='term-button-item rt-filter-button-item {$allSelect} {$itemClass}' data-term='all'>" . $allText . '</span>';
+				}
+
+				$html .= $bItems;
+
+				$html .= '</div>';
+				if ( 'carousel' === $data['filter_btn_style'] ) {
+					$html .= '<div class="swiper-navigation"><div class="swiper-button-prev slider-btn"></div><div class="swiper-button-next slider-btn"></div></div>';
+				}
+			}
+			// TODO===========End
+		}
+
+		return $html;
+	}
+
+	public static function taxonomy_filter( $data, $is_guten, $filterType, $post_count, $wrapperClass, $itemClass ) {
+		$postCountClass = ( $post_count ? ' has-post-count' : null );
+		$allSelect      = ' selected';
+		$isTermSelected = false;
+		$html           = '';
+
+		$taxonomy_label = $default_term = '';
+		if ( $is_guten ) {
+			$taxFilter = $data['filter_taxonomy'];
+		} else {
+			$section_term_key = $data['post_type'] . '_filter_taxonomy';
+			$taxFilter        = $data[ $section_term_key ];
+		}
+
+		if ( $taxFilter ) {
+			$taxonomy_details = get_taxonomy( $taxFilter );
+			$taxonomy_label   = $taxonomy_details->label;
+			$default_term_key = $taxFilter . '_default_terms';
+			$default_term     = isset( $data[ $default_term_key ] ) ? $data[ $default_term_key ] : '';
+		}
+
+		$allText = $data['tax_filter_all_text'] ? $data['tax_filter_all_text'] : __( 'All ', 'the-post-grid' ) . $taxonomy_label;
+
+		$_taxonomies = get_object_taxonomies( $data['post_type'], 'objects' );
+		$terms       = [];
+
+		foreach ( $_taxonomies as $index => $object ) {
+			if ( $object->name != $taxFilter ) {
+				continue;
+			}
+			$setting_key = $object->name . '_ids';
+
+			// Gutenberg.
+			if ( $is_guten && ! empty( $data['taxonomy_lists'][ $object->name ]['options'] ) ) {
+				// This block execute if gutenberg editor has taxonomy query.
+				$terms = wp_list_pluck( $data['taxonomy_lists'][ $object->name ]['options'], 'value' );
+			} //Elementor.
+            elseif ( ! empty( $data[ $setting_key ] ) ) {
+				// This block execute for Elementor editor has taxonomy query.
+				$_terms = $data[ $setting_key ];
+				$args   = [
+					'taxonomy' => $taxFilter,
+					'fields'   => 'ids',
+					'include'  => $_terms,
+				];
+
+				if ( $data['custom_taxonomy_order'] ) {
+					$args['orderby']  = 'meta_value_num';
+					$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					$args['order']    = 'ASC';
+				}
+				$terms = get_terms( $args );
+			} //Shortcode.
+			else {
+				// Execute if there is no taxonomy query.
+
+				$args = [
+					'taxonomy' => $taxFilter,
+					'fields'   => 'ids',
+				];
+
+				if ( $data['custom_taxonomy_order'] ) {
+					$args['orderby']  = 'meta_value_num';
+					$args['meta_key'] = '_rt_order'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					$args['order']    = 'ASC';
+				}
+				$terms = get_terms( $args );
+
+			}
+		}
+
+		$taxFilterTerms = $terms;
+
+		if ( $default_term && $taxFilter ) {
+			$isTermSelected = true;
+			$allSelect      = null;
+		}
+
+		if ( $filterType == 'dropdown' ) {
+			$html             .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap parent-dropdown-wrap{$postCountClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
+			$termDefaultText  = $allText;
+			$dataTerm         = 'all';
+			$htmlButton       = '';
+			$selectedSubTerms = null;
+			$pCount           = 0;
+
+			if ( ! empty( $terms ) ) {
+				$i = 0;
+				foreach ( $terms as $term_id ) {
+					$term   = get_term( $term_id, $taxFilter, ARRAY_A );
+					$id     = $term['term_id'];
+					$pCount = $pCount + $term['count'];
+					$sT     = null;
+					if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' ) {
+						$subTerms = self::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
+						if ( ! empty( $subTerms ) ) {
+							$count = 0;
+							$item  = $allCount = null;
+							foreach ( $subTerms as $stId => $t ) {
+								$count       = $count + absint( $t['count'] );
+								$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
+								$item        .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$stId}'><span class='rt-text'>{$t['name']}{$sTPostCount}</span></span>";
+							}
+							if ( $post_count ) {
+								$allCount = " (<span class='rt-post-count'>{$count}</span>)";
+							}
+							$sT .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-dropdown-wrap sub-dropdown-wrap{$postCountClass}'>";
+							$sT .= "<span class='term-default rt-filter-dropdown-default' data-term='{$id}'>
+        								                        <span class='rt-text'>" . $allText . "</span>
+        								                        <i class='fa fa-angle-down rt-arrow-angle' aria-hidden='true'></i>
+        								                    </span>";
+							$sT .= '<span class="term-dropdown rt-filter-dropdown">';
+							$sT .= $item;
+							$sT .= '</span>';
+							$sT .= '</div>';
+						}
+						if ( $default_term === $id ) {
+							$selectedSubTerms = $sT;
+						}
+					}
+					$postCount = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
+					if ( $default_term && $default_term == $id ) {
+						$termDefaultText = $term['name'] . $postCount;
+						$dataTerm        = $id;
+					}
+					if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
+						if ( in_array( $id, $taxFilterTerms ) ) {
+							$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
+						}
+					} else {
+						$htmlButton .= "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='{$id}'><span class='rt-text'>{$term['name']}{$postCount}</span>{$sT}</span>";
+					}
+					$i ++;
+				}
+			}
+			$pAllCount = null;
+			if ( $post_count ) {
+				$pAllCount = " (<span class='rt-post-count'>{$pCount}</span>)";
+				if ( ! $default_term ) {
+					$termDefaultText = $termDefaultText;
+				}
+			}
+
+			if ( 'yes' == $data['tpg_hide_all_button'] ) {
+				$htmlButton = "<span class='term-dropdown-item rt-filter-dropdown-item' data-term='all'><span class='rt-text'>" . $allText . '</span></span>'
+				              . $htmlButton;
+			}
+			$htmlButton = sprintf( '<span class="term-dropdown rt-filter-dropdown">%s</span>', $htmlButton );
+
+			$showAllhtml = '<span class="term-default rt-filter-dropdown-default" data-term="' . $dataTerm . '">
+        								                        <span class="rt-text">' . $termDefaultText . '</span>
+        								                        <i class="fa fa-angle-down rt-arrow-angle" aria-hidden="true"></i>
+        								                    </span>';
+
+			$html .= $showAllhtml . $htmlButton;
+			$html .= '</div>' . $selectedSubTerms;
+		} else {
+			// if Button the execute
+			// $termDefaultText = $allText;
+
+			$bCount = 0;
+			$bItems = null;
+
+			if ( ! empty( $terms ) ) {
+				foreach ( $terms as $term_id ) {
+					$term = get_term( $term_id, $taxFilter, ARRAY_A );
+					if ( ! isset( $term['term_id'] ) ) {
+						continue;
+					}
+					$id     = $term['term_id'];
+					$bCount = $bCount + absint( $term['count'] );
+					$sT     = null;
+					if ( $data['tgp_filter_taxonomy_hierarchical'] == 'yes' && $data['filter_btn_style'] === 'default' && $data['filter_type'] == 'button' ) {
+						$subTerms = self::rt_get_all_term_by_taxonomy( $taxFilter, true, $id );
+						if ( ! empty( $subTerms ) ) {
+							$sT .= "<div class='rt-filter-sub-tax sub-button-group '>";
+							foreach ( $subTerms as $stId => $t ) {
+								$sTPostCount = ( $post_count ? " (<span class='rt-post-count'>{$t['count']}</span>)" : null );
+								$sT          .= "<span class='term-button-item rt-filter-button-item ' data-term='{$stId}'>{$t['name']}{$sTPostCount}</span>";
+							}
+							$sT .= '</div>';
+							if ( $default_term === $id ) {
+								$selectedSubTermsForButton = $sT;
+							}
+						}
+					}
+					$postCount    = ( $post_count ? " (<span class='rt-post-count'>{$term['count']}</span>)" : null );
+					$termSelected = null;
+					if ( $isTermSelected && $id == $default_term ) {
+						$termSelected = ' selected';
+					}
+					if ( is_array( $taxFilterTerms ) && ! empty( $taxFilterTerms ) ) {
+						if ( in_array( $id, $taxFilterTerms ) ) {
+							$bItems .= "<span class='term-button-item rt-filter-button-item {$termSelected} {$itemClass}' data-term='{$id}'>{$term['name']}{$postCount}{$sT}</span>";
+						}
+					} else {
+						$bItems .= "<span class='term-button-item rt-filter-button-item {$termSelected} {$itemClass}' data-term='{$id}'>{$term['name']}{$postCount}{$sT}</span>";
+					}
+				}
+			}
+			$html .= "<div class='rt-filter-item-wrap rt-tax-filter rt-filter-button-wrap{$postCountClass} {$wrapperClass}' data-taxonomy='{$taxFilter}' data-filter='taxonomy'>";
+
+			// $pCountH = ( $post_count ? " (<span class='rt-post-count'>{$bCount}</span>)" : null );
+			if ( 'yes' == $data['tpg_hide_all_button'] ) {
+				$html .= "<span class='term-button-item rt-filter-button-item {$allSelect} {$itemClass}' data-term='all'>" . $allText . '</span>';
+			}
+
+			$html .= $bItems;
+
+			$html .= '</div>';
+			if ( 'carousel' === $data['filter_btn_style'] ) {
+				$html .= '<div class="swiper-navigation"><div class="swiper-button-prev slider-btn"></div><div class="swiper-button-next slider-btn"></div></div>';
+			}
+		}
 
 		return $html;
 	}
@@ -2916,10 +3138,31 @@ class Fns {
 	 * @return string
 	 */
 	public static function get_post_view_count_meta_key() {
-		$count_key = 'tpg-post-view-count';
+		$settings  = get_option( rtTPG()->options['settings'] );
+		$count_key = ! empty( $settings['tpg_count_key'] ) ? sanitize_text_field( $settings['tpg_count_key'] ) : 'tpg-post-view-count';
 
 		return apply_filters( 'tpg_post_view_count', $count_key );
 	}
+
+	public static function get_post_view_count( $pid ) {
+		$settings = get_option( rtTPG()->options['settings'] );
+
+		$count = get_post_meta( $pid, self::get_post_view_count_meta_key(), true );
+
+		if ( ! rtTPG()->hasPro() || ! isset( $settings['tpg_view_count_style'] ) ) {
+			return $count;
+		}
+
+		switch ( $settings['tpg_view_count_style'] ) {
+			case 'global':
+				return self::number_shorten( $count );
+			case 'indian':
+				return self::number_to_lac( $count );
+			default:
+				return $count;
+		}
+	}
+
 
 
 	/**
@@ -3142,8 +3385,7 @@ class Fns {
 		$_tag_id            = isset( $data[ $_tag_id ] ) ? $data[ $_tag_id ] : 'post_tag';
 		$categories         = self::rt_get_the_term_list( $post_id, $_category_id, null, '<span class="rt-separator">,</span>' );
 		$tags               = self::rt_get_the_term_list( $post_id, $_tag_id, null, '<span class="rt-separator">,</span>' );
-		$count_key          = self::get_post_view_count_meta_key();
-		$get_view_count     = get_post_meta( $post_id, $count_key, true );
+		$get_view_count     = self::get_post_view_count( $post_id );
 		$meta_separator     = ( $data['meta_separator'] && 'default' !== $data['meta_separator'] ) ? sprintf( "<span class='separator'>%s</span>", $data['meta_separator'] ) : '';
 		$category_condition = ( $categories && 'show' == $data['show_category'] );
 		if ( ! isset( $data['is_guten_builder'] ) && rtTPG()->hasPro() ) {
@@ -4661,5 +4903,226 @@ class Fns {
 		}
 
 		return 'post';
+	}
+
+	public static function available_post_types( $post_types ) {
+
+		$final_post_type = [];
+		foreach ( $post_types as $post_type ) {
+			$post_type_object = get_post_type_object( $post_type );
+
+			if ( ! $post_type_object ) {
+				return 'post';
+			}
+
+			if ( $post_type_object->public ) {
+				$final_post_type[] = $post_type;
+				continue;
+			}
+
+			if ( is_user_logged_in() ) {
+				$user          = wp_get_current_user();
+				$roles         = (array) $user->roles;
+				$allowed_roles = [ 'administrator', 'editor', 'author', 'contributor' ];
+
+				if ( array_intersect( $roles, $allowed_roles ) ) {
+					$final_post_type[] = $post_type;
+				}
+			}
+		}
+
+		return $final_post_type;
+	}
+
+	/**
+	 * Scaping array
+	 *
+	 * @param $arr
+	 *
+	 * @return array|mixed
+	 */
+	public static function escape_array( $arr ) {
+
+		if ( ! is_array( $arr ) ) {
+			return $arr;
+		}
+		$escaped_arr = [];
+		foreach ( $arr as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$escaped_arr[ esc_attr( $key ) ] = self::escape_array( $value );
+			} else {
+				$escaped_arr[ esc_attr( $key ) ] = $value;
+			}
+		}
+
+		return $escaped_arr;
+	}
+
+	/**
+	 * Remove unnecessary zero after point
+	 *
+	 * @param $value
+	 *
+	 * @return mixed|string
+	 */
+	public static function remove_unnecessary_zero( $value, $return_type = '' ) {
+
+		if ( strpos( $value, '.' ) ) {
+			[ $a, $b ] = explode( '.', $value );
+
+			if ( $return_type == '1' ) {
+				return $a;
+			}
+
+			if ( $return_type == '2' ) {
+				return $b;
+			}
+
+			if ( ! array_filter( str_split( $b ) ) ) {
+				$value = $a;
+			} else {
+				$value = $a . '.' . rtrim( $b, '0' );
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Number Shorten
+	 *
+	 * @param $number
+	 * @param $precision
+	 * @param $divisors
+	 *
+	 * @return mixed|string
+	 */
+	public static function number_shorten( $number, $precision = 1, $divisors = null ) {
+		$number = str_replace( ',', '', $number );
+		if ( $number < 1000 ) {
+			return $number;
+		}
+
+		$thousand    = _x( 'K', 'Thousand Shorthand', 'the-post-grid' );
+		$million     = _x( 'M', 'Million Shorthand', 'the-post-grid' );
+		$billion     = _x( 'B', 'Billion Shorthand', 'the-post-grid' );
+		$trillion    = _x( 'T', 'Trillion Shorthand', 'the-post-grid' );
+		$quadrillion = _x( 'Qa', 'Quadrillion Shorthand', 'the-post-grid' );
+		$quintillion = _x( 'Qi', 'Quintillion Shorthand', 'the-post-grid' );
+
+		$shorthand_label = apply_filters(
+			'tpg_shorthand_price_label',
+			[
+				'thousand'    => $thousand,
+				'million'     => $million,
+				'billion'     => $billion,
+				'trillion'    => $trillion,
+				'quadrillion' => $quadrillion,
+				'quintillion' => $quintillion,
+			]
+		);
+
+		// Setup default $divisors if not provided
+		if ( ! isset( $divisors ) ) {
+			$divisors = [
+				pow( 1000, 0 ) => '', // 1000^0 == 1
+				pow( 1000, 1 ) => isset( $shorthand_label['thousand'] ) ? $shorthand_label['thousand'] : $thousand,
+				pow( 1000, 2 ) => isset( $shorthand_label['million'] ) ? $shorthand_label['million'] : $million,
+				pow( 1000, 3 ) => isset( $shorthand_label['billion'] ) ? $shorthand_label['billion'] : $billion,
+				pow( 1000, 4 ) => isset( $shorthand_label['trillion'] ) ? $shorthand_label['trillion'] : $trillion,
+				pow( 1000, 5 ) => isset( $shorthand_label['quadrillion'] ) ? $shorthand_label['quadrillion'] : $quadrillion,
+				pow( 1000, 6 ) => isset( $shorthand_label['quintillion'] ) ? $shorthand_label['quintillion'] : $quintillion,
+			];
+		}
+
+		// Loop through each $divisor and find the
+		// lowest amount that matches
+		foreach ( $divisors as $divisor => $shorthand ) {
+			if ( abs( $number ) < ( $divisor * 1000 ) ) {
+				// We found a match!
+				break;
+			}
+		}
+
+		// We found our match, or there were no matches.
+		// Either way, use the last defined value for $divisor.
+
+		$shorthand_price = apply_filters( 'tpg_shorthand_price', number_format( $number / $divisor, $precision ) );
+
+		return self::remove_unnecessary_zero( $shorthand_price ) . "<span class='number-shorthand'>{$shorthand}</span>";
+	}
+
+	/**
+	 * Number to K, Lac, Cr convert
+	 *
+	 * @param $number
+	 *
+	 * @return mixed|string
+	 */
+	public static function number_to_lac( $number, $precision = 1 ) {
+
+		$number = (int) str_replace( ',', '', $number );
+
+		$hundred   = '';
+		$thousand  = _x( 'K', 'Thousand Shorthand', 'the-post-grid' );
+		$thousands = _x( 'K', 'Thousands Shorthand', 'the-post-grid' );
+		$lac       = _x( ' Lac', 'Lac Shorthand', 'the-post-grid' );
+		$lacs      = _x( ' Lacs', 'Lacs Shorthand', 'the-post-grid' );
+		$cr        = _x( ' Cr', 'Cr Shorthand', 'the-post-grid' );
+		$crs       = _x( ' Crs', 'Crs Shorthand', 'the-post-grid' );
+
+		if ( 0 == $number ) {
+			return '';
+		}
+
+		$n_count = strlen( self::remove_unnecessary_zero( $number, '1' ) ); // 7
+		switch ( $n_count ) {
+			case 3:
+				$val       = $number / 100;
+				$val       = number_format( $val, $precision );
+				$shorthand = $hundred;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			case 4:
+				$val       = $number / 1000;
+				$val       = number_format( $val, $precision );
+				$shorthand = $thousand;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			case 5:
+				$val       = $number / 1000;
+				$val       = number_format( $val, $precision );
+				$shorthand = $thousands;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			case 6:
+				$val       = $number / 100000;
+				$val       = number_format( $val, $precision );
+				$shorthand = $lac;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			case 7:
+				$val       = $number / 100000;
+				$val       = number_format( $val, $precision );
+				$shorthand = $lacs;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			case 8:
+				$val       = $number / 10000000;
+				$val       = number_format( $val, $precision );
+				$shorthand = $cr;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			case 8 < $n_count:
+				$val       = $number / 10000000;
+				$val       = number_format( $val, $precision );
+				$shorthand = $crs;
+				$finalval  = self::remove_unnecessary_zero( $val ) . "<span class='number-shorthand'>{$shorthand}</span>";
+				break;
+			default:
+				$finalval = $number;
+		}
+
+		return $finalval;
 	}
 }

@@ -36,12 +36,22 @@ class rtTPGElementorQuery {
 	 */
 	public static function post_query( $data, $prefix = '' ): array {
 
-		$post_type   = isset( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
-		$post_status = isset( $data['post_status'] ) ? esc_html( $data['post_status'] ) : 'publish';
+		$_post_type  = ! empty( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
+		$_post_types = ! empty( $data['post_types'] ) ? Fns::escape_array( $data['post_types'] ) : [ 'post' ];
 
+		if ( rtTPG()->hasPro() && 'yes' === $data['multiple_post_type'] ) {
+			$post_type = Fns::available_post_types( $_post_types );
+		} else {
+			$post_type = Fns::available_post_type( $_post_type );
+		}
+		/**
+		 * Post status has been removed. The commented code will be deleted later.
+		 */
+		// $post_status = isset( $data['post_status'] ) ? esc_html( $data['post_status'] ) : 'publish';
+		// 'post_status' => Fns::available_user_post_status( $post_status ),
 		$args = [
-			'post_type'   => [ Fns::available_post_type( $post_type ) ],
-			'post_status' => Fns::available_user_post_status( $post_status ),
+			'post_type'   => $post_type,
+			'post_status' => 'publish',
 		];
 
 		if ( $data['post_id'] ) {
@@ -60,7 +70,6 @@ class rtTPGElementorQuery {
 			$args['ignore_sticky_posts'] = 1;
 		}
 
-		// TODO: should display conditionally
 		if ( $orderby = $data['orderby'] ) {
 
 			$order_by        = ( $orderby == 'meta_value_datetime' ) ? 'meta_value_num' : $orderby;
@@ -98,14 +107,26 @@ class rtTPGElementorQuery {
 			}
 		endif;
 
-		$_taxonomies = get_object_taxonomies( $data['post_type'], 'objects' );
+		if ( rtTPG()->hasPro() && 'yes' === $data['multiple_post_type'] ) {
+			$_taxonomies = [];
+			foreach ( $post_type as $ptype ) {
+				$_obj = get_object_taxonomies( $ptype, 'objects' );
+				foreach ( $_obj as $key => $obj ) {
+					$_taxonomies[ $key ] = $obj;
+				}
+			}
+			$taxo_id = '_ids2';
+		} else {
+			$_taxonomies = get_object_taxonomies( $post_type, 'objects' );
+			$taxo_id     = '_ids';
+		}
 
 		foreach ( $_taxonomies as $index => $object ) {
 			if ( in_array( $object->name, Fns::get_excluded_taxonomy() ) ) {
 				continue;
 			}
 
-			$setting_key = $object->name . '_ids';
+			$setting_key = $object->name . $taxo_id;
 
 			if ( $prefix !== 'slider' && rtTPG()->hasPro() && 'show' === $data['show_taxonomy_filter'] ) {
 				if ( ( $data[ $data['post_type'] . '_filter_taxonomy' ] == $object->name ) && isset( $data[ $object->name . '_default_terms' ] ) && $data[ $object->name . '_default_terms' ] !== '0' ) {

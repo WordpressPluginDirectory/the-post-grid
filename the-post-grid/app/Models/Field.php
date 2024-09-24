@@ -95,6 +95,11 @@ class Field {
 		}
 
 		$html = null;
+
+		if ( $this->type == 'hr' ) {
+			return "<hr/>";
+		}
+
 		$html .= '<div class="field-holder ' . esc_attr( $class ) . '" id="' . esc_attr( $holderId ) . '">';
 
 		$holderClass = explode( ' ', $this->holderClass );
@@ -183,6 +188,7 @@ class Field {
 
 		return $html;
 	}
+
 
 	private function text() {
 		$holderClass = explode( ' ', $this->holderClass );
@@ -472,16 +478,16 @@ class Field {
 										]
 									);
 									$h .= Fns::rtFieldGenerator(
-										array(
-											'term_operator_' . $tax => array(
+										[
+											'term_operator_' . $tax => [
 												'type'        => 'select',
 												'label'       => esc_html__( 'Operator', 'the-post-grid' ),
 												'class'       => 'rt-select2 full',
 												'holderClass' => "term-filter-item-operator {$tax}",
 												'value'       => get_post_meta( $post->ID, 'term_operator_' . $tax, true ),
 												'options'     => Options::rtTermOperators(),
-											),
-										)
+											],
+										]
 									);
 									$h .= '</div>';
 								}
@@ -491,16 +497,16 @@ class Field {
 							$h .= '</div>';
 
 							$h .= Fns::rtFieldGenerator(
-								array(
-									'taxonomy_relation' => array(
+								[
+									'taxonomy_relation' => [
 										'type'        => 'select',
 										'label'       => esc_html__( 'Relation', 'the-post-grid' ),
 										'class'       => 'rt-select2',
 										'holderClass' => 'term-filter-item-relation ' . ( count( $taxA ) > 1 ? null : 'hidden' ),
 										'value'       => get_post_meta( $post->ID, 'taxonomy_relation', true ),
 										'options'     => Options::rtTermRelations(),
-									),
-								)
+									],
+								]
 							);
 
 							$h .= '</div>';
@@ -515,16 +521,16 @@ class Field {
 							$h .= '</div>';
 							$h .= '</div>';
 							$h .= Fns::rtFieldGenerator(
-								array(
-									'taxonomy_relation' => array(
+								[
+									'taxonomy_relation' => [
 										'type'        => 'select',
 										'label'       => esc_html__( 'Relation', 'the-post-grid' ),
 										'class'       => 'rt-select2',
 										'holderClass' => 'term-filter-item-relation tpg-hidden',
 										'default'     => 'OR',
 										'options'     => Options::rtTermRelations(),
-									),
-								)
+									],
+								]
 							);
 						}
 
@@ -535,31 +541,31 @@ class Field {
 						$h .= "<div class='field-holder'>";
 						$h .= "<div class='field'>";
 						$h .= Fns::rtFieldGenerator(
-							array(
-								'order_by' => array(
+							[
+								'order_by' => [
 									'type'        => 'select',
 									'label'       => esc_html__( 'Order by', 'the-post-grid' ),
 									'class'       => 'rt-select2 filter-item',
 									'value'       => get_post_meta( $post->ID, 'order_by', true ),
 									'options'     => Options::rtPostOrderBy( false, true ),
 									'description' => esc_html__( 'If "Meta value", "Meta value Number" or "Meta value datetime" is chosen then meta key is required.', 'the-post-grid' ),
-								),
-							)
+								],
+							]
 						);
 						$h .= Fns::rtFieldGenerator(
-							array(
-								'tpg_meta_key' => array(
+							[
+								'tpg_meta_key' => [
 									'type'        => 'text',
 									'label'       => esc_html__( 'Meta key', 'the-post-grid' ),
 									'class'       => 'rt-select2 filter-item',
 									'holderClass' => 'tpg-hidden',
 									'value'       => get_post_meta( $post->ID, 'tpg_meta_key', true ),
-								),
-							)
+								],
+							]
 						);
 						$h .= Fns::rtFieldGenerator(
-							array(
-								'order' => array(
+							[
+								'order' => [
 									'type'      => 'radio',
 									'label'     => esc_html__( 'Order', 'the-post-grid' ),
 									'class'     => 'rt-select2 filter-item',
@@ -567,8 +573,8 @@ class Field {
 									'default'   => 'DESC',
 									'value'     => get_post_meta( $post->ID, 'order', true ),
 									'options'   => Options::rtPostOrders(),
-								),
-							)
+								],
+							]
 						);
 						$h .= '</div>';
 						$h .= '</div>';
@@ -578,34 +584,16 @@ class Field {
 						$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h .= "<div class='rt-tpg-filter-item'>";
 						$h .= Fns::rtFieldGenerator(
-							array(
-								$key => array(
+							[
+								$key => [
 									'type'     => 'select',
 									'label'    => '',
 									'class'    => 'rt-select2 filter-item full',
 									'value'    => get_post_meta( $post->ID, $key ),
 									'multiple' => true,
 									'options'  => Fns::rt_get_users(),
-								),
-							)
-						);
-						$h .= '</div>';
-						$h .= '</div>';
-					} elseif ( $key == 'tpg_post_status' ) {
-						$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
-						$h .= "<div class='rt-tpg-filter-item'>";
-						$h .= Fns::rtFieldGenerator(
-							array(
-								$key => array(
-									'type'     => 'select',
-									'label'    => '',
-									'class'    => 'rt-select2 filter-item full',
-									'default'  => array( 'publish' ),
-									'value'    => get_post_meta( $post->ID, $key ),
-									'multiple' => true,
-									'options'  => Options::rtTPGPostStatus(),
-								),
-							)
+								],
+							]
 						);
 						$h .= '</div>';
 						$h .= '</div>';
@@ -613,40 +601,60 @@ class Field {
 						$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h .= "<div class='rt-tpg-filter-item'>";
 						$h .= Fns::rtFieldGenerator(
-							array(
-								$key => array(
+							[
+								$key => [
 									'type'  => 'text',
 									'label' => esc_html__( 'Keyword', 'the-post-grid' ),
 									'class' => 'filter-item full',
 									'value' => get_post_meta( $post->ID, $key, true ),
-								),
-							)
+								],
+							]
 						);
 						$h .= '</div>';
 						$h .= '</div>';
 					} elseif ( $key == 'date_range' ) {
 						$range_start = get_post_meta( $post->ID, 'date_range_start', true );
 						$range_end   = get_post_meta( $post->ID, 'date_range_end', true );
-						$range_value = array(
+						$range_value = [
 							'start' => $range_start,
 							'end'   => $range_end,
-						);
+						];
 						$h           .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
 						$h           .= "<div class='rt-tpg-filter-item'>";
 						$h           .= Fns::rtFieldGenerator(
-							array(
-								$key => array(
+							[
+								$key => [
 									'type'        => 'date_range',
 									'label'       => '',
 									'class'       => 'filter-item full rt-date-range',
 									'value'       => $range_value,
 									'description' => "Date format should be 'yyyy-mm-dd'",
-								),
-							)
+								],
+							]
 						);
 						$h           .= '</div>';
 						$h           .= '</div>';
 					}
+					/* Post status has removed
+					 * elseif ( $key == 'tpg_post_status' ) {
+											$h .= '<div class="rt-tpg-filter ' . esc_attr( $key ) . ' tpg-hidden">';
+											$h .= "<div class='rt-tpg-filter-item'>";
+											$h .= Fns::rtFieldGenerator(
+												array(
+													$key => array(
+														'type'     => 'select',
+														'label'    => '',
+														'class'    => 'rt-select2 filter-item full',
+														'default'  => array( 'publish' ),
+														'value'    => get_post_meta( $post->ID, $key ),
+														'multiple' => true,
+														'options'  => Options::rtTPGPostStatus(),
+													),
+												)
+											);
+											$h .= '</div>';
+											$h .= '</div>';
+					}*/
 					// }
 
 					$h .= '</div>';

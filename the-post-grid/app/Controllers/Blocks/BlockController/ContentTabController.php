@@ -3,6 +3,7 @@
 namespace RT\ThePostGrid\Controllers\Blocks\BlockController;
 
 use RT\ThePostGrid\Helpers\Fns;
+
 //phpcs:disable WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
 class ContentTabController {
@@ -196,7 +197,12 @@ class ContentTabController {
 				'default' => 'No posts found.',
 			],
 
-			// Front-end Filter Settings
+			// Front-end Filter Settings.
+
+			'multiple_taxonomy'                => [
+				'type'    => 'string',
+				'default' => '',
+			],
 
 			'show_taxonomy_filter'             => [
 				'type'    => 'string',
@@ -238,6 +244,12 @@ class ContentTabController {
 				'default' => 'category',
 			],
 
+
+			'filter_taxonomies'                => [
+				'type'    => 'array',
+				'default' => [],
+			],
+
 			'filter_btn_style'                 => [
 				'type'    => 'string',
 				'default' => 'default',
@@ -247,8 +259,6 @@ class ContentTabController {
 				'type'    => 'string',
 				'default' => 'auto',
 			],
-
-			// TODO: All Frontend filter are given below:
 
 			'filter_post_count'                => [
 				'type'    => 'string',

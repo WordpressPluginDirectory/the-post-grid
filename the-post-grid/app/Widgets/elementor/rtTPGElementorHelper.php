@@ -40,6 +40,19 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_control(
+			'multiple_post_type',
+			[
+				'label'        => esc_html__( 'Multiple Post Types?', 'the-post-grid' ) . $ref->pro_label,
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => false,
+				'classes'      => rtTPG()->hasPro() ? '' : 'the-post-grid-field-hide',
+			]
+		);
+
+		$ref->add_control(
 			'post_type',
 			[
 				'label'       => esc_html__( 'Post Source', 'the-post-grid' ),
@@ -47,6 +60,24 @@ class rtTPGElementorHelper {
 				'options'     => $post_types,
 				'default'     => 'post',
 				'description' => $ref->get_pro_message( 'all post type.' ),
+				'condition'   => [
+					'multiple_post_type!' => 'yes',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'post_types',
+			[
+				'label'       => esc_html__( 'Post Sources', 'the-post-grid' ),
+				'type'        => Controls_Manager::SELECT2,
+				'multiple'    => true,
+				'options'     => $post_types,
+				'default'     => [ 'post' ],
+				'description' => $ref->get_pro_message( 'all post type.' ),
+				'condition'   => [
+					'multiple_post_type' => 'yes',
+				],
 			]
 		);
 
@@ -56,7 +87,7 @@ class rtTPGElementorHelper {
 			'common_filters_heading',
 			[
 				'label'     => esc_html__( 'Common Filters:', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 			]
@@ -66,7 +97,7 @@ class rtTPGElementorHelper {
 			'post_id',
 			[
 				'label'       => esc_html__( 'Include only', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'description' => esc_html__( 'Enter the post IDs separated by comma for include', 'the-post-grid' ),
 				'placeholder' => 'Eg. 10, 15, 17',
 			]
@@ -76,7 +107,7 @@ class rtTPGElementorHelper {
 			'exclude',
 			[
 				'label'       => esc_html__( 'Exclude', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'description' => esc_html__( 'Enter the post IDs separated by comma for exclude', 'the-post-grid' ),
 				'placeholder' => 'Eg. 12, 13',
 			]
@@ -86,8 +117,17 @@ class rtTPGElementorHelper {
 			'post_limit',
 			[
 				'label'       => esc_html__( 'Limit', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::NUMBER,
+				'type'        => Controls_Manager::NUMBER,
 				'description' => esc_html__( 'The number of posts to show. Enter -1 to show all found posts.', 'the-post-grid' ),
+			]
+		);
+
+		$ref->add_control(
+			'display_per_page',
+			[
+				'label'       => esc_html__( 'Display Per Page', 'the-post-grid' ),
+				'type'        => Controls_Manager::NUMBER,
+				'description' => esc_html__( 'Enter how may posts will display per page. It works only for the the pagination and ajax-filer.', 'the-post-grid' ),
 			]
 		);
 
@@ -95,7 +135,7 @@ class rtTPGElementorHelper {
 			'offset',
 			[
 				'label'       => esc_html__( 'Offset', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Enter Post offset', 'the-post-grid' ),
 				'description' => esc_html__( 'Number of posts to skip. The offset parameter is ignored when post limit => -1 is used.', 'the-post-grid' ),
 			]
@@ -133,7 +173,7 @@ class rtTPGElementorHelper {
 			'advanced_filters_heading',
 			[
 				'label'     => esc_html__( 'Advanced Filters:', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 			]
@@ -142,8 +182,10 @@ class rtTPGElementorHelper {
 		$_url = site_url( 'wp-admin/edit.php?post_type=rttpg&page=tgp_taxonomy_order' );
 
 		foreach ( $taxonomies as $taxonomy => $object ) {
-			if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+
+			if ( ! isset( $object->object_type[0] )
+				 || ! in_array( $object->object_type[0], array_keys( $post_types ) )
+				 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 			) {
 				continue;
 			}
@@ -151,12 +193,28 @@ class rtTPGElementorHelper {
 				$taxonomy . '_ids',
 				[
 					'label'       => esc_html__( 'By ', 'the-post-grid' ) . $object->label,
-					'type'        => \Elementor\Controls_Manager::SELECT2,
+					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'multiple'    => true,
 					'options'     => Fns::tpg_get_categories_by_id( $taxonomy ),
 					'condition'   => [
-						'post_type' => $object->object_type,
+						'post_type'           => $object->object_type,
+						'multiple_post_type!' => 'yes',
+					],
+					'description' => "For custom order: <a target='_blank' href='" . $_url . "'>The Post Grid > Taxonomy Order</a>",
+				]
+			);
+
+			$ref->add_control(
+				$taxonomy . '_ids2',
+				[
+					'label'       => esc_html__( 'By ', 'the-post-grid' ) . $object->label,
+					'type'        => Controls_Manager::SELECT2,
+					'label_block' => true,
+					'multiple'    => true,
+					'options'     => Fns::tpg_get_categories_by_id( $taxonomy ),
+					'condition'   => [
+						'multiple_post_type' => 'yes',
 					],
 					'description' => "For custom order: <a target='_blank' href='" . $_url . "'>The Post Grid > Taxonomy Order</a>",
 				]
@@ -167,7 +225,7 @@ class rtTPGElementorHelper {
 			'relation',
 			[
 				'label'   => esc_html__( 'Taxonomies Relation', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
 				'default' => 'OR',
 				'options' => [
 					'OR'  => __( 'OR', 'the-post-grid' ),
@@ -180,7 +238,7 @@ class rtTPGElementorHelper {
 			'author',
 			[
 				'label'       => esc_html__( 'By Author', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT2,
+				'type'        => Controls_Manager::SELECT2,
 				'multiple'    => true,
 				'label_block' => true,
 				'options'     => Fns::rt_get_users(),
@@ -191,7 +249,7 @@ class rtTPGElementorHelper {
 			'post_keyword',
 			[
 				'label'       => esc_html__( 'By Keyword', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'placeholder' => esc_html__( 'Search by keyword', 'the-post-grid' ),
 				'description' => esc_html__( 'Search by post title or content keyword', 'the-post-grid' ),
@@ -202,7 +260,7 @@ class rtTPGElementorHelper {
 			'date_range',
 			[
 				'label'          => esc_html__( 'Date Range (Start to End)', 'the-post-grid' ) . $ref->pro_label,
-				'type'           => \Elementor\Controls_Manager::DATE_TIME,
+				'type'           => Controls_Manager::DATE_TIME,
 				'placeholder'    => 'Choose date...',
 				'description'    => esc_html__( 'NB: Enter DEL button for delete date range', 'the-post-grid' ),
 				'classes'        => rtTPG()->hasPro() ? '' : 'the-post-grid-field-hide',
@@ -239,7 +297,7 @@ class rtTPGElementorHelper {
 			'orderby',
 			[
 				'label'       => esc_html__( 'Order by', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT,
 				'options'     => $orderby_opt,
 				'default'     => 'date',
 				'description' => $ref->get_pro_message( 'Random Order.' ),
@@ -253,7 +311,7 @@ class rtTPGElementorHelper {
 			'meta_key',
 			[
 				'label'       => esc_html__( 'Meta Key', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Enter Meta Key.', 'the-post-grid' ),
 				'condition'   => [
 					'orderby' => [ 'meta_value', 'meta_value_num', 'meta_value_datetime' ],
@@ -265,7 +323,7 @@ class rtTPGElementorHelper {
 			'order',
 			[
 				'label'     => esc_html__( 'Sort order', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'options'   => [
 					'ASC'  => esc_html__( 'ASC', 'the-post-grid' ),
 					'DESC' => esc_html__( 'DESC', 'the-post-grid' ),
@@ -277,7 +335,9 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		$ref->add_control(
+		/*
+		 * the below code should remove from later
+		 * $ref->add_control(
 			'post_status',
 			[
 				'label'   => esc_html__( 'Post Status', 'the-post-grid' ),
@@ -285,13 +345,13 @@ class rtTPGElementorHelper {
 				'options' => Options::rtTPGPostStatus(),
 				'default' => 'publish',
 			]
-		);
+		);*/
 
 		$ref->add_control(
 			'ignore_sticky_posts',
 			[
 				'label'        => esc_html__( 'Ignore sticky posts at the top', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -305,7 +365,7 @@ class rtTPGElementorHelper {
 			'no_posts_found_text',
 			[
 				'label'       => esc_html__( 'No post found Text', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'default'     => esc_html__( 'No posts found.', 'the-post-grid' ),
 				'placeholder' => esc_html__( 'Enter No post found', 'the-post-grid' ),
 				'separator'   => 'before',
@@ -342,7 +402,7 @@ class rtTPGElementorHelper {
 			'post_limit',
 			[
 				'label'       => esc_html__( 'Posts per page', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::NUMBER,
+				'type'        => Controls_Manager::NUMBER,
 				'description' => esc_html__( 'The number of posts to show. Enter -1 to show all found posts.', 'the-post-grid' ),
 			]
 		);
@@ -351,7 +411,7 @@ class rtTPGElementorHelper {
 			$get_all_taxonomy = [];
 			foreach ( $taxonomies as $taxonomy => $object ) {
 				if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-				     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+					 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 				) {
 					continue;
 				}
@@ -362,7 +422,7 @@ class rtTPGElementorHelper {
 				'taxonomy_lists',
 				[
 					'label'   => esc_html__( 'Select a Taxonomy for relation', 'the-post-grid' ),
-					'type'    => \Elementor\Controls_Manager::SELECT,
+					'type'    => Controls_Manager::SELECT,
 					'default' => 'category',
 					'options' => $get_all_taxonomy,
 				]
@@ -385,7 +445,7 @@ class rtTPGElementorHelper {
 				'orderby',
 				[
 					'label'   => esc_html__( 'Order by', 'the-post-grid' ),
-					'type'    => \Elementor\Controls_Manager::SELECT,
+					'type'    => Controls_Manager::SELECT,
 					'options' => $orderby_opt,
 					'default' => 'date',
 				]
@@ -395,7 +455,7 @@ class rtTPGElementorHelper {
 				'order',
 				[
 					'label'     => esc_html__( 'Sort order', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::SELECT,
+					'type'      => Controls_Manager::SELECT,
 					'options'   => [
 						'ASC'  => esc_html__( 'ASC', 'the-post-grid' ),
 						'DESC' => esc_html__( 'DESC', 'the-post-grid' ),
@@ -411,7 +471,7 @@ class rtTPGElementorHelper {
 				'post_id',
 				[
 					'label'       => esc_html__( 'Include only', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::TEXT,
+					'type'        => Controls_Manager::TEXT,
 					'description' => esc_html__( 'Enter the post IDs separated by comma for include', 'the-post-grid' ),
 					'placeholder' => 'Eg. 10, 15, 17',
 				]
@@ -421,7 +481,7 @@ class rtTPGElementorHelper {
 				'exclude',
 				[
 					'label'       => esc_html__( 'Exclude', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::TEXT,
+					'type'        => Controls_Manager::TEXT,
 					'description' => esc_html__( 'Enter the post IDs separated by comma for exclude', 'the-post-grid' ),
 					'placeholder' => 'Eg. 12, 13',
 				]
@@ -431,7 +491,7 @@ class rtTPGElementorHelper {
 				'offset',
 				[
 					'label'       => esc_html__( 'Offset', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::TEXT,
+					'type'        => Controls_Manager::TEXT,
 					'placeholder' => esc_html__( 'Enter Post offset', 'the-post-grid' ),
 					'description' => esc_html__( 'Number of posts to skip. The offset parameter is ignored when post limit => -1 is used.', 'the-post-grid' ),
 				]
@@ -441,7 +501,7 @@ class rtTPGElementorHelper {
 				'no_posts_found_text_archive',
 				[
 					'label'       => esc_html__( 'No post found Text', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::TEXT,
+					'type'        => Controls_Manager::TEXT,
 					'default'     => esc_html__( 'No posts found.', 'the-post-grid' ),
 					'placeholder' => esc_html__( 'Enter No post found', 'the-post-grid' ),
 					'separator'   => 'before',
@@ -607,7 +667,7 @@ class rtTPGElementorHelper {
 			$prefix . '_layout',
 			[
 				'label'          => esc_html__( 'Choose Layout', 'the-post-grid' ),
-				'type'           => \Elementor\Controls_Manager::CHOOSE,
+				'type'           => Controls_Manager::CHOOSE,
 				'label_block'    => true,
 				'options'        => $layout_options,
 				'toggle'         => false,
@@ -621,7 +681,7 @@ class rtTPGElementorHelper {
 			'offset_img_position',
 			[
 				'label'        => esc_html__( 'Offset Image Position', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'image-left',
 				'options'      => [
 					'image-left'  => esc_html__( 'Left (Default)', 'the-post-grid' ),
@@ -645,7 +705,7 @@ class rtTPGElementorHelper {
 			'middle_border',
 			[
 				'label'     => esc_html__( 'Middle Border?', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'yes',
 				'options'   => [
 					'yes' => esc_html__( 'Yes', 'the-post-grid' ),
@@ -661,7 +721,7 @@ class rtTPGElementorHelper {
 			'layout_options_heading',
 			[
 				'label'   => esc_html__( 'Layout Options:', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::HEADING,
+				'type'    => Controls_Manager::HEADING,
 				'classes' => 'tpg-control-type-heading',
 			]
 		);
@@ -720,7 +780,7 @@ class rtTPGElementorHelper {
 				'enable_related_slider',
 				[
 					'label'        => esc_html__( 'Enable Slider', 'the-post-grid' ),
-					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 					'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 					'return_value' => 'yes',
@@ -811,7 +871,7 @@ class rtTPGElementorHelper {
 				$prefix . '_layout_style',
 				[
 					'label'       => esc_html__( 'Layout Style', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::SELECT,
+					'type'        => Controls_Manager::SELECT,
 					'default'     => 'tpg-full-height',
 					'options'     => $layout_style_opt,
 					'description' => esc_html__( 'If you use card border then equal height will work. ', 'the-post-grid' ) . $ref->get_pro_message( 'masonry layout' ),
@@ -847,7 +907,7 @@ class rtTPGElementorHelper {
 				$prefix . '_layout_alignment',
 				[
 					'label'     => esc_html__( 'Vertical Align', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::SELECT,
+					'type'      => Controls_Manager::SELECT,
 					'options'   => [
 						''              => esc_html__( 'Default', 'the-post-grid' ),
 						'flex-start'    => esc_html__( 'Start', 'the-post-grid' ),
@@ -879,7 +939,7 @@ class rtTPGElementorHelper {
 				$prefix . '_layout_alignment_2',
 				[
 					'label'     => esc_html__( 'Vertical Align', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::SELECT,
+					'type'      => Controls_Manager::SELECT,
 					'options'   => [
 						''              => esc_html__( 'Default', 'the-post-grid' ),
 						'flex-start'    => esc_html__( 'Start', 'the-post-grid' ),
@@ -909,7 +969,7 @@ class rtTPGElementorHelper {
 			'full_wrapper_align',
 			[
 				'label'        => esc_html__( 'Text Align', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -928,7 +988,7 @@ class rtTPGElementorHelper {
 				'render_type'  => 'template',
 				'toggle'       => true,
 				'selectors'    => [
-					'{{WRAPPER}} .tpg-post-holder div'               => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .tpg-post-holder div' => 'text-align: {{VALUE}};',
 					'{{WRAPPER}} .rt-tpg-container .rt-el-post-meta' => 'justify-content: {{VALUE}};',
 				],
 				'condition'    => [
@@ -965,7 +1025,7 @@ class rtTPGElementorHelper {
 			'show_taxonomy_filter',
 			[
 				'label'        => esc_html__( 'Taxonomy Filter', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -977,7 +1037,7 @@ class rtTPGElementorHelper {
 			'show_author_filter',
 			[
 				'label'        => esc_html__( 'Author filter', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -989,7 +1049,7 @@ class rtTPGElementorHelper {
 			'show_order_by',
 			[
 				'label'        => esc_html__( 'Order By Filter', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1001,7 +1061,7 @@ class rtTPGElementorHelper {
 			'show_sort_order',
 			[
 				'label'        => esc_html__( 'Sort Order Filter', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1013,7 +1073,7 @@ class rtTPGElementorHelper {
 			'show_search',
 			[
 				'label'        => esc_html__( 'Search filter', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1025,7 +1085,7 @@ class rtTPGElementorHelper {
 			'search_by',
 			[
 				'label'     => esc_html__( 'Search By', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'all_content',
 				'options'   => [
 					'all_content' => esc_html__( 'All Content', 'the-post-grid' ),
@@ -1073,7 +1133,7 @@ class rtTPGElementorHelper {
 			'filter_type',
 			[
 				'label'        => esc_html__( 'Filter Type', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'dropdown',
 				'options'      => [
 					'dropdown' => esc_html__( 'Dropdown', 'the-post-grid' ),
@@ -1087,51 +1147,19 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_control(
-			'filter_btn_style',
+			'multiple_taxonomy',
 			[
-				'label'       => esc_html__( 'Filter Style', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT,
-				'default'     => 'default',
-				'options'     => [
-					'default'  => esc_html__( 'Default', 'the-post-grid' ),
-					'carousel' => esc_html__( 'Collapsable', 'the-post-grid' ),
+				'label'        => esc_html__( 'Multiple Taxonomy', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'description'  => esc_html__( 'You must choose taxonomy terms from the query build for each taxonomy for the multiple taxonomy. Otherwise it won\'t work. ', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => false,
+				'conditions'   => $front_end_filter_condition,
+				'condition'    => [
+					'show_taxonomy_filter' => 'show',
 				],
-				'condition'   => [
-					'filter_type' => 'button',
-				],
-				'conditions'  => $front_end_filter_condition,
-				'description' => esc_html__( 'If you use collapsable then only category section show on the filter', 'the-post-grid' ),
-			]
-		);
-
-		$ref->add_responsive_control(
-			'filter_btn_item_per_page',
-			[
-				'label'          => esc_html__( 'Button Item Per Slider', 'the-post-grid' ),
-				'type'           => \Elementor\Controls_Manager::SELECT,
-				'options'        => [
-					'auto' => esc_html__( 'Auto', 'the-post-grid' ),
-					'2'    => esc_html__( '2', 'the-post-grid' ),
-					'3'    => esc_html__( '3', 'the-post-grid' ),
-					'4'    => esc_html__( '4', 'the-post-grid' ),
-					'5'    => esc_html__( '5', 'the-post-grid' ),
-					'6'    => esc_html__( '6', 'the-post-grid' ),
-					'7'    => esc_html__( '7', 'the-post-grid' ),
-					'8'    => esc_html__( '8', 'the-post-grid' ),
-					'9'    => esc_html__( '9', 'the-post-grid' ),
-					'10'   => esc_html__( '10', 'the-post-grid' ),
-					'11'   => esc_html__( '11', 'the-post-grid' ),
-					'12'   => esc_html__( '12', 'the-post-grid' ),
-				],
-				'default'        => 'auto',
-				'tablet_default' => 'auto',
-				'mobile_default' => 'auto',
-				'condition'      => [
-					'filter_type'      => 'button',
-					'filter_btn_style' => 'carousel',
-				],
-				'conditions'     => $front_end_filter_condition,
-				'description'    => esc_html__( 'If you use carousel then only category section show on the filter', 'the-post-grid' ),
 			]
 		);
 
@@ -1192,14 +1220,32 @@ class rtTPGElementorHelper {
 				$post_type . '_filter_taxonomy',
 				[
 					'label'       => esc_html__( 'Choose Taxonomy', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::SELECT,
+					'type'        => Controls_Manager::SELECT,
 					'default'     => $default_cat,
 					'options'     => $taxonomies_list,
 					'condition'   => [
 						'post_type'            => $post_type,
 						'show_taxonomy_filter' => 'show',
+						'multiple_taxonomy!'   => 'yes',
 					],
 					'description' => esc_html__( 'Select a taxonomy for showing in filter', 'the-post-grid' ),
+				]
+			);
+
+			$ref->add_control(
+				$post_type . '_filter_taxonomies',
+				[
+					'label'       => esc_html__( 'Choose Taxonomies', 'the-post-grid' ),
+					'type'        => Controls_Manager::SELECT2,
+					'multiple'    => true,
+					'default'     => $default_cat,
+					'options'     => $taxonomies_list,
+					'condition'   => [
+						'post_type'            => $post_type,
+						'show_taxonomy_filter' => 'show',
+						'multiple_taxonomy'    => 'yes',
+					],
+					'description' => esc_html__( 'Select a taxonomies for showing in filter', 'the-post-grid' ),
 				]
 			);
 
@@ -1240,18 +1286,69 @@ class rtTPGElementorHelper {
 					$terms_prefix . '_default_terms',
 					[
 						'label'     => esc_html__( 'Default ', 'the-post-grid' ) . $tax->label,
-						'type'      => \Elementor\Controls_Manager::SELECT,
+						'type'      => Controls_Manager::SELECT,
 						'default'   => '0',
 						'options'   => $term_lists,
 						'condition' => [
 							$post_type . '_filter_taxonomy' => $tax->name,
-							'post_type'                     => $post_type,
-							'show_taxonomy_filter'          => 'show',
+							'post_type'            => $post_type,
+							'show_taxonomy_filter' => 'show',
+							'multiple_taxonomy!'   => 'yes',
 						],
 					]
 				);
 			}
 		}
+
+		$ref->add_control(
+			'filter_btn_style',
+			[
+				'label'       => esc_html__( 'Filter Style', 'the-post-grid' ),
+				'type'        => Controls_Manager::SELECT,
+				'default'     => 'default',
+				'options'     => [
+					'default'  => esc_html__( 'Default', 'the-post-grid' ),
+					'carousel' => esc_html__( 'Collapsable', 'the-post-grid' ),
+				],
+				'condition'   => [
+					'filter_type'        => 'button',
+					'multiple_taxonomy!' => 'yes',
+				],
+				'conditions'  => $front_end_filter_condition,
+				'description' => esc_html__( 'If you use collapsable then only taxonomy section will show on the filter', 'the-post-grid' ),
+			]
+		);
+
+		$ref->add_responsive_control(
+			'filter_btn_item_per_page',
+			[
+				'label'          => esc_html__( 'Button Item Per Slider', 'the-post-grid' ),
+				'type'           => Controls_Manager::SELECT,
+				'options'        => [
+					'auto' => esc_html__( 'Auto', 'the-post-grid' ),
+					'2'    => esc_html__( '2', 'the-post-grid' ),
+					'3'    => esc_html__( '3', 'the-post-grid' ),
+					'4'    => esc_html__( '4', 'the-post-grid' ),
+					'5'    => esc_html__( '5', 'the-post-grid' ),
+					'6'    => esc_html__( '6', 'the-post-grid' ),
+					'7'    => esc_html__( '7', 'the-post-grid' ),
+					'8'    => esc_html__( '8', 'the-post-grid' ),
+					'9'    => esc_html__( '9', 'the-post-grid' ),
+					'10'   => esc_html__( '10', 'the-post-grid' ),
+					'11'   => esc_html__( '11', 'the-post-grid' ),
+					'12'   => esc_html__( '12', 'the-post-grid' ),
+				],
+				'default'        => 'auto',
+				'tablet_default' => 'auto',
+				'mobile_default' => 'auto',
+				'condition'      => [
+					'filter_type'      => 'button',
+					'filter_btn_style' => 'carousel',
+				],
+				'conditions'     => $front_end_filter_condition,
+				'description'    => esc_html__( 'If you use carousel then only category section show on the filter', 'the-post-grid' ),
+			]
+		);
 
 		$front_end_filter_tax_condition = [
 			'relation' => 'or',
@@ -1273,7 +1370,7 @@ class rtTPGElementorHelper {
 			'filter_post_count',
 			[
 				'label'      => esc_html__( 'Filter Post Count', 'the-post-grid' ),
-				'type'       => \Elementor\Controls_Manager::SELECT,
+				'type'       => Controls_Manager::SELECT,
 				'default'    => 'no',
 				'options'    => [
 					'yes' => esc_html__( 'Yes', 'the-post-grid' ),
@@ -1287,7 +1384,7 @@ class rtTPGElementorHelper {
 			'tgp_filter_taxonomy_hierarchical',
 			[
 				'label'        => esc_html__( 'Tax Hierarchical', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -1304,7 +1401,7 @@ class rtTPGElementorHelper {
 			'tpg_hide_all_button',
 			[
 				'label'        => esc_html__( 'Hide Show all button', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -1320,11 +1417,11 @@ class rtTPGElementorHelper {
 			'custom_taxonomy_order',
 			[
 				'label'        => esc_html__( 'Taxonomy Order', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
-				'default'      => 'yes',
+				'default'      => false,
 				'description'  => esc_html__( 'You must sort taxonomy from the dashboard first.', 'the-post-grid' ),
 				'condition'    => [
 					'show_taxonomy_filter' => 'show',
@@ -1336,7 +1433,7 @@ class rtTPGElementorHelper {
 			'tax_filter_all_text',
 			[
 				'label'       => esc_html__( 'All Taxonomy Text', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Enter All Category Text Here..', 'the-post-grid' ),
 				'conditions'  => $front_end_filter_tax_condition,
 			]
@@ -1345,7 +1442,7 @@ class rtTPGElementorHelper {
 			'author_filter_all_text',
 			[
 				'label'       => esc_html__( 'All Users Text', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Enter All Users Text Here..', 'the-post-grid' ),
 				'condition'   => [
 					'show_author_filter' => 'show',
@@ -1377,7 +1474,7 @@ class rtTPGElementorHelper {
 			'list_layout',
 			[
 				'label'          => esc_html__( 'Choose Layout', 'the-post-grid' ),
-				'type'           => \Elementor\Controls_Manager::CHOOSE,
+				'type'           => Controls_Manager::CHOOSE,
 				'label_block'    => true,
 				'options'        => [
 					'list-layout1'   => [
@@ -1413,7 +1510,7 @@ class rtTPGElementorHelper {
 			'layout_options_heading2',
 			[
 				'label'   => esc_html__( 'Layout Options:', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::HEADING,
+				'type'    => Controls_Manager::HEADING,
 				'classes' => 'tpg-control-type-heading',
 			]
 		);
@@ -1450,7 +1547,7 @@ class rtTPGElementorHelper {
 			'list_layout_alignment',
 			[
 				'label'     => esc_html__( 'Vertical Alignment', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'options'   => [
 					''              => esc_html__( 'Default', 'the-post-grid' ),
 					'flex-start'    => esc_html__( 'Start', 'the-post-grid' ),
@@ -1533,7 +1630,7 @@ class rtTPGElementorHelper {
 			'list_layout_style',
 			[
 				'label'       => esc_html__( 'Layout Style', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT,
 				'default'     => 'tpg-even',
 				'options'     => $layout_style_opt,
 				'description' => $ref->get_pro_message( 'masonry layout' ),
@@ -1548,7 +1645,7 @@ class rtTPGElementorHelper {
 			'full_wrapper_align',
 			[
 				'label'        => esc_html__( 'Text Align', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -1586,26 +1683,15 @@ class rtTPGElementorHelper {
 			'pagination_settings',
 			[
 				'label' => esc_html__( 'Pagination', 'the-post-grid' ),
-				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
-
-		if ( 'archive' !== $layout_type ) {
-			$ref->add_control(
-				'display_per_page',
-				[
-					'label'       => esc_html__( 'Display Per Page', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::NUMBER,
-					'description' => esc_html__( 'Enter how may posts will display per page. It works only for the the pagination and ajax-filer.', 'the-post-grid' ),
-				]
-			);
-		}
 
 		$ref->add_control(
 			'show_pagination',
 			[
 				'label'        => esc_html__( 'Show Pagination', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1638,7 +1724,7 @@ class rtTPGElementorHelper {
 			'pagination_type',
 			[
 				'label'       => esc_html__( 'Pagination Type', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT,
 				'default'     => $default_pagination,
 				'options'     => $pagination_type,
 				'description' => $ref->get_pro_message( 'loadmore and ajax pagination' ),
@@ -1652,7 +1738,7 @@ class rtTPGElementorHelper {
 			'ajax_pagination_type',
 			[
 				'label'        => esc_html__( 'Enable Ajax Next Previous', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -1669,7 +1755,7 @@ class rtTPGElementorHelper {
 			'load_more_button_text',
 			[
 				'label'     => esc_html__( 'Button Text', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::TEXT,
+				'type'      => Controls_Manager::TEXT,
 				'default'   => esc_html__( 'Load More', 'the-post-grid' ),
 				'condition' => [
 					'pagination_type' => 'load_more',
@@ -1700,7 +1786,7 @@ class rtTPGElementorHelper {
 			'show_section_title',
 			[
 				'label'        => esc_html__( 'Section Title', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1714,7 +1800,7 @@ class rtTPGElementorHelper {
 			'show_title',
 			[
 				'label'        => esc_html__( 'Post Title', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1732,7 +1818,7 @@ class rtTPGElementorHelper {
 			'show_thumb',
 			[
 				'label'        => esc_html__( 'Post Thumbnail', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1746,7 +1832,7 @@ class rtTPGElementorHelper {
 			'show_excerpt',
 			[
 				'label'        => esc_html__( 'Post Excerpt', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1763,7 +1849,7 @@ class rtTPGElementorHelper {
 			'show_meta',
 			[
 				'label'        => esc_html__( 'Meta Data', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1780,7 +1866,7 @@ class rtTPGElementorHelper {
 			'show_date',
 			[
 				'label'        => esc_html__( 'Post Date', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1799,7 +1885,7 @@ class rtTPGElementorHelper {
 			'show_category',
 			[
 				'label'        => esc_html__( 'Post Categories', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1818,7 +1904,7 @@ class rtTPGElementorHelper {
 			'show_author',
 			[
 				'label'        => esc_html__( 'Post Author', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1835,7 +1921,7 @@ class rtTPGElementorHelper {
 			'show_tags',
 			[
 				'label'        => esc_html__( 'Post Tags', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1852,7 +1938,7 @@ class rtTPGElementorHelper {
 			'show_comment_count',
 			[
 				'label'        => esc_html__( 'Post Comment Count', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1869,7 +1955,7 @@ class rtTPGElementorHelper {
 			'show_post_count',
 			[
 				'label'        => esc_html__( 'Post View Count', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1886,7 +1972,7 @@ class rtTPGElementorHelper {
 			'show_read_more',
 			[
 				'label'        => esc_html__( 'Read More Button', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1901,7 +1987,7 @@ class rtTPGElementorHelper {
 			'show_social_share',
 			[
 				'label'        => esc_html__( 'Social Share', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -1918,7 +2004,7 @@ class rtTPGElementorHelper {
 				'show_woocommerce_rating',
 				[
 					'label'        => __( 'Rating (WooCommerce)', 'the-post-grid' ),
-					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => __( 'Show', 'the-post-grid' ),
 					'label_off'    => __( 'Hide', 'the-post-grid' ),
 					'return_value' => 'show',
@@ -1936,7 +2022,7 @@ class rtTPGElementorHelper {
 				'show_acf',
 				[
 					'label'        => esc_html__( 'Advanced Custom Field', 'the-post-grid' ) . $ref->pro_label,
-					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 					'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 					'return_value' => 'show',
@@ -1975,7 +2061,7 @@ class rtTPGElementorHelper {
 			'section_title_style',
 			[
 				'label'        => esc_html__( 'Section Title Style', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'style1',
 				'options'      => [
 					'default' => esc_html__( 'Default - Text', 'the-post-grid' ),
@@ -1997,7 +2083,7 @@ class rtTPGElementorHelper {
 				'section_title_source',
 				[
 					'label'   => esc_html__( 'Title source', 'the-post-grid' ),
-					'type'    => \Elementor\Controls_Manager::HIDDEN,
+					'type'    => Controls_Manager::HIDDEN,
 					'default' => 'custom_title',
 				]
 			);
@@ -2006,7 +2092,7 @@ class rtTPGElementorHelper {
 				'section_title_source',
 				[
 					'label'     => esc_html__( 'Title Source', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::SELECT,
+					'type'      => Controls_Manager::SELECT,
 					'default'   => 'custom_title',
 					'options'   => [
 						'page_title'   => esc_html__( 'Page Title', 'the-post-grid' ),
@@ -2023,7 +2109,7 @@ class rtTPGElementorHelper {
 			'section_title_text',
 			[
 				'label'       => esc_html__( 'Title', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Type your title here', 'the-post-grid' ),
 				'default'     => $default,
 				'label_block' => true,
@@ -2038,7 +2124,7 @@ class rtTPGElementorHelper {
 			'title_prefix',
 			[
 				'label'       => esc_html__( 'Title Prefix Text', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Title prefix text', 'the-post-grid' ),
 				'condition'   => [
 					'section_title_source' => 'page_title',
@@ -2050,7 +2136,7 @@ class rtTPGElementorHelper {
 			'title_suffix',
 			[
 				'label'       => esc_html__( 'Title Suffix Text', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Title suffix text', 'the-post-grid' ),
 				'condition'   => [
 					'section_title_source' => 'page_title',
@@ -2082,7 +2168,7 @@ class rtTPGElementorHelper {
 			'enable_external_link',
 			[
 				'label'        => esc_html__( 'Enable External Link', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'show',
@@ -2094,7 +2180,7 @@ class rtTPGElementorHelper {
 			'section_external_url',
 			[
 				'label'       => esc_html__( 'External Link', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::URL,
+				'type'        => Controls_Manager::URL,
 				'placeholder' => esc_html__( 'https://your-link.com', 'the-post-grid' ),
 				'options'     => [ 'url', 'is_external', 'nofollow' ],
 				'default'     => [
@@ -2113,7 +2199,7 @@ class rtTPGElementorHelper {
 			'section_external_text',
 			[
 				'label'     => esc_html__( 'Link Text', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::TEXT,
+				'type'      => Controls_Manager::TEXT,
 				'default'   => esc_html__( 'See More', 'the-post-grid' ),
 				'condition' => [
 					'enable_external_link' => 'show',
@@ -2126,7 +2212,7 @@ class rtTPGElementorHelper {
 				'show_cat_desc',
 				[
 					'label'        => esc_html__( 'Show Archive Description', 'the-post-grid' ),
-					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 					'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 					'return_value' => 'yes',
@@ -2161,7 +2247,7 @@ class rtTPGElementorHelper {
 			'media_source',
 			[
 				'label'   => esc_html__( 'Media Source', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
 				'default' => 'feature_image',
 				'options' => [
 					'feature_image' => esc_html__( 'Feature Image', 'the-post-grid' ),
@@ -2193,7 +2279,7 @@ class rtTPGElementorHelper {
 			'img_crop_style',
 			[
 				'label'     => esc_html__( 'Image Crop Style', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'hard',
 				'options'   => [
 					'soft' => esc_html__( 'Soft Crop', 'the-post-grid' ),
@@ -2339,7 +2425,7 @@ class rtTPGElementorHelper {
 			'hover_animation',
 			[
 				'label'        => esc_html__( 'Image Hover Animation', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default'        => esc_html__( 'Default', 'the-post-grid' ),
@@ -2358,7 +2444,7 @@ class rtTPGElementorHelper {
 			'is_thumb_lightbox',
 			[
 				'label'   => esc_html__( 'Light Box', 'the-post-grid' ) . $ref->pro_label,
-				'type'    => \Elementor\Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => [
 					'default' => esc_html__( 'Default', 'the-post-grid' ),
@@ -2373,7 +2459,7 @@ class rtTPGElementorHelper {
 			'light_box_icon',
 			[
 				'label'     => esc_html__( 'Light Box Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'default'   => [
 					'value'   => 'fas fa-plus',
 					'library' => 'solid',
@@ -2388,7 +2474,7 @@ class rtTPGElementorHelper {
 			'is_default_img',
 			[
 				'label'        => esc_html__( 'Enable Default Image', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -2401,7 +2487,7 @@ class rtTPGElementorHelper {
 			'default_image',
 			[
 				'label'     => esc_html__( 'Default Image', 'the-post-grid' ) . $ref->pro_label,
-				'type'      => \Elementor\Controls_Manager::MEDIA,
+				'type'      => Controls_Manager::MEDIA,
 				'default'   => [
 					'url' => rtTPG()->get_assets_uri( 'images/placeholder.jpg' ),
 				],
@@ -2468,7 +2554,7 @@ class rtTPGElementorHelper {
 			'title_position',
 			[
 				'label'        => esc_html__( 'Title Position', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'prefix_class' => 'title_position_',
 				'render_type'  => 'template',
@@ -2493,7 +2579,7 @@ class rtTPGElementorHelper {
 			'title_position_hidden',
 			[
 				'label'        => esc_html__( 'Title Position', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'prefix_class' => 'title_position_',
 				'render_type'  => 'template',
@@ -2519,7 +2605,7 @@ class rtTPGElementorHelper {
 			'title_hover_underline',
 			[
 				'label'        => esc_html__( 'Title Hover Underline', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'prefix_class' => 'title_hover_border_',
 				'render_type'  => 'template',
@@ -2535,7 +2621,7 @@ class rtTPGElementorHelper {
 			'title_visibility_style',
 			[
 				'label'        => esc_html__( 'Title Visibility Style', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default'    => esc_html__( 'Default', 'the-post-grid' ),
@@ -2552,7 +2638,7 @@ class rtTPGElementorHelper {
 			'title_limit',
 			[
 				'label' => esc_html__( 'Title Length', 'the-post-grid' ),
-				'type'  => \Elementor\Controls_Manager::NUMBER,
+				'type'  => Controls_Manager::NUMBER,
 				'step'  => 1,
 			]
 		);
@@ -2561,7 +2647,7 @@ class rtTPGElementorHelper {
 			'title_limit_type',
 			[
 				'label'   => esc_html__( 'Title Crop by', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
 				'default' => 'word',
 				'options' => [
 					'word'      => esc_html__( 'Words', 'the-post-grid' ),
@@ -2607,7 +2693,7 @@ class rtTPGElementorHelper {
 			'excerpt_type',
 			[
 				'label'   => esc_html__( 'Excerpt Type', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
 				'default' => 'character',
 				'options' => $excerpt_type,
 			]
@@ -2622,7 +2708,7 @@ class rtTPGElementorHelper {
 			'excerpt_limit',
 			[
 				'label'     => esc_html__( 'Excerpt Limit', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::NUMBER,
+				'type'      => Controls_Manager::NUMBER,
 				'step'      => 1,
 				'default'   => $default_excerpt_limit,
 				'condition' => [
@@ -2635,7 +2721,7 @@ class rtTPGElementorHelper {
 			'excerpt_more_text',
 			[
 				'label'     => esc_html__( 'Expansion Indicator', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::TEXT,
+				'type'      => Controls_Manager::TEXT,
 				'default'   => '...',
 				'condition' => [
 					'excerpt_type' => [ 'character', 'word' ],
@@ -2718,7 +2804,7 @@ class rtTPGElementorHelper {
 			'meta_position',
 			[
 				'label'        => esc_html__( 'Meta Position', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'prefix_class' => 'meta_position_',
 				'render_type'  => 'template',
@@ -2731,7 +2817,7 @@ class rtTPGElementorHelper {
 			'show_meta_icon',
 			[
 				'label'        => esc_html__( 'Show Meta Icon', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -2743,7 +2829,7 @@ class rtTPGElementorHelper {
 			'meta_separator',
 			[
 				'label'   => esc_html__( 'Meta Separator', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => [
 					'default' => esc_html__( 'Default - None', 'the-post-grid' ),
@@ -2760,7 +2846,7 @@ class rtTPGElementorHelper {
 			'meta_popover_toggle',
 			[
 				'label'        => esc_html__( 'Change Meta Icon', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::POPOVER_TOGGLE,
+				'type'         => Controls_Manager::POPOVER_TOGGLE,
 				'label_off'    => esc_html__( 'Default', 'the-post-grid' ),
 				'label_on'     => esc_html__( 'Custom', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -2776,7 +2862,7 @@ class rtTPGElementorHelper {
 			'user_icon',
 			[
 				'label'     => esc_html__( 'Author Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_author_image!' => 'icon',
 				],
@@ -2787,7 +2873,7 @@ class rtTPGElementorHelper {
 			'cat_icon',
 			[
 				'label'     => esc_html__( 'Category Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_category' => 'show',
 				],
@@ -2798,7 +2884,7 @@ class rtTPGElementorHelper {
 			'date_icon',
 			[
 				'label'     => esc_html__( 'Date Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_date' => 'show',
 				],
@@ -2809,7 +2895,7 @@ class rtTPGElementorHelper {
 			'tag_icon',
 			[
 				'label'     => esc_html__( 'Tags Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_tags' => 'show',
 				],
@@ -2820,7 +2906,7 @@ class rtTPGElementorHelper {
 			'comment_icon',
 			[
 				'label'     => esc_html__( 'Comment Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_comment_count' => 'show',
 				],
@@ -2831,7 +2917,7 @@ class rtTPGElementorHelper {
 			'post_count_icon',
 			[
 				'label'     => esc_html__( 'Post Count Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_post_count' => 'show',
 				],
@@ -2848,7 +2934,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'meta_author_divider',
 			[
-				'type'      => \Elementor\Controls_Manager::DIVIDER,
+				'type'      => Controls_Manager::DIVIDER,
 				'condition' => [
 					'show_author!' => '',
 				],
@@ -2859,7 +2945,7 @@ class rtTPGElementorHelper {
 			'meta_author_heading',
 			[
 				'label'     => esc_html__( 'Author Setting:', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'classes'   => 'tpg-control-type-heading',
 				'condition' => [
 					'show_author!' => '',
@@ -2871,7 +2957,7 @@ class rtTPGElementorHelper {
 			'author_prefix',
 			[
 				'label'       => esc_html__( 'Author Prefix', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'default'     => 'By',
 				'placeholder' => esc_html__( 'By', 'the-post-grid' ),
 				'condition'   => [
@@ -2884,7 +2970,7 @@ class rtTPGElementorHelper {
 			'author_icon_visibility',
 			[
 				'label'        => esc_html__( 'Author Icon Visibility', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'show',
 				'options'      => [
 					'default' => esc_html__( 'Default', 'the-post-grid' ),
@@ -2902,7 +2988,7 @@ class rtTPGElementorHelper {
 			'show_author_image',
 			[
 				'label'        => esc_html__( 'Author Image / Icon', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'icon',
 				'options'      => [
 					'image' => esc_html__( 'Image', 'the-post-grid' ),
@@ -2951,7 +3037,7 @@ class rtTPGElementorHelper {
 			'category_heading',
 			[
 				'label'      => esc_html__( 'Category and Tags Setting:', 'the-post-grid' ),
-				'type'       => \Elementor\Controls_Manager::HEADING,
+				'type'       => Controls_Manager::HEADING,
 				'classes'    => 'tpg-control-type-heading',
 				'conditions' => [
 					'relation' => 'or',
@@ -2975,7 +3061,7 @@ class rtTPGElementorHelper {
 			'category_position',
 			[
 				'label'        => esc_html__( 'Category Position', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default'      => esc_html__( 'Default', 'the-post-grid' ),
@@ -3017,7 +3103,7 @@ class rtTPGElementorHelper {
 			'category_style',
 			[
 				'label'        => esc_html__( 'Category Style', 'the-post-grid' ) . $ref->pro_label,
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'style1',
 				'options'      => [
 					'style1' => esc_html__( 'Style 1 - Only Text', 'the-post-grid' ),
@@ -3038,7 +3124,7 @@ class rtTPGElementorHelper {
 				'important_note',
 				[
 					'raw'  => esc_html__( 'NB. If you use different background color for category then please choose style 2 or 3 from above', 'the-post-grid' ),
-					'type' => \Elementor\Controls_Manager::RAW_HTML,
+					'type' => Controls_Manager::RAW_HTML,
 				]
 			);
 		}
@@ -3048,7 +3134,7 @@ class rtTPGElementorHelper {
 				'show_cat_icon',
 				[
 					'label'        => esc_html__( 'Show Over Image Category Icon', 'the-post-grid' ),
-					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 					'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 					'return_value' => 'yes',
@@ -3119,7 +3205,7 @@ class rtTPGElementorHelper {
 				$post_type . '_taxonomy',
 				[
 					'label'       => esc_html__( 'Category Source', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::SELECT,
+					'type'        => Controls_Manager::SELECT,
 					'default'     => $default_cat,
 					'options'     => $term_options,
 					'condition'   => [
@@ -3134,7 +3220,7 @@ class rtTPGElementorHelper {
 				$post_type . '_tags',
 				[
 					'label'       => esc_html__( 'Tags Source', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::SELECT,
+					'type'        => Controls_Manager::SELECT,
 					'default'     => $default_tag,
 					'options'     => $term_options,
 					'condition'   => [
@@ -3150,7 +3236,7 @@ class rtTPGElementorHelper {
 			'comment_count_heading',
 			[
 				'label'     => esc_html__( 'Comment Count ', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'classes'   => 'tpg-control-type-heading',
 				'condition' => [
 					'show_comment_count' => 'show',
@@ -3162,7 +3248,7 @@ class rtTPGElementorHelper {
 			'show_comment_count_label',
 			[
 				'label'        => esc_html__( 'Show Comment Label', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -3177,7 +3263,7 @@ class rtTPGElementorHelper {
 			'comment_count_label_singular',
 			[
 				'label'       => esc_html__( 'Comment Label Singular', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'default'     => esc_html__( 'Comment', 'the-post-grid' ),
 				'placeholder' => esc_html__( 'Type your title here', 'the-post-grid' ),
 				'condition'   => [
@@ -3191,7 +3277,7 @@ class rtTPGElementorHelper {
 			'comment_count_label_plural',
 			[
 				'label'       => esc_html__( 'Comment Label Plural', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'default'     => esc_html__( 'Comments', 'the-post-grid' ),
 				'placeholder' => esc_html__( 'Type your title here', 'the-post-grid' ),
 				'condition'   => [
@@ -3205,7 +3291,7 @@ class rtTPGElementorHelper {
 			'meta_ordering_heading',
 			[
 				'label'   => esc_html__( 'Meta Ordering', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::HEADING,
+				'type'    => Controls_Manager::HEADING,
 				'classes' => 'tpg-control-type-heading',
 			]
 		);
@@ -3215,7 +3301,7 @@ class rtTPGElementorHelper {
 		$repeater->add_control(
 			'repeater_hidden',
 			[
-				'type' => \Elementor\Controls_Manager::HIDDEN,
+				'type' => Controls_Manager::HIDDEN,
 			]
 		);
 
@@ -3223,7 +3309,7 @@ class rtTPGElementorHelper {
 			'meta_ordering',
 			[
 				'label'       => esc_html__( 'Meta Ordering (Drag and Drop)', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::REPEATER,
+				'type'        => Controls_Manager::REPEATER,
 				'fields'      => $repeater->get_controls(),
 				'default'     => [
 					[
@@ -3288,7 +3374,7 @@ class rtTPGElementorHelper {
 			'readmore_btn_style',
 			[
 				'label'        => esc_html__( 'Button Style', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default-style',
 				'options'      => [
 					'default-style' => esc_html__( 'Default from style', 'the-post-grid' ),
@@ -3303,7 +3389,7 @@ class rtTPGElementorHelper {
 			'read_more_label',
 			[
 				'label'       => esc_html__( 'Read More Label', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
+				'type'        => Controls_Manager::TEXT,
 				'default'     => esc_html__( 'Read More', 'the-post-grid' ),
 				'placeholder' => esc_html__( 'Type Read More Label here', 'the-post-grid' ),
 			]
@@ -3313,7 +3399,7 @@ class rtTPGElementorHelper {
 			'show_btn_icon',
 			[
 				'label'        => esc_html__( 'Show Button Icon', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -3325,7 +3411,7 @@ class rtTPGElementorHelper {
 			'readmore_btn_icon',
 			[
 				'label'     => esc_html__( 'Choose Icon', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::ICONS,
+				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_btn_icon' => 'yes',
 				],
@@ -3336,7 +3422,7 @@ class rtTPGElementorHelper {
 			'readmore_icon_position',
 			[
 				'label'     => esc_html__( 'Icon Position', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'right',
 				'options'   => [
 					'left'  => esc_html__( 'Left', 'the-post-grid' ),
@@ -3397,7 +3483,7 @@ class rtTPGElementorHelper {
 				'cf_group',
 				[
 					'label'       => esc_html__( 'Choose Advanced Custom Field (ACF)', 'the-post-grid' ),
-					'type'        => \Elementor\Controls_Manager::SELECT2,
+					'type'        => Controls_Manager::SELECT2,
 					'label_block' => true,
 					'multiple'    => true,
 					'default'     => [ $selected_acf_id ],
@@ -3417,7 +3503,7 @@ class rtTPGElementorHelper {
 					$post_type . '_cf_group',
 					[
 						'label'       => esc_html__( 'Choose Advanced Custom Field (ACF)', 'the-post-grid' ),
-						'type'        => \Elementor\Controls_Manager::SELECT2,
+						'type'        => Controls_Manager::SELECT2,
 						'label_block' => true,
 						'multiple'    => true,
 						'default'     => [ $selected_acf_id ],
@@ -3434,7 +3520,7 @@ class rtTPGElementorHelper {
 			'cf_hide_empty_value',
 			[
 				'label'        => esc_html__( 'Hide field with empty value?', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'No', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Yes', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -3446,7 +3532,7 @@ class rtTPGElementorHelper {
 			'cf_hide_group_title',
 			[
 				'label'        => esc_html__( 'Show group title?', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'No', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Yes', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -3458,7 +3544,7 @@ class rtTPGElementorHelper {
 			'cf_show_only_value',
 			[
 				'label'        => esc_html__( 'Show label?', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'No', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Yes', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -3501,7 +3587,7 @@ class rtTPGElementorHelper {
 			'post_link_type',
 			[
 				'label'       => esc_html__( 'Post link type', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT,
 				'default'     => 'default',
 				'options'     => $link_type,
 				'description' => $ref->get_pro_message( 'popup options' ),
@@ -3512,7 +3598,7 @@ class rtTPGElementorHelper {
 			'link_target',
 			[
 				'label'     => esc_html__( 'Link Target', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => '_self',
 				'options'   => [
 					'_self'  => esc_html__( 'Same Window', 'the-post-grid' ),
@@ -3528,7 +3614,7 @@ class rtTPGElementorHelper {
 			'is_thumb_linked',
 			[
 				'label'        => esc_html__( 'Thumbnail Link', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -3566,9 +3652,9 @@ class rtTPGElementorHelper {
 			[
 				'type' => Controls_Manager::RAW_HTML,
 				'raw'  => '<div class="elementor-nerd-box"><div class="elementor-nerd-box-title" style="margin-top: 0; margin-bottom: 20px;">Unlock more possibilities</div><div class="elementor-nerd-box-message"><span class="pro-feature" style="font-size: 13px;"> Get the <a href="'
-				          . $pro_url
-				          . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
-				          . $pro_url . '" target="_blank">Get Pro</a></div>',
+						  . $pro_url
+						  . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
+						  . $pro_url . '" target="_blank">Get Pro</a></div>',
 			]
 		);
 
@@ -3598,7 +3684,7 @@ class rtTPGElementorHelper {
 			'section_title_alignment',
 			[
 				'label'        => esc_html__( 'Alignment', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -3691,7 +3777,7 @@ class rtTPGElementorHelper {
 			'section_title_color',
 			[
 				'label'     => esc_html__( 'Title Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper .tpg-widget-heading' => 'color: {{VALUE}}',
 				],
@@ -3702,7 +3788,7 @@ class rtTPGElementorHelper {
 			'section_title_bg_color',
 			[
 				'label'     => esc_html__( 'Title Background Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper.heading-style2 .tpg-widget-heading, {{WRAPPER}} .tpg-widget-heading-wrapper.heading-style3 .tpg-widget-heading'                => 'background-color: {{VALUE}}',
 					'{{WRAPPER}} .tpg-widget-heading-wrapper.heading-style2 .tpg-widget-heading::after, {{WRAPPER}} .tpg-widget-heading-wrapper.heading-style2 .tpg-widget-heading::before' => 'border-color: {{VALUE}} transparent',
@@ -3717,7 +3803,7 @@ class rtTPGElementorHelper {
 			'section_title_dot_color',
 			[
 				'label'     => esc_html__( 'Dot / Bar Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper.heading-style1 .tpg-widget-heading::before' => 'background-color: {{VALUE}}',
 					'{{WRAPPER}} .tpg-widget-heading-wrapper.heading-style4::before'                     => 'background-color: {{VALUE}}',
@@ -3732,7 +3818,7 @@ class rtTPGElementorHelper {
 			'section_title_line_color',
 			[
 				'label'     => esc_html__( 'Line / Border Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper.heading-style1 .tpg-widget-heading-line'                                                                                                                                                                                                                                                                      => 'border-color: {{VALUE}}',
 					'{{WRAPPER}}.section-title-style-style2 .tpg-header-wrapper:not(.carousel) .tpg-widget-heading-wrapper,{{WRAPPER}}.section-title-style-style3 .tpg-header-wrapper:not(.carousel) .tpg-widget-heading-wrapper,{{WRAPPER}}.section-title-style-style2 .tpg-header-wrapper.carousel, {{WRAPPER}}.section-title-style-style3 .tpg-header-wrapper.carousel' => 'border-bottom-color: {{VALUE}}',
@@ -3801,7 +3887,7 @@ class rtTPGElementorHelper {
 			'prefix_text_color',
 			[
 				'label'     => esc_html__( 'Prefix Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper .tpg-widget-heading .prefix-text' => 'color: {{VALUE}}',
 				],
@@ -3814,7 +3900,7 @@ class rtTPGElementorHelper {
 			'suffix_text_color',
 			[
 				'label'     => esc_html__( 'Suffix Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper .tpg-widget-heading .suffix-text' => 'color: {{VALUE}}',
 				],
@@ -3828,7 +3914,7 @@ class rtTPGElementorHelper {
 			'external_icon_color',
 			[
 				'label'     => esc_html__( 'External Link Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper .external-link' => 'color: {{VALUE}}',
 				],
@@ -3839,7 +3925,7 @@ class rtTPGElementorHelper {
 			'external_icon_color_hover',
 			[
 				'label'     => esc_html__( 'External Link Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-widget-heading-wrapper .external-link:hover' => 'color: {{VALUE}}',
 				],
@@ -3889,7 +3975,7 @@ class rtTPGElementorHelper {
 				'cat_tag_description_heading',
 				[
 					'label'     => esc_html__( 'Category / Tag Description', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::HEADING,
+					'type'      => Controls_Manager::HEADING,
 					'classes'   => 'tpg-control-type-heading',
 					'condition' => [
 						'show_cat_desc' => 'yes',
@@ -3913,7 +3999,7 @@ class rtTPGElementorHelper {
 				'taxonomy_des_alignment',
 				[
 					'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::CHOOSE,
+					'type'      => Controls_Manager::CHOOSE,
 					'options'   => [
 						'left'   => [
 							'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -3941,7 +4027,7 @@ class rtTPGElementorHelper {
 				'taxonomy_des_color',
 				[
 					'label'     => esc_html__( 'Title Color', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::COLOR,
+					'type'      => Controls_Manager::COLOR,
 					'selectors' => [
 						'{{WRAPPER}} .tpg-category-description' => 'color: {{VALUE}}',
 					],
@@ -4017,7 +4103,7 @@ class rtTPGElementorHelper {
 			'image_width',
 			[
 				'label'     => esc_html__( 'Image Width (Optional)', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'inherit',
 				'options'   => [
 					'inherit' => esc_html__( 'Default', 'the-post-grid' ),
@@ -4135,7 +4221,7 @@ class rtTPGElementorHelper {
 			'thumb_overlay_style_heading',
 			[
 				'label'   => esc_html__( 'Overlay Style:', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::HEADING,
+				'type'    => Controls_Manager::HEADING,
 				'classes' => 'tpg-control-type-heading',
 			]
 		);
@@ -4178,7 +4264,7 @@ class rtTPGElementorHelper {
 			'thumb_lightbox_bg',
 			[
 				'label'     => esc_html__( 'Light Box Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom .fa' => 'background-color: {{VALUE}}',
 				],
@@ -4192,7 +4278,7 @@ class rtTPGElementorHelper {
 			'thumb_lightbox_color',
 			[
 				'label'     => esc_html__( 'Light Box Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom .fa' => 'color: {{VALUE}}',
 				],
@@ -4206,7 +4292,7 @@ class rtTPGElementorHelper {
 			'thumbnail_position',
 			[
 				'label'     => esc_html__( 'Thumb Position', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'inherit',
 				'options'   => [
 					''              => esc_html__( 'Center Center', 'the-post-grid' ),
@@ -4276,7 +4362,7 @@ class rtTPGElementorHelper {
 			'thumb_lightbox_bg_hover',
 			[
 				'label'     => esc_html__( 'Light Box Background - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom .fa' => 'background-color: {{VALUE}}',
 				],
@@ -4290,7 +4376,7 @@ class rtTPGElementorHelper {
 			'thumb_lightbox_color_hover',
 			[
 				'label'     => esc_html__( 'Light Box Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom .fa' => 'color: {{VALUE}}',
 				],
@@ -4304,7 +4390,7 @@ class rtTPGElementorHelper {
 			'thumbnail_position_hover',
 			[
 				'label'     => esc_html__( 'Thumb Position - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::SELECT,
+				'type'      => Controls_Manager::SELECT,
 				'default'   => 'inherit',
 				'options'   => [
 					''              => esc_html__( 'Center Center', 'the-post-grid' ),
@@ -4366,7 +4452,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'hr_for_overlay',
 			[
-				'type' => \Elementor\Controls_Manager::DIVIDER,
+				'type' => Controls_Manager::DIVIDER,
 			]
 		);
 
@@ -4394,7 +4480,7 @@ class rtTPGElementorHelper {
 			'grid_hover_overlay_type',
 			[
 				'label'        => esc_html__( 'Overlay Interaction', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'always',
 				'options'      => $overlay_type_opt,
 				'description'  => esc_html__( 'If you don\'t choose overlay background then it will work only for some selected layout ', 'the-post-grid' ),
@@ -4414,7 +4500,7 @@ class rtTPGElementorHelper {
 			'grid_hover_overlay_height',
 			[
 				'label'        => esc_html__( 'Overlay Height', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default' => esc_html__( 'Default', 'the-post-grid' ),
@@ -4430,7 +4516,7 @@ class rtTPGElementorHelper {
 			'on_hover_overlay',
 			[
 				'label'        => esc_html__( 'Overlay Height on hover', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default' => esc_html__( 'Default', 'the-post-grid' ),
@@ -4458,7 +4544,7 @@ class rtTPGElementorHelper {
 			'title_style',
 			[
 				'label'     => esc_html__( 'Post Title', 'the-post-grid' ),
-				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_title'         => 'show',
 					$prefix . '_layout!' => [ 'grid-layout7', 'slider-layout4' ],
@@ -4571,7 +4657,7 @@ class rtTPGElementorHelper {
 			'title_border_visibility',
 			[
 				'label'        => esc_html__( 'Title Border Bottom', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default' => esc_html__( 'Default', 'the-post-grid' ),
@@ -4589,7 +4675,7 @@ class rtTPGElementorHelper {
 			'title_alignment',
 			[
 				'label'        => esc_html__( 'Alignment', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'    => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -4632,7 +4718,7 @@ class rtTPGElementorHelper {
 			'title_color',
 			[
 				'label'     => esc_html__( 'Title Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .entry-title' => 'color: {{VALUE}}',
 				],
@@ -4643,7 +4729,7 @@ class rtTPGElementorHelper {
 			'title_bg_color',
 			[
 				'label'     => esc_html__( 'Title Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .entry-title' => 'background-color: {{VALUE}}',
 				],
@@ -4654,7 +4740,7 @@ class rtTPGElementorHelper {
 			'title_border_color',
 			[
 				'label'     => esc_html__( 'Title Separator Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .rt-holder .entry-title-wrapper .entry-title::before' => 'background-color: {{VALUE}}',
 				],
@@ -4679,7 +4765,7 @@ class rtTPGElementorHelper {
 			'title_hover_color',
 			[
 				'label'     => esc_html__( 'Title Color on Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder .entry-title:hover' => 'color: {{VALUE}} !important',
 				],
@@ -4690,7 +4776,7 @@ class rtTPGElementorHelper {
 			'title_bg_color_hover',
 			[
 				'label'     => esc_html__( 'Title Background on hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .entry-title:hover' => 'background-color: {{VALUE}} !important',
 				],
@@ -4701,7 +4787,7 @@ class rtTPGElementorHelper {
 			'title_hover_border_color',
 			[
 				'label'     => esc_html__( 'Title Hover Border Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}' => '--tpg-primary-color: {{VALUE}}',
 				],
@@ -4725,7 +4811,7 @@ class rtTPGElementorHelper {
 			'title_color_box_hover',
 			[
 				'label'     => esc_html__( 'Title color on boxhover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .entry-title' => 'color: {{VALUE}}',
 				],
@@ -4736,7 +4822,7 @@ class rtTPGElementorHelper {
 			'title_bg_color_box_hover',
 			[
 				'label'     => esc_html__( 'Title Background on boxhover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .entry-title' => 'background-color: {{VALUE}}',
 				],
@@ -4747,7 +4833,7 @@ class rtTPGElementorHelper {
 			'title_border_color_hover',
 			[
 				'label'     => esc_html__( 'Title Separator color - boxhover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .rt-holder:hover .entry-title-wrapper .entry-title::before' => 'background-color: {{VALUE}}',
 				],
@@ -4777,7 +4863,7 @@ class rtTPGElementorHelper {
 			'excerpt_style',
 			[
 				'label'     => esc_html__( 'Excerpt / Content', 'the-post-grid' ),
-				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_excerpt'       => 'show',
 					$prefix . '_layout!' => [ 'grid-layout7', 'slider-layout4' ],
@@ -4817,7 +4903,7 @@ class rtTPGElementorHelper {
 			'content_alignment',
 			[
 				'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => [
 					'left'    => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -4861,7 +4947,7 @@ class rtTPGElementorHelper {
 			'excerpt_color',
 			[
 				'label'     => esc_html__( 'Excerpt color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-el-excerpt .tpg-excerpt-inner' => 'color: {{VALUE}}',
 				],
@@ -4872,7 +4958,7 @@ class rtTPGElementorHelper {
 			'excerpt_border',
 			[
 				'label'     => esc_html__( 'Border color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.meta_position_default .tpg-el-main-wrapper .grid-layout3 .rt-holder .rt-el-post-meta::before' => 'background: {{VALUE}}',
 				],
@@ -4897,7 +4983,7 @@ class rtTPGElementorHelper {
 			'excerpt_hover_color',
 			[
 				'label'     => esc_html__( 'Excerpt color on hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .tpg-el-excerpt .tpg-excerpt-inner' => 'color: {{VALUE}} !important',
 				],
@@ -4908,7 +4994,7 @@ class rtTPGElementorHelper {
 			'excerpt_border_hover',
 			[
 				'label'     => esc_html__( 'Border color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.meta_position_default .tpg-el-main-wrapper .grid-layout3 .rt-holder:hover .rt-el-post-meta::before' => 'background: {{VALUE}}',
 				],
@@ -4938,7 +5024,7 @@ class rtTPGElementorHelper {
 			'post_meta_style',
 			[
 				'label'     => esc_html__( 'Meta Data', 'the-post-grid' ),
-				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_meta'          => 'show',
 					$prefix . '_layout!' => [ 'grid-layout7', 'slider-layout4' ],
@@ -4957,7 +5043,7 @@ class rtTPGElementorHelper {
 			'post_meta_alignment',
 			[
 				'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -5018,7 +5104,7 @@ class rtTPGElementorHelper {
 			'meta_info_color',
 			[
 				'label'     => esc_html__( 'Meta Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .post-meta-tags span' => 'color: {{VALUE}}',
 				],
@@ -5029,7 +5115,7 @@ class rtTPGElementorHelper {
 			'meta_link_color',
 			[
 				'label'     => esc_html__( 'Meta Link Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .post-meta-tags a' => 'color: {{VALUE}}',
 				],
@@ -5040,7 +5126,7 @@ class rtTPGElementorHelper {
 			'meta_separator_color',
 			[
 				'label'     => esc_html__( 'Separator Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .post-meta-tags .separator' => 'color: {{VALUE}}',
 				],
@@ -5054,7 +5140,7 @@ class rtTPGElementorHelper {
 			'meta_icon_color',
 			[
 				'label'     => esc_html__( 'Icon Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .post-meta-tags i' => 'color: {{VALUE}}',
 				],
@@ -5076,7 +5162,7 @@ class rtTPGElementorHelper {
 			'meta_link_colo_hover',
 			[
 				'label'     => esc_html__( 'Meta Link Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder .post-meta-tags a:hover' => 'color: {{VALUE}}',
 				],
@@ -5098,7 +5184,7 @@ class rtTPGElementorHelper {
 			'meta_link_colo_box_hover',
 			[
 				'label'     => esc_html__( 'Meta Color - Box Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .post-meta-tags *' => 'color: {{VALUE}}',
 				],
@@ -5116,7 +5202,7 @@ class rtTPGElementorHelper {
 			[
 				'label'       => esc_html__( 'Separate Category', 'the-post-grid' ),
 				'description' => esc_html__( 'Separate Category', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::HEADING,
+				'type'        => Controls_Manager::HEADING,
 				'classes'     => 'tpg-control-type-heading',
 			]
 		);
@@ -5133,7 +5219,7 @@ class rtTPGElementorHelper {
 			'category_margin_bottom',
 			[
 				'label'     => esc_html__( 'Category Margin Bottom', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::NUMBER,
+				'type'      => Controls_Manager::NUMBER,
 				'min'       => 0,
 				'max'       => 50,
 				'step'      => 1,
@@ -5176,7 +5262,7 @@ class rtTPGElementorHelper {
 			'separate_category_color',
 			[
 				'label'     => esc_html__( 'Category Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category .categories-links'   => 'color: {{VALUE}}',
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category .categories-links a' => 'color: {{VALUE}}',
@@ -5188,7 +5274,7 @@ class rtTPGElementorHelper {
 			'separate_category_bg',
 			[
 				'label'       => esc_html__( 'Category Background', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::COLOR,
+				'type'        => Controls_Manager::COLOR,
 				'selectors'   => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category.style1 .categories-links a'             => 'background-color: {{VALUE}};padding: 3px 8px 1px;',
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category:not(.style1) .categories-links a'       => 'background-color: {{VALUE}}',
@@ -5202,7 +5288,7 @@ class rtTPGElementorHelper {
 			'separate_category_icon_color',
 			[
 				'label'     => esc_html__( 'Category Icon Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category .categories-links i' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .tpg-el-main-wrapper .post-meta-tags .categories-links i'        => 'color: {{VALUE}}',
@@ -5228,7 +5314,7 @@ class rtTPGElementorHelper {
 			'separate_category_color_hover',
 			[
 				'label'     => esc_html__( 'Category Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category .categories-links a:hover' => 'color: {{VALUE}} !important',
 					'{{WRAPPER}} .tpg-el-main-wrapper .post-meta-tags .categories-links a:hover'        => 'color: {{VALUE}} !important',
@@ -5240,7 +5326,7 @@ class rtTPGElementorHelper {
 			'separate_category_bg_hover',
 			[
 				'label'     => esc_html__( 'Category Background - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category.style1 .categories-links:hover'                => 'background-color: {{VALUE}};padding: 3px 8px;',
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-separate-category .categories-links:not(.style1) a:hover'        => 'background-color: {{VALUE}}',
@@ -5265,7 +5351,7 @@ class rtTPGElementorHelper {
 			'separate_category_color_box_hover',
 			[
 				'label'     => esc_html__( 'Category Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .tpg-separate-category .categories-links a' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .post-meta-tags .categories-links a'        => 'color: {{VALUE}}',
@@ -5276,7 +5362,7 @@ class rtTPGElementorHelper {
 			'separate_category_bg_box_hover',
 			[
 				'label'     => esc_html__( 'Category Background - Box Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .tpg-separate-category.style1 .categories-links'                => 'background-color: {{VALUE}};padding: 3px 8px;',
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .tpg-separate-category:not(.style1) .categories-links a'        => 'background-color: {{VALUE}}',
@@ -5290,7 +5376,7 @@ class rtTPGElementorHelper {
 			'separate_category_icon_color_box_hover',
 			[
 				'label'     => esc_html__( 'Category Icon Color - Box Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .tpg-separate-category .categories-links i' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .post-meta-tags .categories-links i'        => 'color: {{VALUE}}',
@@ -5321,7 +5407,7 @@ class rtTPGElementorHelper {
 			'readmore_button_style',
 			[
 				'label'     => esc_html__( 'Read More', 'the-post-grid' ),
-				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_read_more'     => 'show',
 					$prefix . '_layout!' => [ 'grid-layout7', 'slider-layout4' ],
@@ -5376,7 +5462,7 @@ class rtTPGElementorHelper {
 			'readmore_btn_alignment',
 			[
 				'label'     => esc_html__( 'Button Alignment', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -5458,7 +5544,7 @@ class rtTPGElementorHelper {
 			'readmore_text_color',
 			[
 				'label'     => esc_html__( 'Text Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a' => 'color: {{VALUE}}',
 				],
@@ -5469,7 +5555,7 @@ class rtTPGElementorHelper {
 			'readmore_icon_color',
 			[
 				'label'     => esc_html__( 'Icon Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a i' => 'color: {{VALUE}}',
 				],
@@ -5483,7 +5569,7 @@ class rtTPGElementorHelper {
 			'readmore_bg',
 			[
 				'label'     => esc_html__( 'Background Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a' => 'background-color: {{VALUE}}',
 				],
@@ -5576,7 +5662,7 @@ class rtTPGElementorHelper {
 			'readmore_text_color_hover',
 			[
 				'label'     => esc_html__( 'Text Color hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body {{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a:hover' => 'color: {{VALUE}}',
 				],
@@ -5587,7 +5673,7 @@ class rtTPGElementorHelper {
 			'readmore_icon_color_hover',
 			[
 				'label'     => esc_html__( 'Icon Color Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body {{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a:hover i' => 'color: {{VALUE}}',
 				],
@@ -5601,7 +5687,7 @@ class rtTPGElementorHelper {
 			'readmore_bg_hover',
 			[
 				'label'     => esc_html__( 'Background Color hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body {{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a:hover' => 'background-color: {{VALUE}}',
 				],
@@ -5694,7 +5780,7 @@ class rtTPGElementorHelper {
 			'readmore_text_color_box_hover',
 			[
 				'label'     => esc_html__( 'Text Color - BoxHover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .tpg-post-holder:hover .rt-detail .read-more a' => 'color: {{VALUE}}',
 				],
@@ -5705,7 +5791,7 @@ class rtTPGElementorHelper {
 			'readmore_icon_color_box_hover',
 			[
 				'label'     => esc_html__( 'Icon Color - BoxHover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .tpg-post-holder:hover .rt-detail .read-more a i' => 'color: {{VALUE}}',
 				],
@@ -5719,7 +5805,7 @@ class rtTPGElementorHelper {
 			'readmore_bg_box_hover',
 			[
 				'label'     => esc_html__( 'Background Color - BoxHover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .tpg-post-holder:hover .rt-detail .read-more a' => 'background-color: {{VALUE}}',
 				],
@@ -5759,7 +5845,7 @@ class rtTPGElementorHelper {
 			'pagination_loadmore_style',
 			[
 				'label'     => esc_html__( 'Pagination / Load More', 'the-post-grid' ),
-				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_pagination' => 'show',
 				],
@@ -5779,7 +5865,7 @@ class rtTPGElementorHelper {
 			'pagination_text_align',
 			[
 				'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => [
 					'flex-start' => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -5891,7 +5977,7 @@ class rtTPGElementorHelper {
 			'pagination_color',
 			[
 				'label'     => esc_html__( 'Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > li:not(:hover) > a, {{WRAPPER}} .rt-pagination .pagination-list > li:not(:hover) > span' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:not(:hover) > a'            => 'color: {{VALUE}}',
@@ -5905,7 +5991,7 @@ class rtTPGElementorHelper {
 			'pagination_bg',
 			[
 				'label'     => esc_html__( 'Background Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > li > a:not(:hover), {{WRAPPER}} .rt-pagination .pagination-list > li:not(:hover) > span' => 'background-color: {{VALUE}}',
 					'{{WRAPPER}} .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:not(:hover) > a'            => 'background-color: {{VALUE}}',
@@ -5919,7 +6005,7 @@ class rtTPGElementorHelper {
 			'pagination_border_color',
 			[
 				'label'     => esc_html__( 'Border Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > li > a:not(:hover), {{WRAPPER}} .rt-pagination .pagination-list > li:not(:hover) > span' => 'border-color: {{VALUE}}',
 					'{{WRAPPER}} .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:not(:hover) > a'            => 'border-color: {{VALUE}}',
@@ -5942,7 +6028,7 @@ class rtTPGElementorHelper {
 			'pagination_color_hover',
 			[
 				'label'     => esc_html__( 'Color - hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > li:hover > a, {{WRAPPER}} .rt-pagination .pagination-list > li:hover > span' => 'color: {{VALUE}} !important',
 					'{{WRAPPER}} .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:hover > a'      => 'color: {{VALUE}} !important',
@@ -5955,7 +6041,7 @@ class rtTPGElementorHelper {
 			'pagination_bg_hover',
 			[
 				'label'     => esc_html__( 'Background Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > li:hover > a, {{WRAPPER}} .rt-pagination .pagination-list > li:hover > span' => 'background-color: {{VALUE}} !important',
 					'{{WRAPPER}} .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:hover > a'      => 'background-color: {{VALUE}} !important',
@@ -5968,7 +6054,7 @@ class rtTPGElementorHelper {
 			'pagination_border_color_hover',
 			[
 				'label'     => esc_html__( 'Border Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > li:hover > a, {{WRAPPER}} .rt-pagination .pagination-list > li:hover > span' => 'border-color: {{VALUE}} !important',
 					'{{WRAPPER}} .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:hover > a'      => 'border-color: {{VALUE}} !important',
@@ -5991,7 +6077,7 @@ class rtTPGElementorHelper {
 			'pagination_color_active',
 			[
 				'label'     => esc_html__( 'Color - Active', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > .active > a,
 					{{WRAPPER}} .rt-pagination .pagination-list > .active > span,
@@ -6008,7 +6094,7 @@ class rtTPGElementorHelper {
 			'pagination_bg_active',
 			[
 				'label'     => esc_html__( 'Background Color - Active', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > .active > a,
 					{{WRAPPER}} .rt-pagination .pagination-list > .active > span,
@@ -6025,7 +6111,7 @@ class rtTPGElementorHelper {
 			'pagination_border_color_active',
 			[
 				'label'     => esc_html__( 'Border Color - Active', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-pagination .pagination-list > .active > a,
 					{{WRAPPER}} .rt-pagination .pagination-list > .active > span,
@@ -6106,7 +6192,7 @@ class rtTPGElementorHelper {
 			'filter_text_alignment',
 			[
 				'label'     => esc_html__( 'Alignment', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -6136,7 +6222,7 @@ class rtTPGElementorHelper {
 			'filter_v_alignment',
 			[
 				'label'        => esc_html__( 'Vertical Alignment', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'   => [
 						'title' => esc_html__( 'Top', 'the-post-grid' ),
@@ -6191,7 +6277,7 @@ class rtTPGElementorHelper {
 			'border_style',
 			[
 				'label'        => esc_html__( 'Filter Border', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'disable',
 				'options'      => [
 					'disable' => esc_html__( 'Disable', 'the-post-grid' ),
@@ -6210,7 +6296,7 @@ class rtTPGElementorHelper {
 			'filter_next_prev_btn',
 			[
 				'label'        => esc_html__( 'Next/Prev Button', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'visible',
 				'options'      => [
 					'visible' => esc_html__( 'Visible', 'the-post-grid' ),
@@ -6228,7 +6314,7 @@ class rtTPGElementorHelper {
 			'filter_h_alignment',
 			[
 				'label'        => esc_html__( 'Vertical Alignment', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'          => [
 						'title' => esc_html__( 'Top', 'the-post-grid' ),
@@ -6303,7 +6389,7 @@ class rtTPGElementorHelper {
 			'filter_color',
 			[
 				'label'     => esc_html__( 'Filter Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item, {{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item'                            => 'color: {{VALUE}}',
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap'                                                                                            => 'color: {{VALUE}}',
@@ -6317,7 +6403,7 @@ class rtTPGElementorHelper {
 			'filter_bg_color',
 			[
 				'label'     => esc_html__( 'Filter Background Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item'                    => 'background-color: {{VALUE}}',
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap' => 'background-color: {{VALUE}}',
@@ -6330,7 +6416,7 @@ class rtTPGElementorHelper {
 			'filter_border_color',
 			[
 				'label'     => esc_html__( 'Filter Border Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item'                    => 'border-color: {{VALUE}}',
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap' => 'border-color: {{VALUE}}',
@@ -6345,7 +6431,7 @@ class rtTPGElementorHelper {
 			'filter_search_bg',
 			[
 				'label'     => esc_html__( 'Search Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-search-filter-wrap input.rt-search-input' => 'background-color: {{VALUE}}',
 				],
@@ -6360,7 +6446,7 @@ class rtTPGElementorHelper {
 			'sub_menu_color_heading',
 			[
 				'label'     => esc_html__( 'Sub Menu Options', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 				'condition' => [
@@ -6373,7 +6459,7 @@ class rtTPGElementorHelper {
 			'sub_menu_bg_color',
 			[
 				'label'     => esc_html__( 'Submenu Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap .rt-filter-dropdown' => 'background-color: {{VALUE}}',
 				],
@@ -6387,7 +6473,7 @@ class rtTPGElementorHelper {
 			'sub_menu_color',
 			[
 				'label'     => esc_html__( 'Submenu Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap .rt-filter-dropdown .rt-filter-dropdown-item' => 'color: {{VALUE}}',
 				],
@@ -6401,7 +6487,7 @@ class rtTPGElementorHelper {
 			'sub_menu_border_bottom',
 			[
 				'label'     => esc_html__( 'Submenu Border', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap .rt-filter-dropdown .rt-filter-dropdown-item' => 'border-bottom-color: {{VALUE}}',
 				],
@@ -6415,7 +6501,7 @@ class rtTPGElementorHelper {
 			'filter_nav_color',
 			[
 				'label'     => esc_html__( 'Filter Nav Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .swiper-navigation .slider-btn' => 'color: {{VALUE}}',
 				],
@@ -6430,7 +6516,7 @@ class rtTPGElementorHelper {
 			'filter_nav_bg',
 			[
 				'label'     => esc_html__( 'Filter Nav Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .swiper-navigation .slider-btn' => 'background-color: {{VALUE}}',
 				],
@@ -6445,7 +6531,7 @@ class rtTPGElementorHelper {
 			'filter_nav_border',
 			[
 				'label'     => esc_html__( 'Filter Nav Border', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .swiper-navigation .slider-btn' => 'border-color: {{VALUE}}',
 				],
@@ -6470,7 +6556,7 @@ class rtTPGElementorHelper {
 			'filter_color_hover',
 			[
 				'label'     => esc_html__( 'Filter Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item.selected, {{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item:hover'                         => 'color: {{VALUE}}',
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap:hover'                                                                                                  => 'color: {{VALUE}}',
@@ -6483,7 +6569,7 @@ class rtTPGElementorHelper {
 			'filter_bg_color_hover',
 			[
 				'label'     => esc_html__( 'Filter Background Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item.selected, {{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item:hover' => 'background-color: {{VALUE}}',
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap:hover'                                                                          => 'background-color: {{VALUE}}',
@@ -6496,7 +6582,7 @@ class rtTPGElementorHelper {
 			'filter_border_color_hover',
 			[
 				'label'     => esc_html__( 'Filter Border Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item.selected, {{WRAPPER}} .rt-filter-item-wrap.rt-filter-button-wrap span.rt-filter-button-item:hover' => 'border-color: {{VALUE}}',
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap:hover'                                                                          => 'border-color: {{VALUE}}',
@@ -6511,7 +6597,7 @@ class rtTPGElementorHelper {
 			'filter_search_bg_hover',
 			[
 				'label'     => esc_html__( 'Search Background - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-filter-item-wrap.rt-search-filter-wrap input.rt-search-input:hover' => 'background-color: {{VALUE}}',
 				],
@@ -6526,7 +6612,7 @@ class rtTPGElementorHelper {
 			'sub_menu_color_heading_hover',
 			[
 				'label'     => esc_html__( 'Sub Menu Options - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 				'condition' => [
@@ -6539,7 +6625,7 @@ class rtTPGElementorHelper {
 			'sub_menu_bg_color_hover',
 			[
 				'label'     => esc_html__( 'Submenu Background - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap .rt-filter-dropdown .rt-filter-dropdown-item:hover' => 'background-color: {{VALUE}}',
 				],
@@ -6553,7 +6639,7 @@ class rtTPGElementorHelper {
 			'sub_menu_color_hover',
 			[
 				'label'     => esc_html__( 'Submenu Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap .rt-filter-dropdown .rt-filter-dropdown-item:hover' => 'color: {{VALUE}}',
 				],
@@ -6567,7 +6653,7 @@ class rtTPGElementorHelper {
 			'sub_menu_border_bottom_hover',
 			[
 				'label'     => esc_html__( 'Submenu Border - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap.rt-filter-dropdown-wrap .rt-filter-dropdown .rt-filter-dropdown-item:hover' => 'border-bottom-color: {{VALUE}}',
 				],
@@ -6581,7 +6667,7 @@ class rtTPGElementorHelper {
 			'filter_nav_color_hover',
 			[
 				'label'     => esc_html__( 'Filter Nav Color - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .swiper-navigation .slider-btn:hover' => 'color: {{VALUE}}',
 				],
@@ -6596,7 +6682,7 @@ class rtTPGElementorHelper {
 			'filter_nav_bg_hover',
 			[
 				'label'     => esc_html__( 'Filter Nav Background - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .swiper-navigation .slider-btn:hover' => 'background-color: {{VALUE}}',
 				],
@@ -6611,7 +6697,7 @@ class rtTPGElementorHelper {
 			'filter_nav_border_hover',
 			[
 				'label'     => esc_html__( 'Filter Nav Border - Hover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-container .swiper-navigation .slider-btn:hover' => 'border-color: {{VALUE}}',
 				],
@@ -6722,7 +6808,7 @@ class rtTPGElementorHelper {
 			'icon_width_height',
 			[
 				'label'       => esc_html__( 'Icon Dimension', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
+				'type'        => Controls_Manager::IMAGE_DIMENSIONS,
 				'default'     => [
 					'width'  => '',
 					'height' => '',
@@ -6758,7 +6844,7 @@ class rtTPGElementorHelper {
 			'social_icon_color_heading',
 			[
 				'label'     => esc_html__( 'Icon Color:', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 			]
@@ -6768,7 +6854,7 @@ class rtTPGElementorHelper {
 			'social_icon_style',
 			[
 				'label'       => esc_html__( 'Icon Color Style', 'the-post-grid' ),
-				'type'        => \Elementor\Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT,
 				'default'     => 'default',
 				'options'     => [
 					'default'         => esc_html__( 'Default (Brand Color)', 'the-post-grid' ),
@@ -6796,7 +6882,7 @@ class rtTPGElementorHelper {
 			'social_icon_color',
 			[
 				'label'     => esc_html__( 'Social Icon color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-social-share a i' => 'color: {{VALUE}}',
 				],
@@ -6810,7 +6896,7 @@ class rtTPGElementorHelper {
 			'social_icon_bg_color',
 			[
 				'label'     => esc_html__( 'Social Icon Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-social-share a i' => 'background-color: {{VALUE}}',
 				],
@@ -6825,7 +6911,7 @@ class rtTPGElementorHelper {
 				$ss . '_social_icon_color',
 				[
 					'label'     => ucwords( $ss ) . esc_html__( ' color', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::COLOR,
+					'type'      => Controls_Manager::COLOR,
 					'selectors' => [
 						'{{WRAPPER}} .rt-tpg-social-share a.' . $ss . ' i' => 'color: {{VALUE}}',
 					],
@@ -6839,7 +6925,7 @@ class rtTPGElementorHelper {
 				$ss . '_social_icon_bg_color',
 				[
 					'label'     => ucwords( $ss ) . esc_html__( ' Background', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::COLOR,
+					'type'      => Controls_Manager::COLOR,
 					'selectors' => [
 						'{{WRAPPER}} .rt-tpg-social-share a.' . $ss . ' i' => 'background-color: {{VALUE}}',
 					],
@@ -6874,7 +6960,7 @@ class rtTPGElementorHelper {
 			'social_icon_color_hover',
 			[
 				'label'     => esc_html__( 'Icon color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-social-share a:hover i' => 'color: {{VALUE}} !important',
 				],
@@ -6888,7 +6974,7 @@ class rtTPGElementorHelper {
 			'social_icon_bg_color_hover',
 			[
 				'label'     => esc_html__( 'Icon Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-social-share a:hover i' => 'background-color: {{VALUE}} !important',
 				],
@@ -6951,7 +7037,7 @@ class rtTPGElementorHelper {
 			'social_icon_color_box_hover',
 			[
 				'label'     => esc_html__( 'Icon color - BoxHover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .rt-tpg-social-share a i' => 'color: {{VALUE}}',
 				],
@@ -6962,7 +7048,7 @@ class rtTPGElementorHelper {
 			'social_icon_bg_color_box_hover',
 			[
 				'label'     => esc_html__( 'Icon Background - BoxHover', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover .rt-tpg-social-share a i' => 'background-color: {{VALUE}}',
 				],
@@ -7134,7 +7220,7 @@ class rtTPGElementorHelper {
 				'is_box_border',
 				[
 					'label'        => esc_html__( 'Enable Border & Box Shadow', 'the-post-grid' ),
-					'type'         => \Elementor\Controls_Manager::SELECT,
+					'type'         => Controls_Manager::SELECT,
 					'default'      => 'enable',
 					'options'      => [
 						'enable'  => esc_html__( 'Enable', 'the-post-grid' ),
@@ -7157,7 +7243,7 @@ class rtTPGElementorHelper {
 				'box_border_bottom',
 				[
 					'label'        => esc_html__( 'Enable Border Bottom', 'the-post-grid' ),
-					'type'         => \Elementor\Controls_Manager::SELECT,
+					'type'         => Controls_Manager::SELECT,
 					'default'      => 'disable',
 					'options'      => [
 						'enable'  => esc_html__( 'Enable', 'the-post-grid' ),
@@ -7179,7 +7265,7 @@ class rtTPGElementorHelper {
 			'box_border_bottom_color',
 			[
 				'label'     => esc_html__( 'Border Bottom Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder' => 'border-bottom-color: {{VALUE}}',
 				],
@@ -7266,7 +7352,7 @@ class rtTPGElementorHelper {
 					'box_border',
 					[
 						'label'     => esc_html__( 'Border Color', 'the-post-grid' ),
-						'type'      => \Elementor\Controls_Manager::COLOR,
+						'type'      => Controls_Manager::COLOR,
 						'selectors' => [
 							'body {{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder' => 'border: 1px solid {{VALUE}}',
 						],
@@ -7352,7 +7438,7 @@ class rtTPGElementorHelper {
 					'box_border_hover',
 					[
 						'label'     => esc_html__( 'Border Color - Hover', 'the-post-grid' ),
-						'type'      => \Elementor\Controls_Manager::COLOR,
+						'type'      => Controls_Manager::COLOR,
 						'selectors' => [
 							'body {{WRAPPER}} .tpg-el-main-wrapper .tpg-post-holder:hover' => 'border: 1px solid {{VALUE}}',
 						],
@@ -7453,7 +7539,7 @@ class rtTPGElementorHelper {
 			'arrows',
 			[
 				'label'        => esc_html__( 'Arrow Visibility', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7468,7 +7554,7 @@ class rtTPGElementorHelper {
 			'arrow_position',
 			[
 				'label'        => esc_html__( 'Arrow Position', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default'    => esc_html__( 'Default', 'the-post-grid' ),
@@ -7488,7 +7574,7 @@ class rtTPGElementorHelper {
 			'dots',
 			[
 				'label'        => esc_html__( 'Dots Visibility', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7505,7 +7591,7 @@ class rtTPGElementorHelper {
 			'dynamic_dots',
 			[
 				'label'        => esc_html__( 'Enable Dynamic Dots', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7522,7 +7608,7 @@ class rtTPGElementorHelper {
 			'dots_style',
 			[
 				'label'        => esc_html__( 'Dots Style', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
 					'default'    => esc_html__( 'Default', 'the-post-grid' ),
@@ -7540,7 +7626,7 @@ class rtTPGElementorHelper {
 			'infinite',
 			[
 				'label'        => esc_html__( 'Infinite', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7552,7 +7638,7 @@ class rtTPGElementorHelper {
 			'autoplay',
 			[
 				'label'        => esc_html__( 'Autoplay', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7564,7 +7650,7 @@ class rtTPGElementorHelper {
 			'autoplaySpeed',
 			[
 				'label'     => esc_html__( 'Autoplay Speed', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::NUMBER,
+				'type'      => Controls_Manager::NUMBER,
 				'min'       => 1000,
 				'max'       => 10000,
 				'step'      => 500,
@@ -7579,7 +7665,7 @@ class rtTPGElementorHelper {
 			'stopOnHover',
 			[
 				'label'        => esc_html__( 'Stop On Hover', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7594,7 +7680,7 @@ class rtTPGElementorHelper {
 			'grabCursor',
 			[
 				'label'        => esc_html__( 'Allow Touch Move', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7606,7 +7692,7 @@ class rtTPGElementorHelper {
 			'autoHeight',
 			[
 				'label'        => esc_html__( 'Auto Height', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7622,7 +7708,7 @@ class rtTPGElementorHelper {
 			'lazyLoad',
 			[
 				'label'        => esc_html__( 'lazy Load', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7636,7 +7722,7 @@ class rtTPGElementorHelper {
 			'speed',
 			[
 				'label'   => esc_html__( 'Speed', 'the-post-grid' ),
-				'type'    => \Elementor\Controls_Manager::NUMBER,
+				'type'    => Controls_Manager::NUMBER,
 				'min'     => 100,
 				'max'     => 3000,
 				'step'    => 100,
@@ -7648,7 +7734,7 @@ class rtTPGElementorHelper {
 			'enable_2_rows',
 			[
 				'label'        => esc_html__( 'Enable 2 Rows', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
 				'return_value' => 'yes',
@@ -7671,7 +7757,7 @@ class rtTPGElementorHelper {
 			'carousel_overflow',
 			[
 				'label'        => esc_html__( 'Slider Overflow', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'hidden',
 				'options'      => [
 					'hidden' => esc_html__( 'Hidden', 'the-post-grid' ),
@@ -7689,7 +7775,7 @@ class rtTPGElementorHelper {
 			'slider_direction',
 			[
 				'label'        => esc_html__( 'Direction', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'ltr',
 				'options'      => [
 					'ltr' => esc_html__( 'LTR', 'the-post-grid' ),
@@ -7734,7 +7820,7 @@ class rtTPGElementorHelper {
 			'arrow_style_heading',
 			[
 				'label'     => esc_html__( 'Arrow Style', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 				'condition' => [
@@ -8001,7 +8087,7 @@ class rtTPGElementorHelper {
 			'dot_style_heading',
 			[
 				'label'     => esc_html__( 'Dots Style', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'classes'   => 'tpg-control-type-heading',
 				'condition' => [
@@ -8014,7 +8100,7 @@ class rtTPGElementorHelper {
 			'dots_text_align',
 			[
 				'label'        => esc_html__( 'Dots Alignment', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -8288,7 +8374,7 @@ class rtTPGElementorHelper {
 			'popup_head_bg',
 			[
 				'label'     => esc_html__( 'Header Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body .rt-popup-wrap .rt-popup-navigation-wrap' => 'background-color: {{VALUE}}',
 				],
@@ -8299,7 +8385,7 @@ class rtTPGElementorHelper {
 			'popup_head_txt_color',
 			[
 				'label'     => esc_html__( 'Header Text Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body #rt-popup-wrap .rt-popup-singlePage-counter' => 'color: {{VALUE}}',
 				],
@@ -8310,7 +8396,7 @@ class rtTPGElementorHelper {
 			'popup_title_color',
 			[
 				'label'     => esc_html__( 'Popup Title Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body .md-content .rt-md-content-holder > .md-header .entry-title' => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container h1.entry-title'          => 'color: {{VALUE}}',
@@ -8323,7 +8409,7 @@ class rtTPGElementorHelper {
 			'popup_meta_color',
 			[
 				'label'     => esc_html__( 'Popup Meta Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body .md-content .rt-md-content-holder > .md-header .post-meta-user *' => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container .post-meta-user *'            => 'color: {{VALUE}}',
@@ -8336,9 +8422,9 @@ class rtTPGElementorHelper {
 			'popup_content_color',
 			[
 				'label'     => esc_html__( 'Popup Content Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'body .md-content .rt-md-content *'                       => 'color: {{VALUE}}',
+					'body .md-content .rt-md-content *' => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container .tpg-content *' => 'color: {{VALUE}}',
 				],
 
@@ -8349,7 +8435,7 @@ class rtTPGElementorHelper {
 			'popup_bg',
 			[
 				'label'     => esc_html__( 'Popup Background', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'body .md-content, body #rt-popup-wrap .rt-popup-content' => 'background-color: {{VALUE}}',
 				],
@@ -8500,7 +8586,7 @@ class rtTPGElementorHelper {
 			'acf_label_style',
 			[
 				'label'        => esc_html__( 'Label Style', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::SELECT,
+				'type'         => Controls_Manager::SELECT,
 				'default'      => 'inline',
 				'options'      => [
 					'default' => esc_html__( 'Default', 'the-post-grid' ),
@@ -8541,7 +8627,7 @@ class rtTPGElementorHelper {
 			'acf_alignment',
 			[
 				'label'        => esc_html__( 'Text Align', 'the-post-grid' ),
-				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'type'         => Controls_Manager::CHOOSE,
 				'options'      => [
 					'left'   => [
 						'title' => esc_html__( 'Left', 'the-post-grid' ),
@@ -8583,7 +8669,7 @@ class rtTPGElementorHelper {
 			'acf_group_title_color',
 			[
 				'label'     => esc_html__( 'Group Title Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .acf-custom-field-wrap .tpg-cf-group-title' => 'color: {{VALUE}}',
 				],
@@ -8597,7 +8683,7 @@ class rtTPGElementorHelper {
 			'acf_label_color',
 			[
 				'label'     => esc_html__( 'Label Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .acf-custom-field-wrap .tgp-cf-field-label' => 'color: {{VALUE}}',
 				],
@@ -8611,7 +8697,7 @@ class rtTPGElementorHelper {
 			'acf_value_color',
 			[
 				'label'     => esc_html__( 'Value Color', 'the-post-grid' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .acf-custom-field-wrap .tgp-cf-field-value' => 'color: {{VALUE}}',
 				],
@@ -8633,7 +8719,7 @@ class rtTPGElementorHelper {
 				'acf_group_title_color_hover',
 				[
 					'label'     => esc_html__( 'Group Title Color - Hover', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::COLOR,
+					'type'      => Controls_Manager::COLOR,
 					'selectors' => [
 						'{{WRAPPER}} .rt-tpg-container .rt-holder:hover .tpg-cf-group-title' => 'color: {{VALUE}}',
 					],
@@ -8647,7 +8733,7 @@ class rtTPGElementorHelper {
 				'acf_label_color_hover',
 				[
 					'label'     => esc_html__( 'Label Color - Hover', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::COLOR,
+					'type'      => Controls_Manager::COLOR,
 					'selectors' => [
 						'{{WRAPPER}} .rt-tpg-container .rt-holder:hover .tgp-cf-field-label' => 'color: {{VALUE}}',
 					],
@@ -8661,7 +8747,7 @@ class rtTPGElementorHelper {
 				'acf_value_color_hover',
 				[
 					'label'     => esc_html__( 'Value Color - Hover', 'the-post-grid' ),
-					'type'      => \Elementor\Controls_Manager::COLOR,
+					'type'      => Controls_Manager::COLOR,
 					'selectors' => [
 						'{{WRAPPER}} .rt-tpg-container .rt-holder:hover .tgp-cf-field-value' => 'color: {{VALUE}}',
 					],

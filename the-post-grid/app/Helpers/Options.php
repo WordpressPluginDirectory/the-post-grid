@@ -479,6 +479,39 @@ class Options {
 				'description' => esc_html__( 'If the pagination items are greater than 4 it will enable the next and previous button.', 'the-post-grid' ),
 				'value'       => $settings['tpg_pagination_range'] ?? '4',
 			],
+
+			'tpg_enable_external_link'    => [
+				'type'        => 'switch',
+				'name'        => 'tpg_enable_external_link',
+				'holderClass' => 'pro-field',
+				'label'       => esc_html__( 'Enable External Post Link', 'the-post-grid' ),
+				'value'       => isset( $settings['tpg_enable_external_link'] ) ? $settings['tpg_enable_external_link'] : false,
+			],
+
+			'tpg_br1'                     => [
+				'type' => 'hr',
+			],
+
+			'tpg_view_count_style'        => [
+				'type'        => 'select',
+				'name'        => 'tpg_view_count_style',
+				'label'       => esc_html__( 'Post View Count Format', 'the-post-grid' ),
+				'value'       => isset( $settings['tpg_view_count_style'] ) ? $settings['tpg_view_count_style'] : 'default',
+				'holderClass' => 'pro-field',
+				'options'     => [
+					'default' => esc_html__( 'Default number', 'the-post-grid' ),
+					'global'  => esc_html__( 'Global shorten (K, M, B, T, Qa, Qi)', 'the-post-grid' ),
+					'indian'  => esc_html__( 'Indian shorten (K, Lac, Lacs, Cr, Crs)', 'the-post-grid' ),
+				],
+			],
+
+			'tpg_count_key'               => [
+				'type'        => 'text',
+				'holderClass' => 'pro-field',
+				'label'       => esc_html__( 'Post View Count Key', 'the-post-grid' ),
+				'description' => esc_html__( 'If you already have the post-view count functionality in your theme, you have to put the key here to sync with the existing count value. NB. Please enter the correct key otherwise the post view count won\'t show.', 'the-post-grid' ),
+				'value'       => $settings['tpg_count_key'] ?? '',
+			],
 		];
 
 		if ( 'default' != $block_type ) {
@@ -598,11 +631,11 @@ class Options {
 		$fields = apply_filters(
 			'rt_tpg_advanced_filters',
 			[
-				'tpg_taxonomy'    => esc_html__( 'Taxonomy', 'the-post-grid' ),
-				'order'           => esc_html__( 'Order', 'the-post-grid' ),
-				'author'          => esc_html__( 'Author', 'the-post-grid' ),
-				'tpg_post_status' => esc_html__( 'Status', 'the-post-grid' ),
-				's'               => esc_html__( 'Search', 'the-post-grid' ),
+				'tpg_taxonomy' => esc_html__( 'Taxonomy', 'the-post-grid' ),
+				'order'        => esc_html__( 'Order', 'the-post-grid' ),
+				'author'       => esc_html__( 'Author', 'the-post-grid' ),
+				's'            => esc_html__( 'Search', 'the-post-grid' ),
+				// 'tpg_post_status' => esc_html__( 'Status', 'the-post-grid' ),
 			]
 		);
 

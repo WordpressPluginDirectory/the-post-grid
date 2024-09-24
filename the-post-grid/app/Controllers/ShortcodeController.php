@@ -168,7 +168,7 @@ class ShortcodeController {
 			$postType = ( isset( $scMeta['tpg_post_type'][0] ) ? $scMeta['tpg_post_type'][0] : 'post' );
 
 			if ( $postType ) {
-				$args['post_type'] = $postType;
+				$args['post_type'] = Fns::available_post_type( $postType );
 			}
 
 			// Common filters.
@@ -204,7 +204,7 @@ class ShortcodeController {
 				$args['posts_per_page'] = $limit;
 			}
 
-			if ( ( $posts_per_page == '-1' && $limit ) || empty( $posts_per_page ) ) {
+			if ( empty( $posts_per_page ) || ( $posts_per_page == '-1' && $limit ) ) {
 				$args['posts_per_page'] = $limit;
 			}
 
@@ -280,8 +280,8 @@ class ShortcodeController {
 				}
 			}
 
-			// Status.
-			if ( in_array( 'tpg_post_status', $adv_filter ) ) {
+			// The below code should remove later
+			/*if ( in_array( 'tpg_post_status', $adv_filter ) ) {
 				$post_status = ( isset( $scMeta['tpg_post_status'] ) ? $scMeta['tpg_post_status'] : [] );
 
 				if ( ! empty( $post_status ) ) {
@@ -289,7 +289,9 @@ class ShortcodeController {
 				}
 			} else {
 				$args['post_status'] = 'publish';
-			}
+			}*/
+
+			$args['post_status'] = 'publish';
 
 			// Author.
 			$author        = ( isset( $scMeta['author'] ) ? $scMeta['author'] : [] );

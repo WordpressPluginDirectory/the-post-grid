@@ -250,7 +250,9 @@ class AdminAjaxController {
 				}
 			}
 
-			if ( in_array( 'tpg_post_status', $adv_filter ) ) {
+			/* Post status has removed
+
+			 * if ( in_array( 'tpg_post_status', $adv_filter ) ) {
 				$post_status = ( isset( $_REQUEST['tpg_post_status'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['tpg_post_status'] ) ) : [] );
 
 				if ( ! empty( $post_status ) ) {
@@ -258,7 +260,9 @@ class AdminAjaxController {
 				}
 			} else {
 				$args['post_status'] = 'publish';
-			}
+			}*/
+
+			$args['post_status'] = 'publish';
 
 			$filterAuthors = [];
 			$author        = ( isset( $_REQUEST['author'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['author'] ) ) : [] );

@@ -212,6 +212,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 		$_layout       = $data[ $_prefix . '_layout' ];
 		$_layout_style = $data[ $_prefix . '_layout_style' ];
 		$dynamicClass  = ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
+
 		?>
 		<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main' . ' ' . $dynamicClass ); ?>"
 			 id="<?php echo esc_attr( $layoutID ); ?>"

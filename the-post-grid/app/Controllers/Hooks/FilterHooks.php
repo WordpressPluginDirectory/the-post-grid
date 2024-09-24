@@ -80,12 +80,12 @@ class FilterHooks {
 		global $pagenow;
 
 		if ( isset( $settings['tpg_block_type'] ) && in_array(
-			$settings['tpg_block_type'],
-			[
-				'elementor',
-				'shortcode',
-			]
-		) ) {
+				$settings['tpg_block_type'],
+				[
+					'elementor',
+					'shortcode',
+				]
+			) ) {
 			$classes .= ' tpg-block-type-elementor-or-shortcode';
 		}
 
@@ -125,6 +125,7 @@ class FilterHooks {
 				'type'        => true,
 				'class'       => true,
 				'placeholder' => true,
+				'name'        => true,
 			];
 			$tags['style']  = [
 				'src' => true,
@@ -166,7 +167,7 @@ class FilterHooks {
 	/**
 	 * Add plugin row meta
 	 *
-	 * @param array  $links Links.
+	 * @param array $links Links.
 	 * @param string $file File.
 	 *
 	 * @return array
@@ -216,7 +217,7 @@ class FilterHooks {
 	/**
 	 * Add exceptions in wp_kses_post tags.
 	 *
-	 * @param array  $tags Allowed tags, attributes, and/or entities.
+	 * @param array $tags Allowed tags, attributes, and/or entities.
 	 * @param string $context Context to judge allowed tags by. Allowed values are 'post'.
 	 *
 	 * @return array

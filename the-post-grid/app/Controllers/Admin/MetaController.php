@@ -225,7 +225,7 @@ class MetaController {
 	 * @return void
 	 */
 	public function tpg_sc_preview_selection() {
-		$html  = null;
+		$html = null;
 		$html .= "<div class='rt-response'></div>";
 		$html .= "<div id='tpg-preview-container'></div>";
 
@@ -244,7 +244,7 @@ class MetaController {
 			return;
 		}
 
-		$html  = null;
+		$html = null;
 		$html .= '<div class="postbox rt-after-title" style="margin-bottom: 0;"><div class="inside">';
 		$html .= '<p>
 					<input type="text" onfocus="this.select();" readonly="readonly" value="[the-post-grid id=&quot;' . absint( $post->ID ) . '&quot; title=&quot;' . esc_attr( $post->post_title ) . '&quot;]" class="large-text code rt-code-sc">
@@ -271,7 +271,7 @@ class MetaController {
 
 		wp_nonce_field( rtTPG()->nonceText(), rtTPG()->nonceId() );
 
-		$html  = null;
+		$html = null;
 		$html .= '<div id="sc-tabs" class="rttpg-wrapper rt-tab-container rt-setting-holder">';
 		$html .= sprintf(
 			'<ul class="rt-tab-nav">
@@ -326,7 +326,7 @@ class MetaController {
 	/**
 	 * Save meta box.
 	 *
-	 * @param int    $post_id Post ID.
+	 * @param int $post_id Post ID.
 	 * @param object $post Post object.
 	 *
 	 * @return mixed
@@ -415,16 +415,6 @@ class MetaController {
 						add_post_meta( $post_id, 'author', trim( $authorID ) );
 					}
 				}
-			} elseif ( $filter == 'tpg_post_status' ) {
-				delete_post_meta( $post_id, $filter );
-
-				$statuses = isset( $_REQUEST[ $filter ] ) ? $_REQUEST[ $filter ] : [];
-
-				if ( is_array( $statuses ) && ! empty( $statuses ) && in_array( $filter, $post_filter ) ) {
-					foreach ( $statuses as $post_status ) {
-						add_post_meta( $post_id, $filter, trim( $post_status ) );
-					}
-				}
 			} elseif ( $filter == 's' ) {
 				delete_post_meta( $post_id, 's' );
 
@@ -469,6 +459,19 @@ class MetaController {
 					delete_post_meta( $post_id, $filter . '_end' );
 				}
 			}
+			/*
+			 * tpg_post_status has removed
+			 * elseif ( $filter == 'tpg_post_status' ) {
+				delete_post_meta( $post_id, $filter );
+
+				$statuses = isset( $_REQUEST[ $filter ] ) ? $_REQUEST[ $filter ] : [];
+
+				if ( is_array( $statuses ) && ! empty( $statuses ) && in_array( $filter, $post_filter ) ) {
+					foreach ( $statuses as $post_status ) {
+						add_post_meta( $post_id, $filter, trim( $post_status ) );
+					}
+				}
+			} */
 		}
 
 		// Extra css.
@@ -495,8 +498,8 @@ class MetaController {
 	/**
 	 * save_taxonomy_fields function.
 	 *
-	 * @param mixed  $term_id Term ID being saved
-	 * @param mixed  $tt_id
+	 * @param mixed $term_id Term ID being saved
+	 * @param mixed $tt_id
 	 * @param string $taxonomy
 	 */
 	public function save_taxonomy_fields( $term_id, $tt_id = '', $taxonomy = '' ) {
