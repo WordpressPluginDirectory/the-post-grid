@@ -4,7 +4,7 @@ Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
 Tested up to: 6.6
-Stable tag: 7.7.13
+Stable tag: 7.7.14
 Requires PHP: 7.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -256,6 +256,11 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 12. Archive page builder
 
 == Changelog ==
+
+= 7.7.14 (17 Oct, 2024) =
+Added: Elementor archive builder support for all widget
+Fixed: Gutenberg autocomplete error fixed
+Fixed: ImportLayout file cleanup
 
 = 7.7.13 (23 Sep, 2024) =
 Fixed: Search conflict with Colibri Page Builder

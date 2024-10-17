@@ -181,8 +181,13 @@ class TPGGridLayout extends Custom_Widget_Base {
 		}
 
 		// Query.
-		$query_args     = rtTPGElementorQuery::post_query( $data, $_prefix );
-		$query          = new WP_Query( $query_args );
+		$query_args = rtTPGElementorQuery::post_query( $data, $_prefix );
+
+		if ( 'current_query' == $data['post_type'] && is_archive() ) {
+			$query = $GLOBALS['wp_query'];
+		} else {
+			$query = new WP_Query( $query_args );
+		}
 		$rand           = wp_rand();
 		$layoutID       = 'rt-tpg-container-' . $rand;
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
@@ -273,6 +278,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 
 			<div data-title="Loading ..." class="rt-row rt-content-loader <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
 				<?php
+
 				if ( $query->have_posts() ) {
 					$pCount = 1;
 
@@ -290,7 +296,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 						printf( "<div class='no_posts_found_text rt-col-xs-12'>%s</div>", esc_html__( 'No post found', 'the-post-grid' ) );
 					}
 				}
-				wp_reset_postdata();
+				wp_reset_query();
 				?>
 			</div>
 			<?php Fns::print_html( Fns::get_pagination_markup( $query, $data ) ); ?>

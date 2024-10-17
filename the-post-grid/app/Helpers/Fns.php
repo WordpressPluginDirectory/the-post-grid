@@ -4905,7 +4905,11 @@ class Fns {
 		return 'post';
 	}
 
-	public static function available_post_types( $post_types ) {
+	public static function available_post_types( $post_types, $is_guten = false ) {
+
+		if ( $is_guten ) {
+			$post_types = wp_list_pluck( $post_types, 'value' );
+		}
 
 		$final_post_type = [];
 		foreach ( $post_types as $post_type ) {

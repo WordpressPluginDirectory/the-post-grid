@@ -114,11 +114,26 @@ class ContentTabController {
 				],
 			],
 
-			// Query Build
+			// Query Build.
+
+			'show_title'                       => [
+				'type'    => 'string',
+				'default' => '',
+			],
+
+			'multiple_post_type'               => [
+				'type'    => 'string',
+				'default' => '',
+			],
 
 			'post_type'                        => [
 				'type'    => 'string',
 				'default' => 'post',
+			],
+
+			'post_types'                       => [
+				'type'    => 'array',
+				'default' => [],
 			],
 
 			'post_id'                          => [
@@ -243,7 +258,6 @@ class ContentTabController {
 				'type'    => 'string',
 				'default' => 'category',
 			],
-
 
 			'filter_taxonomies'                => [
 				'type'    => 'array',

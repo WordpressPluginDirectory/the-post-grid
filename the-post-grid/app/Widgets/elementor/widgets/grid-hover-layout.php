@@ -21,7 +21,7 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 	 * GridLayout constructor.
 	 *
 	 * @param array $data
-	 * @param null  $args
+	 * @param null $args
 	 *
 	 * @throws \Exception
 	 */
@@ -155,13 +155,13 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 		$_prefix = $this->prefix;
 
 		if ( ! rtTPG()->hasPro() && ! in_array(
-			$data[ $_prefix . '_layout' ],
-			[
-				'grid_hover-layout1',
-				'grid_hover-layout2',
-				'grid_hover-layout3',
-			]
-		) ) {
+				$data[ $_prefix . '_layout' ],
+				[
+					'grid_hover-layout1',
+					'grid_hover-layout2',
+					'grid_hover-layout3',
+				]
+			) ) {
 			$data[ $_prefix . '_layout' ] = 'grid_hover-layout1';
 		}
 
@@ -181,8 +181,12 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 		}
 
 		// Query.
-		$query_args     = rtTPGElementorQuery::post_query( $data, $_prefix );
-		$query          = new WP_Query( $query_args );
+		$query_args = rtTPGElementorQuery::post_query( $data, $_prefix );
+		if ( 'current_query' == $data['post_type'] && is_archive() ) {
+			$query = $GLOBALS['wp_query'];
+		} else {
+			$query = new WP_Query( $query_args );
+		}
 		$rand           = wp_rand();
 		$layoutID       = 'rt-tpg-container-' . $rand;
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
@@ -208,23 +212,23 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 
 		?>
 
-		<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper <?php echo esc_attr( $_layout . '-main' . ' ' . $dynamicClass ); ?>"
-			 id="<?php echo esc_attr( $layoutID ); ?>"
-			 data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
-			 data-sc-id="elementor"
-			 data-el-settings='<?php Fns::is_filter_enable( $data ) ? Fns::print_html( htmlspecialchars( wp_json_encode( $post_data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) ), true ) : ''; ?>'
-			 data-el-query='<?php Fns::is_filter_enable( $data ) ? Fns::print_html( htmlspecialchars( wp_json_encode( $query_args ) ), true ) : ''; ?>'
-			 data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'
-		>
+        <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper <?php echo esc_attr( $_layout . '-main' . ' ' . $dynamicClass ); ?>"
+             id="<?php echo esc_attr( $layoutID ); ?>"
+             data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
+             data-sc-id="elementor"
+             data-el-settings='<?php Fns::is_filter_enable( $data ) ? Fns::print_html( htmlspecialchars( wp_json_encode( $post_data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) ), true ) : ''; ?>'
+             data-el-query='<?php Fns::is_filter_enable( $data ) ? Fns::print_html( htmlspecialchars( wp_json_encode( $query_args ) ), true ) : ''; ?>'
+             data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'
+        >
 			<?php
 			$settings = get_option( rtTPG()->options['settings'] );
 			if ( isset( $settings['tpg_load_script'] ) || isset( $settings['tpg_enable_preloader'] ) ) {
 				?>
-				<div id="bottom-script-loader" class="bottom-script-loader">
-					<div class="rt-ball-clip-rotate">
-						<div></div>
-					</div>
-				</div>
+                <div id="bottom-script-loader" class="bottom-script-loader">
+                    <div class="rt-ball-clip-rotate">
+                        <div></div>
+                    </div>
+                </div>
 				<?php
 			}
 
@@ -258,15 +262,15 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 			}
 
 			?>
-			<div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
+            <div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
 				<?php
 				Fns::get_section_title( $data );
 				Fns::print_html( Fns::get_frontend_filter_markup( $data ) );
 				?>
-			</div>
-			
-			<div data-title="Loading ..."
-				 class="rt-row rt-content-loader <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
+            </div>
+
+            <div data-title="Loading ..."
+                 class="rt-row rt-content-loader <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
 				<?php
 				if ( $query->have_posts() ) {
 					$pCount = 1;
@@ -276,7 +280,7 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 						set_query_var( 'tpg_post_count', $pCount );
 						set_query_var( 'tpg_total_posts', $query->post_count );
 						Fns::tpg_template( $post_data );
-						$pCount++;
+						$pCount ++;
 					}
 				} else {
 					if ( $data['no_posts_found_text'] ) {
@@ -287,10 +291,10 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 				}
 				wp_reset_postdata();
 				?>
-			</div>
+            </div>
 
 			<?php Fns::print_html( Fns::get_pagination_markup( $query, $data ) ); ?>
-		</div>
+        </div>
 		<?php
 		do_action( 'tpg_elementor_script' );
 	}

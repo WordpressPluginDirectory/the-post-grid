@@ -496,7 +496,7 @@ class Options {
 				'type'        => 'select',
 				'name'        => 'tpg_view_count_style',
 				'label'       => esc_html__( 'Post View Count Format', 'the-post-grid' ),
-				'value'       => isset( $settings['tpg_view_count_style'] ) ? $settings['tpg_view_count_style'] : 'default',
+				'value'       => $settings['tpg_view_count_style'] ?? 'default',
 				'holderClass' => 'pro-field',
 				'options'     => [
 					'default' => esc_html__( 'Default number', 'the-post-grid' ),

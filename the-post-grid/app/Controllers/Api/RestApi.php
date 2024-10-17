@@ -15,6 +15,7 @@ class RestApi {
 		add_action( 'rest_api_init', [ $this, 'init_rest_routes' ], 99 );
 		new ImageSizeV1();
 		new GetPostsV1();
+		new GetTickerPostsV1();
 		new ACFV1();
 		new FrontEndFilterV1();
 		//new ElImport();

@@ -29,8 +29,17 @@ class GetPostsV1 {
 
 		$prefix = isset( $data['prefix'] ) ? $data['prefix'] : 'grid';
 
+		$_post_type  = ! empty( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
+		$_post_types = ! empty( $data['post_types'] ) ? Fns::escape_array( $data['post_types'] ) : [ 'post' ];
+
+		if ( rtTPG()->hasPro() && 'yes' === $data['multiple_post_type'] ) {
+			$post_type = Fns::available_post_types( $_post_types, true );
+		} else {
+			$post_type = Fns::available_post_type( $_post_type );
+		}
+
 		$args = [
-			'post_type'   => $data['post_type'],
+			'post_type'   => $post_type,
 			'post_status' => 'publish',
 		];
 
@@ -376,7 +385,7 @@ class GetPostsV1 {
 					'tpg_total_posts'  => $post_count,
 				];
 
-				$pCount++;
+				$pCount ++;
 			}
 		} else {
 			$send_data['message'] = $data['no_posts_found_text'] ?? __( 'No posts found', 'the-post-grid' );

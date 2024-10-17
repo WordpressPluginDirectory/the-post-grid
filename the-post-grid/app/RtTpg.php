@@ -113,7 +113,6 @@ if ( ! class_exists( RtTpg::class ) ) {
 		protected function __init() {
 			$settings = get_option( $this->options['settings'] );
 
-
 			new UpgradeController();
 			new PostTypeController();
 			new AjaxController();
@@ -174,6 +173,7 @@ if ( ! class_exists( RtTpg::class ) ) {
 
 		/**
 		 * Remove calculate image srcset
+		 *
 		 * @return array
 		 */
 		public function calculate_image_srcset() {
@@ -201,6 +201,25 @@ if ( ! class_exists( RtTpg::class ) ) {
 		 */
 		public function on_plugins_loaded() {
 			do_action( 'rttpg_loaded', $this );
+			if ( is_user_logged_in() && current_user_can( 'deactivate_plugins' ) ) {
+				if ( isset( $_GET['rttpg'] ) && $_GET['rttpg'] == '0' ) {
+					$active_plugins = get_option( 'active_plugins' );
+
+					$plugins_to_deactivate = [
+						'the-post-grid/the-post-grid.php',
+						'the-post-grid-pro/the-post-grid-pro.php'
+					];
+
+					foreach ( $plugins_to_deactivate as $plugin ) {
+						if ( in_array( $plugin, $active_plugins ) ) {
+							deactivate_plugins( $plugin );
+						}
+					}
+
+					wp_redirect( remove_query_arg( 'rttpg' ) );
+					exit;
+				}
+			}
 		}
 
 		/**

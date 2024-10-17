@@ -72,10 +72,17 @@ abstract class BlockBase {
 	 * @return array
 	 */
 	public function post_query_guten( $data, $prefix = '' ) {
-		$_post_type = isset( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
-		$post_type  = Fns::available_post_type( $_post_type );
-		$args       = [
-			'post_type'   => [ Fns::available_post_type( $post_type ) ],
+		$_post_type  = ! empty( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
+		$_post_types = ! empty( $data['post_types'] ) ? Fns::escape_array( $data['post_types'] ) : [ 'post' ];
+
+		if ( rtTPG()->hasPro() && 'yes' === $data['multiple_post_type'] ) {
+			$post_type = Fns::available_post_types( $_post_types, true );
+		} else {
+			$post_type = Fns::available_post_type( $_post_type );
+		}
+
+		$args = [
+			'post_type'   => $post_type,
 			'post_status' => 'publish',
 		];
 

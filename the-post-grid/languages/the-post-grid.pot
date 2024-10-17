@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-23 11:07+0000\n"
+"POT-Creation-Date: 2024-10-17 09:26+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Select Short code"
 msgstr ""
 
-#: ../app/Controllers/AjaxController.php:366, ../app/Helpers/Options.php:1089, ../app/Helpers/Options.php:1100, ../app/Helpers/Options.php:1123, ../app/Helpers/Options.php:1138, ../app/Helpers/Options.php:1162, ../app/Helpers/Options.php:1205, ../app/Helpers/Options.php:1221, ../app/Helpers/Options.php:1285, ../app/Helpers/Options.php:1341, ../app/Helpers/Options.php:1554, ../app/Widgets/elementor/rtTPGElementorHelper.php:912, ../app/Widgets/elementor/rtTPGElementorHelper.php:944, ../app/Widgets/elementor/rtTPGElementorHelper.php:1310, ../app/Widgets/elementor/rtTPGElementorHelper.php:1552, ../app/Widgets/elementor/rtTPGElementorHelper.php:1574, ../app/Widgets/elementor/rtTPGElementorHelper.php:2431, ../app/Widgets/elementor/rtTPGElementorHelper.php:2450, ../app/Widgets/elementor/rtTPGElementorHelper.php:2543, ../app/Widgets/elementor/rtTPGElementorHelper.php:2588, ../app/Widgets/elementor/rtTPGElementorHelper.php:2613, ../app/Widgets/elementor/rtTPGElementorHelper.php:2627, ../app/Widgets/elementor/rtTPGElementorHelper.php:2791, ../app/Widgets/elementor/rtTPGElementorHelper.php:2850, ../app/Widgets/elementor/rtTPGElementorHelper.php:2976, ../app/Widgets/elementor/rtTPGElementorHelper.php:3067, ../app/Widgets/elementor/rtTPGElementorHelper.php:4109, ../app/Widgets/elementor/rtTPGElementorHelper.php:4506, ../app/Widgets/elementor/rtTPGElementorHelper.php:4522, ../app/Widgets/elementor/rtTPGElementorHelper.php:4663, ../app/Widgets/elementor/rtTPGElementorHelper.php:7560, ../app/Widgets/elementor/rtTPGElementorHelper.php:7614, ../app/Widgets/elementor/rtTPGElementorHelper.php:8592, ../app/Widgets/elementor/widgets/category-block.php:515
+#: ../app/Controllers/AjaxController.php:366, ../app/Helpers/Options.php:1089, ../app/Helpers/Options.php:1100, ../app/Helpers/Options.php:1123, ../app/Helpers/Options.php:1138, ../app/Helpers/Options.php:1162, ../app/Helpers/Options.php:1205, ../app/Helpers/Options.php:1221, ../app/Helpers/Options.php:1285, ../app/Helpers/Options.php:1341, ../app/Helpers/Options.php:1554, ../app/Widgets/elementor/rtTPGElementorHelper.php:944, ../app/Widgets/elementor/rtTPGElementorHelper.php:976, ../app/Widgets/elementor/rtTPGElementorHelper.php:1342, ../app/Widgets/elementor/rtTPGElementorHelper.php:1584, ../app/Widgets/elementor/rtTPGElementorHelper.php:1606, ../app/Widgets/elementor/rtTPGElementorHelper.php:2463, ../app/Widgets/elementor/rtTPGElementorHelper.php:2482, ../app/Widgets/elementor/rtTPGElementorHelper.php:2575, ../app/Widgets/elementor/rtTPGElementorHelper.php:2620, ../app/Widgets/elementor/rtTPGElementorHelper.php:2645, ../app/Widgets/elementor/rtTPGElementorHelper.php:2659, ../app/Widgets/elementor/rtTPGElementorHelper.php:2823, ../app/Widgets/elementor/rtTPGElementorHelper.php:2882, ../app/Widgets/elementor/rtTPGElementorHelper.php:3008, ../app/Widgets/elementor/rtTPGElementorHelper.php:3099, ../app/Widgets/elementor/rtTPGElementorHelper.php:4141, ../app/Widgets/elementor/rtTPGElementorHelper.php:4538, ../app/Widgets/elementor/rtTPGElementorHelper.php:4554, ../app/Widgets/elementor/rtTPGElementorHelper.php:4695, ../app/Widgets/elementor/rtTPGElementorHelper.php:7592, ../app/Widgets/elementor/rtTPGElementorHelper.php:7646, ../app/Widgets/elementor/rtTPGElementorHelper.php:8624, ../app/Widgets/elementor/widgets/category-block.php:515
 msgid "Default"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr ""
 msgid "You don't have proper authorization to perform this action"
 msgstr ""
 
-#: ../app/Controllers/BlocksController.php:140, ../app/Controllers/ElementorController.php:290, ../app/Widgets/ElementorWidget.php:28, ../app/Widgets/ElementorWidget.php:43, ../app/Widgets/TPGWidget.php:31, ../app/Controllers/Admin/PostTypeController.php:46, ../app/Controllers/Admin/PostTypeController.php:47
+#: ../app/Controllers/BlocksController.php:140, ../app/Controllers/ElementorController.php:291, ../app/Widgets/ElementorWidget.php:28, ../app/Widgets/ElementorWidget.php:43, ../app/Widgets/TPGWidget.php:31, ../app/Controllers/Admin/PostTypeController.php:46, ../app/Controllers/Admin/PostTypeController.php:47
 msgid "The Post Grid"
 msgstr ""
 
@@ -114,16 +114,20 @@ msgstr ""
 msgid "Data retrieve done"
 msgstr ""
 
-#: ../app/Controllers/ElementorController.php:285
+#: ../app/Controllers/ElementorController.php:286
 msgid "TPG Template Builder Element"
 msgstr ""
 
-#: ../app/Controllers/ElementorController.php:322, ../app/Controllers/ElementorController.php:323, ../app/Widgets/elementor/widgets/slider-layout.php:31
+#: ../app/Controllers/ElementorController.php:323, ../app/Controllers/ElementorController.php:324, ../app/Widgets/elementor/widgets/slider-layout.php:31
 msgid "TPG - Slider Layout"
 msgstr ""
 
-#: ../app/Controllers/ElementorController.php:329, ../app/Controllers/ElementorController.php:330, ../app/Widgets/elementor/widgets/category-block.php:33
+#: ../app/Controllers/ElementorController.php:330, ../app/Controllers/ElementorController.php:331, ../app/Widgets/elementor/widgets/category-block.php:33
 msgid "TPG - Category Block"
+msgstr ""
+
+#: ../app/Controllers/ElementorController.php:337, ../app/Controllers/ElementorController.php:338, ../app/Widgets/elementor/widgets/news-ticker.php:35
+msgid "TPG - News Ticker"
 msgstr ""
 
 #: ../app/Controllers/PageTemplateController.php:62
@@ -138,7 +142,7 @@ msgstr ""
 msgid "No shortCode found"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:153, ../app/Helpers/Options.php:1770, ../app/Controllers/Admin/AdminAjaxController.php:100, ../app/Widgets/elementor/rtTPGElementorHelper.php:3364, ../app/Widgets/elementor/rtTPGElementorHelper.php:3393, ../app/Widgets/elementor/rtTPGElementorHelper.php:5409
+#: ../app/Controllers/ShortcodeController.php:153, ../app/Helpers/Options.php:1770, ../app/Controllers/Admin/AdminAjaxController.php:100, ../app/Widgets/elementor/rtTPGElementorHelper.php:3396, ../app/Widgets/elementor/rtTPGElementorHelper.php:3425, ../app/Widgets/elementor/rtTPGElementorHelper.php:5441
 msgid "Read More"
 msgstr ""
 
@@ -154,7 +158,7 @@ msgstr ""
 msgid "Search..."
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:894, ../app/Helpers/Fns.php:620, ../app/Helpers/Options.php:76, ../app/Controllers/Admin/AdminAjaxController.php:872, ../app/Widgets/elementor/base.php:522, ../app/Widgets/elementor/rtTPGElementorHelper.php:289
+#: ../app/Controllers/ShortcodeController.php:894, ../app/Helpers/Fns.php:620, ../app/Helpers/Options.php:76, ../app/Controllers/Admin/AdminAjaxController.php:872, ../app/Widgets/elementor/base.php:522, ../app/Widgets/elementor/rtTPGElementorHelper.php:321, ../app/Widgets/elementor/widgets/news-ticker.php:607
 msgid "Meta value"
 msgstr ""
 
@@ -166,7 +170,7 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:932, ../app/Controllers/Admin/AdminAjaxController.php:1165, ../app/Controllers/Blocks/GridHoverLayout.php:188, ../app/Controllers/Blocks/GridLayout.php:184, ../app/Controllers/Blocks/ListLayout.php:168, ../app/Widgets/elementor/widgets/grid-hover-layout-archive.php:266, ../app/Widgets/elementor/widgets/grid-hover-layout.php:285, ../app/Widgets/elementor/widgets/grid-layout-archive.php:261, ../app/Widgets/elementor/widgets/grid-layout.php:290, ../app/Widgets/elementor/widgets/list-layout-archive.php:260, ../app/Widgets/elementor/widgets/list-layout.php:277, ../app/Widgets/elementor/widgets/slider-layout-archive.php:322, ../app/Widgets/elementor/widgets/slider-layout-archive.php:383, ../app/Widgets/elementor/widgets/slider-layout.php:310, ../app/Widgets/elementor/widgets/slider-layout.php:383
+#: ../app/Controllers/ShortcodeController.php:932, ../app/Controllers/Admin/AdminAjaxController.php:1165, ../app/Controllers/Blocks/GridHoverLayout.php:188, ../app/Controllers/Blocks/GridLayout.php:184, ../app/Controllers/Blocks/ListLayout.php:168, ../app/Widgets/elementor/widgets/grid-hover-layout-archive.php:266, ../app/Widgets/elementor/widgets/grid-hover-layout.php:289, ../app/Widgets/elementor/widgets/grid-layout-archive.php:261, ../app/Widgets/elementor/widgets/grid-layout.php:296, ../app/Widgets/elementor/widgets/list-layout-archive.php:260, ../app/Widgets/elementor/widgets/list-layout.php:281, ../app/Widgets/elementor/widgets/slider-layout-archive.php:322, ../app/Widgets/elementor/widgets/slider-layout-archive.php:383, ../app/Widgets/elementor/widgets/slider-layout.php:314, ../app/Widgets/elementor/widgets/slider-layout.php:387
 msgid "No post found"
 msgstr ""
 
@@ -174,7 +178,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: ../app/Controllers/ShortcodeController.php:1244, ../app/Helpers/Fns.php:327, ../app/Controllers/Admin/AdminAjaxController.php:1194, ../app/Widgets/elementor/base.php:589, ../app/Widgets/elementor/rtTPGElementorHelper.php:1759
+#: ../app/Controllers/ShortcodeController.php:1244, ../app/Helpers/Fns.php:327, ../app/Controllers/Admin/AdminAjaxController.php:1194, ../app/Widgets/elementor/base.php:589, ../app/Widgets/elementor/rtTPGElementorHelper.php:1791
 msgid "Load More"
 msgstr ""
 
@@ -200,7 +204,7 @@ msgstr ""
 msgid "All Users"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:622, ../app/Widgets/elementor/base.php:524, ../app/Widgets/elementor/rtTPGElementorHelper.php:195, ../app/Widgets/elementor/rtTPGElementorHelper.php:211
+#: ../app/Helpers/Fns.php:622, ../app/Widgets/elementor/base.php:524, ../app/Widgets/elementor/rtTPGElementorHelper.php:227, ../app/Widgets/elementor/rtTPGElementorHelper.php:243, ../app/Widgets/elementor/widgets/news-ticker.php:529
 msgid "By "
 msgstr ""
 
@@ -220,7 +224,7 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:4161, ../app/Widgets/elementor/rtTPGElementorHelper.php:2851, ../app/Widgets/elementor/widgets/category-block.php:516
+#: ../app/Helpers/Fns.php:4161, ../app/Widgets/elementor/rtTPGElementorHelper.php:2883, ../app/Widgets/elementor/widgets/category-block.php:516
 msgid "Custom"
 msgstr ""
 
@@ -244,57 +248,57 @@ msgstr ""
 msgid "Post submit successful"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5006, ../app/Helpers/Fns.php:5067
+#: ../app/Helpers/Fns.php:5010, ../app/Helpers/Fns.php:5071
 msgctxt "Thousand Shorthand"
 msgid "K"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5007
+#: ../app/Helpers/Fns.php:5011
 msgctxt "Million Shorthand"
 msgid "M"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5008
+#: ../app/Helpers/Fns.php:5012
 msgctxt "Billion Shorthand"
 msgid "B"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5009
+#: ../app/Helpers/Fns.php:5013
 msgctxt "Trillion Shorthand"
 msgid "T"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5010
+#: ../app/Helpers/Fns.php:5014
 msgctxt "Quadrillion Shorthand"
 msgid "Qa"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5011
+#: ../app/Helpers/Fns.php:5015
 msgctxt "Quintillion Shorthand"
 msgid "Qi"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5068
+#: ../app/Helpers/Fns.php:5072
 msgctxt "Thousands Shorthand"
 msgid "K"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5069
+#: ../app/Helpers/Fns.php:5073
 msgctxt "Lac Shorthand"
 msgid " Lac"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5070
+#: ../app/Helpers/Fns.php:5074
 msgctxt "Lacs Shorthand"
 msgid " Lacs"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5071
+#: ../app/Helpers/Fns.php:5075
 msgctxt "Cr Shorthand"
 msgid " Cr"
 msgstr ""
 
-#: ../app/Helpers/Fns.php:5072
+#: ../app/Helpers/Fns.php:5076
 msgctxt "Crs Shorthand"
 msgid " Crs"
 msgstr ""
@@ -327,15 +331,15 @@ msgstr ""
 msgid "OR — show posts which match one or more settings"
 msgstr ""
 
-#: ../app/Helpers/Options.php:77, ../app/Widgets/elementor/rtTPGElementorHelper.php:290
+#: ../app/Helpers/Options.php:77, ../app/Widgets/elementor/rtTPGElementorHelper.php:322, ../app/Widgets/elementor/widgets/news-ticker.php:608
 msgid "Meta value number"
 msgstr ""
 
-#: ../app/Helpers/Options.php:78, ../app/Widgets/elementor/rtTPGElementorHelper.php:291
+#: ../app/Helpers/Options.php:78, ../app/Widgets/elementor/rtTPGElementorHelper.php:323, ../app/Widgets/elementor/widgets/news-ticker.php:609
 msgid "Meta value datetime"
 msgstr ""
 
-#: ../app/Helpers/Options.php:84, ../app/Helpers/Options.php:1768, ../app/Helpers/Options.php:1801, ../app/Widgets/elementor/rtTPGElementorHelper.php:279, ../app/Widgets/elementor/rtTPGElementorHelper.php:435, ../app/Widgets/elementor/rtTPGElementorHelper.php:2111, ../app/Widgets/elementor/widgets/section-title.php:98, ../resources/settings/sc-settings.php:32
+#: ../app/Helpers/Options.php:84, ../app/Helpers/Options.php:1768, ../app/Helpers/Options.php:1801, ../app/Widgets/elementor/rtTPGElementorHelper.php:311, ../app/Widgets/elementor/rtTPGElementorHelper.php:467, ../app/Widgets/elementor/rtTPGElementorHelper.php:2143, ../app/Widgets/elementor/widgets/news-ticker.php:597, ../app/Widgets/elementor/widgets/section-title.php:98, ../resources/settings/sc-settings.php:32
 msgid "Title"
 msgstr ""
 
@@ -675,7 +679,7 @@ msgstr ""
 msgid "Search page"
 msgstr ""
 
-#: ../app/Helpers/Options.php:589, ../app/Widgets/elementor/rtTPGElementorHelper.php:99, ../app/Widgets/elementor/rtTPGElementorHelper.php:473
+#: ../app/Helpers/Options.php:589, ../app/Widgets/elementor/rtTPGElementorHelper.php:131, ../app/Widgets/elementor/rtTPGElementorHelper.php:505, ../app/Widgets/elementor/widgets/news-ticker.php:442
 msgid "Include only"
 msgstr ""
 
@@ -683,7 +687,7 @@ msgstr ""
 msgid "List of post IDs to show (comma-separated values, for example: 1,2,3)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:596, ../app/Widgets/elementor/rtTPGElementorHelper.php:109, ../app/Widgets/elementor/rtTPGElementorHelper.php:483
+#: ../app/Helpers/Options.php:596, ../app/Widgets/elementor/rtTPGElementorHelper.php:141, ../app/Widgets/elementor/rtTPGElementorHelper.php:515, ../app/Widgets/elementor/widgets/news-ticker.php:452
 msgid "Exclude"
 msgstr ""
 
@@ -691,7 +695,7 @@ msgstr ""
 msgid "List of post IDs to hide (comma-separated values, for example: 1,2,3)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:603, ../app/Widgets/elementor/rtTPGElementorHelper.php:119
+#: ../app/Helpers/Options.php:603, ../app/Widgets/elementor/rtTPGElementorHelper.php:151, ../app/Widgets/elementor/widgets/news-ticker.php:462
 msgid "Limit"
 msgstr ""
 
@@ -699,7 +703,7 @@ msgstr ""
 msgid "The number of posts to show. Set empty to show all found posts."
 msgstr ""
 
-#: ../app/Helpers/Options.php:610, ../app/Widgets/elementor/rtTPGElementorHelper.php:137, ../app/Widgets/elementor/rtTPGElementorHelper.php:493
+#: ../app/Helpers/Options.php:610, ../app/Widgets/elementor/rtTPGElementorHelper.php:169, ../app/Widgets/elementor/rtTPGElementorHelper.php:525, ../app/Widgets/elementor/widgets/news-ticker.php:471
 msgid "Offset"
 msgstr ""
 
@@ -715,7 +719,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: ../app/Helpers/Options.php:636, ../app/Helpers/Options.php:1772, ../app/Widgets/elementor/rtTPGElementorHelper.php:278, ../app/Widgets/elementor/rtTPGElementorHelper.php:434, ../app/Widgets/elementor/rtTPGElementorHelper.php:3316
+#: ../app/Helpers/Options.php:636, ../app/Helpers/Options.php:1772, ../app/Widgets/elementor/rtTPGElementorHelper.php:310, ../app/Widgets/elementor/rtTPGElementorHelper.php:466, ../app/Widgets/elementor/rtTPGElementorHelper.php:3348, ../app/Widgets/elementor/widgets/news-ticker.php:596
 msgid "Author"
 msgstr ""
 
@@ -755,7 +759,7 @@ msgstr ""
 msgid "Nav Button"
 msgstr ""
 
-#: ../app/Helpers/Options.php:673, ../app/Helpers/Options.php:868, ../app/Helpers/Options.php:1785, ../app/Widgets/elementor/rtTPGElementorHelper.php:1685
+#: ../app/Helpers/Options.php:673, ../app/Helpers/Options.php:868, ../app/Helpers/Options.php:1785, ../app/Widgets/elementor/rtTPGElementorHelper.php:1717
 msgid "Pagination"
 msgstr ""
 
@@ -763,7 +767,7 @@ msgstr ""
 msgid "Stop Hover"
 msgstr ""
 
-#: ../app/Helpers/Options.php:675, ../app/Widgets/elementor/rtTPGElementorHelper.php:7694
+#: ../app/Helpers/Options.php:675, ../app/Widgets/elementor/rtTPGElementorHelper.php:7726
 msgid "Auto Height"
 msgstr ""
 
@@ -779,7 +783,7 @@ msgstr ""
 msgid "Layout Type"
 msgstr ""
 
-#: ../app/Helpers/Options.php:691, ../app/Widgets/elementor/rtTPGElementorHelper.php:525, ../app/Widgets/elementor/rtTPGElementorHelper.php:1468
+#: ../app/Helpers/Options.php:691, ../app/Widgets/elementor/rtTPGElementorHelper.php:557, ../app/Widgets/elementor/rtTPGElementorHelper.php:1500
 msgid "Layout"
 msgstr ""
 
@@ -787,7 +791,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: ../app/Helpers/Options.php:706, ../app/Widgets/elementor/rtTPGElementorHelper.php:1027
+#: ../app/Helpers/Options.php:706, ../app/Widgets/elementor/rtTPGElementorHelper.php:1059
 msgid "Taxonomy Filter"
 msgstr ""
 
@@ -847,7 +851,7 @@ msgstr ""
 msgid "Carousel property"
 msgstr ""
 
-#: ../app/Helpers/Options.php:812, ../app/Widgets/elementor/rtTPGElementorHelper.php:7724
+#: ../app/Helpers/Options.php:812, ../app/Widgets/elementor/rtTPGElementorHelper.php:7756, ../app/Widgets/elementor/widgets/news-ticker.php:369
 msgid "Speed"
 msgstr ""
 
@@ -891,7 +895,7 @@ msgstr ""
 msgid "Pagination not allow in Grid Hover layout"
 msgstr ""
 
-#: ../app/Helpers/Options.php:878, ../app/Widgets/elementor/rtTPGElementorHelper.php:1726
+#: ../app/Helpers/Options.php:878, ../app/Widgets/elementor/rtTPGElementorHelper.php:1758
 msgid "Pagination Type"
 msgstr ""
 
@@ -935,15 +939,15 @@ msgstr ""
 msgid "Multi PopUp"
 msgstr ""
 
-#: ../app/Helpers/Options.php:932, ../app/Widgets/elementor/rtTPGElementorHelper.php:3600
+#: ../app/Helpers/Options.php:932, ../app/Widgets/elementor/rtTPGElementorHelper.php:3632
 msgid "Link Target"
 msgstr ""
 
-#: ../app/Helpers/Options.php:936, ../app/Widgets/elementor/rtTPGElementorHelper.php:3604
+#: ../app/Helpers/Options.php:936, ../app/Widgets/elementor/rtTPGElementorHelper.php:3636
 msgid "Same Window"
 msgstr ""
 
-#: ../app/Helpers/Options.php:937, ../app/Widgets/elementor/rtTPGElementorHelper.php:3605
+#: ../app/Helpers/Options.php:937, ../app/Widgets/elementor/rtTPGElementorHelper.php:3637
 msgid "New Window"
 msgstr ""
 
@@ -963,35 +967,35 @@ msgstr ""
 msgid "Even Grid"
 msgstr ""
 
-#: ../app/Helpers/Options.php:969, ../app/Helpers/Options.php:1793, ../app/Widgets/elementor/rtTPGElementorHelper.php:865, ../app/Widgets/elementor/rtTPGElementorHelper.php:1624
+#: ../app/Helpers/Options.php:969, ../app/Helpers/Options.php:1793, ../app/Widgets/elementor/rtTPGElementorHelper.php:897, ../app/Widgets/elementor/rtTPGElementorHelper.php:1656
 msgid "Masonry"
 msgstr ""
 
-#: ../app/Helpers/Options.php:975, ../app/Helpers/Options.php:984, ../app/Widgets/elementor/rtTPGElementorHelper.php:2155, ../app/Widgets/elementor/rtTPGElementorHelper.php:2533, ../app/Widgets/elementor/widgets/category-block.php:197, ../app/Widgets/elementor/widgets/section-title.php:141
+#: ../app/Helpers/Options.php:975, ../app/Helpers/Options.php:984, ../app/Widgets/elementor/rtTPGElementorHelper.php:2187, ../app/Widgets/elementor/rtTPGElementorHelper.php:2565, ../app/Widgets/elementor/widgets/category-block.php:197, ../app/Widgets/elementor/widgets/section-title.php:141
 msgid "H2"
 msgstr ""
 
-#: ../app/Helpers/Options.php:976, ../app/Helpers/Options.php:985, ../app/Widgets/elementor/rtTPGElementorHelper.php:2156, ../app/Widgets/elementor/rtTPGElementorHelper.php:2534, ../app/Widgets/elementor/widgets/category-block.php:198, ../app/Widgets/elementor/widgets/section-title.php:142
+#: ../app/Helpers/Options.php:976, ../app/Helpers/Options.php:985, ../app/Widgets/elementor/rtTPGElementorHelper.php:2188, ../app/Widgets/elementor/rtTPGElementorHelper.php:2566, ../app/Widgets/elementor/widgets/category-block.php:198, ../app/Widgets/elementor/widgets/section-title.php:142
 msgid "H3"
 msgstr ""
 
-#: ../app/Helpers/Options.php:977, ../app/Helpers/Options.php:986, ../app/Widgets/elementor/rtTPGElementorHelper.php:2157, ../app/Widgets/elementor/rtTPGElementorHelper.php:2535, ../app/Widgets/elementor/widgets/category-block.php:199, ../app/Widgets/elementor/widgets/section-title.php:143
+#: ../app/Helpers/Options.php:977, ../app/Helpers/Options.php:986, ../app/Widgets/elementor/rtTPGElementorHelper.php:2189, ../app/Widgets/elementor/rtTPGElementorHelper.php:2567, ../app/Widgets/elementor/widgets/category-block.php:199, ../app/Widgets/elementor/widgets/section-title.php:143
 msgid "H4"
 msgstr ""
 
-#: ../app/Helpers/Options.php:983, ../app/Widgets/elementor/rtTPGElementorHelper.php:2154, ../app/Widgets/elementor/rtTPGElementorHelper.php:2532, ../app/Widgets/elementor/widgets/category-block.php:196, ../app/Widgets/elementor/widgets/section-title.php:140
+#: ../app/Helpers/Options.php:983, ../app/Widgets/elementor/rtTPGElementorHelper.php:2186, ../app/Widgets/elementor/rtTPGElementorHelper.php:2564, ../app/Widgets/elementor/widgets/category-block.php:196, ../app/Widgets/elementor/widgets/section-title.php:140
 msgid "H1"
 msgstr ""
 
-#: ../app/Helpers/Options.php:987, ../app/Widgets/elementor/rtTPGElementorHelper.php:2158, ../app/Widgets/elementor/rtTPGElementorHelper.php:2536, ../app/Widgets/elementor/widgets/category-block.php:200, ../app/Widgets/elementor/widgets/section-title.php:144
+#: ../app/Helpers/Options.php:987, ../app/Widgets/elementor/rtTPGElementorHelper.php:2190, ../app/Widgets/elementor/rtTPGElementorHelper.php:2568, ../app/Widgets/elementor/widgets/category-block.php:200, ../app/Widgets/elementor/widgets/section-title.php:144
 msgid "H5"
 msgstr ""
 
-#: ../app/Helpers/Options.php:988, ../app/Widgets/elementor/rtTPGElementorHelper.php:2159, ../app/Widgets/elementor/rtTPGElementorHelper.php:2537, ../app/Widgets/elementor/widgets/category-block.php:201, ../app/Widgets/elementor/widgets/section-title.php:145
+#: ../app/Helpers/Options.php:988, ../app/Widgets/elementor/rtTPGElementorHelper.php:2191, ../app/Widgets/elementor/rtTPGElementorHelper.php:2569, ../app/Widgets/elementor/widgets/category-block.php:201, ../app/Widgets/elementor/widgets/section-title.php:145
 msgid "H6"
 msgstr ""
 
-#: ../app/Helpers/Options.php:998, ../app/Controllers/Admin/MetaController.php:291, ../app/Widgets/elementor/rtTPGElementorHelper.php:1780
+#: ../app/Helpers/Options.php:998, ../app/Controllers/Admin/MetaController.php:291, ../app/Widgets/elementor/rtTPGElementorHelper.php:1812
 msgid "Field Selection"
 msgstr ""
 
@@ -1007,7 +1011,7 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1054, ../app/Helpers/Options.php:1628, ../app/Widgets/elementor/rtTPGElementorHelper.php:2253
+#: ../app/Helpers/Options.php:1054, ../app/Helpers/Options.php:1628, ../app/Widgets/elementor/rtTPGElementorHelper.php:2285
 msgid "Feature Image"
 msgstr ""
 
@@ -1015,35 +1019,35 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1088, ../app/Helpers/Options.php:1137, ../app/Controllers/Admin/MetaController.php:293
+#: ../app/Helpers/Options.php:1088, ../app/Helpers/Options.php:1137, ../app/Controllers/Admin/MetaController.php:293, ../app/Widgets/elementor/widgets/news-ticker.php:316
 msgid "Style"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1091, ../app/Helpers/Options.php:1140
+#: ../app/Helpers/Options.php:1091, ../app/Helpers/Options.php:1140, ../app/Widgets/elementor/widgets/news-ticker.php:320
 msgid "Style 1"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1092, ../app/Helpers/Options.php:1141
+#: ../app/Helpers/Options.php:1092, ../app/Helpers/Options.php:1141, ../app/Widgets/elementor/widgets/news-ticker.php:321
 msgid "Style 2"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1093, ../app/Helpers/Options.php:1142
+#: ../app/Helpers/Options.php:1093, ../app/Helpers/Options.php:1142, ../app/Widgets/elementor/widgets/news-ticker.php:322
 msgid "Style 3"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1099, ../app/Helpers/Options.php:1340, ../app/Widgets/elementor/rtTPGElementorHelper.php:3686, ../app/Widgets/elementor/rtTPGElementorHelper.php:4001, ../app/Widgets/elementor/rtTPGElementorHelper.php:4677, ../app/Widgets/elementor/rtTPGElementorHelper.php:4905, ../app/Widgets/elementor/rtTPGElementorHelper.php:5045, ../app/Widgets/elementor/rtTPGElementorHelper.php:5867, ../app/Widgets/elementor/rtTPGElementorHelper.php:6194, ../app/Widgets/elementor/widgets/category-block.php:155, ../app/Widgets/elementor/widgets/section-title.php:208
+#: ../app/Helpers/Options.php:1099, ../app/Helpers/Options.php:1340, ../app/Widgets/elementor/rtTPGElementorHelper.php:3718, ../app/Widgets/elementor/rtTPGElementorHelper.php:4033, ../app/Widgets/elementor/rtTPGElementorHelper.php:4709, ../app/Widgets/elementor/rtTPGElementorHelper.php:4937, ../app/Widgets/elementor/rtTPGElementorHelper.php:5077, ../app/Widgets/elementor/rtTPGElementorHelper.php:5899, ../app/Widgets/elementor/rtTPGElementorHelper.php:6226, ../app/Widgets/elementor/widgets/category-block.php:155, ../app/Widgets/elementor/widgets/section-title.php:208
 msgid "Alignment"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1102, ../app/Helpers/Options.php:1343, ../app/Helpers/Options.php:1820, ../app/Helpers/Options.php:1829, ../app/Widgets/elementor/rtTPGElementorHelper.php:975, ../app/Widgets/elementor/rtTPGElementorHelper.php:1651, ../app/Widgets/elementor/rtTPGElementorHelper.php:3428, ../app/Widgets/elementor/rtTPGElementorHelper.php:3690, ../app/Widgets/elementor/rtTPGElementorHelper.php:4005, ../app/Widgets/elementor/rtTPGElementorHelper.php:4681, ../app/Widgets/elementor/rtTPGElementorHelper.php:4909, ../app/Widgets/elementor/rtTPGElementorHelper.php:5049, ../app/Widgets/elementor/rtTPGElementorHelper.php:5468, ../app/Widgets/elementor/rtTPGElementorHelper.php:5871, ../app/Widgets/elementor/rtTPGElementorHelper.php:6198, ../app/Widgets/elementor/rtTPGElementorHelper.php:8106, ../app/Widgets/elementor/rtTPGElementorHelper.php:8633, ../app/Widgets/elementor/widgets/category-block.php:159, ../app/Widgets/elementor/widgets/section-title.php:212
+#: ../app/Helpers/Options.php:1102, ../app/Helpers/Options.php:1343, ../app/Helpers/Options.php:1820, ../app/Helpers/Options.php:1829, ../app/Widgets/elementor/rtTPGElementorHelper.php:1007, ../app/Widgets/elementor/rtTPGElementorHelper.php:1683, ../app/Widgets/elementor/rtTPGElementorHelper.php:3460, ../app/Widgets/elementor/rtTPGElementorHelper.php:3722, ../app/Widgets/elementor/rtTPGElementorHelper.php:4037, ../app/Widgets/elementor/rtTPGElementorHelper.php:4713, ../app/Widgets/elementor/rtTPGElementorHelper.php:4941, ../app/Widgets/elementor/rtTPGElementorHelper.php:5081, ../app/Widgets/elementor/rtTPGElementorHelper.php:5500, ../app/Widgets/elementor/rtTPGElementorHelper.php:5903, ../app/Widgets/elementor/rtTPGElementorHelper.php:6230, ../app/Widgets/elementor/rtTPGElementorHelper.php:8138, ../app/Widgets/elementor/rtTPGElementorHelper.php:8665, ../app/Widgets/elementor/widgets/category-block.php:159, ../app/Widgets/elementor/widgets/section-title.php:212
 msgid "Left"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1103, ../app/Helpers/Options.php:1344, ../app/Helpers/Options.php:1821, ../app/Helpers/Options.php:1830, ../app/Widgets/elementor/rtTPGElementorHelper.php:688, ../app/Widgets/elementor/rtTPGElementorHelper.php:983, ../app/Widgets/elementor/rtTPGElementorHelper.php:1659, ../app/Widgets/elementor/rtTPGElementorHelper.php:3429, ../app/Widgets/elementor/rtTPGElementorHelper.php:3698, ../app/Widgets/elementor/rtTPGElementorHelper.php:4013, ../app/Widgets/elementor/rtTPGElementorHelper.php:4689, ../app/Widgets/elementor/rtTPGElementorHelper.php:4917, ../app/Widgets/elementor/rtTPGElementorHelper.php:5057, ../app/Widgets/elementor/rtTPGElementorHelper.php:5476, ../app/Widgets/elementor/rtTPGElementorHelper.php:5879, ../app/Widgets/elementor/rtTPGElementorHelper.php:6206, ../app/Widgets/elementor/rtTPGElementorHelper.php:6236, ../app/Widgets/elementor/rtTPGElementorHelper.php:6328, ../app/Widgets/elementor/rtTPGElementorHelper.php:8114, ../app/Widgets/elementor/rtTPGElementorHelper.php:8641, ../app/Widgets/elementor/widgets/category-block.php:167, ../app/Widgets/elementor/widgets/section-title.php:220
+#: ../app/Helpers/Options.php:1103, ../app/Helpers/Options.php:1344, ../app/Helpers/Options.php:1821, ../app/Helpers/Options.php:1830, ../app/Widgets/elementor/rtTPGElementorHelper.php:720, ../app/Widgets/elementor/rtTPGElementorHelper.php:1015, ../app/Widgets/elementor/rtTPGElementorHelper.php:1691, ../app/Widgets/elementor/rtTPGElementorHelper.php:3461, ../app/Widgets/elementor/rtTPGElementorHelper.php:3730, ../app/Widgets/elementor/rtTPGElementorHelper.php:4045, ../app/Widgets/elementor/rtTPGElementorHelper.php:4721, ../app/Widgets/elementor/rtTPGElementorHelper.php:4949, ../app/Widgets/elementor/rtTPGElementorHelper.php:5089, ../app/Widgets/elementor/rtTPGElementorHelper.php:5508, ../app/Widgets/elementor/rtTPGElementorHelper.php:5911, ../app/Widgets/elementor/rtTPGElementorHelper.php:6238, ../app/Widgets/elementor/rtTPGElementorHelper.php:6268, ../app/Widgets/elementor/rtTPGElementorHelper.php:6360, ../app/Widgets/elementor/rtTPGElementorHelper.php:8146, ../app/Widgets/elementor/rtTPGElementorHelper.php:8673, ../app/Widgets/elementor/widgets/category-block.php:167, ../app/Widgets/elementor/widgets/section-title.php:220
 msgid "Right"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1104, ../app/Helpers/Options.php:1345, ../app/Helpers/Options.php:1822, ../app/Helpers/Options.php:1831, ../app/Widgets/elementor/rtTPGElementorHelper.php:914, ../app/Widgets/elementor/rtTPGElementorHelper.php:946, ../app/Widgets/elementor/rtTPGElementorHelper.php:979, ../app/Widgets/elementor/rtTPGElementorHelper.php:1554, ../app/Widgets/elementor/rtTPGElementorHelper.php:1655, ../app/Widgets/elementor/rtTPGElementorHelper.php:3694, ../app/Widgets/elementor/rtTPGElementorHelper.php:4009, ../app/Widgets/elementor/rtTPGElementorHelper.php:4685, ../app/Widgets/elementor/rtTPGElementorHelper.php:4913, ../app/Widgets/elementor/rtTPGElementorHelper.php:5053, ../app/Widgets/elementor/rtTPGElementorHelper.php:5472, ../app/Widgets/elementor/rtTPGElementorHelper.php:5875, ../app/Widgets/elementor/rtTPGElementorHelper.php:6202, ../app/Widgets/elementor/rtTPGElementorHelper.php:6232, ../app/Widgets/elementor/rtTPGElementorHelper.php:6324, ../app/Widgets/elementor/rtTPGElementorHelper.php:8110, ../app/Widgets/elementor/rtTPGElementorHelper.php:8637, ../app/Widgets/elementor/widgets/category-block.php:163, ../app/Widgets/elementor/widgets/section-title.php:216
+#: ../app/Helpers/Options.php:1104, ../app/Helpers/Options.php:1345, ../app/Helpers/Options.php:1822, ../app/Helpers/Options.php:1831, ../app/Widgets/elementor/rtTPGElementorHelper.php:946, ../app/Widgets/elementor/rtTPGElementorHelper.php:978, ../app/Widgets/elementor/rtTPGElementorHelper.php:1011, ../app/Widgets/elementor/rtTPGElementorHelper.php:1586, ../app/Widgets/elementor/rtTPGElementorHelper.php:1687, ../app/Widgets/elementor/rtTPGElementorHelper.php:3726, ../app/Widgets/elementor/rtTPGElementorHelper.php:4041, ../app/Widgets/elementor/rtTPGElementorHelper.php:4717, ../app/Widgets/elementor/rtTPGElementorHelper.php:4945, ../app/Widgets/elementor/rtTPGElementorHelper.php:5085, ../app/Widgets/elementor/rtTPGElementorHelper.php:5504, ../app/Widgets/elementor/rtTPGElementorHelper.php:5907, ../app/Widgets/elementor/rtTPGElementorHelper.php:6234, ../app/Widgets/elementor/rtTPGElementorHelper.php:6264, ../app/Widgets/elementor/rtTPGElementorHelper.php:6356, ../app/Widgets/elementor/rtTPGElementorHelper.php:8142, ../app/Widgets/elementor/rtTPGElementorHelper.php:8669, ../app/Widgets/elementor/widgets/category-block.php:163, ../app/Widgets/elementor/widgets/section-title.php:216
 msgid "Center"
 msgstr ""
 
@@ -1055,31 +1059,31 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1125, ../app/Helpers/Options.php:1207, ../app/Widgets/elementor/rtTPGElementorHelper.php:2795, ../app/Widgets/elementor/rtTPGElementorHelper.php:3068
+#: ../app/Helpers/Options.php:1125, ../app/Helpers/Options.php:1207, ../app/Widgets/elementor/rtTPGElementorHelper.php:2827, ../app/Widgets/elementor/rtTPGElementorHelper.php:3100
 msgid "Above Title"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1126, ../app/Widgets/elementor/rtTPGElementorHelper.php:3070
+#: ../app/Helpers/Options.php:1126, ../app/Widgets/elementor/rtTPGElementorHelper.php:3102
 msgid "Over image (Top Left)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1127, ../app/Widgets/elementor/rtTPGElementorHelper.php:3071
+#: ../app/Helpers/Options.php:1127, ../app/Widgets/elementor/rtTPGElementorHelper.php:3103
 msgid "Over image (Top Right)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1128, ../app/Widgets/elementor/rtTPGElementorHelper.php:3072
+#: ../app/Helpers/Options.php:1128, ../app/Widgets/elementor/rtTPGElementorHelper.php:3104
 msgid "Over image (Bottom Left)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1129, ../app/Widgets/elementor/rtTPGElementorHelper.php:3073
+#: ../app/Helpers/Options.php:1129, ../app/Widgets/elementor/rtTPGElementorHelper.php:3105
 msgid "Over image (Bottom Right)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1130, ../app/Widgets/elementor/rtTPGElementorHelper.php:3074
+#: ../app/Helpers/Options.php:1130, ../app/Widgets/elementor/rtTPGElementorHelper.php:3106
 msgid "Over image (Center)"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1147, ../app/Helpers/Options.php:1214, ../app/Widgets/elementor/rtTPGElementorHelper.php:2995
+#: ../app/Helpers/Options.php:1147, ../app/Helpers/Options.php:1214, ../app/Widgets/elementor/rtTPGElementorHelper.php:3027, ../app/Widgets/elementor/widgets/news-ticker.php:804, ../app/Widgets/elementor/widgets/news-ticker.php:916
 msgid "Icon"
 msgstr ""
 
@@ -1115,11 +1119,11 @@ msgstr ""
 msgid "Title limit type"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1208, ../app/Widgets/elementor/rtTPGElementorHelper.php:2797
+#: ../app/Helpers/Options.php:1208, ../app/Widgets/elementor/rtTPGElementorHelper.php:2829
 msgid "Above excerpt"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1209, ../app/Widgets/elementor/rtTPGElementorHelper.php:2798
+#: ../app/Helpers/Options.php:1209, ../app/Widgets/elementor/rtTPGElementorHelper.php:2830
 msgid "Below excerpt"
 msgstr ""
 
@@ -1127,15 +1131,15 @@ msgstr ""
 msgid "Separator"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1223, ../app/Widgets/elementor/rtTPGElementorHelper.php:2836
+#: ../app/Helpers/Options.php:1223, ../app/Widgets/elementor/rtTPGElementorHelper.php:2868
 msgid "Dot ( . )"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1224, ../app/Widgets/elementor/rtTPGElementorHelper.php:2837
+#: ../app/Helpers/Options.php:1224, ../app/Widgets/elementor/rtTPGElementorHelper.php:2869
 msgid "Single Slash ( / )"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1225, ../app/Widgets/elementor/rtTPGElementorHelper.php:2838
+#: ../app/Helpers/Options.php:1225, ../app/Widgets/elementor/rtTPGElementorHelper.php:2870
 msgid "Double Slash ( // )"
 msgstr ""
 
@@ -1143,7 +1147,7 @@ msgstr ""
 msgid "Hypen ( - )"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1227, ../app/Widgets/elementor/rtTPGElementorHelper.php:2840
+#: ../app/Helpers/Options.php:1227, ../app/Widgets/elementor/rtTPGElementorHelper.php:2872
 msgid "Vertical Pipe ( | )"
 msgstr ""
 
@@ -1159,7 +1163,7 @@ msgstr ""
 msgid "Custom Image Size"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1258, ../app/Widgets/elementor/rtTPGElementorHelper.php:2249
+#: ../app/Helpers/Options.php:1258, ../app/Widgets/elementor/rtTPGElementorHelper.php:2281
 msgid "Media Source"
 msgstr ""
 
@@ -1183,7 +1187,7 @@ msgstr ""
 msgid "Zoom out"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1289, ../app/Widgets/elementor/rtTPGElementorHelper.php:2436, ../app/Widgets/elementor/rtTPGElementorHelper.php:7764
+#: ../app/Helpers/Options.php:1289, ../app/Widgets/elementor/rtTPGElementorHelper.php:2468, ../app/Widgets/elementor/rtTPGElementorHelper.php:7796, ../app/Widgets/elementor/widgets/news-ticker.php:919
 msgid "None"
 msgstr ""
 
@@ -1203,7 +1207,7 @@ msgstr ""
 msgid "Excerpt limit only integer number is allowed, Leave it blank for full excerpt."
 msgstr ""
 
-#: ../app/Helpers/Options.php:1314, ../app/Widgets/elementor/rtTPGElementorHelper.php:2695
+#: ../app/Helpers/Options.php:1314, ../app/Widgets/elementor/rtTPGElementorHelper.php:2727
 msgid "Excerpt Type"
 msgstr ""
 
@@ -1223,7 +1227,7 @@ msgstr ""
 msgid "Parent class for adding custom css"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1382, ../app/Helpers/Options.php:1456, ../app/Widgets/elementor/rtTPGElementorHelper.php:7318, ../app/Widgets/elementor/rtTPGElementorHelper.php:7336, ../app/Widgets/elementor/widgets/category-block.php:692, ../app/Widgets/elementor/widgets/category-block.php:698
+#: ../app/Helpers/Options.php:1382, ../app/Helpers/Options.php:1456, ../app/Widgets/elementor/rtTPGElementorHelper.php:7350, ../app/Widgets/elementor/rtTPGElementorHelper.php:7368, ../app/Widgets/elementor/widgets/category-block.php:692, ../app/Widgets/elementor/widgets/category-block.php:698, ../app/Widgets/elementor/widgets/news-ticker.php:789
 msgid "Background"
 msgstr ""
 
@@ -1239,15 +1243,15 @@ msgstr ""
 msgid "Text Hover"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1416, ../app/Helpers/Options.php:1480, ../app/Helpers/Options.php:1525, ../app/Widgets/elementor/rtTPGElementorHelper.php:5571, ../app/Widgets/elementor/rtTPGElementorHelper.php:5993
+#: ../app/Helpers/Options.php:1416, ../app/Helpers/Options.php:1480, ../app/Helpers/Options.php:1525, ../app/Widgets/elementor/rtTPGElementorHelper.php:5603, ../app/Widgets/elementor/rtTPGElementorHelper.php:6025
 msgid "Background Color"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1421, ../app/Helpers/Options.php:1530, ../app/Widgets/elementor/rtTPGElementorHelper.php:5546
+#: ../app/Helpers/Options.php:1421, ../app/Helpers/Options.php:1530, ../app/Widgets/elementor/rtTPGElementorHelper.php:5578
 msgid "Text Color"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1426, ../app/Helpers/Options.php:1490, ../app/Widgets/elementor/rtTPGElementorHelper.php:6007, ../app/Widgets/elementor/rtTPGElementorHelper.php:7354
+#: ../app/Helpers/Options.php:1426, ../app/Helpers/Options.php:1490, ../app/Widgets/elementor/rtTPGElementorHelper.php:6039, ../app/Widgets/elementor/rtTPGElementorHelper.php:7386
 msgid "Border Color"
 msgstr ""
 
@@ -1255,7 +1259,7 @@ msgstr ""
 msgid "Border Size"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1437, ../app/Helpers/Options.php:1461, ../app/Helpers/Options.php:1541, ../app/Widgets/elementor/rtTPGElementorHelper.php:3710, ../app/Widgets/elementor/widgets/section-title.php:232
+#: ../app/Helpers/Options.php:1437, ../app/Helpers/Options.php:1461, ../app/Helpers/Options.php:1541, ../app/Widgets/elementor/rtTPGElementorHelper.php:3742, ../app/Widgets/elementor/widgets/section-title.php:232
 msgid "Margin"
 msgstr ""
 
@@ -1263,7 +1267,7 @@ msgstr ""
 msgid "Multiple value allowed separated by comma 12,0,5,10"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1443, ../app/Helpers/Options.php:1467, ../app/Helpers/Options.php:1547, ../app/Widgets/elementor/rtTPGElementorHelper.php:3749, ../app/Widgets/elementor/rtTPGElementorHelper.php:4043, ../app/Widgets/elementor/widgets/category-block.php:599
+#: ../app/Helpers/Options.php:1443, ../app/Helpers/Options.php:1467, ../app/Helpers/Options.php:1547, ../app/Widgets/elementor/rtTPGElementorHelper.php:3781, ../app/Widgets/elementor/rtTPGElementorHelper.php:4075, ../app/Widgets/elementor/widgets/category-block.php:599
 msgid "Padding"
 msgstr ""
 
@@ -1279,7 +1283,7 @@ msgstr ""
 msgid "Border Width"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1501, ../app/Helpers/Options.php:1535, ../app/Widgets/elementor/rtTPGElementorHelper.php:3729, ../app/Widgets/elementor/rtTPGElementorHelper.php:4083, ../app/Widgets/elementor/rtTPGElementorHelper.php:5608, ../app/Widgets/elementor/rtTPGElementorHelper.php:5933, ../app/Widgets/elementor/rtTPGElementorHelper.php:6347, ../app/Widgets/elementor/rtTPGElementorHelper.php:6790, ../app/Widgets/elementor/widgets/category-block.php:361, ../app/Widgets/elementor/widgets/category-block.php:660, ../app/Widgets/elementor/widgets/section-title.php:251
+#: ../app/Helpers/Options.php:1501, ../app/Helpers/Options.php:1535, ../app/Widgets/elementor/rtTPGElementorHelper.php:3761, ../app/Widgets/elementor/rtTPGElementorHelper.php:4115, ../app/Widgets/elementor/rtTPGElementorHelper.php:5640, ../app/Widgets/elementor/rtTPGElementorHelper.php:5965, ../app/Widgets/elementor/rtTPGElementorHelper.php:6379, ../app/Widgets/elementor/rtTPGElementorHelper.php:6822, ../app/Widgets/elementor/widgets/category-block.php:361, ../app/Widgets/elementor/widgets/category-block.php:660, ../app/Widgets/elementor/widgets/news-ticker.php:733, ../app/Widgets/elementor/widgets/section-title.php:251
 msgid "Border Radius"
 msgstr ""
 
@@ -1287,7 +1291,7 @@ msgstr ""
 msgid "Box Padding"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1512, ../app/Widgets/elementor/rtTPGElementorHelper.php:7139, ../app/Widgets/elementor/rtTPGElementorHelper.php:7155, ../app/Widgets/elementor/rtTPGElementorHelper.php:7177
+#: ../app/Helpers/Options.php:1512, ../app/Widgets/elementor/rtTPGElementorHelper.php:7171, ../app/Widgets/elementor/rtTPGElementorHelper.php:7187, ../app/Widgets/elementor/rtTPGElementorHelper.php:7209
 msgid "Content Padding"
 msgstr ""
 
@@ -1299,15 +1303,15 @@ msgstr ""
 msgid "Field selection"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1622, ../app/Widgets/elementor/rtTPGElementorHelper.php:2024
+#: ../app/Helpers/Options.php:1622, ../app/Widgets/elementor/rtTPGElementorHelper.php:2056
 msgid "Advanced Custom Field"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1629, ../app/Widgets/elementor/rtTPGElementorHelper.php:2254
+#: ../app/Helpers/Options.php:1629, ../app/Widgets/elementor/rtTPGElementorHelper.php:2286
 msgid "First Image from content"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1635, ../app/Helpers/Options.php:1838, ../app/Widgets/elementor/rtTPGElementorHelper.php:4237, ../app/Widgets/elementor/rtTPGElementorHelper.php:4713, ../app/Widgets/elementor/rtTPGElementorHelper.php:4941, ../app/Widgets/elementor/rtTPGElementorHelper.php:5097, ../app/Widgets/elementor/rtTPGElementorHelper.php:5255, ../app/Widgets/elementor/rtTPGElementorHelper.php:5539, ../app/Widgets/elementor/rtTPGElementorHelper.php:5972, ../app/Widgets/elementor/rtTPGElementorHelper.php:6384, ../app/Widgets/elementor/rtTPGElementorHelper.php:6876, ../app/Widgets/elementor/rtTPGElementorHelper.php:7310, ../app/Widgets/elementor/rtTPGElementorHelper.php:7986, ../app/Widgets/elementor/rtTPGElementorHelper.php:8278, ../app/Widgets/elementor/rtTPGElementorHelper.php:8664, ../app/Widgets/elementor/widgets/category-block.php:252, ../app/Widgets/elementor/widgets/category-block.php:376, ../app/Widgets/elementor/widgets/category-block.php:675
+#: ../app/Helpers/Options.php:1635, ../app/Helpers/Options.php:1838, ../app/Widgets/elementor/rtTPGElementorHelper.php:4269, ../app/Widgets/elementor/rtTPGElementorHelper.php:4745, ../app/Widgets/elementor/rtTPGElementorHelper.php:4973, ../app/Widgets/elementor/rtTPGElementorHelper.php:5129, ../app/Widgets/elementor/rtTPGElementorHelper.php:5287, ../app/Widgets/elementor/rtTPGElementorHelper.php:5571, ../app/Widgets/elementor/rtTPGElementorHelper.php:6004, ../app/Widgets/elementor/rtTPGElementorHelper.php:6416, ../app/Widgets/elementor/rtTPGElementorHelper.php:6908, ../app/Widgets/elementor/rtTPGElementorHelper.php:7342, ../app/Widgets/elementor/rtTPGElementorHelper.php:8018, ../app/Widgets/elementor/rtTPGElementorHelper.php:8310, ../app/Widgets/elementor/rtTPGElementorHelper.php:8696, ../app/Widgets/elementor/widgets/category-block.php:252, ../app/Widgets/elementor/widgets/category-block.php:376, ../app/Widgets/elementor/widgets/category-block.php:675
 msgid "Normal"
 msgstr ""
 
@@ -1315,15 +1319,15 @@ msgstr ""
 msgid "Circle"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1642, ../app/Widgets/elementor/rtTPGElementorHelper.php:2684
+#: ../app/Helpers/Options.php:1642, ../app/Widgets/elementor/rtTPGElementorHelper.php:2716
 msgid "Character"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1643, ../app/Widgets/elementor/rtTPGElementorHelper.php:2685
+#: ../app/Helpers/Options.php:1643, ../app/Widgets/elementor/rtTPGElementorHelper.php:2717
 msgid "Word"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1646, ../app/Widgets/elementor/rtTPGElementorHelper.php:2689
+#: ../app/Helpers/Options.php:1646, ../app/Widgets/elementor/rtTPGElementorHelper.php:2721
 msgid "Full Content"
 msgstr ""
 
@@ -1355,7 +1359,7 @@ msgstr ""
 msgid "Taxonomy filter"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1666, ../app/Widgets/elementor/rtTPGElementorHelper.php:1039
+#: ../app/Helpers/Options.php:1666, ../app/Widgets/elementor/rtTPGElementorHelper.php:1071
 msgid "Author filter"
 msgstr ""
 
@@ -1367,7 +1371,7 @@ msgstr ""
 msgid "Sort Order - Designates the ascending or descending order of the \"orderby\" parameter"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1669, ../app/Widgets/elementor/rtTPGElementorHelper.php:1075
+#: ../app/Helpers/Options.php:1669, ../app/Widgets/elementor/rtTPGElementorHelper.php:1107
 msgid "Search filter"
 msgstr ""
 
@@ -1407,7 +1411,7 @@ msgstr ""
 msgid "90%"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1690, ../app/Widgets/elementor/rtTPGElementorHelper.php:860
+#: ../app/Helpers/Options.php:1690, ../app/Widgets/elementor/rtTPGElementorHelper.php:892
 msgid "Grid"
 msgstr ""
 
@@ -1463,7 +1467,7 @@ msgstr ""
 msgid "Excerpt"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1771, ../app/Widgets/elementor/rtTPGElementorHelper.php:1868
+#: ../app/Helpers/Options.php:1771, ../app/Widgets/elementor/rtTPGElementorHelper.php:1900
 msgid "Post Date"
 msgstr ""
 
@@ -1471,7 +1475,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1774, ../app/Widgets/elementor/rtTPGElementorHelper.php:3328
+#: ../app/Helpers/Options.php:1774, ../app/Widgets/elementor/rtTPGElementorHelper.php:3360
 msgid "Tags"
 msgstr ""
 
@@ -1487,11 +1491,11 @@ msgstr ""
 msgid "Title hover"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1804, ../app/Widgets/elementor/rtTPGElementorHelper.php:1851, ../app/Widgets/elementor/rtTPGElementorHelper.php:2746, ../app/Widgets/elementor/rtTPGElementorHelper.php:5026
+#: ../app/Helpers/Options.php:1804, ../app/Widgets/elementor/rtTPGElementorHelper.php:1883, ../app/Widgets/elementor/rtTPGElementorHelper.php:2778, ../app/Widgets/elementor/rtTPGElementorHelper.php:5058
 msgid "Meta Data"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1823, ../app/Widgets/elementor/rtTPGElementorHelper.php:4693, ../app/Widgets/elementor/rtTPGElementorHelper.php:4921
+#: ../app/Helpers/Options.php:1823, ../app/Widgets/elementor/rtTPGElementorHelper.php:4725, ../app/Widgets/elementor/rtTPGElementorHelper.php:4953
 msgid "Justify"
 msgstr ""
 
@@ -1551,19 +1555,19 @@ msgstr ""
 msgid "900"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1859, ../app/Widgets/elementor/rtTPGElementorHelper.php:2285
+#: ../app/Helpers/Options.php:1859, ../app/Widgets/elementor/rtTPGElementorHelper.php:2317
 msgid "Soft Crop"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1860, ../app/Widgets/elementor/rtTPGElementorHelper.php:2286
+#: ../app/Helpers/Options.php:1860, ../app/Widgets/elementor/rtTPGElementorHelper.php:2318
 msgid "Hard Crop"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1866, ../app/Widgets/elementor/rtTPGElementorHelper.php:1139
+#: ../app/Helpers/Options.php:1866, ../app/Widgets/elementor/rtTPGElementorHelper.php:1171
 msgid "Dropdown"
 msgstr ""
 
-#: ../app/Helpers/Options.php:1867, ../app/Widgets/elementor/rtTPGElementorHelper.php:1140
+#: ../app/Helpers/Options.php:1867, ../app/Widgets/elementor/rtTPGElementorHelper.php:1172
 msgid "Button"
 msgstr ""
 
@@ -1579,7 +1583,7 @@ msgstr ""
 msgid "Keyword"
 msgstr ""
 
-#: ../app/Models/Field.php:547, ../app/Widgets/elementor/rtTPGElementorHelper.php:299, ../app/Widgets/elementor/rtTPGElementorHelper.php:447
+#: ../app/Models/Field.php:547, ../app/Widgets/elementor/rtTPGElementorHelper.php:331, ../app/Widgets/elementor/rtTPGElementorHelper.php:479, ../app/Widgets/elementor/widgets/news-ticker.php:617
 msgid "Order by"
 msgstr ""
 
@@ -1595,11 +1599,11 @@ msgstr ""
 msgid "Relation"
 msgstr ""
 
-#: ../app/Models/Field.php:744, ../app/Widgets/elementor/rtTPGElementorHelper.php:913, ../app/Widgets/elementor/rtTPGElementorHelper.php:945, ../app/Widgets/elementor/rtTPGElementorHelper.php:1553
+#: ../app/Models/Field.php:744, ../app/Widgets/elementor/rtTPGElementorHelper.php:945, ../app/Widgets/elementor/rtTPGElementorHelper.php:977, ../app/Widgets/elementor/rtTPGElementorHelper.php:1585
 msgid "Start"
 msgstr ""
 
-#: ../app/Models/Field.php:753, ../app/Widgets/elementor/rtTPGElementorHelper.php:915, ../app/Widgets/elementor/rtTPGElementorHelper.php:947, ../app/Widgets/elementor/rtTPGElementorHelper.php:1555
+#: ../app/Models/Field.php:753, ../app/Widgets/elementor/rtTPGElementorHelper.php:947, ../app/Widgets/elementor/rtTPGElementorHelper.php:979, ../app/Widgets/elementor/rtTPGElementorHelper.php:1587
 msgid "End"
 msgstr ""
 
@@ -1667,7 +1671,7 @@ msgstr ""
 msgid "Get Support"
 msgstr ""
 
-#: ../app/Controllers/Admin/MetaController.php:285, ../app/Widgets/elementor/rtTPGElementorHelper.php:37, ../app/Widgets/elementor/rtTPGElementorHelper.php:396
+#: ../app/Controllers/Admin/MetaController.php:285, ../app/Widgets/elementor/rtTPGElementorHelper.php:37, ../app/Widgets/elementor/rtTPGElementorHelper.php:428, ../app/Widgets/elementor/widgets/news-ticker.php:413
 msgid "Query Build"
 msgstr ""
 
@@ -1755,7 +1759,7 @@ msgstr ""
 msgid "The Post Grid Pro"
 msgstr ""
 
-#: ../app/Controllers/Api/GetPostsV1.php:382
+#: ../app/Controllers/Api/GetPostsV1.php:391, ../app/Controllers/Api/GetTickerPostsV1.php:180
 msgid "No posts found"
 msgstr ""
 
@@ -1783,2184 +1787,2196 @@ msgstr ""
 msgid "Multiple Post Types?"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:47, ../app/Widgets/elementor/rtTPGElementorHelper.php:355, ../app/Widgets/elementor/rtTPGElementorHelper.php:711, ../app/Widgets/elementor/rtTPGElementorHelper.php:1376, ../app/Widgets/elementor/rtTPGElementorHelper.php:1388, ../app/Widgets/elementor/rtTPGElementorHelper.php:1742, ../app/Widgets/elementor/rtTPGElementorHelper.php:3525, ../app/Widgets/elementor/rtTPGElementorHelper.php:3537, ../app/Widgets/elementor/rtTPGElementorHelper.php:3549, ../app/Widgets/elementor/rtTPGElementorHelper.php:3618, ../app/Widgets/elementor/rtTPGElementorHelper.php:7630, ../app/Widgets/elementor/rtTPGElementorHelper.php:7642, ../app/Widgets/elementor/rtTPGElementorHelper.php:7669, ../app/Widgets/elementor/rtTPGElementorHelper.php:7684, ../app/Widgets/elementor/rtTPGElementorHelper.php:7696, ../app/Widgets/elementor/rtTPGElementorHelper.php:7712
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:47, ../app/Widgets/elementor/rtTPGElementorHelper.php:387, ../app/Widgets/elementor/rtTPGElementorHelper.php:743, ../app/Widgets/elementor/rtTPGElementorHelper.php:1408, ../app/Widgets/elementor/rtTPGElementorHelper.php:1420, ../app/Widgets/elementor/rtTPGElementorHelper.php:1774, ../app/Widgets/elementor/rtTPGElementorHelper.php:3557, ../app/Widgets/elementor/rtTPGElementorHelper.php:3569, ../app/Widgets/elementor/rtTPGElementorHelper.php:3581, ../app/Widgets/elementor/rtTPGElementorHelper.php:3650, ../app/Widgets/elementor/rtTPGElementorHelper.php:7662, ../app/Widgets/elementor/rtTPGElementorHelper.php:7674, ../app/Widgets/elementor/rtTPGElementorHelper.php:7701, ../app/Widgets/elementor/rtTPGElementorHelper.php:7716, ../app/Widgets/elementor/rtTPGElementorHelper.php:7728, ../app/Widgets/elementor/rtTPGElementorHelper.php:7744, ../app/Widgets/elementor/widgets/news-ticker.php:661
 msgid "Yes"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:48, ../app/Widgets/elementor/rtTPGElementorHelper.php:356, ../app/Widgets/elementor/rtTPGElementorHelper.php:712, ../app/Widgets/elementor/rtTPGElementorHelper.php:1377, ../app/Widgets/elementor/rtTPGElementorHelper.php:1389, ../app/Widgets/elementor/rtTPGElementorHelper.php:1743, ../app/Widgets/elementor/rtTPGElementorHelper.php:3524, ../app/Widgets/elementor/rtTPGElementorHelper.php:3536, ../app/Widgets/elementor/rtTPGElementorHelper.php:3548, ../app/Widgets/elementor/rtTPGElementorHelper.php:3619, ../app/Widgets/elementor/rtTPGElementorHelper.php:7631, ../app/Widgets/elementor/rtTPGElementorHelper.php:7643, ../app/Widgets/elementor/rtTPGElementorHelper.php:7670, ../app/Widgets/elementor/rtTPGElementorHelper.php:7685, ../app/Widgets/elementor/rtTPGElementorHelper.php:7697, ../app/Widgets/elementor/rtTPGElementorHelper.php:7713
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:48, ../app/Widgets/elementor/rtTPGElementorHelper.php:388, ../app/Widgets/elementor/rtTPGElementorHelper.php:744, ../app/Widgets/elementor/rtTPGElementorHelper.php:1409, ../app/Widgets/elementor/rtTPGElementorHelper.php:1421, ../app/Widgets/elementor/rtTPGElementorHelper.php:1775, ../app/Widgets/elementor/rtTPGElementorHelper.php:3556, ../app/Widgets/elementor/rtTPGElementorHelper.php:3568, ../app/Widgets/elementor/rtTPGElementorHelper.php:3580, ../app/Widgets/elementor/rtTPGElementorHelper.php:3651, ../app/Widgets/elementor/rtTPGElementorHelper.php:7663, ../app/Widgets/elementor/rtTPGElementorHelper.php:7675, ../app/Widgets/elementor/rtTPGElementorHelper.php:7702, ../app/Widgets/elementor/rtTPGElementorHelper.php:7717, ../app/Widgets/elementor/rtTPGElementorHelper.php:7729, ../app/Widgets/elementor/rtTPGElementorHelper.php:7745, ../app/Widgets/elementor/widgets/news-ticker.php:662
 msgid "No"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:58
-msgid "Post Source"
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:66
+msgid "If you enable Multiple Post Types the Front-end Filter will not work."
 msgstr ""
 
 #: ../app/Widgets/elementor/rtTPGElementorHelper.php:72
+msgid "Current Query"
+msgstr ""
+
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:77, ../app/Widgets/elementor/widgets/news-ticker.php:421
+msgid "Post Source"
+msgstr ""
+
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:97
+msgid "The Current Query is used only for the archive page. If you use the Current Query the below settings under this tab will not work."
+msgstr ""
+
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:104
 msgid "Post Sources"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:89
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:121, ../app/Widgets/elementor/widgets/news-ticker.php:432
 msgid "Common Filters:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:101, ../app/Widgets/elementor/rtTPGElementorHelper.php:475
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:133, ../app/Widgets/elementor/rtTPGElementorHelper.php:507, ../app/Widgets/elementor/widgets/news-ticker.php:444
 msgid "Enter the post IDs separated by comma for include"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:111, ../app/Widgets/elementor/rtTPGElementorHelper.php:485
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:143, ../app/Widgets/elementor/rtTPGElementorHelper.php:517, ../app/Widgets/elementor/widgets/news-ticker.php:454
 msgid "Enter the post IDs separated by comma for exclude"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:121, ../app/Widgets/elementor/rtTPGElementorHelper.php:406
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:153, ../app/Widgets/elementor/rtTPGElementorHelper.php:438, ../app/Widgets/elementor/widgets/news-ticker.php:464
 msgid "The number of posts to show. Enter -1 to show all found posts."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:128
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:160
 msgid "Display Per Page"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:130
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:162
 msgid "Enter how may posts will display per page. It works only for the the pagination and ajax-filer."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:139, ../app/Widgets/elementor/rtTPGElementorHelper.php:495
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:171, ../app/Widgets/elementor/rtTPGElementorHelper.php:527, ../app/Widgets/elementor/widgets/news-ticker.php:473
 msgid "Enter Post offset"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:140, ../app/Widgets/elementor/rtTPGElementorHelper.php:496
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:172, ../app/Widgets/elementor/rtTPGElementorHelper.php:528, ../app/Widgets/elementor/widgets/news-ticker.php:474
 msgid "Number of posts to skip. The offset parameter is ignored when post limit => -1 is used."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:147
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:179, ../app/Widgets/elementor/widgets/news-ticker.php:481
 msgid "Quick Query"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:150
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:182, ../app/Widgets/elementor/widgets/news-ticker.php:484
 msgid "--Quick Query--"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:151
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:183, ../app/Widgets/elementor/widgets/news-ticker.php:485
 msgid "Popular Post (1 Day View)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:152
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:184, ../app/Widgets/elementor/widgets/news-ticker.php:486
 msgid "Popular Post (7 Days View)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:153
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:185, ../app/Widgets/elementor/widgets/news-ticker.php:487
 msgid "Popular Post (30 Days View)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:154
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:186, ../app/Widgets/elementor/widgets/news-ticker.php:488
 msgid "Popular Post (All time View)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:155
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:187, ../app/Widgets/elementor/widgets/news-ticker.php:489
 msgid "Most Comment (1 Day)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:156
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:188, ../app/Widgets/elementor/widgets/news-ticker.php:490
 msgid "Most Comment (7 Days)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:157
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:189, ../app/Widgets/elementor/widgets/news-ticker.php:491
 msgid "Most Comment (30 Days)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:158
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:190, ../app/Widgets/elementor/widgets/news-ticker.php:492
 msgid "Random Posts (7 Days)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:159
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:191, ../app/Widgets/elementor/widgets/news-ticker.php:493
 msgid "Random Post (30 Days)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:160
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:192, ../app/Widgets/elementor/widgets/news-ticker.php:494
 msgid "Related Posts (Category)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:161
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:193, ../app/Widgets/elementor/widgets/news-ticker.php:495
 msgid "Related Posts (Tag)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:162
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:194, ../app/Widgets/elementor/widgets/news-ticker.php:496
 msgid "Related Posts (Tag and Category)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:166
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:198, ../app/Widgets/elementor/widgets/news-ticker.php:500
 msgid "If you choose any value from here the orderby worn't work."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:175
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:207, ../app/Widgets/elementor/widgets/news-ticker.php:509
 msgid "Advanced Filters:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:227
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:259, ../app/Widgets/elementor/widgets/news-ticker.php:545
 msgid "Taxonomies Relation"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:231
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:263, ../app/Widgets/elementor/widgets/news-ticker.php:549
 msgid "OR"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:232
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:264, ../app/Widgets/elementor/widgets/news-ticker.php:550
 msgid "AND"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:240
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:272, ../app/Widgets/elementor/widgets/news-ticker.php:558
 msgid "By Author"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:251
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:283, ../app/Widgets/elementor/widgets/news-ticker.php:569
 msgid "By Keyword"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:254
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:286, ../app/Widgets/elementor/widgets/news-ticker.php:572
 msgid "Search by keyword"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:255
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:287, ../app/Widgets/elementor/widgets/news-ticker.php:573
 msgid "Search by post title or content keyword"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:262
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:294, ../app/Widgets/elementor/widgets/news-ticker.php:580
 msgid "Date Range (Start to End)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:265
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:297, ../app/Widgets/elementor/widgets/news-ticker.php:583
 msgid "NB: Enter DEL button for delete date range"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:276, ../app/Widgets/elementor/rtTPGElementorHelper.php:432, ../app/Widgets/elementor/rtTPGElementorHelper.php:3320
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:308, ../app/Widgets/elementor/rtTPGElementorHelper.php:464, ../app/Widgets/elementor/rtTPGElementorHelper.php:3352, ../app/Widgets/elementor/widgets/news-ticker.php:594
 msgid "Date"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:277, ../app/Widgets/elementor/rtTPGElementorHelper.php:433
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:309, ../app/Widgets/elementor/rtTPGElementorHelper.php:465, ../app/Widgets/elementor/widgets/news-ticker.php:595
 msgid "Order by post ID"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:280, ../app/Widgets/elementor/rtTPGElementorHelper.php:436
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:312, ../app/Widgets/elementor/rtTPGElementorHelper.php:468, ../app/Widgets/elementor/widgets/news-ticker.php:598
 msgid "Last modified date"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:281, ../app/Widgets/elementor/rtTPGElementorHelper.php:437
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:313, ../app/Widgets/elementor/rtTPGElementorHelper.php:469, ../app/Widgets/elementor/widgets/news-ticker.php:599
 msgid "Post parent ID"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:282, ../app/Widgets/elementor/rtTPGElementorHelper.php:438
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:314, ../app/Widgets/elementor/rtTPGElementorHelper.php:470, ../app/Widgets/elementor/widgets/news-ticker.php:600
 msgid "Number of comments"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:283, ../app/Widgets/elementor/rtTPGElementorHelper.php:439
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:315, ../app/Widgets/elementor/rtTPGElementorHelper.php:471, ../app/Widgets/elementor/widgets/news-ticker.php:601
 msgid "Menu order"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:288, ../app/Widgets/elementor/rtTPGElementorHelper.php:440
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:320, ../app/Widgets/elementor/rtTPGElementorHelper.php:472, ../app/Widgets/elementor/widgets/news-ticker.php:606
 msgid "Random order"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:313
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:345, ../app/Widgets/elementor/widgets/news-ticker.php:631
 msgid "Meta Key"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:315
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:347, ../app/Widgets/elementor/widgets/news-ticker.php:633
 msgid "Enter Meta Key."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:325, ../app/Widgets/elementor/rtTPGElementorHelper.php:457
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:357, ../app/Widgets/elementor/rtTPGElementorHelper.php:489, ../app/Widgets/elementor/widgets/news-ticker.php:643
 msgid "Sort order"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:328, ../app/Widgets/elementor/rtTPGElementorHelper.php:460
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:360, ../app/Widgets/elementor/rtTPGElementorHelper.php:492, ../app/Widgets/elementor/widgets/news-ticker.php:646
 msgid "ASC"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:329, ../app/Widgets/elementor/rtTPGElementorHelper.php:461
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:361, ../app/Widgets/elementor/rtTPGElementorHelper.php:493, ../app/Widgets/elementor/widgets/news-ticker.php:647
 msgid "DESC"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:353
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:385, ../app/Widgets/elementor/widgets/news-ticker.php:659
 msgid "Ignore sticky posts at the top"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:367, ../app/Widgets/elementor/rtTPGElementorHelper.php:503
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:399, ../app/Widgets/elementor/rtTPGElementorHelper.php:535, ../app/Widgets/elementor/widgets/news-ticker.php:673
 msgid "No post found Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:369, ../app/Widgets/elementor/rtTPGElementorHelper.php:505
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:401, ../app/Widgets/elementor/rtTPGElementorHelper.php:537, ../app/Widgets/elementor/widgets/news-ticker.php:675
 msgid "No posts found."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:370, ../app/Widgets/elementor/rtTPGElementorHelper.php:506
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:402, ../app/Widgets/elementor/rtTPGElementorHelper.php:538, ../app/Widgets/elementor/widgets/news-ticker.php:676
 msgid "Enter No post found"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:404
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:436
 msgid "Posts per page"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:424
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:456
 msgid "Select a Taxonomy for relation"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:534, ../app/Widgets/elementor/rtTPGElementorHelper.php:567, ../app/Widgets/elementor/rtTPGElementorHelper.php:621, ../app/Widgets/elementor/rtTPGElementorHelper.php:1481, ../app/Widgets/elementor/widgets/category-block.php:64
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:566, ../app/Widgets/elementor/rtTPGElementorHelper.php:599, ../app/Widgets/elementor/rtTPGElementorHelper.php:653, ../app/Widgets/elementor/rtTPGElementorHelper.php:1513, ../app/Widgets/elementor/widgets/category-block.php:64
 msgid "Layout 1"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:537, ../app/Widgets/elementor/rtTPGElementorHelper.php:570, ../app/Widgets/elementor/rtTPGElementorHelper.php:624, ../app/Widgets/elementor/rtTPGElementorHelper.php:1484, ../app/Widgets/elementor/widgets/category-block.php:67
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:569, ../app/Widgets/elementor/rtTPGElementorHelper.php:602, ../app/Widgets/elementor/rtTPGElementorHelper.php:656, ../app/Widgets/elementor/rtTPGElementorHelper.php:1516, ../app/Widgets/elementor/widgets/category-block.php:67
 msgid "Layout 2"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:540, ../app/Widgets/elementor/rtTPGElementorHelper.php:573, ../app/Widgets/elementor/rtTPGElementorHelper.php:627, ../app/Widgets/elementor/rtTPGElementorHelper.php:1487, ../app/Widgets/elementor/widgets/category-block.php:70
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:572, ../app/Widgets/elementor/rtTPGElementorHelper.php:605, ../app/Widgets/elementor/rtTPGElementorHelper.php:659, ../app/Widgets/elementor/rtTPGElementorHelper.php:1519, ../app/Widgets/elementor/widgets/category-block.php:70
 msgid "Layout 3"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:543, ../app/Widgets/elementor/rtTPGElementorHelper.php:576, ../app/Widgets/elementor/rtTPGElementorHelper.php:630, ../app/Widgets/elementor/rtTPGElementorHelper.php:1490
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:575, ../app/Widgets/elementor/rtTPGElementorHelper.php:608, ../app/Widgets/elementor/rtTPGElementorHelper.php:662, ../app/Widgets/elementor/rtTPGElementorHelper.php:1522
 msgid "Layout 4"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:546, ../app/Widgets/elementor/rtTPGElementorHelper.php:579, ../app/Widgets/elementor/rtTPGElementorHelper.php:633, ../app/Widgets/elementor/rtTPGElementorHelper.php:1493
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:578, ../app/Widgets/elementor/rtTPGElementorHelper.php:611, ../app/Widgets/elementor/rtTPGElementorHelper.php:665, ../app/Widgets/elementor/rtTPGElementorHelper.php:1525
 msgid "Layout 5"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:549, ../app/Widgets/elementor/rtTPGElementorHelper.php:582, ../app/Widgets/elementor/rtTPGElementorHelper.php:636, ../app/Widgets/elementor/rtTPGElementorHelper.php:1496
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:581, ../app/Widgets/elementor/rtTPGElementorHelper.php:614, ../app/Widgets/elementor/rtTPGElementorHelper.php:668, ../app/Widgets/elementor/rtTPGElementorHelper.php:1528
 msgid "Layout 6"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:552, ../app/Widgets/elementor/rtTPGElementorHelper.php:585, ../app/Widgets/elementor/rtTPGElementorHelper.php:639, ../app/Widgets/elementor/rtTPGElementorHelper.php:1499
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:584, ../app/Widgets/elementor/rtTPGElementorHelper.php:617, ../app/Widgets/elementor/rtTPGElementorHelper.php:671, ../app/Widgets/elementor/rtTPGElementorHelper.php:1531
 msgid "Layout 7"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:555, ../app/Widgets/elementor/rtTPGElementorHelper.php:588, ../app/Widgets/elementor/rtTPGElementorHelper.php:642
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:587, ../app/Widgets/elementor/rtTPGElementorHelper.php:620, ../app/Widgets/elementor/rtTPGElementorHelper.php:674
 msgid "Layout 8"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:558
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:590
 msgid "Gallery"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:591, ../app/Widgets/elementor/rtTPGElementorHelper.php:645
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:623, ../app/Widgets/elementor/rtTPGElementorHelper.php:677
 msgid "Layout 9"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:594, ../app/Widgets/elementor/rtTPGElementorHelper.php:648
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:626, ../app/Widgets/elementor/rtTPGElementorHelper.php:680
 msgid "Layout 10"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:597, ../app/Widgets/elementor/rtTPGElementorHelper.php:651
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:629, ../app/Widgets/elementor/rtTPGElementorHelper.php:683
 msgid "Layout 11"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:600, ../app/Widgets/elementor/rtTPGElementorHelper.php:654
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:632, ../app/Widgets/elementor/rtTPGElementorHelper.php:686
 msgid "Layout 12"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:603, ../app/Widgets/elementor/rtTPGElementorHelper.php:657
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:635, ../app/Widgets/elementor/rtTPGElementorHelper.php:689
 msgid "Layout 13"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:606
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:638
 msgid "Layout 14"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:609
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:641
 msgid "Layout 15"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:612
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:644
 msgid "Layout 16"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:669, ../app/Widgets/elementor/rtTPGElementorHelper.php:1476, ../app/Widgets/elementor/widgets/category-block.php:77
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:701, ../app/Widgets/elementor/rtTPGElementorHelper.php:1508, ../app/Widgets/elementor/widgets/category-block.php:77
 msgid "Choose Layout"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:683
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:715
 msgid "Offset Image Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:687
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:719
 msgid "Left (Default)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:707
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:739
 msgid "Middle Border?"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:723, ../app/Widgets/elementor/rtTPGElementorHelper.php:1512
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:755, ../app/Widgets/elementor/rtTPGElementorHelper.php:1544
 msgid "Layout Options:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:730, ../app/Widgets/elementor/rtTPGElementorHelper.php:751, ../app/Widgets/elementor/rtTPGElementorHelper.php:1524, ../app/Widgets/elementor/widgets/category-block.php:94
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:762, ../app/Widgets/elementor/rtTPGElementorHelper.php:783, ../app/Widgets/elementor/rtTPGElementorHelper.php:1556, ../app/Widgets/elementor/widgets/category-block.php:94
 msgid "Default from layout"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:731, ../app/Widgets/elementor/rtTPGElementorHelper.php:752, ../app/Widgets/elementor/rtTPGElementorHelper.php:1525, ../app/Widgets/elementor/widgets/category-block.php:95
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:763, ../app/Widgets/elementor/rtTPGElementorHelper.php:784, ../app/Widgets/elementor/rtTPGElementorHelper.php:1557, ../app/Widgets/elementor/widgets/category-block.php:95
 msgid "1 Columns"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:732, ../app/Widgets/elementor/rtTPGElementorHelper.php:753, ../app/Widgets/elementor/rtTPGElementorHelper.php:1526, ../app/Widgets/elementor/widgets/category-block.php:96
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:764, ../app/Widgets/elementor/rtTPGElementorHelper.php:785, ../app/Widgets/elementor/rtTPGElementorHelper.php:1558, ../app/Widgets/elementor/widgets/category-block.php:96
 msgid "2 Columns"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:733, ../app/Widgets/elementor/rtTPGElementorHelper.php:754, ../app/Widgets/elementor/rtTPGElementorHelper.php:1527, ../app/Widgets/elementor/widgets/category-block.php:97
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:765, ../app/Widgets/elementor/rtTPGElementorHelper.php:786, ../app/Widgets/elementor/rtTPGElementorHelper.php:1559, ../app/Widgets/elementor/widgets/category-block.php:97
 msgid "3 Columns"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:734, ../app/Widgets/elementor/rtTPGElementorHelper.php:755, ../app/Widgets/elementor/rtTPGElementorHelper.php:1528, ../app/Widgets/elementor/widgets/category-block.php:98
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:766, ../app/Widgets/elementor/rtTPGElementorHelper.php:787, ../app/Widgets/elementor/rtTPGElementorHelper.php:1560, ../app/Widgets/elementor/widgets/category-block.php:98
 msgid "4 Columns"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:756, ../app/Widgets/elementor/widgets/category-block.php:99
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:788, ../app/Widgets/elementor/widgets/category-block.php:99
 msgid "5 Columns"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:757, ../app/Widgets/elementor/widgets/category-block.php:100
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:789, ../app/Widgets/elementor/widgets/category-block.php:100
 msgid "6 Columns"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:767, ../app/Widgets/elementor/rtTPGElementorHelper.php:1521, ../app/Widgets/elementor/rtTPGElementorHelper.php:1576, ../app/Widgets/elementor/widgets/category-block.php:91
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:799, ../app/Widgets/elementor/rtTPGElementorHelper.php:1553, ../app/Widgets/elementor/rtTPGElementorHelper.php:1608, ../app/Widgets/elementor/widgets/category-block.php:91
 msgid "Column"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:773, ../app/Widgets/elementor/widgets/category-block.php:105
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:805, ../app/Widgets/elementor/widgets/category-block.php:105
 msgid "Choose Column for layout."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:782
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:814
 msgid "Enable Slider"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:784, ../app/Widgets/elementor/rtTPGElementorHelper.php:1029, ../app/Widgets/elementor/rtTPGElementorHelper.php:1041, ../app/Widgets/elementor/rtTPGElementorHelper.php:1053, ../app/Widgets/elementor/rtTPGElementorHelper.php:1065, ../app/Widgets/elementor/rtTPGElementorHelper.php:1077, ../app/Widgets/elementor/rtTPGElementorHelper.php:1154, ../app/Widgets/elementor/rtTPGElementorHelper.php:1405, ../app/Widgets/elementor/rtTPGElementorHelper.php:1421, ../app/Widgets/elementor/rtTPGElementorHelper.php:1695, ../app/Widgets/elementor/rtTPGElementorHelper.php:1790, ../app/Widgets/elementor/rtTPGElementorHelper.php:1804, ../app/Widgets/elementor/rtTPGElementorHelper.php:1822, ../app/Widgets/elementor/rtTPGElementorHelper.php:1836, ../app/Widgets/elementor/rtTPGElementorHelper.php:1853, ../app/Widgets/elementor/rtTPGElementorHelper.php:1870, ../app/Widgets/elementor/rtTPGElementorHelper.php:1889, ../app/Widgets/elementor/rtTPGElementorHelper.php:1908, ../app/Widgets/elementor/rtTPGElementorHelper.php:1925, ../app/Widgets/elementor/rtTPGElementorHelper.php:1942, ../app/Widgets/elementor/rtTPGElementorHelper.php:1959, ../app/Widgets/elementor/rtTPGElementorHelper.php:1976, ../app/Widgets/elementor/rtTPGElementorHelper.php:1991, ../app/Widgets/elementor/rtTPGElementorHelper.php:2008, ../app/Widgets/elementor/rtTPGElementorHelper.php:2026, ../app/Widgets/elementor/rtTPGElementorHelper.php:2172, ../app/Widgets/elementor/rtTPGElementorHelper.php:2216, ../app/Widgets/elementor/rtTPGElementorHelper.php:2451, ../app/Widgets/elementor/rtTPGElementorHelper.php:2478, ../app/Widgets/elementor/rtTPGElementorHelper.php:2821, ../app/Widgets/elementor/rtTPGElementorHelper.php:2978, ../app/Widgets/elementor/rtTPGElementorHelper.php:3138, ../app/Widgets/elementor/rtTPGElementorHelper.php:3252, ../app/Widgets/elementor/rtTPGElementorHelper.php:3403, ../app/Widgets/elementor/rtTPGElementorHelper.php:4664, ../app/Widgets/elementor/rtTPGElementorHelper.php:7543, ../app/Widgets/elementor/rtTPGElementorHelper.php:7578, ../app/Widgets/elementor/rtTPGElementorHelper.php:7595, ../app/Widgets/elementor/rtTPGElementorHelper.php:7738, ../app/Widgets/elementor/widgets/category-block.php:302, ../app/Widgets/elementor/widgets/category-block.php:469, ../app/Widgets/elementor/widgets/category-block.php:481, ../app/Widgets/elementor/widgets/section-title.php:155
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:816, ../app/Widgets/elementor/rtTPGElementorHelper.php:1061, ../app/Widgets/elementor/rtTPGElementorHelper.php:1073, ../app/Widgets/elementor/rtTPGElementorHelper.php:1085, ../app/Widgets/elementor/rtTPGElementorHelper.php:1097, ../app/Widgets/elementor/rtTPGElementorHelper.php:1109, ../app/Widgets/elementor/rtTPGElementorHelper.php:1186, ../app/Widgets/elementor/rtTPGElementorHelper.php:1437, ../app/Widgets/elementor/rtTPGElementorHelper.php:1453, ../app/Widgets/elementor/rtTPGElementorHelper.php:1727, ../app/Widgets/elementor/rtTPGElementorHelper.php:1822, ../app/Widgets/elementor/rtTPGElementorHelper.php:1836, ../app/Widgets/elementor/rtTPGElementorHelper.php:1854, ../app/Widgets/elementor/rtTPGElementorHelper.php:1868, ../app/Widgets/elementor/rtTPGElementorHelper.php:1885, ../app/Widgets/elementor/rtTPGElementorHelper.php:1902, ../app/Widgets/elementor/rtTPGElementorHelper.php:1921, ../app/Widgets/elementor/rtTPGElementorHelper.php:1940, ../app/Widgets/elementor/rtTPGElementorHelper.php:1957, ../app/Widgets/elementor/rtTPGElementorHelper.php:1974, ../app/Widgets/elementor/rtTPGElementorHelper.php:1991, ../app/Widgets/elementor/rtTPGElementorHelper.php:2008, ../app/Widgets/elementor/rtTPGElementorHelper.php:2023, ../app/Widgets/elementor/rtTPGElementorHelper.php:2040, ../app/Widgets/elementor/rtTPGElementorHelper.php:2058, ../app/Widgets/elementor/rtTPGElementorHelper.php:2204, ../app/Widgets/elementor/rtTPGElementorHelper.php:2248, ../app/Widgets/elementor/rtTPGElementorHelper.php:2483, ../app/Widgets/elementor/rtTPGElementorHelper.php:2510, ../app/Widgets/elementor/rtTPGElementorHelper.php:2853, ../app/Widgets/elementor/rtTPGElementorHelper.php:3010, ../app/Widgets/elementor/rtTPGElementorHelper.php:3170, ../app/Widgets/elementor/rtTPGElementorHelper.php:3284, ../app/Widgets/elementor/rtTPGElementorHelper.php:3435, ../app/Widgets/elementor/rtTPGElementorHelper.php:4696, ../app/Widgets/elementor/rtTPGElementorHelper.php:7575, ../app/Widgets/elementor/rtTPGElementorHelper.php:7610, ../app/Widgets/elementor/rtTPGElementorHelper.php:7627, ../app/Widgets/elementor/rtTPGElementorHelper.php:7770, ../app/Widgets/elementor/widgets/category-block.php:302, ../app/Widgets/elementor/widgets/category-block.php:469, ../app/Widgets/elementor/widgets/category-block.php:481, ../app/Widgets/elementor/widgets/news-ticker.php:1014, ../app/Widgets/elementor/widgets/section-title.php:155
 msgid "Show"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:785, ../app/Widgets/elementor/rtTPGElementorHelper.php:1030, ../app/Widgets/elementor/rtTPGElementorHelper.php:1042, ../app/Widgets/elementor/rtTPGElementorHelper.php:1054, ../app/Widgets/elementor/rtTPGElementorHelper.php:1066, ../app/Widgets/elementor/rtTPGElementorHelper.php:1078, ../app/Widgets/elementor/rtTPGElementorHelper.php:1155, ../app/Widgets/elementor/rtTPGElementorHelper.php:1406, ../app/Widgets/elementor/rtTPGElementorHelper.php:1422, ../app/Widgets/elementor/rtTPGElementorHelper.php:1696, ../app/Widgets/elementor/rtTPGElementorHelper.php:1791, ../app/Widgets/elementor/rtTPGElementorHelper.php:1805, ../app/Widgets/elementor/rtTPGElementorHelper.php:1823, ../app/Widgets/elementor/rtTPGElementorHelper.php:1837, ../app/Widgets/elementor/rtTPGElementorHelper.php:1854, ../app/Widgets/elementor/rtTPGElementorHelper.php:1871, ../app/Widgets/elementor/rtTPGElementorHelper.php:1890, ../app/Widgets/elementor/rtTPGElementorHelper.php:1909, ../app/Widgets/elementor/rtTPGElementorHelper.php:1926, ../app/Widgets/elementor/rtTPGElementorHelper.php:1943, ../app/Widgets/elementor/rtTPGElementorHelper.php:1960, ../app/Widgets/elementor/rtTPGElementorHelper.php:1977, ../app/Widgets/elementor/rtTPGElementorHelper.php:1992, ../app/Widgets/elementor/rtTPGElementorHelper.php:2009, ../app/Widgets/elementor/rtTPGElementorHelper.php:2027, ../app/Widgets/elementor/rtTPGElementorHelper.php:2173, ../app/Widgets/elementor/rtTPGElementorHelper.php:2217, ../app/Widgets/elementor/rtTPGElementorHelper.php:2452, ../app/Widgets/elementor/rtTPGElementorHelper.php:2479, ../app/Widgets/elementor/rtTPGElementorHelper.php:2822, ../app/Widgets/elementor/rtTPGElementorHelper.php:2977, ../app/Widgets/elementor/rtTPGElementorHelper.php:3139, ../app/Widgets/elementor/rtTPGElementorHelper.php:3253, ../app/Widgets/elementor/rtTPGElementorHelper.php:3404, ../app/Widgets/elementor/rtTPGElementorHelper.php:4665, ../app/Widgets/elementor/rtTPGElementorHelper.php:7544, ../app/Widgets/elementor/rtTPGElementorHelper.php:7579, ../app/Widgets/elementor/rtTPGElementorHelper.php:7596, ../app/Widgets/elementor/rtTPGElementorHelper.php:7739, ../app/Widgets/elementor/widgets/category-block.php:303, ../app/Widgets/elementor/widgets/category-block.php:470, ../app/Widgets/elementor/widgets/category-block.php:482, ../app/Widgets/elementor/widgets/section-title.php:156
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:817, ../app/Widgets/elementor/rtTPGElementorHelper.php:1062, ../app/Widgets/elementor/rtTPGElementorHelper.php:1074, ../app/Widgets/elementor/rtTPGElementorHelper.php:1086, ../app/Widgets/elementor/rtTPGElementorHelper.php:1098, ../app/Widgets/elementor/rtTPGElementorHelper.php:1110, ../app/Widgets/elementor/rtTPGElementorHelper.php:1187, ../app/Widgets/elementor/rtTPGElementorHelper.php:1438, ../app/Widgets/elementor/rtTPGElementorHelper.php:1454, ../app/Widgets/elementor/rtTPGElementorHelper.php:1728, ../app/Widgets/elementor/rtTPGElementorHelper.php:1823, ../app/Widgets/elementor/rtTPGElementorHelper.php:1837, ../app/Widgets/elementor/rtTPGElementorHelper.php:1855, ../app/Widgets/elementor/rtTPGElementorHelper.php:1869, ../app/Widgets/elementor/rtTPGElementorHelper.php:1886, ../app/Widgets/elementor/rtTPGElementorHelper.php:1903, ../app/Widgets/elementor/rtTPGElementorHelper.php:1922, ../app/Widgets/elementor/rtTPGElementorHelper.php:1941, ../app/Widgets/elementor/rtTPGElementorHelper.php:1958, ../app/Widgets/elementor/rtTPGElementorHelper.php:1975, ../app/Widgets/elementor/rtTPGElementorHelper.php:1992, ../app/Widgets/elementor/rtTPGElementorHelper.php:2009, ../app/Widgets/elementor/rtTPGElementorHelper.php:2024, ../app/Widgets/elementor/rtTPGElementorHelper.php:2041, ../app/Widgets/elementor/rtTPGElementorHelper.php:2059, ../app/Widgets/elementor/rtTPGElementorHelper.php:2205, ../app/Widgets/elementor/rtTPGElementorHelper.php:2249, ../app/Widgets/elementor/rtTPGElementorHelper.php:2484, ../app/Widgets/elementor/rtTPGElementorHelper.php:2511, ../app/Widgets/elementor/rtTPGElementorHelper.php:2854, ../app/Widgets/elementor/rtTPGElementorHelper.php:3009, ../app/Widgets/elementor/rtTPGElementorHelper.php:3171, ../app/Widgets/elementor/rtTPGElementorHelper.php:3285, ../app/Widgets/elementor/rtTPGElementorHelper.php:3436, ../app/Widgets/elementor/rtTPGElementorHelper.php:4697, ../app/Widgets/elementor/rtTPGElementorHelper.php:7576, ../app/Widgets/elementor/rtTPGElementorHelper.php:7611, ../app/Widgets/elementor/rtTPGElementorHelper.php:7628, ../app/Widgets/elementor/rtTPGElementorHelper.php:7771, ../app/Widgets/elementor/widgets/category-block.php:303, ../app/Widgets/elementor/widgets/category-block.php:470, ../app/Widgets/elementor/widgets/category-block.php:482, ../app/Widgets/elementor/widgets/news-ticker.php:1015, ../app/Widgets/elementor/widgets/section-title.php:156
 msgid "Hide"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:794, ../app/Widgets/elementor/widgets/category-block.php:135
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:826, ../app/Widgets/elementor/widgets/category-block.php:135
 msgid "Grid Gap"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:818
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:850
 msgid "Offset Column Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:861
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:893
 msgid "Grid Equal Height"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:873, ../app/Widgets/elementor/rtTPGElementorHelper.php:1632
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:905, ../app/Widgets/elementor/rtTPGElementorHelper.php:1664
 msgid "Layout Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:877
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:909
 msgid "If you use card border then equal height will work. "
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:909, ../app/Widgets/elementor/rtTPGElementorHelper.php:941
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:941, ../app/Widgets/elementor/rtTPGElementorHelper.php:973
 msgid "Vertical Align"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:916, ../app/Widgets/elementor/rtTPGElementorHelper.php:948, ../app/Widgets/elementor/rtTPGElementorHelper.php:1556
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:948, ../app/Widgets/elementor/rtTPGElementorHelper.php:980, ../app/Widgets/elementor/rtTPGElementorHelper.php:1588
 msgid "Space Around"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:917, ../app/Widgets/elementor/rtTPGElementorHelper.php:949, ../app/Widgets/elementor/rtTPGElementorHelper.php:1557, ../app/Widgets/elementor/rtTPGElementorHelper.php:6332
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:949, ../app/Widgets/elementor/rtTPGElementorHelper.php:981, ../app/Widgets/elementor/rtTPGElementorHelper.php:1589, ../app/Widgets/elementor/rtTPGElementorHelper.php:6364
 msgid "Space Between"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:971, ../app/Widgets/elementor/rtTPGElementorHelper.php:1647, ../app/Widgets/elementor/rtTPGElementorHelper.php:8629
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1003, ../app/Widgets/elementor/rtTPGElementorHelper.php:1679, ../app/Widgets/elementor/rtTPGElementorHelper.php:8661
 msgid "Text Align"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1019
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1051
 msgid "Filter (Front-end)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1051
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1083
 msgid "Order By Filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1063
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1095
 msgid "Sort Order Filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1087
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1119
 msgid "Search By"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1091
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1123
 msgid "All Content"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1092
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1124
 msgid "Title only"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1135
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1167
 msgid "Filter Type"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1152
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1184
 msgid "Multiple Taxonomy"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1156
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1188
 msgid "You must choose taxonomy terms from the query build for each taxonomy for the multiple taxonomy. Otherwise it won't work. "
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1222
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1254
 msgid "Choose Taxonomy"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1231
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1263
 msgid "Select a taxonomy for showing in filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1238
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1270
 msgid "Choose Taxonomies"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1248
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1280
 msgid "Select a taxonomies for showing in filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1268
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1300
 msgid "--Select--"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1288
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1320
 msgid "Default "
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1306
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1338
 msgid "Filter Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1311
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1343
 msgid "Collapsable"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1318
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1350
 msgid "If you use collapsable then only taxonomy section will show on the filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1325
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1357
 msgid "Button Item Per Slider"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1328, ../app/Widgets/elementor/rtTPGElementorHelper.php:4111, ../app/Widgets/elementor/rtTPGElementorHelper.php:4508, ../app/Widgets/elementor/rtTPGElementorHelper.php:4524
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1360, ../app/Widgets/elementor/rtTPGElementorHelper.php:4143, ../app/Widgets/elementor/rtTPGElementorHelper.php:4540, ../app/Widgets/elementor/rtTPGElementorHelper.php:4556
 msgid "Auto"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1329
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1361
 msgid "2"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1330
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1362
 msgid "3"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1331
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1363
 msgid "4"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1332
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1364
 msgid "5"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1333
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1365
 msgid "6"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1334
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1366
 msgid "7"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1335
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1367
 msgid "8"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1336
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1368
 msgid "9"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1337
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1369
 msgid "10"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1338
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1370
 msgid "11"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1339
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1371
 msgid "12"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1349
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1381
 msgid "If you use carousel then only category section show on the filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1372
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1404
 msgid "Filter Post Count"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1386
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1418
 msgid "Tax Hierarchical"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1403
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1435
 msgid "Hide Show all button"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1419
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1451
 msgid "Taxonomy Order"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1425
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1457
 msgid "You must sort taxonomy from the dashboard first."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1435
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1467
 msgid "All Taxonomy Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1437
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1469
 msgid "Enter All Category Text Here.."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1444
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1476
 msgid "All Users Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1446
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1478
 msgid "Enter All Users Text Here.."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1533
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1565
 msgid "Choose Column for layout"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1549, ../app/Widgets/elementor/rtTPGElementorHelper.php:6224, ../app/Widgets/elementor/rtTPGElementorHelper.php:6316
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1581, ../app/Widgets/elementor/rtTPGElementorHelper.php:6256, ../app/Widgets/elementor/rtTPGElementorHelper.php:6348
 msgid "Vertical Alignment"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1571
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1603
 msgid "Flex Direction"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1575
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1607
 msgid "Row Reverse"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1577
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1609
 msgid "Column Reverse"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1594
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1626
 msgid "Offset Width"
 msgstr ""
 
 #. translators: %s represents the prefix.
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1620
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1652
 msgid "%s Default"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1693
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1725
 msgid "Show Pagination"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1710
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1742
 msgid "Default Pagination"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1716
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1748
 msgid "Ajax Pagination ( Only for Grid )"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1717
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1749
 msgid "Load More - On Click"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1718
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1750
 msgid "Load On Scroll"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1740
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1772
 msgid "Enable Ajax Next Previous"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1757
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1789
 msgid "Button Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1788, ../app/Widgets/elementor/rtTPGElementorHelper.php:2048, ../app/Widgets/elementor/rtTPGElementorHelper.php:2052, ../app/Widgets/elementor/rtTPGElementorHelper.php:3675, ../app/Widgets/elementor/widgets/section-title.php:59, ../app/Widgets/elementor/widgets/section-title.php:101, ../app/Widgets/elementor/widgets/section-title.php:200
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1820, ../app/Widgets/elementor/rtTPGElementorHelper.php:2080, ../app/Widgets/elementor/rtTPGElementorHelper.php:2084, ../app/Widgets/elementor/rtTPGElementorHelper.php:3707, ../app/Widgets/elementor/widgets/section-title.php:59, ../app/Widgets/elementor/widgets/section-title.php:101, ../app/Widgets/elementor/widgets/section-title.php:200
 msgid "Section Title"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1802, ../app/Widgets/elementor/rtTPGElementorHelper.php:2516, ../app/Widgets/elementor/rtTPGElementorHelper.php:4546
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1834, ../app/Widgets/elementor/rtTPGElementorHelper.php:2548, ../app/Widgets/elementor/rtTPGElementorHelper.php:4578, ../app/Widgets/elementor/widgets/news-ticker.php:889
 msgid "Post Title"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1820
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1852
 msgid "Post Thumbnail"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1834
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1866
 msgid "Post Excerpt"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1887
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1919
 msgid "Post Categories"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1906
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1938
 msgid "Post Author"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1923
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1955
 msgid "Post Tags"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1940
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1972
 msgid "Post Comment Count"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1957
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1989
 msgid "Post View Count"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1974, ../resources/settings/sc-settings.php:56
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2006, ../resources/settings/sc-settings.php:56
 msgid "Read More Button"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:1989, ../app/Widgets/elementor/rtTPGElementorHelper.php:6730, ../resources/settings/settings.php:44
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2021, ../app/Widgets/elementor/rtTPGElementorHelper.php:6762, ../resources/settings/settings.php:44
 msgid "Social Share"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2006
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2038
 msgid "Rating (WooCommerce)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2048
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2080
 msgid "Related Posts"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2063, ../app/Widgets/elementor/widgets/section-title.php:67
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2095, ../app/Widgets/elementor/widgets/section-title.php:67
 msgid "Section Title Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2067, ../app/Widgets/elementor/widgets/section-title.php:71
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2099, ../app/Widgets/elementor/widgets/section-title.php:71
 msgid "Default - Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2068, ../app/Widgets/elementor/widgets/section-title.php:72
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2100, ../app/Widgets/elementor/widgets/section-title.php:72
 msgid "Style 1 - Dot & Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2069, ../app/Widgets/elementor/widgets/section-title.php:73
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2101, ../app/Widgets/elementor/widgets/section-title.php:73
 msgid "Style 2 - BG & Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2070, ../app/Widgets/elementor/widgets/section-title.php:74
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2102, ../app/Widgets/elementor/widgets/section-title.php:74
 msgid "Style 3 - BG & Border - 2"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2071, ../app/Widgets/elementor/widgets/section-title.php:75
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2103, ../app/Widgets/elementor/widgets/section-title.php:75
 msgid "Style 4 - Border Bottom"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2094, ../app/Widgets/elementor/widgets/section-title.php:85
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2126, ../app/Widgets/elementor/widgets/section-title.php:85
 msgid "Title Source"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2098, ../app/Widgets/elementor/widgets/section-title.php:89
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2130, ../app/Widgets/elementor/widgets/section-title.php:89
 msgid "Page Title"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2099, ../app/Widgets/elementor/widgets/section-title.php:90
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2131, ../app/Widgets/elementor/widgets/section-title.php:90
 msgid "Custom Title"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2085
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2117
 msgid "Title source"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2113, ../app/Widgets/elementor/rtTPGElementorHelper.php:3268, ../app/Widgets/elementor/rtTPGElementorHelper.php:3282, ../app/Widgets/elementor/widgets/section-title.php:100
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2145, ../app/Widgets/elementor/rtTPGElementorHelper.php:3300, ../app/Widgets/elementor/rtTPGElementorHelper.php:3314, ../app/Widgets/elementor/widgets/section-title.php:100
 msgid "Type your title here"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2126, ../app/Widgets/elementor/widgets/section-title.php:112
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2158, ../app/Widgets/elementor/widgets/section-title.php:112
 msgid "Title Prefix Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2128, ../app/Widgets/elementor/widgets/section-title.php:114
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2160, ../app/Widgets/elementor/widgets/section-title.php:114
 msgid "Title prefix text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2138, ../app/Widgets/elementor/widgets/section-title.php:124
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2170, ../app/Widgets/elementor/widgets/section-title.php:124
 msgid "Title Suffix Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2140, ../app/Widgets/elementor/widgets/section-title.php:126
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2172, ../app/Widgets/elementor/widgets/section-title.php:126
 msgid "Title suffix text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2150, ../app/Widgets/elementor/rtTPGElementorHelper.php:2528, ../app/Widgets/elementor/widgets/section-title.php:136
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2182, ../app/Widgets/elementor/rtTPGElementorHelper.php:2560, ../app/Widgets/elementor/widgets/section-title.php:136
 msgid "Title Tag"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2170, ../app/Widgets/elementor/widgets/section-title.php:153
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2202, ../app/Widgets/elementor/widgets/section-title.php:153
 msgid "Enable External Link"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2182, ../app/Widgets/elementor/widgets/section-title.php:165
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2214, ../app/Widgets/elementor/widgets/section-title.php:165
 msgid "External Link"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2184, ../app/Widgets/elementor/widgets/section-title.php:167
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2216, ../app/Widgets/elementor/widgets/section-title.php:167
 msgid "https://your-link.com"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2201, ../app/Widgets/elementor/widgets/section-title.php:184
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2233, ../app/Widgets/elementor/widgets/section-title.php:184
 msgid "Link Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2203, ../app/Widgets/elementor/widgets/section-title.php:186
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2235, ../app/Widgets/elementor/widgets/section-title.php:186
 msgid "See More"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2214
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2246
 msgid "Show Archive Description"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2238, ../app/Widgets/elementor/rtTPGElementorHelper.php:4072
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2270, ../app/Widgets/elementor/rtTPGElementorHelper.php:4104
 msgid "Thumbnail"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2281
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2313
 msgid "Image Crop Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2347
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2379
 msgid "List Image Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2375, ../app/Widgets/elementor/widgets/category-block.php:342
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2407, ../app/Widgets/elementor/widgets/category-block.php:342
 msgid "Image Height"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2401
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2433
 msgid "Offset Image Height"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2427
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2459
 msgid "Image Hover Animation"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2432
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2464
 msgid "Zoom In"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2433
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2465
 msgid "Zoom Out"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2434
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2466
 msgid "Slide to Right"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2435
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2467
 msgid "Slide to Left"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2446
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2478
 msgid "Light Box"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2461
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2493
 msgid "Light Box Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2476
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2508
 msgid "Enable Default Image"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2489
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2521
 msgid "Default Image"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2547
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2579
 msgid "Above Image"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2548
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2580
 msgid "Below Image"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2556, ../app/Widgets/elementor/rtTPGElementorHelper.php:2581
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2588, ../app/Widgets/elementor/rtTPGElementorHelper.php:2613
 msgid "Title Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2607
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2639
 msgid "Title Hover Underline"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2614, ../app/Widgets/elementor/rtTPGElementorHelper.php:6284, ../app/Widgets/elementor/rtTPGElementorHelper.php:7226, ../app/Widgets/elementor/rtTPGElementorHelper.php:7249
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2646, ../app/Widgets/elementor/rtTPGElementorHelper.php:6316, ../app/Widgets/elementor/rtTPGElementorHelper.php:7258, ../app/Widgets/elementor/rtTPGElementorHelper.php:7281
 msgid "Enable"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2615, ../app/Widgets/elementor/rtTPGElementorHelper.php:6283, ../app/Widgets/elementor/rtTPGElementorHelper.php:7227, ../app/Widgets/elementor/rtTPGElementorHelper.php:7250
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2647, ../app/Widgets/elementor/rtTPGElementorHelper.php:6315, ../app/Widgets/elementor/rtTPGElementorHelper.php:7259, ../app/Widgets/elementor/rtTPGElementorHelper.php:7282
 msgid "Disable"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2623
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2655
 msgid "Title Visibility Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2628
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2660
 msgid "Show in 1 line"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2629
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2661
 msgid "Show in 2 lines"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2630
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2662
 msgid "Show in 3 lines"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2640
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2672
 msgid "Title Length"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2649
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2681
 msgid "Title Crop by"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2653
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2685
 msgid "Words"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2654
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2686
 msgid "Characters"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2674, ../app/Widgets/elementor/rtTPGElementorHelper.php:4865
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2706, ../app/Widgets/elementor/rtTPGElementorHelper.php:4897
 msgid "Excerpt / Content"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2710
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2742
 msgid "Excerpt Limit"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2723
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2755
 msgid "Expansion Indicator"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2796
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2828
 msgid "Below Title"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2806
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2838
 msgid "Meta Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2819
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2851
 msgid "Show Meta Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2831
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2863
 msgid "Meta Separator"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2835
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2867
 msgid "Default - None"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2839
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2871
 msgid "Hyphen ( - )"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2848
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2880
 msgid "Change Meta Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2864
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2896
 msgid "Author Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2875
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2907
 msgid "Category Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2886
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2918
 msgid "Date Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2897
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2929
 msgid "Tags Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2908
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2940
 msgid "Comment Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2919
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2951
 msgid "Post Count Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2947
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2979
 msgid "Author Setting:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2959
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2991
 msgid "Author Prefix"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2962
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2994
 msgid "By"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2972
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3004
 msgid "Author Icon Visibility"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2990
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3022
 msgid "Author Image / Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:2994, ../app/Widgets/elementor/widgets/category-block.php:292, ../resources/settings/sc-settings.php:44
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3026, ../app/Widgets/elementor/widgets/category-block.php:292, ../resources/settings/sc-settings.php:44
 msgid "Image"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3010
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3042
 msgid "Author Image Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3039
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3071
 msgid "Category and Tags Setting:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3063
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3095
 msgid "Category Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3069
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3101
 msgid "With Meta"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3105
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3137
 msgid "Category Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3109
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3141
 msgid "Style 1 - Only Text"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3110
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3142
 msgid "Style 2 - Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3111
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3143
 msgid "Style 3 - Fold edge"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3112
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3144
 msgid "Style 4 - Different Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3126
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3158
 msgid "NB. If you use different background color for category then please choose style 2 or 3 from above"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3136
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3168
 msgid "Show Over Image Category Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3207
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3239
 msgid "Category Source"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3215
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3247
 msgid "Select which taxonomy should sit in the place of categories. Default: Category"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3222
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3254
 msgid "Tags Source"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3230
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3262
 msgid "Select which taxonomy should sit in the place of tags. Default: Tags"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3238
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3270
 msgid "Comment Count "
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3250
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3282
 msgid "Show Comment Label"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3265
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3297
 msgid "Comment Label Singular"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3267
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3299
 msgid "Comment"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3279
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3311
 msgid "Comment Label Plural"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3281
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3313
 msgid "Comments"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3293
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3325
 msgid "Meta Ordering"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3311
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3343
 msgid "Meta Ordering (Drag and Drop)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3324, ../app/Widgets/elementor/widgets/category-block.php:184, ../resources/settings/sc-settings.php:25
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3356, ../app/Widgets/elementor/widgets/category-block.php:184, ../resources/settings/sc-settings.php:25
 msgid "Category"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3332
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3364
 msgid "Comment Count"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3336
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3368
 msgid "Post Count"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3340
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3372
 msgid "Post Like"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3376
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3408
 msgid "Button Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3380
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3412
 msgid "Default from style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3381
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3413
 msgid "Only Text Button"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3391
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3423
 msgid "Read More Label"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3394
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3426
 msgid "Type Read More Label here"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3401
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3433
 msgid "Show Button Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3413
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3445
 msgid "Choose Icon"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3424
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3456
 msgid "Icon Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3457
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3489
 msgid "ACF Settings"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3505, ../app/Widgets/elementor/rtTPGElementorHelper.php:3485
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3537, ../app/Widgets/elementor/rtTPGElementorHelper.php:3517
 msgid "Choose Advanced Custom Field (ACF)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3522
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3554
 msgid "Hide field with empty value?"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3534
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3566
 msgid "Show group title?"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3546
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3578
 msgid "Show label?"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3568
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3600
 msgid "Links"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3578
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3610
 msgid "Link to details page"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3581
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3613
 msgid "Single Popup"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3582
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3614
 msgid "Multi Popup"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3584
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3616
 msgid "No Link"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3589
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3621
 msgid "Post link type"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3616
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3648
 msgid "Thumbnail Link"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3645
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3677
 msgid "Go Premium for More Features"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3771, ../app/Widgets/elementor/rtTPGElementorHelper.php:4618, ../app/Widgets/elementor/widgets/category-block.php:210, ../app/Widgets/elementor/widgets/category-block.php:492, ../app/Widgets/elementor/widgets/section-title.php:271
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3803, ../app/Widgets/elementor/rtTPGElementorHelper.php:4650, ../app/Widgets/elementor/widgets/category-block.php:210, ../app/Widgets/elementor/widgets/category-block.php:492, ../app/Widgets/elementor/widgets/news-ticker.php:763, ../app/Widgets/elementor/widgets/news-ticker.php:898, ../app/Widgets/elementor/widgets/section-title.php:271
 msgid "Typography"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3779, ../app/Widgets/elementor/rtTPGElementorHelper.php:4029, ../app/Widgets/elementor/rtTPGElementorHelper.php:4720, ../app/Widgets/elementor/widgets/section-title.php:279
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3811, ../app/Widgets/elementor/rtTPGElementorHelper.php:4061, ../app/Widgets/elementor/rtTPGElementorHelper.php:4752, ../app/Widgets/elementor/widgets/news-ticker.php:771, ../app/Widgets/elementor/widgets/news-ticker.php:954, ../app/Widgets/elementor/widgets/section-title.php:279
 msgid "Title Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3790, ../app/Widgets/elementor/widgets/section-title.php:290
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3822, ../app/Widgets/elementor/widgets/section-title.php:290
 msgid "Title Background Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3805, ../app/Widgets/elementor/widgets/section-title.php:305
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3837, ../app/Widgets/elementor/widgets/section-title.php:305
 msgid "Dot / Bar Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3820, ../app/Widgets/elementor/widgets/section-title.php:320
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3852, ../app/Widgets/elementor/widgets/section-title.php:320
 msgid "Line / Border Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3839, ../app/Widgets/elementor/widgets/section-title.php:339
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3871, ../app/Widgets/elementor/widgets/section-title.php:339
 msgid "Line Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3862, ../app/Widgets/elementor/widgets/section-title.php:362
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3894, ../app/Widgets/elementor/widgets/section-title.php:362
 msgid "Line Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3889, ../app/Widgets/elementor/widgets/section-title.php:389
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3921, ../app/Widgets/elementor/widgets/section-title.php:389
 msgid "Prefix Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3902, ../app/Widgets/elementor/widgets/section-title.php:402
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3934, ../app/Widgets/elementor/widgets/section-title.php:402
 msgid "Suffix Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3916, ../app/Widgets/elementor/widgets/section-title.php:416
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3948, ../app/Widgets/elementor/widgets/section-title.php:416
 msgid "External Link Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3927, ../app/Widgets/elementor/widgets/section-title.php:427
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3959, ../app/Widgets/elementor/widgets/section-title.php:427
 msgid "External Link Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3938, ../app/Widgets/elementor/widgets/section-title.php:438
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3970, ../app/Widgets/elementor/widgets/section-title.php:438
 msgid "External Icon Size"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3957, ../app/Widgets/elementor/widgets/section-title.php:457
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3989, ../app/Widgets/elementor/widgets/section-title.php:457
 msgid "External Icon Y Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3977
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4009
 msgid "Category / Tag Description"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:3990
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4022
 msgid "Description Typography"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4105
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4137
 msgid "Image Width (Optional)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4110, ../app/Widgets/elementor/rtTPGElementorHelper.php:4507, ../app/Widgets/elementor/rtTPGElementorHelper.php:4523
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4142, ../app/Widgets/elementor/rtTPGElementorHelper.php:4539, ../app/Widgets/elementor/rtTPGElementorHelper.php:4555
 msgid "100%"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4122
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4154
 msgid "Thumbnail Content Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4144
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4176
 msgid "Thumbnail Content Margin"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4168
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4200
 msgid "Thumbnail Margin"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4206
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4238
 msgid "Thumbnail padding"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4223
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4255
 msgid "Overlay Style:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4245
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4277
 msgid "Overlay BG"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4251
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4283
 msgid "Overlay Background Type"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4266
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4298
 msgid "Light Box Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4280
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4312
 msgid "Light Box Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4294
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4326
 msgid "Thumb Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4298, ../app/Widgets/elementor/rtTPGElementorHelper.php:4396
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4330, ../app/Widgets/elementor/rtTPGElementorHelper.php:4428
 msgid "Center Center"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4299, ../app/Widgets/elementor/rtTPGElementorHelper.php:4397
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4331, ../app/Widgets/elementor/rtTPGElementorHelper.php:4429
 msgid "Top Center"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4300, ../app/Widgets/elementor/rtTPGElementorHelper.php:4398
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4332, ../app/Widgets/elementor/rtTPGElementorHelper.php:4430
 msgid "Bottom Center"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4301, ../app/Widgets/elementor/rtTPGElementorHelper.php:4399
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4333, ../app/Widgets/elementor/rtTPGElementorHelper.php:4431
 msgid "Left Center"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4302, ../app/Widgets/elementor/rtTPGElementorHelper.php:4400
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4334, ../app/Widgets/elementor/rtTPGElementorHelper.php:4432
 msgid "Right Center"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4313
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4345
 msgid "Thumbnail Opacity"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4335, ../app/Widgets/elementor/rtTPGElementorHelper.php:4759, ../app/Widgets/elementor/rtTPGElementorHelper.php:5155, ../app/Widgets/elementor/rtTPGElementorHelper.php:5307, ../app/Widgets/elementor/rtTPGElementorHelper.php:5657, ../app/Widgets/elementor/rtTPGElementorHelper.php:6023, ../app/Widgets/elementor/rtTPGElementorHelper.php:6953, ../app/Widgets/elementor/rtTPGElementorHelper.php:7396, ../app/Widgets/elementor/rtTPGElementorHelper.php:8035, ../app/Widgets/elementor/rtTPGElementorHelper.php:8330, ../app/Widgets/elementor/widgets/category-block.php:270, ../app/Widgets/elementor/widgets/category-block.php:416, ../app/Widgets/elementor/widgets/category-block.php:715
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4367, ../app/Widgets/elementor/rtTPGElementorHelper.php:4791, ../app/Widgets/elementor/rtTPGElementorHelper.php:5187, ../app/Widgets/elementor/rtTPGElementorHelper.php:5339, ../app/Widgets/elementor/rtTPGElementorHelper.php:5689, ../app/Widgets/elementor/rtTPGElementorHelper.php:6055, ../app/Widgets/elementor/rtTPGElementorHelper.php:6985, ../app/Widgets/elementor/rtTPGElementorHelper.php:7428, ../app/Widgets/elementor/rtTPGElementorHelper.php:8067, ../app/Widgets/elementor/rtTPGElementorHelper.php:8362, ../app/Widgets/elementor/widgets/category-block.php:270, ../app/Widgets/elementor/widgets/category-block.php:416, ../app/Widgets/elementor/widgets/category-block.php:715
 msgid "Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4343
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4375
 msgid "Overlay BG - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4349
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4381
 msgid "Overlay Background Type - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4364
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4396
 msgid "Light Box Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4378
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4410
 msgid "Light Box Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4392
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4424
 msgid "Thumb Position - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4411
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4443
 msgid "Thumbnail Opacity - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4436
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4468
 msgid "Thumbnail Transition Duration"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4460
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4492
 msgid "Show Always"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4461
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4493
 msgid "FadeIn on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4462
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4494
 msgid "FadeOut on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4463
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4495
 msgid "SlideIn on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4464
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4496
 msgid "SlideOut on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4465
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4497
 msgid "ZoomIn on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4466
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4498
 msgid "ZoomOut on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4467
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4499
 msgid "ZoomIn Content on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4468
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4500
 msgid "ZoomOut Content on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4473
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4505
 msgid "FlipIn on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4474
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4506
 msgid "FlipOut on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4482
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4514
 msgid "Overlay Interaction"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4486
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4518
 msgid "If you don't choose overlay background then it will work only for some selected layout "
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4502
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4534
 msgid "Overlay Height"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4518
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4550
 msgid "Overlay Height on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4558
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4590
 msgid "Title Margin"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4578
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4610
 msgid "Title Padding"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4598
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4630
 msgid "Title Minimum Height (Optional)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4628
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4660
 msgid "Offset Typography"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4630
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4662
 msgid "You can overwrite offset title font style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4659
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4691
 msgid "Title Border Bottom"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4731
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4763, ../app/Widgets/elementor/widgets/news-ticker.php:783
 msgid "Title Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4742
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4774
 msgid "Title Separator Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4767
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4799
 msgid "Title Color on Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4778
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4810
 msgid "Title Background on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4789
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4821
 msgid "Title Hover Border Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4805, ../app/Widgets/elementor/rtTPGElementorHelper.php:4977, ../app/Widgets/elementor/rtTPGElementorHelper.php:5177, ../app/Widgets/elementor/rtTPGElementorHelper.php:5344, ../app/Widgets/elementor/rtTPGElementorHelper.php:5775, ../app/Widgets/elementor/rtTPGElementorHelper.php:7032, ../app/Widgets/elementor/rtTPGElementorHelper.php:8714
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4837, ../app/Widgets/elementor/rtTPGElementorHelper.php:5009, ../app/Widgets/elementor/rtTPGElementorHelper.php:5209, ../app/Widgets/elementor/rtTPGElementorHelper.php:5376, ../app/Widgets/elementor/rtTPGElementorHelper.php:5807, ../app/Widgets/elementor/rtTPGElementorHelper.php:7064, ../app/Widgets/elementor/rtTPGElementorHelper.php:8746
 msgid "Box Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4813
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4845
 msgid "Title color on boxhover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4824
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4856
 msgid "Title Background on boxhover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4835
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4867
 msgid "Title Separator color - boxhover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4885
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4917
 msgid "Excerpt Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4949
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4981
 msgid "Excerpt color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4960
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4992
 msgid "Border color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4985
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5017
 msgid "Excerpt color on hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:4996
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5028
 msgid "Border color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5071
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5103
 msgid "Meta Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5106
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5138
 msgid "Meta Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5117
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5149
 msgid "Meta Link Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5128
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5160
 msgid "Separator Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5142, ../app/Widgets/elementor/rtTPGElementorHelper.php:5557
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5174, ../app/Widgets/elementor/rtTPGElementorHelper.php:5589, ../app/Widgets/elementor/widgets/news-ticker.php:867, ../app/Widgets/elementor/widgets/news-ticker.php:979
 msgid "Icon Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5164
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5196
 msgid "Meta Link Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5186
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5218
 msgid "Meta Color - Box Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5203, ../app/Widgets/elementor/rtTPGElementorHelper.php:5204
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5235, ../app/Widgets/elementor/rtTPGElementorHelper.php:5236
 msgid "Separate Category"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5221
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5253
 msgid "Category Margin Bottom"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5238
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5270
 msgid "Category Border Radius"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5264, ../app/Widgets/elementor/widgets/category-block.php:259
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5296, ../app/Widgets/elementor/widgets/category-block.php:259
 msgid "Category Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5276
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5308
 msgid "Category Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5284
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5316
 msgid "If you use different background color then avoid this color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5284
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5316
 msgid "Choose separate category background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5290
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5322
 msgid "Category Icon Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5316, ../app/Widgets/elementor/rtTPGElementorHelper.php:5353, ../app/Widgets/elementor/widgets/category-block.php:277
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5348, ../app/Widgets/elementor/rtTPGElementorHelper.php:5385, ../app/Widgets/elementor/widgets/category-block.php:277
 msgid "Category Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5328
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5360
 msgid "Category Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5364
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5396
 msgid "Category Background - Box Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5378
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5410
 msgid "Category Icon Color - Box Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5429
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5461
 msgid "Button Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5449, ../app/Widgets/elementor/rtTPGElementorHelper.php:5917
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5481, ../app/Widgets/elementor/rtTPGElementorHelper.php:5949
 msgid "Button Padding"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5464
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5496
 msgid "Button Alignment"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5490
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5522, ../app/Widgets/elementor/widgets/news-ticker.php:845
 msgid "Icon Size"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5512
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5544
 msgid "Icon Vertical Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5585
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5617
 msgid "Icon Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5625
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5657
 msgid "Button Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5664
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5696
 msgid "Text Color hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5675
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5707
 msgid "Icon Color Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5689
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5721
 msgid "Background Color hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5703
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5735
 msgid "Icon Spacing - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5726
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5758
 msgid "Border Radius - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5743
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5775
 msgid "Button Border - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5782
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5814
 msgid "Text Color - BoxHover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5793
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5825
 msgid "Icon Color - BoxHover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5807
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5839
 msgid "Background Color - BoxHover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5822
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5854
 msgid "Button Border - Box Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5847
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5879
 msgid "Pagination / Load More"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5894
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5926
 msgid "Button Vertical Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:5979
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6011
 msgid "Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6030
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6062
 msgid "Color - hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6043
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6075
 msgid "Background Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6056, ../app/Widgets/elementor/rtTPGElementorHelper.php:7440
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6088, ../app/Widgets/elementor/rtTPGElementorHelper.php:7472
 msgid "Border Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6072
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6104
 msgid "Active"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6079
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6111
 msgid "Color - Active"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6096
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6128
 msgid "Background Color - Active"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6113
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6145
 msgid "Border Color - Active"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6147
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6179
 msgid "Front-End Filter"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6186
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6218
 msgid "Filter Typography"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6228, ../app/Widgets/elementor/rtTPGElementorHelper.php:6320
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6260, ../app/Widgets/elementor/rtTPGElementorHelper.php:6352
 msgid "Top"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6252
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6284
 msgid "Filter Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6279
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6311
 msgid "Filter Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6298
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6330
 msgid "Next/Prev Button"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6302
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6334
 msgid "Visible"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6303, ../app/Widgets/elementor/rtTPGElementorHelper.php:7763
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6335, ../app/Widgets/elementor/rtTPGElementorHelper.php:7795
 msgid "Hidden"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6364
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6396
 msgid "Filter wrapper Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6391
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6423
 msgid "Filter Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6405
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6437
 msgid "Filter Background Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6418
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6450
 msgid "Filter Border Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6433
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6465
 msgid "Search Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6448
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6480
 msgid "Sub Menu Options"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6461
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6493
 msgid "Submenu Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6475
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6507
 msgid "Submenu Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6489
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6521
 msgid "Submenu Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6503
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6535
 msgid "Filter Nav Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6518
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6550
 msgid "Filter Nav Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6533
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6565
 msgid "Filter Nav Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6551
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6583
 msgid "Hover / Active"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6558
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6590
 msgid "Filter Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6571
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6603
 msgid "Filter Background Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6584
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6616
 msgid "Filter Border Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6599
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6631
 msgid "Search Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6614
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6646
 msgid "Sub Menu Options - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6627
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6659
 msgid "Submenu Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6641
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6673
 msgid "Submenu Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6655
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6687
 msgid "Submenu Border - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6669
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6701
 msgid "Filter Nav Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6684
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6716
 msgid "Filter Nav Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6699
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6731
 msgid "Filter Nav Border - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6757
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6789
 msgid "Icon Margin"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6770
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6802
 msgid "Icon Wrapper Spacing"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6810
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6842
 msgid "Icon Dimension"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6819
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6851
 msgid "Just write number. Don't use (px or em)."
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6827
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6859
 msgid "Icon Font Size"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6846
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6878
 msgid "Icon Color:"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6856
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6888
 msgid "Icon Color Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6860
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6892
 msgid "Default (Brand Color)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6861
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6893
 msgid "Different Color for each"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6862
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6894
 msgid "Custom color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6864
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6896
 msgid "Select Custom for your own customize"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6884
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6916
 msgid "Social Icon color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6898
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6930
 msgid "Social Icon Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6913
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6945
 msgid " color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6927
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6959
 msgid " Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6943
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6975
 msgid "Icon Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6962
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6994
 msgid "Icon color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:6976
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7008
 msgid "Icon Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7021
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7053
 msgid "Icon Border - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7039
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7071
 msgid "Icon color - BoxHover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7050
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7082
 msgid "Icon Background - BoxHover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7073
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7105
 msgid "Card (Post Item)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7082
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7114
 msgid "Card Gap"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7193
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7225
 msgid "Card Border Radius"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7222
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7254
 msgid "Enable Border & Box Shadow"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7245
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7277
 msgid "Enable Border Bottom"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7267
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7299
 msgid "Border Bottom Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7281
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7313
 msgid "Border Spacing Bottom"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7321, ../app/Widgets/elementor/rtTPGElementorHelper.php:7339
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7353, ../app/Widgets/elementor/rtTPGElementorHelper.php:7371
 msgid "Card Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7369, ../app/Widgets/elementor/rtTPGElementorHelper.php:7382, ../app/Widgets/elementor/rtTPGElementorHelper.php:8016
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7401, ../app/Widgets/elementor/rtTPGElementorHelper.php:7414, ../app/Widgets/elementor/rtTPGElementorHelper.php:8048
 msgid "Box Shadow"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7404, ../app/Widgets/elementor/rtTPGElementorHelper.php:7422
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7436, ../app/Widgets/elementor/rtTPGElementorHelper.php:7454
 msgid "Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7407, ../app/Widgets/elementor/rtTPGElementorHelper.php:7425
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7439, ../app/Widgets/elementor/rtTPGElementorHelper.php:7457
 msgid "Card Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7455, ../app/Widgets/elementor/rtTPGElementorHelper.php:7468, ../app/Widgets/elementor/rtTPGElementorHelper.php:8065
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7487, ../app/Widgets/elementor/rtTPGElementorHelper.php:7500, ../app/Widgets/elementor/rtTPGElementorHelper.php:8097
 msgid "Box Shadow - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7503, ../app/Widgets/elementor/rtTPGElementorHelper.php:7813, ../app/Widgets/elementor/rtTPGElementorHelper.php:8459
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7535, ../app/Widgets/elementor/rtTPGElementorHelper.php:7845, ../app/Widgets/elementor/rtTPGElementorHelper.php:8491
 msgid "Slider"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7512
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7544
 msgid "Slider Gap"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7541
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7573
 msgid "Arrow Visibility"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7556
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7588
 msgid "Arrow Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7561
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7593
 msgid "Top Right"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7562
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7594
 msgid "Top Left"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7563
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7595
 msgid "Center (Show on hover)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7576
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7608
 msgid "Dots Visibility"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7593
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7625
 msgid "Enable Dynamic Dots"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7610, ../app/Widgets/elementor/rtTPGElementorHelper.php:8089
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7642, ../app/Widgets/elementor/rtTPGElementorHelper.php:8121
 msgid "Dots Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7615
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7647
 msgid "With Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7628
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7660
 msgid "Infinite"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7640
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7672
 msgid "Autoplay"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7652
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7684
 msgid "Autoplay Speed"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7667
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7699
 msgid "Stop On Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7682
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7714
 msgid "Allow Touch Move"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7710
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7742
 msgid "lazy Load"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7736
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7768
 msgid "Enable 2 Rows"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7744
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7776
 msgid "If you use 2 rows then you have to put an even number for post limit"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7759
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7791
 msgid "Slider Overflow"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7777
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7809, ../app/Widgets/elementor/widgets/news-ticker.php:354
 msgid "Direction"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7781
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7813
 msgid "LTR"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7782
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7814
 msgid "RTL"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7822
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7854
 msgid "Arrow Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7835
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7867
 msgid "Arrow Font Size"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7857
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7889
 msgid "Arrow Radius"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7884
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7916
 msgid "Arrow Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7906
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7938
 msgid "Arrow Height"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7928
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7960
 msgid "Arrow X Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7953
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7985
 msgid "Arrow Y Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:7994
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8026
 msgid "Arrow Icon Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8005
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8037
 msgid "Arrow Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8025, ../app/Widgets/elementor/widgets/category-block.php:683
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8057, ../app/Widgets/elementor/widgets/category-block.php:683, ../app/Widgets/elementor/widgets/news-ticker.php:702
 msgid "Border"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8043
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8075
 msgid "Arrow Icon Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8054
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8086
 msgid "Arrow Background - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8074, ../app/Widgets/elementor/widgets/category-block.php:723
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8106, ../app/Widgets/elementor/widgets/category-block.php:723
 msgid "Border - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8102
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8134
 msgid "Dots Alignment"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8129
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8161
 msgid "Dots Wrapper Radius"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8152
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8184
 msgid "Dots Radius"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8179
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8211
 msgid "Dots Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8202
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8234
 msgid "Dots Height"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8224
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8256
 msgid "Dots Margin"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8246
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8278
 msgid "Dots Y Position"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8286
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8318
 msgid "Dots Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8300
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8332
 msgid "Active Dots Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8314
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8346
 msgid "Dots Wrapper Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8338
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8370
 msgid "Dots Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8365
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8397
 msgid "Popup Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8376
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8408
 msgid "Header Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8387
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8419
 msgid "Header Text Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8398
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8430
 msgid "Popup Title Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8411
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8443
 msgid "Popup Meta Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8424
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8456
 msgid "Popup Content Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8437
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8469
 msgid "Popup Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8472
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8504
 msgid "Scroll Foreground Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8484
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8516
 msgid "Scroll Background Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8496
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8528
 msgid "Thumb Font Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8508
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8540
 msgid "Thumb Active/Hover Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8521, ../app/Widgets/elementor/rtTPGElementorHelper.php:8524
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8553, ../app/Widgets/elementor/rtTPGElementorHelper.php:8556
 msgid "Thumb Wrapper Background"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8552
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8584
 msgid "Advanced Custom Field (ACF)"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8571
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8603
 msgid "Group Title Typography"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8580
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8612
 msgid "ACF Fields Typography"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8588
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8620
 msgid "Label Style"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8593
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8625
 msgid "Inline"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8594
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8626
 msgid "Block"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8607
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8639
 msgid "Label Min Width"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8671
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8703
 msgid "Group Title Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8685
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8717
 msgid "Label Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8699
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8731
 msgid "Value Color"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8721
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8753
 msgid "Group Title Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8735
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8767
 msgid "Label Color - Hover"
 msgstr ""
 
-#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8749
+#: ../app/Widgets/elementor/rtTPGElementorHelper.php:8781
 msgid "Value Color - Hover"
 msgstr ""
 
@@ -4102,6 +4118,146 @@ msgstr ""
 
 #: ../app/Widgets/elementor/widgets/list-layout.php:31
 msgid "TPG - List Layout"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:308, ../app/Widgets/elementor/widgets/news-ticker.php:693
+msgid "News Ticker"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:323
+msgid "Style 4"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:324
+msgid "Style 5"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:325
+msgid "Style 6"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:326
+msgid "Style 7"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:327
+msgid "Style 8"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:336, ../app/Widgets/elementor/widgets/news-ticker.php:754
+msgid "Breaking Title"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:338
+msgid "Breaking News"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:358
+msgid "Slide Horizontal"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:359
+msgid "Slide Vertical"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:360
+msgid "Typing"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:361
+msgid "Marquee"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:378
+msgid "Delay"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:387
+msgid "Pause On Hover"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:389
+msgid "On"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:390
+msgid "Off"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:710
+msgid "Ticker Background"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:721
+msgid "Height"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:808
+msgid "Bolt Round"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:809
+msgid "Bolt"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:810
+msgid "Live"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:811
+msgid "Custom Icon"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:812
+msgid "No Icon"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:906
+msgid "Enable Link?"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:920
+msgid "Star Icon"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:921
+msgid "Star-Outline Icon"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:922
+msgid "Dot Icon"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:931
+msgid "Icon Gap"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:965
+msgid "Title Color:hover"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:1001
+msgid "Control Button"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:1012
+msgid "Visibility"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:1025
+msgid "Control Color"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:1036
+msgid "Control Color:hover"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:1047
+msgid "Control Background"
+msgstr ""
+
+#: ../app/Widgets/elementor/widgets/news-ticker.php:1058
+msgid "Control Background:hover"
 msgstr ""
 
 #: ../app/Widgets/elementor/widgets/related-post.php:31

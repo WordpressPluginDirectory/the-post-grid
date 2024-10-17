@@ -49,20 +49,52 @@ class rtTPGElementorHelper {
 				'return_value' => 'yes',
 				'default'      => false,
 				'classes'      => rtTPG()->hasPro() ? '' : 'the-post-grid-field-hide',
+				'condition'    => [
+					'post_type!' => 'current_query',
+				],
 			]
 		);
 
+		$ref->add_control(
+			'multiple_post_type_notice',
+			[
+				'type'       => Controls_Manager::ALERT,
+				'alert_type' => 'info',
+				'condition'  => [
+					'multiple_post_type' => 'yes',
+				],
+				'content'    => esc_html__( 'If you enable Multiple Post Types the Front-end Filter will not work.', 'the-post-grid' ),
+			]
+		);
+
+		$singlePostType = $post_types;
+		if ( rtTPG()->hasPro() ) {
+			$singlePostType = $post_types + [ 'current_query' => __( 'Current Query', 'the-post-grid' ) ];
+		}
 		$ref->add_control(
 			'post_type',
 			[
 				'label'       => esc_html__( 'Post Source', 'the-post-grid' ),
 				'type'        => Controls_Manager::SELECT,
-				'options'     => $post_types,
+				'options'     => $singlePostType,
 				'default'     => 'post',
 				'description' => $ref->get_pro_message( 'all post type.' ),
 				'condition'   => [
 					'multiple_post_type!' => 'yes',
 				],
+			]
+		);
+
+		$ref->add_control(
+			'current_query_note',
+			[
+				'type'        => \Elementor\Controls_Manager::NOTICE,
+				'notice_type' => 'warning',
+				'dismissible' => true,
+				'condition'   => [
+					'post_type' => 'current_query',
+				],
+				'content'     => esc_html__( 'The Current Query is used only for the archive page. If you use the Current Query the below settings under this tab will not work.', 'the-post-grid' ),
 			]
 		);
 
@@ -184,8 +216,8 @@ class rtTPGElementorHelper {
 		foreach ( $taxonomies as $taxonomy => $object ) {
 
 			if ( ! isset( $object->object_type[0] )
-				 || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-				 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+			     || ! in_array( $object->object_type[0], array_keys( $post_types ) )
+			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 			) {
 				continue;
 			}
@@ -411,7 +443,7 @@ class rtTPGElementorHelper {
 			$get_all_taxonomy = [];
 			foreach ( $taxonomies as $taxonomy => $object ) {
 				if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-					 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+				     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 				) {
 					continue;
 				}
@@ -988,7 +1020,7 @@ class rtTPGElementorHelper {
 				'render_type'  => 'template',
 				'toggle'       => true,
 				'selectors'    => [
-					'{{WRAPPER}} .tpg-post-holder div' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .tpg-post-holder div'               => 'text-align: {{VALUE}};',
 					'{{WRAPPER}} .rt-tpg-container .rt-el-post-meta' => 'justify-content: {{VALUE}};',
 				],
 				'condition'    => [
@@ -1291,9 +1323,9 @@ class rtTPGElementorHelper {
 						'options'   => $term_lists,
 						'condition' => [
 							$post_type . '_filter_taxonomy' => $tax->name,
-							'post_type'            => $post_type,
-							'show_taxonomy_filter' => 'show',
-							'multiple_taxonomy!'   => 'yes',
+							'post_type'                     => $post_type,
+							'show_taxonomy_filter'          => 'show',
+							'multiple_taxonomy!'            => 'yes',
 						],
 					]
 				);
@@ -3652,9 +3684,9 @@ class rtTPGElementorHelper {
 			[
 				'type' => Controls_Manager::RAW_HTML,
 				'raw'  => '<div class="elementor-nerd-box"><div class="elementor-nerd-box-title" style="margin-top: 0; margin-bottom: 20px;">Unlock more possibilities</div><div class="elementor-nerd-box-message"><span class="pro-feature" style="font-size: 13px;"> Get the <a href="'
-						  . $pro_url
-						  . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
-						  . $pro_url . '" target="_blank">Get Pro</a></div>',
+				          . $pro_url
+				          . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
+				          . $pro_url . '" target="_blank">Get Pro</a></div>',
 			]
 		);
 
@@ -8424,7 +8456,7 @@ class rtTPGElementorHelper {
 				'label'     => esc_html__( 'Popup Content Color', 'the-post-grid' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'body .md-content .rt-md-content *' => 'color: {{VALUE}}',
+					'body .md-content .rt-md-content *'                       => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container .tpg-content *' => 'color: {{VALUE}}',
 				],
 

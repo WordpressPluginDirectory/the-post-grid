@@ -240,6 +240,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 				'slider-layout'     => '\TPGSliderLayout',
 				'category-block'    => '\TPGCategoryBlock',
 				'section-title'     => '\SectionTitle',
+				'news-ticker'       => '\NewsTicker',
 			];
 
 			if ( rtTPG()->hasPro() && defined( 'RT_THE_POST_GRID_PRO_PLUGIN_PATH' ) ) {
@@ -329,6 +330,13 @@ if ( ! class_exists( 'ElementorController' ) ) :
 					'title'       => esc_html__( 'TPG - Category Block', 'the-post-grid' ),
 					'description' => esc_html__( 'TPG - Category Block', 'the-post-grid' ),
 					'icon'        => 'eicon-folder-o tpg-grid-icon tss-promotional-element',
+					'categories'  => '[ "the-post-grid-elements" ]',
+				],
+				[
+					'name'        => 'tpg-news-ticker',
+					'title'       => esc_html__( 'TPG - News Ticker', 'the-post-grid' ),
+					'description' => esc_html__( 'TPG - News Ticker', 'the-post-grid' ),
+					'icon'        => 'eicon-carousel tpg-grid-icon tss-promotional-element',
 					'categories'  => '[ "the-post-grid-elements" ]',
 				],
 			];
