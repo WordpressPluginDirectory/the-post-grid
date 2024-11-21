@@ -216,8 +216,8 @@ class rtTPGElementorHelper {
 		foreach ( $taxonomies as $taxonomy => $object ) {
 
 			if ( ! isset( $object->object_type[0] )
-			     || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+				 || ! in_array( $object->object_type[0], array_keys( $post_types ) )
+				 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 			) {
 				continue;
 			}
@@ -443,7 +443,7 @@ class rtTPGElementorHelper {
 			$get_all_taxonomy = [];
 			foreach ( $taxonomies as $taxonomy => $object ) {
 				if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-				     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+					 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 				) {
 					continue;
 				}
@@ -1020,7 +1020,7 @@ class rtTPGElementorHelper {
 				'render_type'  => 'template',
 				'toggle'       => true,
 				'selectors'    => [
-					'{{WRAPPER}} .tpg-post-holder div'               => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .tpg-post-holder div' => 'text-align: {{VALUE}};',
 					'{{WRAPPER}} .rt-tpg-container .rt-el-post-meta' => 'justify-content: {{VALUE}};',
 				],
 				'condition'    => [
@@ -1323,9 +1323,9 @@ class rtTPGElementorHelper {
 						'options'   => $term_lists,
 						'condition' => [
 							$post_type . '_filter_taxonomy' => $tax->name,
-							'post_type'                     => $post_type,
-							'show_taxonomy_filter'          => 'show',
-							'multiple_taxonomy!'            => 'yes',
+							'post_type'            => $post_type,
+							'show_taxonomy_filter' => 'show',
+							'multiple_taxonomy!'   => 'yes',
 						],
 					]
 				);
@@ -3320,6 +3320,33 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_control(
+			'date_meta_heading',
+			[
+				'label'     => esc_html__( 'Date Settings', 'the-post-grid' ),
+				'type'      => Controls_Manager::HEADING,
+				'classes'   => 'tpg-control-type-heading',
+				'condition' => [
+					'show_date' => 'show',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'date_archive_link',
+			[
+				'label'        => esc_html__( 'Date Archive Link', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'show_date' => 'show',
+				],
+			]
+		);
+
+		$ref->add_control(
 			'meta_ordering_heading',
 			[
 				'label'   => esc_html__( 'Meta Ordering', 'the-post-grid' ),
@@ -3411,7 +3438,6 @@ class rtTPGElementorHelper {
 				'options'      => [
 					'default-style' => esc_html__( 'Default from style', 'the-post-grid' ),
 					'only-text'     => esc_html__( 'Only Text Button', 'the-post-grid' ),
-
 				],
 				'prefix_class' => 'readmore-btn-',
 			]
@@ -3590,6 +3616,7 @@ class rtTPGElementorHelper {
 	 * Links Settings
 	 *
 	 * @param $ref
+	 * @param $cbf it's a callback for push some extra fields thought the main class
 	 */
 	public static function links( $ref ) {
 		$prefix = $ref->prefix;
@@ -3684,9 +3711,9 @@ class rtTPGElementorHelper {
 			[
 				'type' => Controls_Manager::RAW_HTML,
 				'raw'  => '<div class="elementor-nerd-box"><div class="elementor-nerd-box-title" style="margin-top: 0; margin-bottom: 20px;">Unlock more possibilities</div><div class="elementor-nerd-box-message"><span class="pro-feature" style="font-size: 13px;"> Get the <a href="'
-				          . $pro_url
-				          . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
-				          . $pro_url . '" target="_blank">Get Pro</a></div>',
+						  . $pro_url
+						  . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
+						  . $pro_url . '" target="_blank">Get Pro</a></div>',
 			]
 		);
 
@@ -8456,7 +8483,7 @@ class rtTPGElementorHelper {
 				'label'     => esc_html__( 'Popup Content Color', 'the-post-grid' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'body .md-content .rt-md-content *'                       => 'color: {{VALUE}}',
+					'body .md-content .rt-md-content *' => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container .tpg-content *' => 'color: {{VALUE}}',
 				],
 

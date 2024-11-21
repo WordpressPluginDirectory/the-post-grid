@@ -20,10 +20,9 @@ class NoticeController {
 	 * Class Constructor
 	 */
 	public function __construct() {
-		$current          = time();
-		$offer_start_time = mktime( 0, 0, 0, 11, 18, 2023 );
-		$offer_end_time   = mktime( 0, 0, 0, 1, 6, 2024 );
-		$black_friday     = $offer_start_time <= $current && $current <= $offer_end_time;
+		$current      = time();
+		$currentYear  = gmdate( 'Y' );
+		$black_friday = mktime( 0, 0, 0, 7, 19, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, $currentYear + 1 );
 
 		if ( $black_friday ) {
 			add_action( 'admin_init', [ $this, 'black_friday_notice' ] );
@@ -48,12 +47,16 @@ class NoticeController {
 				$screen   = get_current_screen();
 
 				if ( isset( $settings['tpg_block_type'] ) ) {
-					if ( in_array( $screen->id, [
+					if ( in_array(
+						$screen->id,
+						[
 							'edit-rttpg',
-							'rttpg'
-						], true ) && 'elementor' === $settings['tpg_block_type'] ) { ?>
-                        <div class="notice notice-for-warning">
-                            <p>
+							'rttpg',
+						],
+						true
+					) && 'elementor' === $settings['tpg_block_type'] ) { ?>
+						<div class="notice notice-for-warning">
+							<p>
 								<?php
 								echo sprintf(
 									'%1$s<a style="color: #fff;" href="%2$s">%3$s</a>',
@@ -62,15 +65,15 @@ class NoticeController {
 									esc_html__( 'Settings => Common Settings => Resource Load Type', 'the-post-grid' )
 								);
 								?>
-                            </p>
-                        </div>
+							</p>
+						</div>
 						<?php
 					}
 
 					if ( 'edit-tpg_builder' === $screen->id && 'shortcode' === $settings['tpg_block_type'] ) {
 						?>
-                        <div class="notice notice-for-warning">
-                            <p>
+						<div class="notice notice-for-warning">
+							<p>
 								<?php
 								echo sprintf(
 									'%1$s<a style="color: #fff;" href="%2$s">%3$s</a>',
@@ -79,8 +82,8 @@ class NoticeController {
 									esc_html__( 'Settings => Common Settings => Resource Load Type', 'the-post-grid' )
 								);
 								?>
-                            </p>
-                        </div>
+							</p>
+						</div>
 						<?php
 					}
 				}
@@ -94,7 +97,9 @@ class NoticeController {
 	 * @return void
 	 */
 	public static function black_friday_notice() {
-		if ( get_option( 'rttpg_bf_2023' ) != '1' ) {
+		$currentYear = date( 'Y' );
+		if ( get_option( 'rttpg_dismiss_bf_notice_' . $currentYear ) != '1' && ! isset( $GLOBALS['rttpg_dismiss_bf_notice'] ) ) {
+			$GLOBALS['rttpg_dismiss_bf_notice'] = 'rttpg_dismiss_bf_notice';
 			self::notice();
 		}
 	}
@@ -116,20 +121,24 @@ class NoticeController {
 			'admin_notices',
 			function () {
 				$plugin_name   = 'The Post Grid';
-				$download_link = 'https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/'; ?>
-                <div class="notice notice-info is-dismissible" data-rttpg-dismissable="rttpg_bf_2023"
-                     style="display:grid;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
-                    <img alt="<?php echo esc_attr( $plugin_name ); ?>"
-                         src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/post-grid-gif.gif' ) ); ?>"
-                         width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
-                    <h3 style="margin:0;"><?php echo sprintf( '%s Black Friday Sale 2023!!', esc_html( $plugin_name ) ); ?></h3>
-                    <p>🚀 Exciting News: <b>The Post Grid</b> Black Friday sale is now live! Get the plugin today and enjoy discounts <b>UP TO 50%</b>.</p>
-                    <p style="margin:0;">
-                        <a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
-                           target="_blank">Buy Now</a>
-                        <a class="button button-dismiss" href="#">Dismiss</a>
-                    </p>
-                </div>
+				$download_link = 'https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/';
+				?>
+				<div class="notice notice-info is-dismissible" data-rttpg-dismissable="rttpg_dismiss_bf_notice"
+					 style="display:grid;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
+					<img alt="<?php echo esc_attr( $plugin_name ); ?>"
+						 src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/post-grid-gif.gif' ) ); ?>"
+						 width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
+					<h3 style="margin:0;display: inline-flex;align-items: center;gap: 4px;">
+						<?php echo sprintf( '%s – Black Friday', esc_html( $plugin_name ) ); ?>
+						<img alt="Deal" style="width: 40px;position: static" src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/deal.gif' ) ); ?>">
+					</h3>
+					<p style="margin-top:0">🚀 Exciting News: <b>The Post Grid</b> Black Friday sale is now live! Get the plugin today and enjoy discounts <b>UP TO 50%</b>.</p>
+					<p style="margin:0;">
+						<a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
+						   target="_blank">Buy Now</a>
+						<a class="button button-dismiss" href="#">Dismiss</a>
+					</p>
+				</div>
 				<?php
 			}
 		);
@@ -138,23 +147,23 @@ class NoticeController {
 			'admin_footer',
 			function () {
 				?>
-                <script type="text/javascript">
-                    (function ($) {
-                        $(function () {
-                            setTimeout(function () {
-                                $('div[data-rttpg-dismissable] .notice-dismiss, div[data-rttpg-dismissable] .button-dismiss')
-                                    .on('click', function (e) {
-                                        e.preventDefault();
-                                        $.post(ajaxurl, {
-                                            'action': 'rttpg_dismiss_admin_notice',
-                                            'nonce': <?php echo wp_json_encode( wp_create_nonce( 'rttpg-dismissible-notice' ) ); ?>
-                                        });
-                                        $(e.target).closest('.is-dismissible').remove();
-                                    });
-                            }, 1000);
-                        });
-                    })(jQuery);
-                </script>
+				<script type="text/javascript">
+					(function ($) {
+						$(function () {
+							setTimeout(function () {
+								$('div[data-rttpg-dismissable] .notice-dismiss, div[data-rttpg-dismissable] .button-dismiss')
+									.on('click', function (e) {
+										e.preventDefault();
+										$.post(ajaxurl, {
+											'action': 'rttpg_dismiss_admin_notice',
+											'nonce': <?php echo wp_json_encode( wp_create_nonce( 'rttpg-dismissible-notice' ) ); ?>
+										});
+										$(e.target).closest('.is-dismissible').remove();
+									});
+							}, 1000);
+						});
+					})(jQuery);
+				</script>
 				<?php
 			}
 		);
@@ -162,12 +171,13 @@ class NoticeController {
 		add_action(
 			'wp_ajax_rttpg_dismiss_admin_notice',
 			function () {
-                if ( ! current_user_can( 'manage_options' ) ) {
-                    wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
-                }
+				if ( ! current_user_can( 'manage_options' ) ) {
+					wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
+				}
 				check_ajax_referer( 'rttpg-dismissible-notice', 'nonce' );
+				$currentYear = date( 'Y' );
 
-				update_option( 'rttpg_bf_2023', '1' );
+				update_option( 'rttpg_dismiss_bf_notice_' . $currentYear, '1' );
 				wp_die();
 			}
 		);
@@ -179,7 +189,7 @@ class NoticeController {
 	 * @return void
 	 */
 	public static function rttpg_activation_time() {
-		$get_activation_time = strtotime( "now" );
+		$get_activation_time = strtotime( 'now' );
 		add_option( 'rttpg_plugin_activation_time', $get_activation_time );
 	}
 
@@ -205,7 +215,7 @@ class NoticeController {
 
 		if ( $now >= $remind_due ) {
 			add_action( 'admin_notices', [ __CLASS__, 'rttpg_display_admin_notice' ] );
-		} else if ( ( $past_date >= $install_date ) && '2' !== $nobug ) {
+		} elseif ( ( $past_date >= $install_date ) && '2' !== $nobug ) {
 			add_action( 'admin_notices', [ __CLASS__, 'rttpg_display_admin_notice' ] );
 		}
 	}
@@ -398,7 +408,7 @@ class NoticeController {
 				'_wc_notice_nonce',
 				'wc_db_update',
 				'wc_db_update_nonce',
-				'wc-hide-notice'
+				'wc-hide-notice',
 			],
 			admin_url( $uri )
 		);

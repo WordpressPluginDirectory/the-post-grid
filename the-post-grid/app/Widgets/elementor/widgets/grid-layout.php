@@ -120,7 +120,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 		// Meta Info Style.
 		rtTPGElementorHelper::metaInfoStyle( $this );
 
-		// Social Icon Style
+		// Social Icon Style.
 		rtTPGElementorHelper::socialShareStyle( $this );
 
 		// ACF Style.
@@ -135,7 +135,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 		// Pagination - Load more Style.
 		rtTPGElementorHelper::paginationStyle( $this );
 
-		// Front-end Filter Style
+		// Front-end Filter Style.
 		rtTPGElementorHelper::frontEndFilter( $this );
 
 		// Box Settings.

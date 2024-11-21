@@ -24,6 +24,7 @@ $title   = Fns::get_the_title( $pID, $data );
 
 $post_link = Fns::get_post_link( $pID, $data );
 extract( $post_link );
+
 if ( is_array( $data['grid_column'] ) && ! empty( $data['grid_column'] ) ) {
 	foreach ( $data['grid_column'] as $key => $value ) {
 		if ( $data['grid_column'][ $key ] == '1' ) {

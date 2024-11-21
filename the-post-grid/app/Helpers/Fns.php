@@ -428,6 +428,7 @@ class Fns {
 			'tag_icon'                     => $data['tag_icon'] ?? '',
 			'date_icon'                    => $data['date_icon'] ?? '',
 			'user_icon'                    => $data['user_icon'] ?? '',
+			'date_archive_link'            => $data['date_archive_link'],
 			'meta_ordering'                => $data['meta_ordering'],
 			'comment_icon'                 => $data['comment_icon'] ?? '',
 			'image_custom_dimension'       => ( $data['image_size'] == 'custom' && isset( $data['image_custom_dimension'] ) ) ? $data['image_custom_dimension'] : [],
@@ -3230,15 +3231,14 @@ class Fns {
 	public static function get_post_link( $pID, $data ) {
 		$link_class    = $link_start = $link_end = $readmore_link_start = $readmore_link_end = null;
 		$external_link = get_post_meta( $pID, 'tpg_read_more', true );
-
 		if ( 'default' == $data['post_link_type'] ) {
 			$link_class = 'tpg-post-link';
 			$link_start = $readmore_link_start = sprintf(
 				'<a data-id="%s" href="%s" class="%s" target="%s">',
 				absint( $pID ),
-				esc_url( $external_link['url'] ?? get_permalink() ),
+				esc_url( ! empty( $external_link['url'] ) ? $external_link['url'] : get_permalink() ),
 				esc_attr( $link_class ),
-				esc_attr( $external_link['target'] ?? $data['link_target'] )
+				esc_attr( ! empty( $external_link['target'] ) ? $external_link['target'] : $data['link_target'] )
 			);
 			$link_end   = $readmore_link_end = '</a>';
 		} elseif ( 'popup' == $data['post_link_type'] ) {
@@ -3468,7 +3468,7 @@ class Fns {
 
 		ob_start();
 		// Date Meta.
-		if ( '' !== $data['show_date'] ) {
+		if ( 'show' === $data['show_date'] ) {
 			$archive_year  = get_the_date( 'Y', $post );
 			$archive_month = get_the_date( 'm', $post );
 			$archive_day   = get_the_date( 'j', $post );
@@ -3486,9 +3486,13 @@ class Fns {
 					}
 				}
 				?>
-				<a href="<?php echo esc_url( get_day_link( $archive_year, $archive_month, $archive_day ) ); ?>">
+				<?php if ( $data['date_archive_link'] === 'yes' ) : ?>
+                    <a href="<?php echo esc_url( get_day_link( $archive_year, $archive_month, $archive_day ) ); ?>">
 					<?php echo esc_html( $date ); ?>
 				</a>
+				<?php else : ?>
+					<?php echo esc_html( $date ); ?>
+				<?php endif; ?>
 			</span>
 			<?php
 			echo wp_kses( $meta_separator, self::allowedHtml() );
@@ -3510,7 +3514,6 @@ class Fns {
 							"<i class='%s'></i>",
 							esc_attr( self::change_icon( 'fa fa-tags', 'tag' ) )
 						);
-
 					}
 				}
 				echo wp_kses( $tags, self::allowedHtml() );
@@ -4493,15 +4496,15 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function change_icon( $fontawesome, $flaticon, $default_class = '' ) {
-		if ( self::tpg_option( 'tpg_icon_font' ) === 'fontawesome' ) {
-			$fontawesome = ( $fontawesome === 'fab fa-twitter' ? 'fab fa-x-twitter' : $fontawesome );
 
-			return $fontawesome . ' ' . $default_class;
-		} else {
+		if ( self::tpg_option( 'tpg_icon_font' ) === 'flaticon' ) {
 			$flaticon = ( $flaticon == 'twitter' ? 'twitter-x' : $flaticon );
 
 			return 'flaticon-' . $flaticon . ' ' . $default_class;
 		}
+		$fontawesome = ( $fontawesome === 'fab fa-twitter' ? 'fab fa-x-twitter' : $fontawesome );
+
+		return $fontawesome . ' ' . $default_class;
 	}
 
 	public static function get_terms_id( $id, $type ) {
@@ -5128,5 +5131,31 @@ class Fns {
 		}
 
 		return $finalval;
+	}
+
+	/**
+	 * Make timeline tag type
+	 *
+	 * @param $taxonomies
+	 *
+	 * @return array
+	 */
+	public static function timeline_tag_type() {
+		$post_types    = self::get_post_types();
+		$taxonomy_list = [];
+
+		foreach ( $post_types as $post_type => $label ) {
+			$taxonomies = get_taxonomies( [ 'object_type' => [ $post_type ] ], 'objects' );
+
+			if ( ! isset( $taxonomy_list[ $post_type ] ) ) {
+				$taxonomy_list[ $post_type ]['date'] = esc_html__( 'Date', 'the-post-grid' );
+			}
+
+			foreach ( $taxonomies as $taxonomy => $object ) {
+				$taxonomy_list[ $post_type ][ $object->name ] = $object->label;
+			}
+		}
+
+		return $taxonomy_list;
 	}
 }

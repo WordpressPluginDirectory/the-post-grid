@@ -241,6 +241,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 				'category-block'    => '\TPGCategoryBlock',
 				'section-title'     => '\SectionTitle',
 				'news-ticker'       => '\NewsTicker',
+				'post-timeline'     => '\TPGPostTimeline',
 			];
 
 			if ( rtTPG()->hasPro() && defined( 'RT_THE_POST_GRID_PRO_PLUGIN_PATH' ) ) {
@@ -254,7 +255,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 
 			foreach ( $widgets as $file_name => $class ) {
 
-				if ( ! rtTPG()->hasPro() && in_array( $file_name, [ 'slider-layout', 'category-block' ] ) ) {
+				if ( ! rtTPG()->hasPro() && in_array( $file_name, [ 'slider-layout', 'category-block', 'post-timeline', 'news-ticker' ] ) ) {
 					continue;
 				}
 
@@ -337,6 +338,13 @@ if ( ! class_exists( 'ElementorController' ) ) :
 					'title'       => esc_html__( 'TPG - News Ticker', 'the-post-grid' ),
 					'description' => esc_html__( 'TPG - News Ticker', 'the-post-grid' ),
 					'icon'        => 'eicon-carousel tpg-grid-icon tss-promotional-element',
+					'categories'  => '[ "the-post-grid-elements" ]',
+				],
+				[
+					'name'        => 'tpg-post-timeline',
+					'title'       => esc_html__( 'TPG - Post Timeline', 'the-post-grid' ),
+					'description' => esc_html__( 'TPG - Post Timeline', 'the-post-grid' ),
+					'icon'        => 'eicon-time-line tpg-grid-icon tss-promotional-element',
 					'categories'  => '[ "the-post-grid-elements" ]',
 				],
 			];

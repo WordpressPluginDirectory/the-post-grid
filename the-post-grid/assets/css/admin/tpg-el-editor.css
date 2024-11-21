@@ -561,6 +561,24 @@ body .elementor-panel .elementor-tab-control-settings a:before {
     background-image: url("../../images/layouts/category-block-2.png");
 }
 
+
+
+/* Timeline layout image
+*************************/
+
+.tpg-image-select.timeline-layout .elementor-choices .elementor-choices-label:nth-of-type(1) {
+    background-image: url("../../images/layouts/timeline-1.png");
+}
+.tpg-image-select.timeline-layout .elementor-choices .elementor-choices-label:nth-of-type(2) {
+    background-image: url("../../images/layouts/timeline-2.png");
+}
+.tpg-image-select.timeline-layout .elementor-choices .elementor-choices-label:nth-of-type(3) {
+    background-image: url("../../images/layouts/timeline-3.png");
+}
+.tpg-image-select.timeline-layout .elementor-choices .elementor-choices-label:nth-of-type(4) {
+    background-image: url("../../images/layouts/timeline-4.png");
+}
+
 /*Pro layout style*/
 .the-post-grid-pro-needed.tpg-image-select.slider-layout .elementor-choices .elementor-choices-label:nth-of-type(n+1),
 .the-post-grid-pro-needed.tpg-image-select.grid-hover-layout .elementor-choices .elementor-choices-label:nth-of-type(n+4),

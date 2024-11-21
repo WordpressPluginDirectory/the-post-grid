@@ -307,6 +307,10 @@ class SettingsTabController {
 				'type'    => 'string',
 				'default' => 'default',
 			],
+			'date_archive_link'       => [
+				'type'    => 'string',
+				'default' => 'yes',
+			],
 
 			'meta_ordering'           => [
 				'type'    => 'array',

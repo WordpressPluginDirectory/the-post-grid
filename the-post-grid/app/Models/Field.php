@@ -306,7 +306,7 @@ class Field {
 				name="' . esc_attr( $this->name ) . '"
 				placeholder="' . esc_attr( $this->placeholder ) . '"
 				' . Fns::htmlKses( $this->attr, 'basic' ) . '
-				>' . wp_kses_post( $this->value ) . '</textarea>';
+				>' . wp_kses_post( $this->value ?? '' ) . '</textarea>';
 
 		return $h;
 	}
