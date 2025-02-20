@@ -10,7 +10,6 @@ namespace RT\ThePostGrid\Helpers;
 use RT\ThePostGrid\Models\Field;
 use RT\ThePostGrid\Models\ReSizer;
 
-
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
@@ -29,7 +28,6 @@ class Fns {
 	public function ajax_url() {
 		return admin_url( 'admin-ajax.php', 'relative' );
 	}
-
 
 	/**
 	 * Render view
@@ -78,7 +76,6 @@ class Fns {
 	 * @return void
 	 */
 	public static function update_post_views_count( $post_id ) {
-
 		if ( ! $post_id && is_admin() ) {
 			return;
 		}
@@ -357,7 +354,6 @@ class Fns {
 	 * @return array
 	 */
 	public static function get_render_data_set( $data, $total_pages, $posts_per_page, $_prefix, $is_gutenberg = '' ) {
-
 		if ( ! empty( $data['is_builder'] ) && $data['is_builder'] === 'yes' ) {
 			$posts_per_page = get_option( 'posts_per_page' );
 		}
@@ -428,7 +424,7 @@ class Fns {
 			'tag_icon'                     => $data['tag_icon'] ?? '',
 			'date_icon'                    => $data['date_icon'] ?? '',
 			'user_icon'                    => $data['user_icon'] ?? '',
-			'date_archive_link'            => $data['date_archive_link'],
+			'date_archive_link'            => $data['date_archive_link'] ?? '',
 			'meta_ordering'                => $data['meta_ordering'],
 			'comment_icon'                 => $data['comment_icon'] ?? '',
 			'image_custom_dimension'       => ( $data['image_size'] == 'custom' && isset( $data['image_custom_dimension'] ) ) ? $data['image_custom_dimension'] : [],
@@ -464,7 +460,6 @@ class Fns {
 
 		return $data_set;
 	}
-
 
 	/**
 	 * Get Filter markup
@@ -525,7 +520,7 @@ class Fns {
 			}
 		}
 
-		// TODO: Author filter
+		// Author filter
 		if ( 'show' == $data['show_author_filter'] ) {
 			$user_el = $data['author'];
 
@@ -602,7 +597,7 @@ class Fns {
 			$html .= "<div class='filter-right-wrapper'>";
 		}
 
-		// TODO: Order Filter
+		// Order Filter
 		if ( 'show' == $data['show_sort_order'] ) {
 			$action_order = ( $data['order'] ? strtoupper( $data['order'] ) : 'DESC' );
 			$html         .= '<div class="rt-filter-item-wrap rt-sort-order-action" data-filter="order">';
@@ -610,11 +605,12 @@ class Fns {
 			$html         .= '</div>';
 		}
 
-		// TODO: Orderby Filter
+		// Orderby Filter
 		if ( 'show' == $data['show_order_by'] ) {
 			$wooFeature     = ( $data['post_type'] == 'product' ? true : false );
 			$orders         = Options::rtPostOrderBy( $wooFeature );
 			$action_orderby = ( ! empty( $data['orderby'] ) ? $data['orderby'] : 'none' );
+
 			if ( $action_orderby == 'none' ) {
 				$action_orderby_label = __( 'Sort By', 'the-post-grid' );
 			} elseif ( in_array( $action_orderby, array_keys( Options::rtMetaKeyType() ) ) ) {
@@ -622,8 +618,9 @@ class Fns {
 			} else {
 				$action_orderby_label = __( 'By ', 'the-post-grid' ) . $action_orderby;
 			}
+
 			if ( $action_orderby !== 'none' ) {
-				$orders['none'] = __( 'Sort By', 'the-post-grid' );
+				//$orders = array_merge( [ 'none' => __( 'Sort By', 'the-post-grid' ) ], $orders ); // Commented on Dec-9,24
 			}
 			$html .= '<div class="rt-filter-item-wrap rt-order-by-action rt-filter-dropdown-wrap" data-filter="orderby">';
 			$html .= "<span class='order-by-default rt-filter-dropdown-default' data-order-by='{$action_orderby}'>
@@ -639,7 +636,7 @@ class Fns {
 			$html .= '</div>';
 		}
 
-		// TODO: Search Filter
+		// Search Filter
 		if ( 'show' == $data['show_search'] ) {
 			$html .= '<div class="rt-filter-item-wrap rt-search-filter-wrap" data-filter="search">';
 			$html .= sprintf( '<input type="text" class="rt-search-input" placeholder="%s">', esc_html__( 'Search...', 'the-post-grid' ) );
@@ -677,6 +674,7 @@ class Fns {
 
 		$_taxonomies = get_object_taxonomies( $data['post_type'], 'objects' );
 
+		$countTax = 1;
 		foreach ( $_taxonomies as $index => $object ) {
 			if ( ! is_array( $taxFilter ) || ! in_array( $object->name, $taxFilter ) ) {
 				continue;
@@ -687,8 +685,18 @@ class Fns {
 			$taxonomy_label   = $taxonomy_details->label;
 			$default_term_key = $object->name . '_default_terms';
 			$default_term     = isset( $data[ $default_term_key ] ) ? $data[ $default_term_key ] : '';
-			$allText          = $data['tax_filter_all_text'] ?: __( 'All ', 'the-post-grid' ) . $taxonomy_label;
-			$setting_key      = $object->name . '_ids';
+
+			if ( 1 == $countTax ) {
+				$allText = $data['tax_filter_all_text'] ?: __( 'All ', 'the-post-grid' ) . $taxonomy_label;
+			} elseif ( 2 == $countTax ) {
+				$allText = $data['tax_filter_all_text2'] ?: __( 'All ', 'the-post-grid' ) . $taxonomy_label;
+			} elseif ( 3 == $countTax ) {
+				$allText = $data['tax_filter_all_text3'] ?: __( 'All ', 'the-post-grid' ) . $taxonomy_label;
+			} else {
+				$allText = __( 'All ', 'the-post-grid' ) . $taxonomy_label;
+			}
+
+			$setting_key = $object->name . '_ids';
 
 			// Gutenberg.
 			if ( $is_guten && ! empty( $data['taxonomy_lists'][ $object->name ]['options'] ) ) {
@@ -724,10 +732,8 @@ class Fns {
 					$args['order']    = 'ASC';
 				}
 				$terms = get_terms( $args );
-
 			}
 
-			// TODO===========
 			$taxFilterTerms = $terms;
 
 			if ( $default_term ) {
@@ -814,9 +820,6 @@ class Fns {
 				$html .= $showAllhtml . $htmlButton;
 				$html .= '</div>' . $selectedSubTerms;
 			} else {
-				// if Button the execute
-				// $termDefaultText = $allText;
-
 				$bCount = 0;
 				$bItems = null;
 
@@ -871,7 +874,7 @@ class Fns {
 					$html .= '<div class="swiper-navigation"><div class="swiper-button-prev slider-btn"></div><div class="swiper-button-next slider-btn"></div></div>';
 				}
 			}
-			// TODO===========End
+			$countTax ++;
 		}
 
 		return $html;
@@ -893,7 +896,7 @@ class Fns {
 
 		if ( $taxFilter ) {
 			$taxonomy_details = get_taxonomy( $taxFilter );
-			$taxonomy_label   = $taxonomy_details->label;
+			$taxonomy_label   = $taxonomy_details->label ?? '';
 			$default_term_key = $taxFilter . '_default_terms';
 			$default_term     = isset( $data[ $default_term_key ] ) ? $data[ $default_term_key ] : '';
 		}
@@ -944,7 +947,6 @@ class Fns {
 					$args['order']    = 'ASC';
 				}
 				$terms = get_terms( $args );
-
 			}
 		}
 
@@ -1094,7 +1096,6 @@ class Fns {
 
 		return $html;
 	}
-
 
 	/**
 	 * Get Excluded Taxonomy
@@ -1260,14 +1261,19 @@ class Fns {
 	 *
 	 * @param $data
 	 */
-	public static function get_section_title( $data ) {
+	public static function get_section_title( $data, $is_guten = false ) {
 		if ( 'show' != $data['show_section_title'] ) {
 			return;
 		}
-
-		$_is_link = false;
-		if ( ! empty( $data['section_title_link']['url'] ) ) {
-			$_is_link = true;
+		$_is_link = $target = $nofollow = '';
+		if ( $is_guten ) {
+			$_is_link = $data['section_external_url'] ?? '';
+			$target   = ! empty( $data['section_external_url_target'] ) ? ' target="' . $data['section_external_url_target'] . '"' : '';
+			$nofollow = '';
+		} elseif ( ! empty( $data['section_external_url']['url'] ) ) {
+			$_is_link = $data['section_external_url']['url'];
+			$target   = $data['section_external_url']['is_external'] ? ' target="_blank"' : '';
+			$nofollow = $data['section_external_url']['nofollow'] ? ' rel="nofollow"' : '';
 		}
 
 		?>
@@ -1282,7 +1288,7 @@ class Fns {
 			<?php
 			if ( $_is_link ) :
 			?>
-            <a href="#">
+            <a href="<?php echo esc_url( $_is_link ) ?>" <?php echo esc_attr( $target . ' ' . $nofollow ) ?>>
 				<?php endif; ?>
 
 				<?php
@@ -1315,7 +1321,7 @@ class Fns {
             <span class="tpg-widget-heading-line line-right"></span>
 
 			<?php if ( isset( $data['enable_external_link'] ) && 'show' === $data['enable_external_link'] ) : ?>
-                <a class='external-link' href='<?php echo esc_url( $data['section_external_link'] ?? '#' ); ?>'>
+                <a class='external-link' href='<?php echo esc_url( $_is_link ); ?>' <?php echo esc_attr( $target . ' ' . $nofollow ) ?>>
 					<?php if ( $data['section_external_text'] ) : ?>
                         <span class="external-lable"><?php echo esc_html( $data['section_external_text'] ); ?></span>
 					<?php endif; ?>
@@ -2114,7 +2120,6 @@ class Fns {
 		return apply_filters( 'tpg_get_the_title', $title, $post_id, $data, $originalTitle );
 	}
 
-
 	public static function rt_pagination( $postGrid, $range = 4, $ajax = false ) {
 		$range = 4;
 		if ( ! empty( self::tpg_option( 'tpg_pagination_range' ) ) ) {
@@ -2223,7 +2228,6 @@ class Fns {
 		return $rtResize->process( $url, $width, $height, $crop, $single, $upscale );
 	}
 
-
 	/* Convert hexdec color string to rgb(a) string */
 	public static function rtHex2rgba( $color, $opacity = .5 ) {
 		$default = 'rgb(0,0,0)';
@@ -2272,7 +2276,6 @@ class Fns {
 
 		return metadata_exists( $type, $post_id, $meta_key );
 	}
-
 
 	public static function get_offset_col( $col ) {
 		$return = [
@@ -3171,7 +3174,6 @@ class Fns {
 	 * ************************************************
 	 */
 
-
 	/**
 	 * Default layout style check
 	 *
@@ -3180,7 +3182,6 @@ class Fns {
 	 * @return bool
 	 */
 	public static function el_ignore_layout( $data ) {
-
 		if ( isset( $data['category'] ) && 'category' == $data['category'] ) {
 			return true;
 		}
@@ -3563,7 +3564,6 @@ class Fns {
 							"<i class='%s'></i>",
 							esc_attr( self::change_icon( 'fa fa-eye', 'visible' ) )
 						);
-
 					}
 				}
 				echo wp_kses( $get_view_count, self::allowedHtml() );
@@ -3643,7 +3643,6 @@ class Fns {
 		echo wp_kses( $string, $allowed_html );
 	}
 
-
 	/**
 	 * Get Elementor Post Title for Elementor
 	 *
@@ -3654,7 +3653,6 @@ class Fns {
 	 * @param $data
 	 */
 	public static function get_el_post_title( $title_tag, $title, $link_start, $link_end, $data ) {
-
 		echo '<div class="entry-title-wrapper">';
 
 		if ( rtTPG()->hasPro() && 'above_title' === $data['category_position'] || ! self::el_ignore_layout( $data ) ) {
@@ -3705,7 +3703,6 @@ class Fns {
         </div>
 		<?php
 	}
-
 
 	/**
 	 * Get first image from the content
@@ -3914,7 +3911,6 @@ class Fns {
 		<?php
 	}
 
-
 	/**
 	 * Get ACF data for elementor
 	 *
@@ -3938,7 +3934,6 @@ class Fns {
 			];
 
 			if ( ! empty( $cf_group ) ) {
-
 				$acf_html = "<div class='acf-custom-field-wrap'>";
 
 				$acf_html .= \RT\ThePostGridPro\Helpers\Functions::get_cf_formatted_fields( $cf_group, $format, $pID );
@@ -4014,7 +4009,6 @@ class Fns {
 		<?php
 	}
 
-
 	/**
 	 * Check is filter enable or not
 	 *
@@ -4036,7 +4030,6 @@ class Fns {
 
 		return false;
 	}
-
 
 	// Get Custom post category:
 	public static function tpg_get_categories_by_id( $cat = 'category' ) {
@@ -4167,7 +4160,6 @@ class Fns {
 
 		return apply_filters( 'tpg_image_size_guten', $image_sizes );
 	}
-
 
 	/**
 	 * Prints HTML.
@@ -4356,7 +4348,6 @@ class Fns {
 		return wp_kses( $string, self::allowedHtml( $level ) );
 	}
 
-
 	/**
 	 * Insert Array Item in specific position
 	 *
@@ -4496,7 +4487,6 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function change_icon( $fontawesome, $flaticon, $default_class = '' ) {
-
 		if ( self::tpg_option( 'tpg_icon_font' ) === 'flaticon' ) {
 			$flaticon = ( $flaticon == 'twitter' ? 'twitter-x' : $flaticon );
 
@@ -4614,7 +4604,6 @@ class Fns {
 	 * @return int|void
 	 */
 	public static function get_page_id( $page ) {
-
 		$page_id          = 0;
 		$settings_page_id = self::tpg_option( 'tpg_myaccount' );
 		if ( $settings_page_id && get_post( $settings_page_id ) ) {
@@ -4849,7 +4838,6 @@ class Fns {
 		echo '</div>';
 	}
 
-
 	/**
 	 * Get vailable post status for the user.
 	 *
@@ -4858,7 +4846,6 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function available_user_post_status( $post_status ) {
-
 		$post_statuses = [ 'publish' ];
 		if ( is_user_logged_in() ) {
 			$user  = wp_get_current_user();
@@ -4884,7 +4871,6 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function available_post_type( $post_type ) {
-
 		$post_type_object = get_post_type_object( $post_type );
 
 		if ( ! $post_type_object ) {
@@ -4909,7 +4895,6 @@ class Fns {
 	}
 
 	public static function available_post_types( $post_types, $is_guten = false ) {
-
 		if ( $is_guten ) {
 			$post_types = wp_list_pluck( $post_types, 'value' );
 		}
@@ -4949,7 +4934,6 @@ class Fns {
 	 * @return array|mixed
 	 */
 	public static function escape_array( $arr ) {
-
 		if ( ! is_array( $arr ) ) {
 			return $arr;
 		}
@@ -4973,7 +4957,6 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function remove_unnecessary_zero( $value, $return_type = '' ) {
-
 		if ( strpos( $value, '.' ) ) {
 			[ $a, $b ] = explode( '.', $value );
 
@@ -5067,7 +5050,6 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function number_to_lac( $number, $precision = 1 ) {
-
 		$number = (int) str_replace( ',', '', $number );
 
 		$hundred   = '';
@@ -5158,4 +5140,5 @@ class Fns {
 
 		return $taxonomy_list;
 	}
+
 }

@@ -192,7 +192,7 @@ class TPGListLayout extends Custom_Widget_Base {
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
 
 		/**
-		 * TODO: Get Post Data for render post
+		 * Get Post Data for render post
 		 */
 
 		$post_data = Fns::get_render_data_set( $data, $query->max_num_pages, $posts_per_page, $_prefix );

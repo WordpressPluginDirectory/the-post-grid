@@ -193,7 +193,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
 
 		/**
-		 * TODO: Get Post Data for render post
+		 * Get Post Data for render post
 		 */
 
 		$post_data = Fns::get_render_data_set( $data, $query->max_num_pages, $posts_per_page, $_prefix );
@@ -228,7 +228,6 @@ class TPGGridLayout extends Custom_Widget_Base {
 			 data-el-query='<?php Fns::is_filter_enable( $data ) ? Fns::print_html( htmlspecialchars( wp_json_encode( $query_args ) ), true ) : ''; ?>'
 			 data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'
 		>
-
 			<?php
 			$settings = get_option( rtTPG()->options['settings'] );
 			if ( isset( $settings['tpg_load_script'] ) || isset( $settings['tpg_enable_preloader'] ) ) {

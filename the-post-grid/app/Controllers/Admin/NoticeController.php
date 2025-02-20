@@ -124,17 +124,18 @@ class NoticeController {
 				$download_link = 'https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/';
 				?>
 				<div class="notice notice-info is-dismissible" data-rttpg-dismissable="rttpg_dismiss_bf_notice"
-					 style="display:grid;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
+					 style="display:grid !important;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
 					<img alt="<?php echo esc_attr( $plugin_name ); ?>"
 						 src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/post-grid-gif.gif' ) ); ?>"
 						 width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
 					<h3 style="margin:0;display: inline-flex;align-items: center;gap: 4px;">
 						<?php echo sprintf( '%s – Black Friday', esc_html( $plugin_name ) ); ?>
-						<img alt="Deal" style="width: 40px;position: static" src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/deal.gif' ) ); ?>">
+						<img alt="Deal" style="width: 60px;position: static" src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/deal.gif' ) ); ?>">
 					</h3>
-					<p style="margin-top:0">🚀 Exciting News: <b>The Post Grid</b> Black Friday sale is now live! Get the plugin today and enjoy discounts <b>UP TO 50%</b>.</p>
+					<p style="margin-top:0;font-size: 15px;">🚀 Exciting News: <b>The Post Grid</b> Black Friday sale is now live! Get the plugin today and enjoy discounts <b style="color:red;font-size:18px;font-weight: bold;margin-left:5px">UP TO 50%</b>.</p>
 					<p style="margin:0;">
 						<a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
+                           style="background: #4e13ff;"
 						   target="_blank">Buy Now</a>
 						<a class="button button-dismiss" href="#">Dismiss</a>
 					</p>

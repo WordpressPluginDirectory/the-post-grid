@@ -127,6 +127,7 @@ class ScriptController {
 	 * @return void
 	 */
 	public function enqueue() {
+		$settings       = get_option( rtTPG()->options['settings'] );
 		$block_type       = Fns::tpg_option( 'tpg_block_type', 'default' );
 		$load_script_type = Fns::tpg_option( 'tpg_load_script' );
 
@@ -149,9 +150,9 @@ class ScriptController {
 			}
 		}
 
-		$scriptBefore = isset( $this->settings['script_before_item_load'] ) ? stripslashes( $this->settings['script_before_item_load'] ) : null;
-		$scriptAfter  = isset( $this->settings['script_after_item_load'] ) ? stripslashes( $this->settings['script_after_item_load'] ) : null;
-		$scriptLoaded = isset( $this->settings['script_loaded'] ) ? stripslashes( $this->settings['script_loaded'] ) : null;
+		$scriptBefore = isset( $settings['script_before_item_load'] ) ? stripslashes( $settings['script_before_item_load'] ) : null;
+		$scriptAfter  = isset( $settings['script_after_item_load'] ) ? stripslashes( $settings['script_after_item_load'] ) : null;
+		$scriptLoaded = isset( $settings['script_loaded'] ) ? stripslashes( $settings['script_loaded'] ) : null;
 
 		$script = "(function($){
 						$('.rt-tpg-container').on('tpg_item_before_load', function(){{$scriptBefore}});
@@ -167,46 +168,27 @@ class ScriptController {
 	 * @return void
 	 */
 	public function header_scripts() {
-
-		$tpg_logo = RT_THE_POST_GRID_PLUGIN_URL;
-
+        $settings       = get_option( rtTPG()->options['settings'] );
 		?>
 
-		<script>
-
-			jQuery(window).on('elementor/frontend/init', function () {
-				var previewIframe = jQuery('#elementor-preview-iframe').get(0);
-
-				// Attach a load event listener to the preview iframe
-				jQuery(previewIframe).on('load', function () {
-					var tpg_selector = tpg_str_rev("nottub-tropmi-gpttr nottub-aera-noitces-dda-rotnemele");
-
-					var logo = "<?php echo esc_html( $tpg_logo ); ?>";
-					var log_path = "/assets/images/icon-40x40.svg"; //tpg_str_rev("gvs.04x04-noci/segami/stessa/");
-
-					jQuery('<div class="' + tpg_selector + '" style="vertical-align: bottom;margin-left: 5px;"><img src="' + logo + log_path + '" alt="TPG"/></div>').insertBefore(".elementor-add-section-drag-title");
-				});
-
-			});
-		</script>
 		<style>
 			:root {
-				--tpg-primary-color: <?php echo isset( $this->settings['tpg_primary_color_main'] ) ? sanitize_hex_color( $this->settings['tpg_primary_color_main'] ) : '#0d6efd'; ?>;
-				--tpg-secondary-color: <?php echo isset( $this->settings['tpg_secondary_color_main'] ) ? sanitize_hex_color( $this->settings['tpg_secondary_color_main'] ) : '#0654c4'; ?>;
+				--tpg-primary-color: <?php echo isset( $settings['tpg_primary_color_main'] ) ? sanitize_hex_color( $settings['tpg_primary_color_main'] ) : '#0d6efd'; ?>;
+				--tpg-secondary-color: <?php echo isset( $settings['tpg_secondary_color_main'] ) ? sanitize_hex_color( $settings['tpg_secondary_color_main'] ) : '#0654c4'; ?>;
 				--tpg-primary-light: #c4d0ff
 			}
 
-			<?php if ( isset( $this->settings['tpg_loader_color'] ) ) : ?>
+			<?php if ( isset( $settings['tpg_loader_color'] ) ) : ?>
 			body .rt-tpg-container .rt-loading,
 			body #bottom-script-loader .rt-ball-clip-rotate {
-				color: <?php echo sanitize_hex_color( $this->settings['tpg_loader_color'] ); ?> !important;
+				color: <?php echo sanitize_hex_color( $settings['tpg_loader_color'] ); ?> !important;
 			}
 
 			<?php endif; ?>
 		</style>
 
 		<?php
-		if ( isset( $this->settings['tpg_load_script'] ) ) :
+		if ( isset( $settings['tpg_load_script'] ) ) :
 			?>
 			<style>
 				.rt-container-fluid {

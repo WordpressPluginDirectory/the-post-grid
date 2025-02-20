@@ -80,7 +80,7 @@ class BlocksController {
 			'status'    => $status,
 			'layout_id' => $layout_id,
 		];
-		$layoutRequest     = wp_remote_post( $BASE_URL, $post_args );
+		$layoutRequest     = wp_remote_get( $BASE_URL, $post_args );
 		if ( is_wp_error( $layoutRequest ) ) {
 			wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
 		}
@@ -114,7 +114,7 @@ class BlocksController {
 		$status            = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
 		$post_args         = [ 'timeout' => 120 ];
 		$post_args['body'] = [ 'status' => $status ];
-		$layoutRequest     = wp_remote_post( $BASE_URL, $post_args );
+		$layoutRequest     = wp_remote_get( $BASE_URL, $post_args );
 		if ( is_wp_error( $layoutRequest ) ) {
 			wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
 		}

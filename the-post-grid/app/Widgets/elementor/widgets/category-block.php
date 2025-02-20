@@ -177,7 +177,7 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 
 		$this->end_controls_section();
 
-		// TODO: Category Style
+		// Category Style
 		$this->start_controls_section(
 			'category_style',
 			[
@@ -285,7 +285,7 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 
 		$this->end_controls_section();
 
-		// TODO: Image Style
+		// Image Style
 		$this->start_controls_section(
 			'image_style',
 			[
@@ -452,7 +452,7 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 		$this->end_controls_tabs();
 		$this->end_controls_section();
 
-		// TODO: Count Style
+		// Count Style
 		$this->start_controls_section(
 			'count_style',
 			[
@@ -635,7 +635,7 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 
 		$this->end_controls_section();
 
-		// TODO: Count Style
+		// Count Style
 		$this->start_controls_section(
 			'card_style',
 			[

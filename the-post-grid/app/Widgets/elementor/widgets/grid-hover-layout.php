@@ -182,6 +182,7 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 
 		// Query.
 		$query_args = rtTPGElementorQuery::post_query( $data, $_prefix );
+
 		if ( 'current_query' == $data['post_type'] && is_archive() ) {
 			$query = $GLOBALS['wp_query'];
 		} else {
@@ -191,7 +192,7 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 		$layoutID       = 'rt-tpg-container-' . $rand;
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
 
-		// TODO: Get Post Data for render post
+		// Get Post Data for render post
 		$post_data = Fns::get_render_data_set( $data, $query->max_num_pages, $posts_per_page, $_prefix );
 
 		// Post type render.

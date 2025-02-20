@@ -6,7 +6,10 @@ use RT\ThePostGrid\Helpers\Fns;
 
 //phpcs:disable WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
-class ContentTabController {
+/**
+ * Class TimelineContentTabController
+ */
+class TimelineContentTabController {
 	/**
 	 * @param $attribute_args
 	 *
@@ -42,7 +45,7 @@ class ContentTabController {
 				'default' => '',
 			],
 
-			// Layouts
+			// Layouts.
 
 			'query_change'                     => [
 				'type'    => 'boolean',
@@ -161,7 +164,7 @@ class ContentTabController {
 				'default' => '',
 			],
 
-			// Query Advance Filter give below
+			// Query Advance Filter give below.
 
 			'taxonomy_lists'                   => [
 				'type'    => 'object',
@@ -304,7 +307,7 @@ class ContentTabController {
 				'default' => '',
 			],
 
-			// Pagination
+			// Pagination.
 
 			'show_pagination'                  => [
 				'type'    => 'string',
@@ -336,7 +339,7 @@ class ContentTabController {
 				'default' => 'Load More',
 			],
 
-			// Links
+			// Links.
 
 			'post_link_type'                   => [
 				'type'    => 'string',
@@ -399,7 +402,7 @@ class ContentTabController {
 
 		$post_types = Fns::get_post_types();
 
-		// Field Selections
+		// Field Selections.
 
 		$cf = Fns::is_acf();
 		if ( $cf && rtTPG()->hasPro() ) {

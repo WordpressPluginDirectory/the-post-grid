@@ -146,7 +146,7 @@ class ListLayout extends BlockBase {
 				?>
 				<div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
 					<?php
-					Fns::get_section_title( $data );
+					Fns::get_section_title( $data, true );
 					Fns::print_html( Fns::get_frontend_filter_markup( $data, true ) );
 					?>
 				</div>

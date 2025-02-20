@@ -94,7 +94,7 @@ class GetPostsV1 {
 			];
 		}
 
-		// TODO: Taxonomy should implement after
+		// Taxonomy should implement after
 		$_taxonomies             = get_object_taxonomies( $data['post_type'], 'objects' );
 		$_taxonomy_list          = $data['taxonomy_lists'];
 		$filtered_taxonomy_lists = [];
@@ -307,7 +307,7 @@ class GetPostsV1 {
 				if ( empty( $first_img ) ) { // Defines a default image
 					$first_img = RT_THE_POST_GRID_PLUGIN_PATH . '/images/default.png';
 				} else {
-					$first_img = $matches [1] [0];
+					$first_img = ! empty($matches[1][0]) ? $matches[1][0] : '';
 				}
 
 				$category_terms_list = get_the_terms( $id, $data['category_source'] ? $data['category_source'] : 'category' );
@@ -316,7 +316,7 @@ class GetPostsV1 {
 				$category_terms = wp_list_pluck( $category_terms_list, 'name' );
 				$tags_terms     = wp_list_pluck( $tags_terms_list, 'name' );
 
-				// TODO: Working Here 13-12-22
+				// Working Here 13-12-22
 
 				$_cat_bg_meta = [];
 				if ( $data['post_type'] == 'post' ) {

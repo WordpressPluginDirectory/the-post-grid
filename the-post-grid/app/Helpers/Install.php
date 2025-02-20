@@ -66,7 +66,7 @@ class Install {
 
 		if ( ! wp_next_scheduled( 'rttpg_daily_scheduled_events' ) ) {
 			$ve          = get_option( 'gmt_offset' ) > 0 ? '-' : '+';
-			$expire_time = strtotime( '00:00 tomorrow ' . $ve . absint( get_option( 'gmt_offset' ) ) . ' HOURS' );
+			$expire_time = strtotime( '00:00 tomorrow ' . $ve . absint( get_option( 'gmt_offset' ) ) . ' HOURS' ); //00:00 tomorrow -6 HOURS
 			wp_schedule_event( $expire_time, 'daily', 'rttpg_daily_scheduled_events' );
 		}
 	}

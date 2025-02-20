@@ -74,7 +74,7 @@ class GetTickerPostsV1 {
 			];
 		}
 
-		// TODO: Taxonomy should implement after
+		// Taxonomy should implement after
 		$_taxonomies             = get_object_taxonomies( $data['post_type'], 'objects' );
 		$_taxonomy_list          = $data['taxonomy_lists'];
 		$filtered_taxonomy_lists = [];

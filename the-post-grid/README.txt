@@ -3,13 +3,13 @@ Contributors: techlabpro1
 Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
-Tested up to: 6.6
-Stable tag: 7.7.15
+Tested up to: 6.7
+Stable tag: 7.7.17
 Requires PHP: 7.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Port Grid is the leading WordPress Grid Plugin for creating News, Magazine, and Blogging websites using Shortcodes, Gutenberg Blocks, Elementor Addon.
+Post Grid is the leading WordPress Grid Plugin for creating News, Magazine, and Blogging websites using Shortcodes, Gutenberg Blocks, Elementor Addon.
 
 == Description ==
 
@@ -256,6 +256,17 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 12. Archive page builder
 
 == Changelog ==
+
+= 7.7.17 (20 Feb, 2024) =
+Fixed: Color Settings not working
+Fixed: Some Layout not importing
+Fixed: CORS issue fixed for layout import
+Fixed: Gutenberg Pagination Error fixed
+Fixed: Section External Link not working
+
+= 7.7.16 (27 Nov, 2024) =
+Fixed: Move load_textdomain() to init hook
+Fixed: Import layout not loading
 
 = 7.7.15 (21 Nov, 2024) =
 Added: Date archive link disable options for Elementor and Gutenberg

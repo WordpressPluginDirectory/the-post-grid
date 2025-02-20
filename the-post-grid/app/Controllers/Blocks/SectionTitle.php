@@ -67,7 +67,7 @@ class SectionTitle extends BlockBase {
 		<div class="<?php echo esc_attr( $dynamicClass ); ?>">
 			<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix">
 				<div class='tpg-header-wrapper'>
-					<?php Fns::get_section_title( $data ); ?>
+					<?php Fns::get_section_title( $data, true ); ?>
 				</div>
 			</div>
 		</div>

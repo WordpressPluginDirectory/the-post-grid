@@ -63,9 +63,14 @@ class SectionTitleSettingsStyle {
 				'default' => 'See More',
 			],
 
-			'section_external_link'      => [
+			'section_external_url'      => [
 				'type'    => 'string',
 				'default' => '#',
+			],
+
+			'section_external_url_target'      => [
+				'type'    => 'string',
+				'default' => '_self',
 			],
 
 			// Section Title Style

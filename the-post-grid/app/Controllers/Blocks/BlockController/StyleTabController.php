@@ -2402,7 +2402,7 @@ class StyleTabController {
 					],
 				],
 			],
-			// TODO: should apply condition
+			// should apply condition
 
 			'content_box_padding'                    => [
 				'type'    => 'object',

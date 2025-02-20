@@ -1129,7 +1129,7 @@ class ShortcodeController {
 
 					$imgSrc = null;
 
-					// TODO: Image Thumbnail.
+					// Image Thumbnail.
 					$arg['smallImgSrc'] = ! $fImg ? Fns::getFeatureImageSrc(
 						$pID,
 						$fSmallImgSize,

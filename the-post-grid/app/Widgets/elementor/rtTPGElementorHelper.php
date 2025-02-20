@@ -113,7 +113,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Common Filter
+		// Common Filter
 
 		$ref->add_control(
 			'common_filters_heading',
@@ -216,8 +216,8 @@ class rtTPGElementorHelper {
 		foreach ( $taxonomies as $taxonomy => $object ) {
 
 			if ( ! isset( $object->object_type[0] )
-				 || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-				 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+			     || ! in_array( $object->object_type[0], array_keys( $post_types ) )
+			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 			) {
 				continue;
 			}
@@ -354,16 +354,13 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'order',
 			[
-				'label'     => esc_html__( 'Sort order', 'the-post-grid' ),
-				'type'      => Controls_Manager::SELECT,
-				'options'   => [
+				'label'   => esc_html__( 'Sort order', 'the-post-grid' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
 					'ASC'  => esc_html__( 'ASC', 'the-post-grid' ),
 					'DESC' => esc_html__( 'DESC', 'the-post-grid' ),
 				],
-				'default'   => 'DESC',
-				'condition' => [
-					'orderby!' => 'rand',
-				],
+				'default' => 'DESC',
 			]
 		);
 
@@ -443,7 +440,7 @@ class rtTPGElementorHelper {
 			$get_all_taxonomy = [];
 			foreach ( $taxonomies as $taxonomy => $object ) {
 				if ( ! isset( $object->object_type[0] ) || ! in_array( $object->object_type[0], array_keys( $post_types ) )
-					 || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
+				     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
 				) {
 					continue;
 				}
@@ -1020,7 +1017,7 @@ class rtTPGElementorHelper {
 				'render_type'  => 'template',
 				'toggle'       => true,
 				'selectors'    => [
-					'{{WRAPPER}} .tpg-post-holder div' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .tpg-post-holder div'               => 'text-align: {{VALUE}};',
 					'{{WRAPPER}} .rt-tpg-container .rt-el-post-meta' => 'justify-content: {{VALUE}};',
 				],
 				'condition'    => [
@@ -1127,7 +1124,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Filter Settings
+		// Filter Settings
 		// ======================================================
 
 		$front_end_filter_condition = [
@@ -1281,6 +1278,7 @@ class rtTPGElementorHelper {
 				]
 			);
 
+
 			foreach ( $_taxonomies as $tax ) {
 				if ( in_array(
 					$tax->name,
@@ -1323,9 +1321,9 @@ class rtTPGElementorHelper {
 						'options'   => $term_lists,
 						'condition' => [
 							$post_type . '_filter_taxonomy' => $tax->name,
-							'post_type'            => $post_type,
-							'show_taxonomy_filter' => 'show',
-							'multiple_taxonomy!'   => 'yes',
+							'post_type'                     => $post_type,
+							'show_taxonomy_filter'          => 'show',
+							'multiple_taxonomy!'            => 'yes',
 						],
 					]
 				);
@@ -1470,6 +1468,34 @@ class rtTPGElementorHelper {
 				'conditions'  => $front_end_filter_tax_condition,
 			]
 		);
+
+		$ref->add_control(
+			'tax_filter_all_text2',
+			[
+				'label'       => esc_html__( 'All Taxonomy Text 2', 'the-post-grid' ),
+				'type'        => Controls_Manager::TEXT,
+				'placeholder' => esc_html__( 'Enter All Tax 2 Here..', 'the-post-grid' ),
+				'description' => esc_html__( 'This is optional. If you need you can change for 2nd taxonomy.', 'the-post-grid' ),
+				'condition' => [
+				    'multiple_taxonomy' => 'yes'
+				],
+			]
+		);
+
+		$ref->add_control(
+			'tax_filter_all_text3',
+			[
+				'label'       => esc_html__( 'All Taxonomy Text 3', 'the-post-grid' ),
+				'type'        => Controls_Manager::TEXT,
+				'placeholder' => esc_html__( 'Enter All Tax 3 Here..', 'the-post-grid' ),
+				'description' => esc_html__( 'This is optional. If you need you can change for 3rd taxonomy.', 'the-post-grid' ),
+				'condition' => [
+					'multiple_taxonomy' => 'yes'
+				],
+			]
+		);
+
+
 		$ref->add_control(
 			'author_filter_all_text',
 			[
@@ -1480,6 +1506,21 @@ class rtTPGElementorHelper {
 					'show_author_filter' => 'show',
 					'filter_btn_style'   => 'default',
 				],
+			]
+		);
+
+		$ref->add_control(
+			'filter_preloader',
+			[
+				'label'        => esc_html__( 'Filter Preloader?', 'the-post-grid' ),
+				'type'         => Controls_Manager::SELECT,
+				'default'      => 'on',
+				'options'      => [
+					'on'  => esc_html__( 'On', 'the-post-grid' ),
+					'off' => esc_html__( 'Off', 'the-post-grid' ),
+				],
+				'prefix_class' => 'filter-preloader-',
+				'conditions'   => $front_end_filter_condition,
 			]
 		);
 
@@ -1597,7 +1638,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		$ref->add_control(
+		$ref->add_responsive_control(
 			'list_flex_direction',
 			[
 				'label'     => esc_html__( 'Flex Direction', 'the-post-grid' ),
@@ -2959,7 +3000,7 @@ class rtTPGElementorHelper {
 		$ref->end_popover();
 
 		/**
-		 * TODO: Author Style
+		 * Author Style
 		 * ********************
 		 */
 
@@ -3061,7 +3102,7 @@ class rtTPGElementorHelper {
 		);
 
 		/**
-		 * TODO: Category Style
+		 * Category Style
 		 * ********************
 		 */
 
@@ -3711,9 +3752,9 @@ class rtTPGElementorHelper {
 			[
 				'type' => Controls_Manager::RAW_HTML,
 				'raw'  => '<div class="elementor-nerd-box"><div class="elementor-nerd-box-title" style="margin-top: 0; margin-bottom: 20px;">Unlock more possibilities</div><div class="elementor-nerd-box-message"><span class="pro-feature" style="font-size: 13px;"> Get the <a href="'
-						  . $pro_url
-						  . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
-						  . $pro_url . '" target="_blank">Get Pro</a></div>',
+				          . $pro_url
+				          . '" target="_blank" style="color: #f54">Pro version</a> for more stunning layouts and customization options.</span></div><a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-button-go-pro" href="'
+				          . $pro_url . '" target="_blank">Get Pro</a></div>',
 			]
 		);
 
@@ -4285,7 +4326,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Tab normal
+		// Tab normal
 		$ref->start_controls_tabs(
 			'grid_hover_style_tabs'
 		);
@@ -4387,7 +4428,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: Tab Hover
+		// Tab Hover
 		$ref->start_controls_tab(
 			'grid_hover_style_hover_tab',
 			[
@@ -4487,7 +4528,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tabs();
 
-		// TODO: End Tab Hover
+		// End Tab Hover
 
 		$ref->add_responsive_control(
 			'thumbnail_transition_duration',
@@ -4761,7 +4802,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Start Title Style Tba
+		// Start Title Style Tba
 		$ref->start_controls_tabs(
 			'title_style_tabs'
 		);
@@ -4772,7 +4813,7 @@ class rtTPGElementorHelper {
 				'label' => esc_html__( 'Normal', 'the-post-grid' ),
 			]
 		);
-		// TODO: Normal Tab
+		// Normal Tab
 		$ref->add_control(
 			'title_color',
 			[
@@ -4819,7 +4860,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Hover Tab
+		// Hover Tab
 		$ref->add_control(
 			'title_hover_color',
 			[
@@ -4865,7 +4906,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Box Hover Tab
+		// Box Hover Tab
 		$ref->add_control(
 			'title_color_box_hover',
 			[
@@ -4988,7 +5029,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Start Content Tab
+		// Start Content Tab
 
 		$ref->start_controls_tabs(
 			'excerpt_style_tabs'
@@ -5001,7 +5042,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Normal Tab
+		// Normal Tab
 		$ref->add_control(
 			'excerpt_color',
 			[
@@ -5037,7 +5078,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Hover Tab
+		// Hover Tab
 		$ref->add_control(
 			'excerpt_hover_color',
 			[
@@ -5144,7 +5185,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Start Content Tab
+		// Start Content Tab
 
 		$ref->start_controls_tabs(
 			'meta_info_style_tabs'
@@ -5157,7 +5198,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Normal Tab
+		// Normal Tab
 
 		$ref->add_control(
 			'meta_info_color',
@@ -5215,7 +5256,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Hover Tab
+		// Hover Tab
 
 		$ref->add_control(
 			'meta_link_colo_hover',
@@ -5237,7 +5278,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Box Hover Tab
+		// Box Hover Tab
 
 		$ref->add_control(
 			'meta_link_colo_box_hover',
@@ -5315,7 +5356,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Normal Tab
+		// Normal Tab
 
 		$ref->add_control(
 			'separate_category_color',
@@ -5367,7 +5408,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Hover Tab
+		// Hover Tab
 
 		$ref->add_control(
 			'separate_category_color_hover',
@@ -5404,7 +5445,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Box Hover Tab
+		// Box Hover Tab
 
 		$ref->add_control(
 			'separate_category_color_box_hover',
@@ -5587,7 +5628,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Button style Tabs
+		// Button style Tabs
 		$ref->start_controls_tabs(
 			'readmore_style_tabs'
 		);
@@ -5708,7 +5749,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: Hover Tab
+		// Hover Tab
 
 		$ref->start_controls_tab(
 			'readmore_style_hover_tab',
@@ -5826,7 +5867,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: Box Hover Tab
+		// Box Hover Tab
 
 		$ref->start_controls_tab(
 			'readmore_style_box_hover_tab',
@@ -6024,7 +6065,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Normal Tab
+		// Normal Tab
 		$ref->start_controls_tab(
 			'pagination_style_normal_tab',
 			[
@@ -6075,7 +6116,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: Hover Tab
+		// Hover Tab
 		$ref->start_controls_tab(
 			'pagination_style_hover_tab',
 			[
@@ -6124,7 +6165,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: Active Tab
+		// Active Tab
 		$ref->start_controls_tab(
 			'pagination_style_active_tab',
 			[
@@ -6244,6 +6285,58 @@ class rtTPGElementorHelper {
 				'name'     => 'front_filter_typography',
 				'label'    => esc_html__( 'Filter Typography', 'the-post-grid' ),
 				'selector' => '{{WRAPPER}} .rt-layout-filter-container .rt-filter-wrap .rt-filter-item-wrap, {{WRAPPER}} .tpg-header-wrapper.carousel .rt-filter-item-wrap.swiper-wrapper .swiper-slide',
+			]
+		);
+
+		$ref->add_responsive_control(
+			'filter_item_width',
+			[
+				'label'      => esc_html__( 'Filter Item Width', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => 0,
+						'max'  => 600,
+						'step' => 1,
+					],
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .rt-filter-wrap .rt-filter-dropdown' => 'width: {{SIZE}}px;',
+				],
+				'condition'  => [
+					'filter_type' => 'dropdown',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'filter_dropdown_align',
+			[
+				'label'        => esc_html__( 'Dropdown Alignment', 'the-post-grid' ),
+				'type'         => \Elementor\Controls_Manager::CHOOSE,
+				'options'      => [
+					'left'   => [
+						'title' => esc_html__( 'Left', 'the-post-grid' ),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'the-post-grid' ),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right'  => [
+						'title' => esc_html__( 'Right', 'the-post-grid' ),
+						'icon'  => 'eicon-text-align-right',
+					],
+				],
+				'render_type'  => 'template',
+				'prefix_class' => 'section-title-align-',
+				'condition'    => [
+					'filter_type' => 'dropdown',
+				],
+				'selectors'    => [
+					'{{WRAPPER}} .rt-filter-wrap .rt-filter-dropdown .rt-filter-dropdown-item' => 'text-align: {{VALUE}};',
+				],
 			]
 		);
 
@@ -6432,7 +6525,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Start Tab
+		// Start Tab
 		$ref->start_controls_tabs(
 			'frontend_filter_style_tabs'
 		);
@@ -6603,7 +6696,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: Start Tab Hover
+		// Start Tab Hover
 		$ref->start_controls_tab(
 			'frontend_filter_style_hover_tab',
 			[
@@ -6770,7 +6863,7 @@ class rtTPGElementorHelper {
 		$ref->end_controls_tab();
 
 		$ref->end_controls_tabs();
-		// TODO: End Tab
+		// End Tab
 
 		$ref->end_controls_section();
 	}
@@ -6924,7 +7017,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Start Social Share Tabs Tab
+		// Start Social Share Tabs Tab
 		$ref->start_controls_tabs(
 			'social_share_style_tabs'
 		);
@@ -6935,7 +7028,7 @@ class rtTPGElementorHelper {
 				'label' => esc_html__( 'Normal', 'the-post-grid' ),
 			]
 		);
-		// TODO: Normal Tab
+		// Normal Tab
 
 		$ref->add_control(
 			'social_icon_color',
@@ -7013,7 +7106,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Hover Tab
+		// Hover Tab
 
 		$ref->add_control(
 			'social_icon_color_hover',
@@ -7084,7 +7177,7 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_tab();
 
-		// TODO: ============================
+		// ============================
 		$ref->start_controls_tab(
 			'socia_box_hover_tab',
 			[
@@ -7357,12 +7450,12 @@ class rtTPGElementorHelper {
 		);
 
 		if ( 'grid_hover' !== $prefix ) {
-			// TODO: Start Tab
+			// Start Tab
 			$ref->start_controls_tabs(
 				'box_style_tabs'
 			);
 
-			// TODO: Normal Tab
+			// Normal Tab
 			$ref->start_controls_tab(
 				'box_style_normal_tab',
 				[
@@ -7448,7 +7541,7 @@ class rtTPGElementorHelper {
 
 			$ref->end_controls_tab();
 
-			// TODO: Hover Tab
+			// Hover Tab
 			$ref->start_controls_tab(
 				'box_style_hover_tab',
 				[
@@ -7535,7 +7628,7 @@ class rtTPGElementorHelper {
 			$ref->end_controls_tab();
 
 			$ref->end_controls_tabs();
-			// TODO: End Tab
+			// End Tab
 
 		}
 
@@ -8029,7 +8122,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Arrow Tabs Start
+		// Arrow Tabs Start
 		$ref->start_controls_tabs(
 			'arrow_style_tabs',
 			[
@@ -8138,9 +8231,9 @@ class rtTPGElementorHelper {
 		$ref->end_controls_tab();
 
 		$ref->end_controls_tabs();
-		// TODO: Arrow Tabs End
+		// Arrow Tabs End
 
-		// TODO: Dots style Start
+		// Dots style Start
 
 		$ref->add_control(
 			'dot_style_heading',
@@ -8321,7 +8414,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Dots Tab Start
+		// Dots Tab Start
 		$ref->start_controls_tabs(
 			'dots_style_tabs',
 			[
@@ -8483,7 +8576,7 @@ class rtTPGElementorHelper {
 				'label'     => esc_html__( 'Popup Content Color', 'the-post-grid' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'body .md-content .rt-md-content *' => 'color: {{VALUE}}',
+					'body .md-content .rt-md-content *'                       => 'color: {{VALUE}}',
 					'body .rt-popup-content .rt-tpg-container .tpg-content *' => 'color: {{VALUE}}',
 				],
 
@@ -8523,7 +8616,7 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		// TODO: Crative slider style:
+		// Crative slider style:
 		$ref->add_control(
 			'scroll_bar_color',
 			[

@@ -192,7 +192,7 @@ class SectionTitle extends Custom_Widget_Base {
 
 		$this->end_controls_section();
 
-		// TODO: Tab Style Start
+		// Tab Style Start
 
 		$this->start_controls_section(
 			'tpg_section_title_style',
@@ -479,7 +479,7 @@ class SectionTitle extends Custom_Widget_Base {
 	protected function render() {
 		$data                          = $this->get_settings();
 		$data['show_section_title']    = 'show';
-		$data['section_external_link'] = $data['section_external_url']['url'] ?? '#';
+//		$data['section_external_url'] = $data['section_external_url']['url'] ?? '#';
 		$dynamicClass                  = ! empty( $data['section_title_style'] ) ? " section-title-style-{$data['section_title_style']}" : null;
 		$dynamicClass                 .= ! empty( $data['section_title_alignment'] ) ? " section-title-align-{$data['section_title_alignment']}" : null;
 		$dynamicClass                 .= ! empty( $data['enable_external_link'] ) && $data['enable_external_link'] === 'show' ? ' has-external-link' : '';
