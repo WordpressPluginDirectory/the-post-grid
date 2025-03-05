@@ -239,7 +239,7 @@ class Fns {
 	 * @return void
 	 */
 	public static function tpg_template( $data, $temp_path = 'elementor' ) {
-		$layout = str_replace( '-2', '', $data['layout'] );
+		$layout = str_replace( '-2', '', sanitize_file_name( $data['layout'] ) );
 
 		$template_name = '/the-post-grid/' . $temp_path . '/' . $layout . '.php';
 		if ( file_exists( get_stylesheet_directory() . $template_name ) ) {
@@ -273,7 +273,7 @@ class Fns {
 	 * @return string
 	 */
 	public static function tpg_template_path( $data, $temp_path = 'elementor' ) {
-		$layout        = str_replace( '-2', '', $data['layout'] );
+		$layout        = str_replace( '-2', '', sanitize_file_name( $data['layout'] ) );
 		$template_name = '/the-post-grid/' . $temp_path . '/' . $layout . '.php';
 		$path          = RT_THE_POST_GRID_PLUGIN_PATH . '/templates/' . $temp_path . '/';
 		if ( file_exists( get_stylesheet_directory() . $template_name ) ) {
