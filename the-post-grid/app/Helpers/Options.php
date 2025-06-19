@@ -278,6 +278,27 @@ class Options {
 		return $other_settings;
 	}
 
+	public static function rtTPGAiIntegrationSettings() {
+		$settings       = get_option( rtTPG()->options['settings'] );
+		$other_settings = [
+
+			'ai_type' => [
+				'type'    => 'select',
+				'name'    => 'chatgpt_status',
+				'label'   => esc_html__( 'Select AI Tool', 'the-post-grid' ),
+				'options' => [
+					''        => esc_html__( 'Select One', 'the-post-grid' ),
+					'chatgpt' => esc_html__( 'ChatGPT', 'the-post-grid' ),
+					'gemini'  => esc_html__( 'Gemini', 'the-post-grid' ),
+				],
+				'value'   => isset( $settings['ai_type'] ) ? $settings['ai_type'] : 'chatgpt',
+			],
+
+		];
+
+		return $other_settings;
+	}
+
 	public static function rtTPGChatGPGSettings() {
 		$settings = get_option( rtTPG()->options['settings'] );
 
@@ -333,6 +354,65 @@ class Options {
 				'holderClass' => 'pro-field',
 				'description' => __( 'Enter OpenAi max token number', 'the-post-grid' ),
 				'value'       => isset( $settings['chatgpt_max_tokens'] ) ? $settings['chatgpt_max_tokens'] : 1200,
+			],
+
+		];
+
+		return $other_settings;
+	}
+
+	public static function rtTPGGeminiSettings() {
+		$settings = get_option( rtTPG()->options['settings'] );
+
+		$other_settings = [
+
+			'gemini_status' => [
+				'type'  => 'switch',
+				'name'  => 'gemini_status',
+				'label' => esc_html__( 'Enable Gemini', 'the-post-grid' ),
+				'value' => isset( $settings['gemini_status'] ) ? $settings['gemini_status'] : false,
+			],
+
+			'gemini_secret_key'    => [
+				'type'        => 'text',
+				'name'        => 'gemini_secret_key',
+				'label'       => esc_html__( 'Gemini Secret Key', 'the-post-grid' ),
+				'id'          => 'template_author',
+				'holderClass' => 'pro-field',
+				'description' => __( 'To integrate with Google Gemini, you need to obtain an API key from Google Cloud. Visit <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio API Keys</a> to generate one.', 'the-post-grid' ),
+				'value'       => isset( $settings['gemini_secret_key'] ) ? $settings['gemini_secret_key'] : '',
+			],
+			'gemini_model'         => [
+				'type'        => 'select',
+				'name'        => 'gemini_model',
+				'label'       => esc_html__( 'Gemini Model', 'the-post-grid' ),
+				'id'          => 'gemini_model',
+				'holderClass' => 'pro-field',
+				'class'       => 'select2',
+				'description' => __( 'Choose Gemini model. Default: Gemini 2.0 Flash', 'the-post-grid' ),
+				'options'     => [
+					'gemini-2.0-flash'      => 'Gemini 2.0 Flash',
+					'gemini-2.0-flash-lite' => 'Gemini 2.0 Flash-Lite',
+				],
+				'value'       => isset( $settings['gemini_model'] ) ? $settings['gemini_model'] : 'gemini-2.0-flash',
+			],
+			'gemini_response_time' => [
+				'type'        => 'number',
+				'name'        => 'gemini_response_time',
+				'label'       => esc_html__( 'Response Time', 'the-post-grid' ),
+				'id'          => 'gemini_response_time',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Choose Gemini response time', 'the-post-grid' ),
+				'value'       => isset( $settings['gemini_response_time'] ) ? $settings['gemini_response_time'] : 60,
+			],
+			'gemini_max_tokens'    => [
+				'type'        => 'number',
+				'name'        => 'gemini_max_tokens',
+				'label'       => esc_html__( 'Max Tokens', 'the-post-grid' ),
+				'id'          => 'gemini_max_tokens',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Enter Gemini max token number', 'the-post-grid' ),
+				'value'       => isset( $settings['gemini_max_tokens'] ) ? $settings['gemini_max_tokens'] : 1200,
 			],
 
 		];
@@ -430,6 +510,7 @@ class Options {
 				'options'     => [
 					'default'   => esc_html__( 'Default (Shortcode add Elementor / Gutenberg)', 'the-post-grid' ),
 					'elementor' => esc_html__( 'Elementor / Gutenberg', 'the-post-grid' ),
+					'divi'      => esc_html__( 'Divi Builder', 'the-post-grid' ),
 					'shortcode' => esc_html__( 'Shortcode Only', 'the-post-grid' ),
 				],
 				'description' => esc_html__( 'Please choose which type of block you want to use. If you select Default then all styles and scripts will load on your site. But if you use one then just this style and script will load on your site.', 'the-post-grid' ),
@@ -470,7 +551,7 @@ class Options {
 					'flaticon'    => esc_html__( 'Flat icon', 'the-post-grid' ),
 				],
 				'description' => esc_html__( 'You can change icon font from here', 'the-post-grid' ),
-				'value'       => isset( $settings['tpg_icon_font'] ) ? $settings['tpg_icon_font'] : 'fontawesome',
+				'value'       => isset( $settings['tpg_icon_font'] ) ? $settings['tpg_icon_font'] : 'flaticon',
 			],
 
 			'tpg_pagination_range' => [
@@ -486,6 +567,14 @@ class Options {
 				'holderClass' => 'pro-field',
 				'label'       => esc_html__( 'Enable External Post Link', 'the-post-grid' ),
 				'value'       => isset( $settings['tpg_enable_external_link'] ) ? $settings['tpg_enable_external_link'] : false,
+			],
+
+			'tpg_enable_image_srcset' => [
+				'type'        => 'switch',
+				'name'        => 'tpg_enable_image_srcset',
+				'description' => esc_html__( 'Enables or disables the srcset attribute for responsive image sizes in WordPress.', 'the-post-grid' ),
+				'label'       => esc_html__( 'Enable Image Srcset', 'the-post-grid' ),
+				'value'       => isset( $settings['tpg_enable_image_srcset'] ) ? $settings['tpg_enable_image_srcset'] : false,
 			],
 
 			'tpg_br1' => [
@@ -516,6 +605,10 @@ class Options {
 
 		if ( 'default' != $block_type ) {
 			unset( $common_settings['tpg_common_settings_heading'] );
+		}
+
+		if ( function_exists( 'et_setup_theme' ) ) {
+			unset( $common_settings['tpg_enable_image_srcset'] );
 		}
 
 		return $common_settings;

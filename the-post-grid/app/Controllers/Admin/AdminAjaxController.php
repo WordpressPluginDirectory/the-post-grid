@@ -498,7 +498,7 @@ class AdminAjaxController {
 				$tempArgs['posts_per_page'] = $limit;
 				$tempArgs['paged']          = 1;
 				$tempArgs['fields']         = 'ids';
-				$tempQ                      = new \WP_Query( $tempArgs );
+				$tempQ                      = new \WP_Query( apply_filters( 'tpg_sc_temp_query_args', $tempArgs ) );
 
 				if ( ! empty( $tempQ->posts ) ) {
 					$args['post__in'] = $tempQ->posts;
@@ -515,7 +515,7 @@ class AdminAjaxController {
 
 			$arg['title_tag'] = ( ! empty( $_REQUEST['title_tag'] ) && in_array( $_REQUEST['title_tag'], array_keys( Options::getTitleTags() ) ) ) ? sanitize_text_field( wp_unslash( $_REQUEST['title_tag'] ) ) : 'h3';
 
-			$gridQuery = new \WP_Query( $args );
+			$gridQuery = new \WP_Query( apply_filters( 'tpg_sc_query_args', $args ) );
 
 			$styleMeta = [
 				'primary_color'                      => isset( $_REQUEST['primary_color'] ) ? sanitize_hex_color( wp_unslash( $_REQUEST['primary_color'] ) ) : null,

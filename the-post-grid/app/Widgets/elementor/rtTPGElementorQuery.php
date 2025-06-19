@@ -5,7 +5,6 @@
  * @version 1.2
  */
 
-
 use RT\ThePostGrid\Helpers\Fns;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -35,7 +34,6 @@ class rtTPGElementorQuery {
 	 * @return array
 	 */
 	public static function post_query( $data, $prefix = '' ): array {
-
 		$_post_type  = ! empty( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
 		$_post_types = ! empty( $data['post_types'] ) ? Fns::escape_array( $data['post_types'] ) : [ 'post' ];
 
@@ -71,12 +69,13 @@ class rtTPGElementorQuery {
 		}
 
 		if ( $orderby = $data['orderby'] ) {
-
 			$order_by        = ( $orderby == 'meta_value_datetime' ) ? 'meta_value_num' : $orderby;
 			$args['orderby'] = esc_html( $order_by );
 
 			if ( in_array( $orderby, [ 'meta_value', 'meta_value_num', 'meta_value_datetime' ] ) && $data['meta_key'] ) {
 				$args['meta_key'] = esc_html( $data['meta_key'] ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			} elseif ( 'include_only' == $orderby ) {
+				$args['orderby'] = 'post__in';
 			}
 		}
 
@@ -196,7 +195,8 @@ class rtTPGElementorQuery {
 					$tempArgs['post__not_in'] = $offset_posts; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
 
-				$tempQ = new \WP_Query( $tempArgs );
+				$tempQ = new \WP_Query( apply_filters( 'tpg_sc_temp_query_args', $tempArgs ) );
+
 				if ( ! empty( $tempQ->posts ) ) {
 					$_post_per_page = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
 					if ( $data['post_limit'] > 0 ) {
@@ -277,7 +277,7 @@ class rtTPGElementorQuery {
 			$args['posts_per_page'] = intval( $slider_per_page );
 		}
 
-		return $args;
+		return apply_filters( 'tpg_sc_query_args', $args );
 	}
 
 	/**
@@ -438,4 +438,5 @@ class rtTPGElementorQuery {
 
 		return $args;
 	}
+
 }

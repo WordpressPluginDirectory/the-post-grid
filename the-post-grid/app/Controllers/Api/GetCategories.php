@@ -3,6 +3,7 @@
 namespace RT\ThePostGrid\Controllers\Api;
 
 class GetCategories {
+
 	public function __construct() {
 		add_action( 'rest_api_init', [ $this, 'register_post_route' ] );
 	}
@@ -14,13 +15,12 @@ class GetCategories {
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_all_posts' ],
-				'permission_callback' => function () {
+				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
 				},
 			]
 		);
 	}
-
 
 	public function get_all_posts( $data ) {
 		$send_data = [
@@ -34,14 +34,14 @@ class GetCategories {
 			$categories = wp_list_pluck( $category, 'value' );
 		} else {
 			$categories = get_terms(
-				array(
+				[
 					'taxonomy'   => 'category',
 					'orderby'    => 'count',
 					'order'      => 'DESC',
 					'hide_empty' => 0,
 					'fields'     => 'ids',
 					'number'     => 5,
-				)
+				]
 			);
 		}
 
@@ -66,4 +66,5 @@ class GetCategories {
 
 		return rest_ensure_response( $send_data );
 	}
+
 }

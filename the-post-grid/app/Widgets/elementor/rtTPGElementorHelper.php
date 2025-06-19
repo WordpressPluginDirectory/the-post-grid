@@ -6,6 +6,7 @@
  */
 
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
 use RT\ThePostGrid\Helpers\Fns;
 use RT\ThePostGrid\Helpers\Options;
 
@@ -20,6 +21,7 @@ require_once RT_THE_POST_GRID_PLUGIN_PATH . '/app/Widgets/elementor/rtTPGElement
  * Elementor Helper Class
  */
 class rtTPGElementorHelper {
+
 	/**
 	 *  Post Query Builderx
 	 *
@@ -214,7 +216,6 @@ class rtTPGElementorHelper {
 		$_url = site_url( 'wp-admin/edit.php?post_type=rttpg&page=tgp_taxonomy_order' );
 
 		foreach ( $taxonomies as $taxonomy => $object ) {
-
 			if ( ! isset( $object->object_type[0] )
 			     || ! in_array( $object->object_type[0], array_keys( $post_types ) )
 			     || in_array( $taxonomy, Fns::get_excluded_taxonomy() )
@@ -317,6 +318,7 @@ class rtTPGElementorHelper {
 
 		if ( rtTPG()->hasPro() ) {
 			$prderby_pro_opt = [
+				'include_only'        => esc_html__( 'Include only', 'the-post-grid' ),
 				'rand'                => esc_html__( 'Random order', 'the-post-grid' ),
 				'meta_value'          => esc_html__( 'Meta value', 'the-post-grid' ), //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'meta_value_num'      => esc_html__( 'Meta value number', 'the-post-grid' ),
@@ -364,18 +366,6 @@ class rtTPGElementorHelper {
 			]
 		);
 
-		/*
-		 * the below code should remove from later
-		 * $ref->add_control(
-			'post_status',
-			[
-				'label'   => esc_html__( 'Post Status', 'the-post-grid' ),
-				'type'    => Controls_Manager::SELECT,
-				'options' => Options::rtTPGPostStatus(),
-				'default' => 'publish',
-			]
-		);*/
-
 		$ref->add_control(
 			'ignore_sticky_posts',
 			[
@@ -403,7 +393,6 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * Archive Query Builder
@@ -1027,9 +1016,30 @@ class rtTPGElementorHelper {
 			]
 		);
 
+		$ref->add_control(
+			'block_primary_color',
+			[
+				'type'      => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Primary Color', 'raw-addons' ),
+				'selectors' => [
+					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-primary-color: {{VALUE}}',
+				],
+				'separator' => 'before',
+			]
+		);
+		$ref->add_control(
+			'block_secondary_color',
+			[
+				'type'      => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Secondary Color', 'raw-addons' ),
+				'selectors' => [
+					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-secondary-color: {{VALUE}}',
+				],
+			]
+		);
+
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * Front-end Filter Settings
@@ -1235,7 +1245,7 @@ class rtTPGElementorHelper {
 				$taxonomie_keys = array_keys( $_taxonomies );
 				$filter_cat     = array_filter(
 					$taxonomie_keys,
-					function ( $item ) {
+					function( $item ) {
 						return strpos( $item, 'cat' ) !== false;
 					}
 				);
@@ -1278,7 +1288,6 @@ class rtTPGElementorHelper {
 				]
 			);
 
-
 			foreach ( $_taxonomies as $tax ) {
 				if ( in_array(
 					$tax->name,
@@ -1315,7 +1324,7 @@ class rtTPGElementorHelper {
 				$ref->add_control(
 					$terms_prefix . '_default_terms',
 					[
-						'label'     => esc_html__( 'Default ', 'the-post-grid' ) . $tax->label,
+						'label'     => esc_html__( 'Selected ', 'the-post-grid' ) . $tax->label,
 						'type'      => Controls_Manager::SELECT,
 						'default'   => '0',
 						'options'   => $term_lists,
@@ -1430,7 +1439,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'tpg_hide_all_button',
 			[
-				'label'        => esc_html__( 'Hide Show all button', 'the-post-grid' ),
+				'label'        => esc_html__( 'Hide "Show all" button', 'the-post-grid' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
@@ -1476,8 +1485,8 @@ class rtTPGElementorHelper {
 				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Enter All Tax 2 Here..', 'the-post-grid' ),
 				'description' => esc_html__( 'This is optional. If you need you can change for 2nd taxonomy.', 'the-post-grid' ),
-				'condition' => [
-				    'multiple_taxonomy' => 'yes'
+				'condition'   => [
+					'multiple_taxonomy' => 'yes',
 				],
 			]
 		);
@@ -1489,12 +1498,11 @@ class rtTPGElementorHelper {
 				'type'        => Controls_Manager::TEXT,
 				'placeholder' => esc_html__( 'Enter All Tax 3 Here..', 'the-post-grid' ),
 				'description' => esc_html__( 'This is optional. If you need you can change for 3rd taxonomy.', 'the-post-grid' ),
-				'condition' => [
-					'multiple_taxonomy' => 'yes'
+				'condition'   => [
+					'multiple_taxonomy' => 'yes',
 				],
 			]
 		);
-
 
 		$ref->add_control(
 			'author_filter_all_text',
@@ -1526,7 +1534,6 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * List Layout Settings
@@ -1739,6 +1746,28 @@ class rtTPGElementorHelper {
 				'render_type'  => 'template',
 				'prefix_class' => 'tpg-wrapper-align-',
 				'toggle'       => true,
+			]
+		);
+
+		$ref->add_control(
+			'block_primary_color',
+			[
+				'type'      => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Primary Color', 'raw-addons' ),
+				'selectors' => [
+					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-primary-color: {{VALUE}}',
+				],
+				'separator' => 'before',
+			]
+		);
+		$ref->add_control(
+			'block_secondary_color',
+			[
+				'type'      => Controls_Manager::COLOR,
+				'label'     => esc_html__( 'Secondary Color', 'raw-addons' ),
+				'selectors' => [
+					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-secondary-color: {{VALUE}}',
+				],
 			]
 		);
 
@@ -2111,7 +2140,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Section Title Settings
 	 *
@@ -2296,7 +2324,6 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * Thumbnail Settings
@@ -2574,7 +2601,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Post Title Settings
 	 *
@@ -2719,7 +2745,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'title_limit_type',
 			[
-				'label'   => esc_html__( 'Title Crop by', 'the-post-grid' ),
+				'label'   => esc_html__( 'Title trimming by', 'the-post-grid' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'word',
 				'options' => [
@@ -2731,7 +2757,6 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * Post Excerpt Settings
@@ -3217,8 +3242,8 @@ class rtTPGElementorHelper {
 			);
 		}
 
-		$post_types      = Fns::get_post_types();
-		$_all_taxonomies = [];
+		$post_types = Fns::get_post_types();
+
 		foreach ( $post_types as $post_type => $label ) {
 			$_taxonomies = get_object_taxonomies( $post_type, 'object' );
 			if ( empty( $_taxonomies ) ) {
@@ -3229,10 +3254,6 @@ class rtTPGElementorHelper {
 				if ( 'post_format' == $tax->name ) {
 					continue;
 				}
-				// if ( in_array( $tax->name, $_all_taxonomies ) ) {
-				// continue;
-				// }
-				$_all_taxonomies[]          = $tax->name;
 				$term_options[ $tax->name ] = $tax->label;
 			}
 
@@ -3255,13 +3276,13 @@ class rtTPGElementorHelper {
 				$taxonomie_keys = array_keys( $_taxonomies );
 				$filter_cat     = array_filter(
 					$taxonomie_keys,
-					function ( $item ) {
+					function( $item ) {
 						return strpos( $item, 'cat' ) !== false;
 					}
 				);
 				$filter_tag     = array_filter(
 					$taxonomie_keys,
-					function ( $item ) {
+					function( $item ) {
 						return strpos( $item, 'tag' ) !== false;
 					}
 				);
@@ -3449,7 +3470,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Read More Settings
 	 *
@@ -3536,7 +3556,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 *  Advanced Custom Field ACF Settings
 	 *
@@ -3568,7 +3587,6 @@ class rtTPGElementorHelper {
 	}
 
 	public static function get_tpg_acf_settings( $ref, $is_archive = false ) {
-
 		$post_types = Fns::get_post_types();
 
 		if ( $is_archive ) {
@@ -3589,7 +3607,6 @@ class rtTPGElementorHelper {
 					'options'     => Fns::get_groups_by_post_type( 'post' ),
 				]
 			);
-
 		} else {
 			foreach ( $post_types as $post_type => $post_type_title ) {
 				$get_acf_field   = Fns::get_groups_by_post_type( $post_type );
@@ -3651,7 +3668,6 @@ class rtTPGElementorHelper {
 			]
 		);
 	}
-
 
 	/**
 	 * Links Settings
@@ -3725,7 +3741,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Promotions
 	 *
@@ -3760,7 +3775,6 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * Section Title Style
@@ -3865,7 +3879,7 @@ class rtTPGElementorHelper {
 		}
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'section_title_typography',
 				'label'    => esc_html__( 'Typography', 'the-post-grid' ),
@@ -4084,7 +4098,7 @@ class rtTPGElementorHelper {
 			);
 
 			$ref->add_group_control(
-				\Elementor\Group_Control_Typography::get_type(),
+				Group_Control_Typography::get_type(),
 				[
 					'name'      => 'taxonomy_des_typography',
 					'label'     => esc_html__( 'Description Typography', 'the-post-grid' ),
@@ -4155,7 +4169,6 @@ class rtTPGElementorHelper {
 
 		$ref->end_controls_section();
 	}
-
 
 	/**
 	 * Thumbnail Style Tab
@@ -4366,7 +4379,7 @@ class rtTPGElementorHelper {
 				'label'     => esc_html__( 'Light Box Background', 'the-post-grid' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom .fa' => 'background-color: {{VALUE}}',
+					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom i' => 'background-color: {{VALUE}}',
 				],
 				'condition' => [
 					'is_thumb_lightbox' => 'show',
@@ -4380,7 +4393,7 @@ class rtTPGElementorHelper {
 				'label'     => esc_html__( 'Light Box Color', 'the-post-grid' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom .fa' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .rt-tpg-container .rt-holder .rt-img-holder .tpg-zoom i' => 'color: {{VALUE}}',
 				],
 				'condition' => [
 					'is_thumb_lightbox' => 'show',
@@ -4631,7 +4644,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Post Title Style
 	 *
@@ -4712,7 +4724,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'title_typography',
 				'label'    => esc_html__( 'Typography', 'the-post-grid' ),
@@ -4722,7 +4734,7 @@ class rtTPGElementorHelper {
 
 		// Offset Title
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'        => 'title_offset_typography',
 				'label'       => esc_html__( 'Offset Typography', 'the-post-grid' ),
@@ -4972,7 +4984,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'content_typography',
 				'selector' => '{{WRAPPER}} .tpg-el-main-wrapper .tpg-el-excerpt .tpg-excerpt-inner',
@@ -5133,7 +5145,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'post_meta_typography',
 				'selector' => '{{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-el-post-meta, {{WRAPPER}} .tpg-post-holder .tpg-separate-category .categories-links a',
@@ -5308,7 +5320,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'separator_cat_typography',
 				'selector' => '{{WRAPPER}} .rt-tpg-container .tpg-post-holder .categories-links a',
@@ -5494,7 +5506,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Read More style
 	 *
@@ -5516,7 +5527,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'readmore_typography',
 				'selector' => '{{WRAPPER}} .rt-tpg-container .tpg-post-holder .rt-detail .read-more a',
@@ -5934,7 +5945,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Pagination and Load more style tab
 	 *
@@ -5953,7 +5963,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'pagination_typography',
 				'selector' => '{{WRAPPER}} .rt-pagination .pagination-list > li > a, {{WRAPPER}} .rt-pagination .pagination-list > li > span',
@@ -6231,7 +6241,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Front-end Filter style / frontend style
 	 *
@@ -6280,7 +6289,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'front_filter_typography',
 				'label'    => esc_html__( 'Filter Typography', 'the-post-grid' ),
@@ -6868,7 +6877,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Social Share Style
 	 *
@@ -6959,14 +6967,14 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'icon_width_height',
 			[
-				'label'       => esc_html__( 'Icon Dimension', 'the-post-grid' ),
+				'label'       => esc_html__( 'Icon Dimension (px)', 'the-post-grid' ),
 				'type'        => Controls_Manager::IMAGE_DIMENSIONS,
 				'default'     => [
 					'width'  => '',
 					'height' => '',
 				],
 				'selectors'   => [
-					'{{WRAPPER}} .rt-tpg-social-share a i' => 'width:{{width}}px; height:{{height}}px; line-height:{{height}}px; text-align:center',
+					'{{WRAPPER}} .rt-tpg-social-share a i' => 'width:{{width}}px; height:{{height}}px;',
 				],
 				'description' => esc_html__( 'Just write number. Don\'t use (px or em).', 'the-post-grid' ),
 				'classes'     => 'should-show-title',
@@ -7116,9 +7124,6 @@ class rtTPGElementorHelper {
 				'selectors' => [
 					'{{WRAPPER}} .rt-tpg-social-share a:hover i' => 'color: {{VALUE}} !important',
 				],
-				// 'condition' => [
-				// 'social_icon_style' => 'custom',
-				// ],
 			]
 		);
 
@@ -7135,37 +7140,6 @@ class rtTPGElementorHelper {
 				// ],
 			]
 		);
-
-		// foreach ( $ssList as $ss ) {
-		// $ref->add_control(
-		// $ss . '_social_icon_color_hover',
-		// [
-		// 'label'     => ucwords( $ss ) . esc_html__( ' color - Hover', 'the-post-grid' ),
-		// 'type'      => \Elementor\Controls_Manager::COLOR,
-		// 'selectors' => [
-		// '{{WRAPPER}} .rt-tpg-social-share a.' . $ss . ':hover i' => 'color: {{VALUE}}',
-		// ],
-		// 'condition' => [
-		// 'social_icon_style' => 'different_color',
-		// ],
-		// ]
-		// );
-		//
-		// $ref->add_control(
-		// $ss . '_social_icon_bg_color_hover',
-		// [
-		// 'label'     => ucwords( $ss ) . esc_html__( ' Background - Hover', 'the-post-grid' ),
-		// 'type'      => \Elementor\Controls_Manager::COLOR,
-		// 'selectors' => [
-		// '{{WRAPPER}} .rt-tpg-social-share a.' . $ss . ':hover i' => 'background-color: {{VALUE}}',
-		// ],
-		// 'condition' => [
-		// 'social_icon_style' => 'different_color',
-		// ],
-		// ]
-		// );
-		// }
-
 		$ref->add_group_control(
 			\Elementor\Group_Control_Border::get_type(),
 			[
@@ -7635,7 +7609,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Slider Settings
 	 *
@@ -7801,7 +7774,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'autoplaySpeed',
 			[
-				'label'     => esc_html__( 'Autoplay Speed', 'the-post-grid' ),
+				'label'     => esc_html__( 'Autoplay Speed (ms)', 'the-post-grid' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 1000,
 				'max'       => 10000,
@@ -8504,7 +8477,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 *  Link Style
 	 *
@@ -8598,7 +8570,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 *  Slider thumb Settings for layout- 11, 12
 	 *
@@ -8685,7 +8656,6 @@ class rtTPGElementorHelper {
 		$ref->end_controls_section();
 	}
 
-
 	/**
 	 * Advanced Custom Field ACF Style
 	 *
@@ -8717,7 +8687,7 @@ class rtTPGElementorHelper {
 
 	public static function get_tpg_acf_style( $ref, $hover_control = true ) {
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'acf_group_title_typography',
 				'label'    => esc_html__( 'Group Title Typography', 'the-post-grid' ),
@@ -8726,7 +8696,7 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'acf_typography',
 				'label'    => esc_html__( 'ACF Fields Typography', 'the-post-grid' ),
@@ -8912,4 +8882,5 @@ class rtTPGElementorHelper {
 			// End Tab
 		}
 	}
+
 }

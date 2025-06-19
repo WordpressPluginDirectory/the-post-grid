@@ -1,6 +1,5 @@
 (function (global, $) {
     'use strict';
-
     var postType = $("#rt-sc-post-type").val();
     $(document).on('change', '#post_filter input[type=checkbox]', function () {
         var id = $(this).val();
@@ -133,6 +132,24 @@
     });
 
     $(document).ready(function () {
+        function handleAITypeChange() {
+            var aiType = $('#ai_type_holder select[name="ai_type"]').val();
+            $('.rt-ai-integration-settings-chatgpt, .rt-ai-integration-settings-gemini').hide();
+
+            if (aiType === 'chatgpt') {
+                $('.rt-ai-integration-settings-chatgpt').show();
+            } else if (aiType === 'gemini') {
+                $('.rt-ai-integration-settings-gemini').show();
+            }
+        }
+
+        // Trigger on page load
+        handleAITypeChange();
+        tpgInstallPlugion();
+
+        // Trigger on select change
+        $('#ai_type_holder select[name="ai_type"]').on('change', handleAITypeChange);
+
         checkCustomFieldSettings();
         rtTgpFilter();
         if ($(".rt-select2").length) {
@@ -862,6 +879,77 @@
             theme: "classic",
             dropdownAutoWidth: true,
             width: '100%'
+        });
+    }
+
+    function tpgInstallPlugion() {
+
+        $('.rt-plugin-item .install-plugins').on('click', function(e) {
+            e.preventDefault();
+
+            var $btn = $(this);
+            var slug = $btn.data('slug');
+
+            $btn.text('Installing...').prop('disabled', true);
+
+
+            $.post(rttpg.ajaxurl, {
+                action: 'install_plugin',
+                slug: slug,
+                rttpg_nonce: rttpg.nonce,
+            }, function(response) {
+                if (response.success) {
+                    $btn.text('Activating...');
+                    $btn.addClass('activating');
+                    // Activate the plugin
+                    $.post(rttpg.ajaxurl, {
+                        action: 'activate_plugin',
+                        plugin: response.data.plugin,
+                        rttpg_nonce: rttpg.nonce,
+                    }, function(activateResponse) {
+                        if (activateResponse.success) {
+                            console.log({activateResponse})
+                            $btn.text('Activated')
+                            .removeClass('activating')
+                            .addClass('success-class');
+                        } else {
+                            alert(activateResponse.data.message || 'Activation failed.');
+                            $btn.text('Activate');
+                        }
+                    });
+                } else {
+                    alert(response.data.message || 'Installation failed.');
+                    $btn.text('Install Now').prop('disabled', false);
+                }
+            });
+
+        })
+
+
+        // Only activate plugin if it's already installed
+        $('.rt-plugin-item .not-activated').on('click', function(e) {
+            e.preventDefault();
+
+            var $btn = $(this);
+            var slug = $btn.data('slug');
+            var pluginFile = slug + '/' + slug + '.php';
+
+            $btn.text('Activating...').prop('disabled', true);
+
+            $.post(rttpg.ajaxurl, {
+                action: 'activate_plugin',
+                plugin: pluginFile,
+                rttpg_nonce: rttpg.nonce,
+            }, function(response) {
+                if (response.success) {
+                    $btn.text('Activated')
+                    .removeClass('not-activated')
+                    .addClass('success-class');
+                } else {
+                    alert(response.data.message || 'Activation failed.');
+                    $btn.text('Activate').prop('disabled', false);
+                }
+            });
         });
     }
 

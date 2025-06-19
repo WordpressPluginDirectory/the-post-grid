@@ -7,6 +7,7 @@ use RT\ThePostGrid\Helpers\Fns;
 //phpcs:disable WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 
 class ContentTabController {
+
 	/**
 	 * @param $attribute_args
 	 *
@@ -17,49 +18,49 @@ class ContentTabController {
 		$default_layout = $attribute_args['default_layout'];
 
 		$content_attribute = [
-			'uniqueId'                         => [
+			'uniqueId' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'preview'                          => [
+			'preview' => [
 				'type'    => 'boolean',
 				'default' => false,
 			],
 
-			'prefix'                           => [
+			'prefix' => [
 				'type'    => 'string',
 				'default' => $prefix,
 			],
 
-			'offset_img_position'              => [
+			'offset_img_position' => [
 				'type'    => 'string',
 				'default' => 'offset-image-left',
 			],
 
-			'is_builder'                       => [
+			'is_builder' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
 			// Layouts
 
-			'query_change'                     => [
+			'query_change' => [
 				'type'    => 'boolean',
 				'default' => false,
 			],
 
-			$prefix . '_layout'                => [
+			$prefix . '_layout' => [
 				'type'    => 'string',
 				'default' => $default_layout,
 			],
 
-			'middle_border'                    => [
+			'middle_border' => [
 				'type'    => 'string',
 				'default' => 'no',
 			],
 
-			'grid_column'                      => [
+			'grid_column' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -68,12 +69,32 @@ class ContentTabController {
 				],
 			],
 
-			'grid_layout_style'                => [
+			'block_primary_color' => [
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .tpg-el-main-wrapper {--tpg-primary-color: {{block_primary_color}}; }',
+					],
+				],
+			],
+
+			'block_secondary_color' => [
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .tpg-el-main-wrapper {--tpg-primary-color: {{block_secondary_color}}; }',
+					],
+				],
+			],
+
+			'grid_layout_style' => [
 				'type'    => 'string',
 				'default' => 'tpg-even',
 			],
 
-			'list_layout_alignment'            => [
+			'list_layout_alignment' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -83,7 +104,7 @@ class ContentTabController {
 				],
 			],
 
-			'list_flex_direction'              => [
+			'list_flex_direction' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -93,17 +114,17 @@ class ContentTabController {
 				],
 			],
 
-			'main_wrapper_hover_tab'           => [
+			'main_wrapper_hover_tab' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'grid_offset_col_width'            => [
+			'grid_offset_col_width' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'full_wrapper_align'               => [
+			'full_wrapper_align' => [
 				'type'    => 'object',
 				'default' => [],
 				'style'   => [
@@ -116,165 +137,165 @@ class ContentTabController {
 
 			// Query Build.
 
-			'show_title'                       => [
+			'show_title' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'multiple_post_type'               => [
+			'multiple_post_type' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'post_type'                        => [
+			'post_type' => [
 				'type'    => 'string',
 				'default' => 'post',
 			],
 
-			'post_types'                       => [
+			'post_types' => [
 				'type'    => 'array',
 				'default' => [],
 			],
 
-			'post_id'                          => [
+			'post_id' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'exclude'                          => [
+			'exclude' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'post_limit'                       => [
+			'post_limit' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'offset'                           => [
+			'offset' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'instant_query'                    => [
+			'instant_query' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
 			// Query Advance Filter give below
 
-			'taxonomy_lists'                   => [
+			'taxonomy_lists' => [
 				'type'    => 'object',
 				'default' => [],
 			],
 
-			'author'                           => [
+			'author' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'post_keyword'                     => [
+			'post_keyword' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'relation'                         => [
+			'relation' => [
 				'type'    => 'string',
 				'default' => 'OR',
 			],
 
-			'start_date'                       => [
+			'start_date' => [
 				'type'    => 'string',
 				'default' => '',
 			],
-			'end_date'                         => [
+			'end_date'   => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'orderby'                          => [
+			'orderby' => [
 				'type'    => 'string',
 				'default' => 'date',
 			],
 
-			'order'                            => [
+			'order' => [
 				'type'    => 'string',
 				'default' => 'desc',
 			],
 
-			'ignore_sticky_posts'              => [
+			'ignore_sticky_posts' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'no_posts_found_text'              => [
+			'no_posts_found_text' => [
 				'type'    => 'string',
 				'default' => 'No posts found.',
 			],
 
 			// Front-end Filter Settings.
 
-			'multiple_taxonomy'                => [
+			'multiple_taxonomy' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'show_taxonomy_filter'             => [
+			'show_taxonomy_filter' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'show_author_filter'               => [
+			'show_author_filter' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'show_order_by'                    => [
+			'show_order_by' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'show_sort_order'                  => [
+			'show_sort_order' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'show_search'                      => [
+			'show_search' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'search_by'                        => [
+			'search_by' => [
 				'type'    => 'string',
 				'default' => 'all_content',
 			],
 
-			'filter_type'                      => [
+			'filter_type' => [
 				'type'    => 'string',
 				'default' => 'dropdown',
 			],
 
-			'filter_taxonomy'                  => [
+			'filter_taxonomy' => [
 				'type'    => 'string',
 				'default' => 'category',
 			],
 
-			'filter_taxonomies'                => [
+			'filter_taxonomies' => [
 				'type'    => 'array',
 				'default' => [],
 			],
 
-			'filter_btn_style'                 => [
+			'filter_btn_style' => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
 
-			'filter_btn_item_per_page'         => [
+			'filter_btn_item_per_page' => [
 				'type'    => 'string',
 				'default' => 'auto',
 			],
 
-			'filter_post_count'                => [
+			'filter_post_count' => [
 				'type'    => 'string',
 				'default' => 'no',
 			],
@@ -284,76 +305,76 @@ class ContentTabController {
 				'default' => 'yes',
 			],
 
-			'tpg_hide_all_button'              => [
+			'tpg_hide_all_button' => [
 				'type'    => 'string',
 				'default' => 'yes',
 			],
 
-			'tax_filter_all_text'              => [
+			'tax_filter_all_text' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'custom_taxonomy_order'            => [
+			'custom_taxonomy_order' => [
 				'type'    => 'string',
 				'default' => 'yes',
 			],
 
-			'author_filter_all_text'           => [
+			'author_filter_all_text' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
 			// Pagination
 
-			'show_pagination'                  => [
+			'show_pagination' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'page'                             => [
+			'page' => [
 				'type'    => 'number',
 				'default' => 1,
 			],
 
-			'display_per_page'                 => [
+			'display_per_page' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'pagination_type'                  => [
+			'pagination_type' => [
 				'type'    => 'string',
 				'default' => 'pagination',
 			],
 
-			'ajax_pagination_type'             => [
+			'ajax_pagination_type' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'load_more_button_text'            => [
+			'load_more_button_text' => [
 				'type'    => 'string',
 				'default' => 'Load More',
 			],
 
 			// Links
 
-			'post_link_type'                   => [
+			'post_link_type' => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
 
-			'link_target'                      => [
+			'link_target' => [
 				'type'    => 'string',
 				'default' => '_self',
 			],
 
-			'is_thumb_linked'                  => [
+			'is_thumb_linked' => [
 				'type'    => 'string',
 				'default' => 'yes',
 			],
 
-			'pagination_btn_position'          => [
+			'pagination_btn_position' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -363,7 +384,7 @@ class ContentTabController {
 				],
 			],
 
-			'pagination_pos_val'               => [
+			'pagination_pos_val' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -377,7 +398,7 @@ class ContentTabController {
 				],
 			],
 
-			'pagination_pos_val_left'          => [
+			'pagination_pos_val_left' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -391,7 +412,7 @@ class ContentTabController {
 				],
 			],
 
-			'pagination_btn_space_btween'      => [
+			'pagination_btn_space_btween' => [
 				'type'    => 'string',
 				'default' => '',
 			],
@@ -433,9 +454,9 @@ class ContentTabController {
 				'type'    => 'string',
 				'default' => 'yes',
 			];
-
 		}
 
 		return apply_filters( 'rttpg_guten_content_attribute', $content_attribute );
 	}
+
 }

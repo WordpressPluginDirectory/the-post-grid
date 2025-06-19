@@ -37,7 +37,7 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 		$scripts = [];
 		array_push( $scripts, 'imagesloaded' );
 		array_push( $scripts, 'rt-tpg' );
-		array_push( $scripts, 'rttpg-block-pro' );
+//		array_push( $scripts, 'rttpg-block-pro' );
 
 		return $scripts;
 	}
@@ -180,6 +180,9 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 			wp_enqueue_script( 'rt-pagination' );
 		}
 
+		wp_enqueue_script( 'rttpg-block-pro' );
+
+
 		// Query.
 		$query_args = rtTPGElementorQuery::post_query( $data, $_prefix );
 
@@ -284,11 +287,10 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 						$pCount ++;
 					}
 				} else {
-					if ( $data['no_posts_found_text'] ) {
-						printf( "<div class='no_posts_found_text'>%s</div>", esc_html( $data['no_posts_found_text'] ) );
-					} else {
-						printf( "<div class='no_posts_found_text'>%s</div>", esc_html__( 'No post found', 'the-post-grid' ) );
-					}
+					printf(
+						"<div class='no_posts_found_text'>%s</div>",
+						esc_html( $data['no_posts_found_text'] ?: __( 'No post found', 'the-post-grid' ) )
+					);
 				}
 				wp_reset_postdata();
 				?>

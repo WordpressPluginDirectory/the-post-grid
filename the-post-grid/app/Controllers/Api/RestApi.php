@@ -21,6 +21,7 @@ class RestApi {
 		//new ElImport();
 		new GetCategories();
 		new GetBuilderData();
+		new GetTermObject();
 	}
 
 	/**

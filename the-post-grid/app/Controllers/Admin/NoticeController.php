@@ -7,6 +7,9 @@
 
 namespace RT\ThePostGrid\Controllers\Admin;
 
+use RT\ThePostGrid\Controllers\Admin\Notice\EidSpecial;
+use RT\ThePostGrid\Controllers\Admin\Notice\SummerSale;
+
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
@@ -16,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Notice Controller class.
  */
 class NoticeController {
+
 	/**
 	 * Class Constructor
 	 */
@@ -32,6 +36,10 @@ class NoticeController {
 		add_action( 'admin_init', [ $this, 'rttpg_check_installation_time' ] );
 		add_action( 'admin_init', [ __CLASS__, 'rttpg_spare_me' ], 5 );
 		add_action( 'admin_init', [ __CLASS__, 'rttpg_notice' ] );
+
+		//Eid Special Deal
+		//new EidSpecial();
+		new SummerSale();
 	}
 
 	/**
@@ -42,38 +50,41 @@ class NoticeController {
 	public static function rttpg_notice() {
 		add_action(
 			'admin_notices',
-			function () {
+			function() {
 				$settings = get_option( 'rt_the_post_grid_settings' );
 				$screen   = get_current_screen();
 
 				if ( isset( $settings['tpg_block_type'] ) ) {
-					if ( in_array(
-						$screen->id,
-						[
-							'edit-rttpg',
-							'rttpg',
-						],
-						true
-					) && 'elementor' === $settings['tpg_block_type'] ) { ?>
-						<div class="notice notice-for-warning">
-							<p>
+					if (
+						in_array( $screen->id, [ 'edit-rttpg', 'rttpg', ], true ) &&
+						in_array( $settings['tpg_block_type'], [ 'elementor', 'divi' ] )
+					) { ?>
+                        <div class="notice notice-for-warning">
+                            <p>
 								<?php
+								$block_type      = $settings['tpg_block_type'] == 'elementor' ? esc_html__( "Elementor and Gutenberg", "the-post-grid" ) : $settings['tpg_block_type'];
+								$selected_method = ucfirst( $block_type );
+
 								echo sprintf(
 									'%1$s<a style="color: #fff;" href="%2$s">%3$s</a>',
-									esc_html__( 'You have selected only Elementor method. To use Shortcode Generator please enable shortcode or default from ', 'the-post-grid' ),
+									sprintf(
+									/* translators: %s: Selected method (e.g., Elementor method) */
+										esc_html__( 'You have selected "%s" as the resource load type. To use the Shortcode Generator, please enable either "Shortcode" or "Default" from here ', 'the-post-grid' ),
+										$selected_method
+									),
 									esc_url( admin_url( 'edit.php?post_type=rttpg&page=rttpg_settings' ) ),
 									esc_html__( 'Settings => Common Settings => Resource Load Type', 'the-post-grid' )
 								);
 								?>
-							</p>
-						</div>
+                            </p>
+                        </div>
 						<?php
 					}
 
 					if ( 'edit-tpg_builder' === $screen->id && 'shortcode' === $settings['tpg_block_type'] ) {
 						?>
-						<div class="notice notice-for-warning">
-							<p>
+                        <div class="notice notice-for-warning">
+                            <p>
 								<?php
 								echo sprintf(
 									'%1$s<a style="color: #fff;" href="%2$s">%3$s</a>',
@@ -82,8 +93,8 @@ class NoticeController {
 									esc_html__( 'Settings => Common Settings => Resource Load Type', 'the-post-grid' )
 								);
 								?>
-							</p>
-						</div>
+                            </p>
+                        </div>
 						<?php
 					}
 				}
@@ -112,66 +123,65 @@ class NoticeController {
 	public static function notice() {
 		add_action(
 			'admin_enqueue_scripts',
-			function () {
+			function() {
 				wp_enqueue_script( 'jquery' );
 			}
 		);
 
 		add_action(
 			'admin_notices',
-			function () {
+			function() {
 				$plugin_name   = 'The Post Grid';
 				$download_link = 'https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/';
 				?>
-				<div class="notice notice-info is-dismissible" data-rttpg-dismissable="rttpg_dismiss_bf_notice"
-					 style="display:grid !important;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
-					<img alt="<?php echo esc_attr( $plugin_name ); ?>"
-						 src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/post-grid-gif.gif' ) ); ?>"
-						 width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
-					<h3 style="margin:0;display: inline-flex;align-items: center;gap: 4px;">
+                <div class="notice notice-info is-dismissible" data-rttpg-dismissable="rttpg_dismiss_bf_notice"
+                     style="display:grid !important;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
+                    <img alt="<?php echo esc_attr( $plugin_name ); ?>"
+                         src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/post-grid-gif.gif' ) ); ?>"
+                         width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
+                    <h3 style="margin:0;display: inline-flex;align-items: center;gap: 4px;">
 						<?php echo sprintf( '%s – Black Friday', esc_html( $plugin_name ) ); ?>
-						<img alt="Deal" style="width: 60px;position: static" src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/deal.gif' ) ); ?>">
-					</h3>
-					<p style="margin-top:0;font-size: 15px;">🚀 Exciting News: <b>The Post Grid</b> Black Friday sale is now live! Get the plugin today and enjoy discounts <b style="color:red;font-size:18px;font-weight: bold;margin-left:5px">UP TO 50%</b>.</p>
-					<p style="margin:0;">
-						<a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
+                        <img alt="Deal" style="width: 60px;position: static" src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/deal.gif' ) ); ?>">
+                    </h3>
+                    <p style="margin-top:0;font-size: 15px;">🚀 Exciting News: <b>The Post Grid</b> Black Friday sale is now live! Get the plugin today and enjoy discounts <b style="color:red;font-size:18px;font-weight: bold;margin-left:5px">UP TO 50%</b>.</p>
+                    <p style="margin:0;">
+                        <a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
                            style="background: #4e13ff;"
-						   target="_blank">Buy Now</a>
-						<a class="button button-dismiss" href="#">Dismiss</a>
-					</p>
-				</div>
+                           target="_blank">Buy Now</a>
+                        <a class="button button-dismiss" href="#">Dismiss</a>
+                    </p>
+                </div>
 				<?php
 			}
 		);
 
 		add_action(
 			'admin_footer',
-			function () {
+			function() {
 				?>
-				<script type="text/javascript">
-					(function ($) {
-						$(function () {
-							setTimeout(function () {
-								$('div[data-rttpg-dismissable] .notice-dismiss, div[data-rttpg-dismissable] .button-dismiss')
-									.on('click', function (e) {
-										e.preventDefault();
-										$.post(ajaxurl, {
-											'action': 'rttpg_dismiss_admin_notice',
-											'nonce': <?php echo wp_json_encode( wp_create_nonce( 'rttpg-dismissible-notice' ) ); ?>
-										});
-										$(e.target).closest('.is-dismissible').remove();
-									});
-							}, 1000);
-						});
-					})(jQuery);
-				</script>
+                <script type="text/javascript">
+                    (function ($) {
+                        $(function () {
+                            setTimeout(function () {
+                                $('div[data-rttpg-dismissable] .notice-dismiss, div[data-rttpg-dismissable] .button-dismiss').on('click', function (e) {
+                                    e.preventDefault()
+                                    $.post(ajaxurl, {
+                                        'action': 'rttpg_dismiss_admin_notice',
+                                        'nonce': <?php echo wp_json_encode( wp_create_nonce( 'rttpg-dismissible-notice' ) ); ?>
+                                    })
+                                    $(e.target).closest('.is-dismissible').remove()
+                                })
+                            }, 1000)
+                        })
+                    })(jQuery)
+                </script>
 				<?php
 			}
 		);
 
 		add_action(
 			'wp_ajax_rttpg_dismiss_admin_notice',
-			function () {
+			function() {
 				if ( ! current_user_can( 'manage_options' ) ) {
 					wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
 				}
@@ -252,7 +262,6 @@ class NoticeController {
 		];
 
 		if ( ! in_array( $pagenow, $exclude ) ) {
-
 			$args         = [ '_wpnonce' => wp_create_nonce( 'rttpg_notice_nonce' ) ];
 			$dont_disturb = add_query_arg( $args + [ 'rttpg_spare_me' => '1' ], self::rttpg_current_admin_url() );
 			$remind_me    = add_query_arg( $args + [ 'rttpg_remind_me' => '1' ], self::rttpg_current_admin_url() );
@@ -421,7 +430,6 @@ class NoticeController {
 	 * @return void
 	 */
 	public static function rttpg_spare_me() {
-
 		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rttpg_notice_nonce' ) ) {
 			return;
 		}
@@ -454,4 +462,5 @@ class NoticeController {
 			}
 		}
 	}
+
 }

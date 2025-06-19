@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Shortcode Controller class.
  */
 class ShortcodeController {
+
 	private $scA = [];
 	private $l4toggle = false;
 
@@ -102,7 +103,6 @@ class ShortcodeController {
 		$scID     = $atts['id'];
 
 		if ( $scID && ! is_null( get_post( $scID ) ) ) {
-
 			$scMeta    = get_post_meta( $scID );
 			$layout    = ( isset( $scMeta['layout'][0] ) ? $scMeta['layout'][0] : 'layout1' );
 			$gridStyle = ( isset( $scMeta['grid_style'][0] ) ? $scMeta['grid_style'][0] : 'even' );
@@ -538,7 +538,7 @@ class ShortcodeController {
 				$tempArgs['posts_per_page'] = $limit;
 				$tempArgs['paged']          = 1;
 				$tempArgs['fields']         = 'ids';
-				$tempQ                      = new \WP_Query( $tempArgs );
+				$tempQ                      = new \WP_Query( apply_filters( 'tpg_sc_temp_query_args', $tempArgs ) );
 
 				if ( ! empty( $tempQ->posts ) ) {
 					$args['post__in'] = $tempQ->posts;
@@ -615,7 +615,7 @@ class ShortcodeController {
 				$html .= '<div id="bottom-script-loader" class="bottom-script-loader"><div class="rt-ball-clip-rotate"><div></div></div></div>';
 			}
 
-			if ( ! empty( $filters ) && ( $isGrid || $isOffset || $isWooCom || $isEdd || $isGridHover ) ) {
+			if ( rtTPG()->hasPro() && ! empty( $filters ) && ( $isGrid || $isOffset || $isWooCom || $isEdd || $isGridHover ) ) {
 				$html                      .= "<div class='rt-layout-filter-container rt-clear'><div class='rt-filter-wrap'>";
 				$selectedSubTermsForButton = null;
 				$allText                   = apply_filters( 'tpg_filter_all_text', esc_html__( 'All', 'the-post-grid' ), $scMeta );
@@ -1299,7 +1299,6 @@ class ShortcodeController {
 
 			// Pro Scripts and Styles.
 			if ( rtTPG()->hasPro() ) {
-
 				if ( isset( $posts_loading_type ) && 'pagination_ajax' == $posts_loading_type ) {
 					array_push( $script, 'rt-pagination' );
 				}
@@ -1334,7 +1333,6 @@ class ShortcodeController {
 			}
 
 			wp_enqueue_script( $script );
-
 		} else {
 			$html .= '<p>' . esc_html__( 'No shortCode found', 'the-post-grid' ) . '</p>';
 		}
@@ -1364,4 +1362,5 @@ class ShortcodeController {
 
 		return $html;
 	}
+
 }

@@ -39,7 +39,7 @@ class TPGSliderLayout extends Custom_Widget_Base {
 		array_push( $scripts, 'imagesloaded' );
 		array_push( $scripts, 'swiper' );
 		array_push( $scripts, 'rt-tpg' );
-		array_push( $scripts, 'rttpg-block-pro' );
+//		array_push( $scripts, 'rttpg-block-pro' );
 
 		return $scripts;
 	}
@@ -152,9 +152,11 @@ class TPGSliderLayout extends Custom_Widget_Base {
 		$data    = $this->get_settings();
 		$_prefix = $this->prefix;
 		if ( ! rtTPG()->hasPro() ) { ?>
-            <h3 style="text-align: center"><?php echo esc_html__( 'Please upgrade to pro for slider layout!', 'the-post-grid' ); ?></h3>
 			<?php
-			return;
+			return sprintf(
+				'<h3 style="text-align: center">%s</h3>',
+				esc_html__( 'Please upgrade to pro for slider layout!', 'the-post-grid' )
+			);
 		}
 
 		if ( rtTPG()->hasPro() && ( 'popup' == $data['post_link_type'] || 'multi_popup' == $data['post_link_type'] ) ) {
@@ -163,6 +165,8 @@ class TPGSliderLayout extends Custom_Widget_Base {
 			wp_enqueue_script( 'rt-magnific-popup' );
 			add_action( 'wp_footer', [ Fns::class, 'get_modal_markup' ], 1 );
 		}
+
+		wp_enqueue_script( 'rttpg-block-pro' );
 
 		// Query.
 		$query_args = rtTPGElementorQuery::post_query( $data, $_prefix );

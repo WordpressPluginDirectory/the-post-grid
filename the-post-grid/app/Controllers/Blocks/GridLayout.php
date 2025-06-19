@@ -52,7 +52,6 @@ class GridLayout extends BlockBase {
 	 * @return array
 	 */
 	public function get_attributes() {
-
 		/**
 		 * All Attribute
 		 * Content Tab | Settings Tab | Style Tab
@@ -70,7 +69,6 @@ class GridLayout extends BlockBase {
 	 * @return false|string
 	 */
 	public function render_block( $data ) {
-
 		$this->get_script_depends( $data );
 
 		$_prefix = $data['prefix'];
@@ -80,11 +78,17 @@ class GridLayout extends BlockBase {
 		}
 
 		// Query
+		$posts_per_page = ! empty( $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
 		$query_args     = $this->post_query_guten( $data, $_prefix );
-		$query          = new \WP_Query( $query_args );
-		$rand           = wp_rand();
-		$layoutID       = 'rt-tpg-container-' . $rand;
-		$posts_per_page = $data['display_per_page'] ?? $data['post_limit'];
+		if ( 'current_query' == $data['post_type'] && is_archive() ) {
+            global $wp_query;
+			$query = $wp_query;
+        } else {
+			$query          = new \WP_Query( $query_args );
+        }
+
+		$rand     = wp_rand();
+		$layoutID = 'rt-tpg-container-' . $rand;
 		/**
 		 * Get Post Data for render post
 		 */
@@ -111,24 +115,24 @@ class GridLayout extends BlockBase {
 
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( $dynamicClass ); ?>">
-			<div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main' ); ?>"
-				 id="<?php echo esc_attr( $layoutID ); ?>"
-				 data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
-				 data-grid-style="<?php echo esc_attr( $data['grid_layout_style'] ); ?>" data-sc-id="elementor"
-				 data-el-settings='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( htmlspecialchars( wp_json_encode( $post_data ) ) ) : ''; ?>'
-				 data-el-query='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( htmlspecialchars( wp_json_encode( $query_args ) ) ) : ''; ?>'
-				 data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'>
+        <div class="<?php echo esc_attr( $dynamicClass ); ?>">
+            <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper tpg-gutenberg clearfix <?php echo esc_attr( $_layout . '-main' ); ?>"
+                 id="<?php echo esc_attr( $layoutID ); ?>"
+                 data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
+                 data-grid-style="<?php echo esc_attr( $data['grid_layout_style'] ); ?>" data-sc-id="elementor"
+                 data-el-settings='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( htmlspecialchars( wp_json_encode( $post_data ) ) ) : ''; ?>'
+                 data-el-query='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( htmlspecialchars( wp_json_encode( $query_args ) ) ) : ''; ?>'
+                 data-el-path='<?php echo Fns::is_filter_enable( $data ) ? esc_attr( $template_path ) : ''; ?>'>
 				<?php
 
 				$settings = get_option( rtTPG()->options['settings'] );
 				if ( isset( $settings['tpg_load_script'] ) || isset( $settings['tpg_enable_preloader'] ) ) {
 					?>
-					<div id="bottom-script-loader" class="bottom-script-loader">
-						<div class="rt-ball-clip-rotate">
-							<div></div>
-						</div>
-					</div>
+                    <div id="bottom-script-loader" class="bottom-script-loader">
+                        <div class="rt-ball-clip-rotate">
+                            <div></div>
+                        </div>
+                    </div>
 					<?php
 				}
 
@@ -138,13 +142,13 @@ class GridLayout extends BlockBase {
 				$wrapper_class[] = ( in_array( $_layout, [ 'grid-layout2' ] ) ) ? 'tpg-even' : $_layout_style;
 				$wrapper_class[] = $_prefix . '_layout_wrapper';
 				if ( 'masonry' === $_layout_style && in_array(
-					$_layout,
-					[
-						'grid-layout1',
-						'grid-layout3',
-						'grid-layout4',
-					]
-				) ) {
+						$_layout,
+						[
+							'grid-layout1',
+							'grid-layout3',
+							'grid-layout4',
+						]
+					) ) {
 					$wrapper_class[] = 'tpg-masonry';
 				}
 
@@ -159,14 +163,14 @@ class GridLayout extends BlockBase {
 				}
 
 				?>
-				<div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
-				<?php
-				Fns::get_section_title( $data, true );
-				Fns::print_html( Fns::get_frontend_filter_markup( $data, true ) );
-				?>
-				</div>
-				
-				<div class="rt-row rt-content-loader gutenberg-inner <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
+                <div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
+					<?php
+					Fns::get_section_title( $data, true );
+					Fns::print_html( Fns::get_frontend_filter_markup( $data, 'guten' ) );
+					?>
+                </div>
+
+                <div class="rt-row rt-content-loader gutenberg-inner <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">
 					<?php
 					if ( $query->have_posts() ) {
 						$pCount = 1;
@@ -175,7 +179,7 @@ class GridLayout extends BlockBase {
 							set_query_var( 'tpg_post_count', $pCount );
 							set_query_var( 'tpg_total_posts', $query->post_count );
 							Fns::tpg_template( $post_data, 'gutenberg' );
-							$pCount++;
+							$pCount ++;
 						}
 					} else {
 						if ( $data['no_posts_found_text'] ) {
@@ -186,16 +190,17 @@ class GridLayout extends BlockBase {
 					}
 					wp_reset_postdata();
 					?>
-				</div>
+                </div>
 
 				<?php Fns::print_html( Fns::get_pagination_markup( $query, $data ) ); ?>
 
-			</div>
-		</div>
+            </div>
+        </div>
 		<?php
 
 		do_action( 'tpg_elementor_script' );
 
 		return ob_get_clean();
 	}
+
 }

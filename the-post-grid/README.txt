@@ -1,10 +1,10 @@
-=== The Post Grid – Shortcode, Gutenberg Blocks and Elementor Addon for Post Grid ===
+=== The Post Grid – Shortcode, Gutenberg Blocks, Divi Modules and Elementor Addon for Post Grid ===
 Contributors: techlabpro1
 Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
-Tested up to: 6.7
-Stable tag: 7.7.18
+Tested up to: 6.8
+Stable tag: 7.8.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,8 +15,9 @@ Post Grid is the leading WordPress Grid Plugin for creating News, Magazine, and 
 
 Port Grid is the leading WordPress Post Grid Plugin for creating News, Magazine, and Blogging websites. Post Grid Plugin allows you to create grid, list, grid hover, filter and slider views effortlessly. Post Grid Plugin is simple to use through Shortcodes, Gutenberg Blocks, and the Elementor Addon.
 
-
 👉 [Plugin Demo](https://www.radiustheme.com/demo/plugins/the-post-grid/) | [Elementor Demo](https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/) | [Gutenberg Demo](https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/) | [Documentation](https://www.radiustheme.com/docs/the-post-grid/) | [Get Pro](https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/) 👈
+
+🎯 **Try Admin Demo**: [Click Here](https://radiustheme.net/sandbox/the-post-grid/)
 
 == Post Grid – Shortcode, Gutenberg Blocks and Elementor Addons for Post Grid ==
 
@@ -257,371 +258,26 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 == Changelog ==
 
-= 7.7.18 (March 5, 2024) =
-Fixed: File name sanitization in tpg_template() and tpg_template_path() functions.
-Fixed: Pro message not displaying in Gutenberg Quick Query.
-
-= 7.7.17 (20 Feb, 2024) =
-Fixed: Color Settings not working
-Fixed: Some Layout not importing
-Fixed: CORS issue fixed for layout import
-Fixed: Gutenberg Pagination Error fixed
-Fixed: Section External Link not working
-
-= 7.7.16 (27 Nov, 2024) =
-Fixed: Move load_textdomain() to init hook
-Fixed: Import layout not loading
-
-= 7.7.15 (21 Nov, 2024) =
-Added: Date archive link disable options for Elementor and Gutenberg
-Clean up: Custom_Widget_Base class clean up
-Fixed: On settings page, preg_replace(): Passing null to parameter
-
-= 7.7.14 (17 Oct, 2024) =
-Added: Elementor archive builder support for all widget
-Fixed: Gutenberg autocomplete error fixed
-Fixed: ImportLayout file cleanup
-
-= 7.7.13 (23 Sep, 2024) =
-Fixed: Search conflict with Colibri Page Builder
-Fixed: Gutenberg component loop key missing
-
-= 7.7.12 (24 Aug, 2024) =
-* Remove: Post status change option remove from all segment
-* Added: Only publish post can be display
-* Fixed: Undefined variable: posts_per_page - for shortcode slider layout
-
-= 7.7.11 (23 Aug, 2024) =
-* Fixed: Page not showing for log out users
-* Fixed: post__in not working in Shortcode editor live preview
-
-= 7.7.10 (21 Aug, 2024) =
-* Fixed: Sanitize and Validate Query args for Gutenberg - /app/Controllers/Blocks/BlockBase.php (Line 74-308)
-* Fixed: Sanitize and Validate Query args for Elementor - /app/Widgets/elementor/rtTPGElementorQuery.php (Line 37-410)
-* Improved: Role-based restrictions on post_type and post_status parameters.
-
-= 7.7.9 (13 Aug, 2024) =
-* Fixed: Vulnerability issue on app/Controllers/Blocks/BlockBase.php (Line 84-264)
-* Fixed: Vulnerability issue on app/Widgets/rtTPGElementorQuery.php (Line 37-375)
-* Fixed: Error notice on saving the settings
-
-= 7.7.8 (9 Aug, 2024) =
-* Fixed: Post limit and Posts per page conflict issue fixed (Gutenberg and Elementor).
-
-= 7.7.7 (7 Aug, 2024) =
-* Fixed: Post per page and post limit conflict.
-
-= 7.7.6 (2 Aug, 2024) =
-* Fixed: Import Layout and ChatGPT buttons not displaying in Gutenberg.
-* Fixed: Extra scrollbar issue in the Gutenberg editor settings panel.
-* Fixed: Dependency of posts per page on pagination removed.
-
-= 7.7.5 (2 July, 2024) =
-* Fixed: Security update : app/Controllers/BlocksController.php (line- 359)
-* Fixed: Remove unnecessary api and functionality
-* Added: Added User edit permission to all API and Ajax callback
-
-= 7.7.4 (28 June, 2024) =
-* Fixed: Pagination conflict issue fixed
-* Fixed: Sanitize app/Widgets/elementor/base.php (line- 673, 709)
-* Fixed: Resource Load Type notice not remove after change option
-* Modify: My-account CSS modify
-
-= 7.7.3 =
-* Fixed: Gutenberg margin padding responsive issue fixed
-* Fixed: Gutenberg gradient ( cannot read properties of undefined reading 'orientation' )
-* Fixed: Taxonomy source and Front-end Filter tax source for CPT not working
-* Updated: Security updated
-
-= 7.7.2 =
-* Fixed: Security issues Fixed
-
-= 7.7.1 =
-* Fixed: preg_replace and str_replace passing null issues fixed
-* Optimize: Code optimize
-
-= 7.7.0 =
-* Updated: Security issued updated
-* Fixed: ChatGPT button not showing
-* Fixed: Duplicate default terms control
-
-= 7.6.1 =
-* Fixed: Shortcode data not saved
-
-= 7.6.0 =
-* Fixed: Shortcode Layout images broken
-* Fixed: Vulnerability issue fixed
-* Updated: Security updated
-
-= 7.5.0 =
-* Added: ChatGPT integration
-* Fixed: Security Updated
-
-= 7.4.3 =
-* Fixed: PHP 8.3 compatible
-* Fixed: Notice Controller bug fixed
-
-= 7.4.2 =
-* Fixed: Block pagination not wrap properly
-* Fixed: Add settings for change the pagination wrap
-
-= 7.4.1 =
-* Fixed: Block encountered error fixed
-* Fixed: Orderby and order by for elementor not showing
-
-= 7.4.0 =
-* Fixed: Taxonomy order not working
-* Fixed: Flaticon confilict issue fixed
-* Optimize: Code optimize
-* Update: Gutenberg controller updated
-
-= 7.3.1 =
-* Updated: Flaticon and Font-awesome icon updated
-* Fixed: Gutenberg post block not working properly on single page
-
-= 7.3.0 =
-* Added: Gutenberg and Elementor controller added
-* Modify: Post Query modify
-* Fixed: Gutenberg Modal Manager bug fixed
-* Fixed: Some Deprecated issue fixed
-
-= 7.2.11 =
-* Fixed: Custom post type filter for shortcode bug fixed
-* Fixed: CPT taxonomy for shortcode not showing in post grid
-* Fixed: CPT Default taxonomy for shortcode not working in front-end
-
-= 7.2.10 =
-* Fixed: Isotope show all button not showing
-* Updated: Plugin options updated
-
-= 7.2.9 =
-* Fixed: Isotope loader bug fix
-* Fixed: Default Gutenberg widget doesn't show
-
-= 7.2.8 =
-* Updated: Security updated
-
-= 7.2.7 =
-* Updated: REDME File updated
-* Updated: Post Filter search functionality updated
-* Added: Some CSS added
-
-= 7.2.6 =
-* Updated: Security issues updated
-* Updated: Documentation updated
-
-= 7.2.5 =
-* CSS modify
-* All Gutenberg and Elementor sections redesign
-* Gtuenberg taxonomy select controller bug fix
-* Documentation updated
-
-= 7.2.4 =
-* Fixed: Undefined constant bug fixed
-
-= 7.2.3 =
-* Fixed: Category Block bug fixed
-
-= 7.2.2 =
-* Fixed: All Gutenberg and Elementor layout redesign
-* Updated: All demo post changed
-* Fixed: Some Responsive Issues fixed
-* Updated: Documentation updated
-
-= 7.2.1 =
-* Fixed: Gutenberg import bug fixed
-
-= 7.2.0 =
-* Added: External post link (Read More) feature
-* Updated: 4 Free Gutenberg layout redesign
-* Updated: Documentation updated
-* Fixed: Pagination icon fixed
-* Fixed: Import bug fixed
-
-= 7.1.0 =
-* Fixed: Flaticon added
-* Fixed: Style Load twice
-* Updated: Documentation Updated
-* Added: New section title block added
-
-= 7.0.2 =
-* Fixed: Slider layout post limit not working
-* Fixed: Function is_category was called incorrectly
-
-= 7.0.1 =
-* Fixed: Undefined array key "isotope_default_filter" fixed
-* Fixed: Category source for CPT issue in Elementor
-* Added: Thumbnail Position, Opacity, Transition controller added in Elementor
-
-= 7.0.0 =
-* Added: Layout and Section import system added for Elementor
-* Added: 4 Free layout and 9 Premade Sections added for Elementor
-* Fixed: Ajax search unicode support
-* Fixed: Some Elementor controller added for few layout
-* Modified: Plugin url modified
-* Modified: Some CSS midified
-* Updated: Documentation updated
-
-= 6.0.0 =
-* Added: Layout and Section import system added for Gutenberg
-* Added: 4 Free layout and 19 Premade Sections added for Gutenberg
-* Added: Post title typography offset layouts added for gutenberg
-* Added: Expired transient remove functionality added
-* Deprecated: Post Grid Gutenberg widget
-* Fixed: Select2 conflict with yoast
-* Fixed: Block sidebar compatibility fixed
-* Fixed: Post content by WPBakery not showing properly
-
-= 5.0.5 =
-* Add: Post id added in post row meta
-* Updated: Notice security updated
-
-= 5.0.4 =
-* Fixed: Cyber week notice dismiss issue
-
-= 5.0.3 =
-* Added: All block list added in wordpress.org
-
-= 5.0.2 =
-* Improved: Some styles.
-
-= 5.0.1 =
-* Fixed: Parse error in the earlier PHP versions.
-
-= 5.0.0 =
-* Added: 3 Gutenberg Blocks (Grid Layout, List Layout, and Grid Hover Layout) with 9 layouts for Post Grid
-* Fixed: Shortcode bug fixed
-* Fixed: Elementor control bug fix
-* Deprecated: The Post Grid Block (shortcode select) deprecated
-
-= 4.2.3 =
-* Remove: Remove Elementor deprecated widget
-* Fixed: Calculate image srcset conflict
-
-= 4.2.2 =
-* Fixed: Post title hover color issue fix
-* Added: Meta orderby for both (shortcode and elementor) added
-* Added: Some CSS added
-
-= 4.2.1 =
-* Fixed: Some escaping issue
-* Fixed: Elementor controller condition
-* Fixed: Elementor controller css selector
-
-= 4.2.0 =
-* Fixed: Admin body class conflict fixed
-* Fixed: Admin pagination fixed
-* Updated: Proper sanitization and escaping for all files
-* Updated: All vendor libraries
-
-= 4.1.5 =
-* Fixed: Admin preview pagination not showing
-* Fixed: Datepicker style added
-
-= 4.1.4 =
-* Fixed: Meta icon font-weight issue fixed
-* Added: Some css added
-* Remove: Unnecessary CSS remove
-
-= 4.1.3 =
-* Fixed: Elementor Controller Rearranged
-* Fixed: Meta Controller bug fixed
-* Fixed: Shortcode update button conflict issue fixed
-
-= 4.1.2 =
-* Fixed: Front-end filter orderby bug fixed
-* Fixed: Post type issue fixed
-* Fixed: Some bug fixed
-
-= 4.1.1 =
-* Fixed: List Layout (1,2,3,4) extra padding remove
-* Fixed: Resource Load Type bug fixed
-* Fixed: Plugin dependency bug fix
-
-= 4.1.0 =
-* Added: Add New Settings
-* Added: EDD Isotope layout added for shortcode
-* Fixed: Responsive issue fixed for List layout - Elementor
-* Fixed: Full Excerpt not showing in mobile
-* Fixed: Field Selection default value conflict
-* Fixed: List layout for Elementor responsive issue fixed
-* Fixed: WooCommerce pagination fix
-* Fixed: WooCommerce popup slider fix
-* Fixed: Gutenberg block style fix
-* Improved: Merge and minify all css and improved assets loading
-
-= 4.0.5 =
-* Fixed: Shortcode Taxonomy filter bug fixed
-
-= 4.0.4 =
-* Fixed: Showing full text instead of excerpt
-* Fixed: Pagination CSS issue fixed
-* Updated: Elementor widget register functionality updated
-* Updated: Documentation Updated
-
-= 4.0.3 =
-* Fixed: HTML tags not allowed in Excerpt
-
-= 4.0.2 =
-* Fixed: Elementor block responsive issue fixed
-
-= 4.0.1 =
-* Fixed: Some style issue fixed
-
-= 4.0.0 =
-* Added: 3 Elementor Widgets with 9 layouts for The Post Grid
-* Added: Archive Page Builder for Elementor (Pro)
-
-= 3.1.5 =
-* Fixed: Multiple ShortCode same page preloader issue
-
-= 3.1.4 =
-* Fixed: PHP error
-
-= 3.1.3 =
-* Fixed: Post Excerpt hide issue in mobile
-* Fixed: Pagination Type selection issue
-
-= 3.1.2 =
-* Added: No post found message in Isotope
-
-= 3.1.1 =
-* Fixed Grid Column Issue in Small Device
-* Fixed Radio Field Selection Issue
-* Fixed ShortCode Heading Issue
-
-= 3.1.0 =
-* Updated UI
-* Added 4 New Layout
-* Added New Settings
-* Added Offset Option
-
-= 3.0.5 =
-* Updated missing URL
-
-= 3.0.4 =
-* Fixed file readability issue
-* Added option for script loading
-* Draft post issue in preview
-
-= 3.0.3 =
-* Fixed feature image not existing notice issue
-
-= 3.0.2 =
-* Fixed pagination issue
-* Fixed shortcode title tag issue
-
-= 3.0.1 =
-* Fixed isotope masonry issue
-
-= 3.0.0 =
-* Updated to FontAwesome 5
-* Added responsive column settings in ShortCode
-* Added meta color and typography settings
-* Added excerpt color and typography settings
-
-= 2.3.6.6 =
-* Changed demo link
-
-= 2.3.6.5 =
-* Add New icon
+= 7.8.0 (Jun 18, 2025) =
+* Added: Three new widgets with nine layouts for the Divi Builder.
+* Fixed: Gutenberg block not working in the archive page builder for block themes.
+* Fixed: Polygon language conflict issue.
+
+= 7.7.22 (Jun 4, 2025) =
+Added: Add a new admin page for all plugins showcase
+Added: Add new InstallPlugin class hook
+Fixed: A few layout image height css issue fixed for Elementor and Gutenberg
+
+= 7.7.21 (May 20, 2025) =
+Fixed: Undefined tax_filter_all_text in Fns.php on line 690
+Fixed: Taxonomies shared across multiple post types not appearing correctly
+Added: New API endpoint to retrieve terms in Gutenberg
+Updated: “Display Per Page” control moved from Pagination to Query Builder in Gutenberg
+Cleaned: Removed unnecessary console.log from Gutenberg script
+
+= 7.7.20 (May 7, 2025) =
+Fixed: Resolved image srcset conflict with Avada theme
+Fixed: Addressed script loading conflict issue
+Added: New settings options for enhanced customization
+
+[See changelog for all versions.](https://raw.githubusercontent.com/radiustheme/changelog/refs/heads/main/the-post-grid.txt)

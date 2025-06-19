@@ -264,7 +264,9 @@ class BlocksController {
 
 		$settings       = get_option( rtTPG()->options['settings'] );
 		$ssList         = ! empty( $settings['social_share_items'] ) ? $settings['social_share_items'] : [];
+		$enable_ai_button = ! empty( $settings['ai_type'] ) ? $settings['ai_type'] : '';
 		$chatgpt_status = ! empty( $settings['chatgpt_status'] ) ? $settings['chatgpt_status'] : '';
+		$gemini_status = ! empty( $settings['gemini_status'] ) ? $settings['gemini_status'] : '';
 
 		wp_localize_script(
 			'rttpg-blocks-js',
@@ -288,7 +290,9 @@ class BlocksController {
 				'ssList'              => $ssList,
 				'current_user_id'     => get_current_user_id(),
 				'disableImportButton' => apply_filters( 'rttpg_disable_gutenberg_import_button', 'no' ),
+				'enableAIButton'      => $enable_ai_button,
 				'enableChatGPTButton' => $chatgpt_status ? 'yes' : 'no',
+				'enableGeminiButton' => $gemini_status ? 'yes' : 'no',
 				'iconFont'            => Fns::tpg_option( 'tpg_icon_font' ),
 				'avatar'              => esc_url( get_avatar_url( get_current_user_id() ) ),
 			]

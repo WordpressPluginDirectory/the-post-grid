@@ -8,6 +8,7 @@
 namespace RT\ThePostGrid\Controllers\Admin;
 
 use RT\ThePostGrid\Helpers\Fns;
+use RT\ThePostGridPro\Helpers\Functions;
 
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Settings Controller class.
  */
 class SettingsController {
+
 	/**
 	 * Shortcode tag
 	 *
@@ -58,6 +60,16 @@ class SettingsController {
 			echo '}';
 			echo '</style>';
 		}
+
+		?>
+		<style>
+            #adminmenu .wp-submenu li a[href="edit.php?post_type=rttpg&page=rttpg_our_plugins"] {
+                color: #32d716 !important;
+                font-weight: bold !important;
+            }
+		</style>
+		<?php
+
 	}
 
 	/**
@@ -103,7 +115,7 @@ class SettingsController {
 			return;
 		}
 
-		$html  = '';
+		$html = '';
 		$html .= '<div class="rt-document-box rt-alert rt-pro-alert">
 					<div class="rt-box-icon"><i class="dashicons dashicons-lock"></i></div>
 					<div class="rt-box-content">
@@ -170,6 +182,7 @@ class SettingsController {
 	 * Marketing
 	 *
 	 * @param array $links Links.
+	 *
 	 * @return array
 	 */
 	public function marketing( $links ) {
@@ -206,6 +219,33 @@ class SettingsController {
 			'rttpg_get_help',
 			[ $this, 'get_help' ]
 		);
+
+		if ( rttpg()->hasPro() ) {
+			add_submenu_page(
+				'edit.php?post_type=' . rtTPG()->post_type,
+				esc_html__( 'Taxonomy Order', 'the-post-grid-pro' ),
+				esc_html__( 'Taxonomy Order', 'the-post-grid-pro' ),
+				'administrator',
+				'tgp_taxonomy_order',
+				[ $this, 'tpg_menu_page_taxonomy_order' ]
+			);
+		}
+
+		add_submenu_page(
+			'edit.php?post_type=' . rtTPG()->post_type,
+			esc_html__( 'Our Plugins', 'the-post-grid' ),
+			esc_html__( 'Our Plugins', 'the-post-grid' ),
+			'administrator',
+			'rttpg_our_plugins',
+			[ $this, 'our_plugins' ]
+		);
+	}
+
+	public function tpg_menu_page_taxonomy_order() {
+		if ( ! rttpg()->hasPro() ) {
+			return;
+		}
+		Functions::view( 'taxonomy-order' );
 	}
 
 	/**
@@ -224,6 +264,15 @@ class SettingsController {
 	 */
 	public function settings() {
 		Fns::view( 'settings.settings' );
+	}
+
+	/**
+	 * Settings view
+	 *
+	 * @return void
+	 */
+	public function our_plugins() {
+		Fns::view( 'page.our-plugins' );
 	}
 
 }

@@ -40,7 +40,7 @@ class TPGSliderLayoutArchive extends Custom_Widget_Base {
 		array_push( $scripts, 'imagesloaded' );
 		array_push( $scripts, 'swiper' );
 		array_push( $scripts, 'rt-tpg' );
-		array_push( $scripts, 'rttpg-block-pro' );
+//		array_push( $scripts, 'rttpg-block-pro' );
 
 		return $scripts;
 	}
@@ -167,6 +167,8 @@ class TPGSliderLayoutArchive extends Custom_Widget_Base {
 			wp_enqueue_script( 'rt-magnific-popup' );
 			add_action( 'wp_footer', [ Fns::class, 'get_modal_markup' ], 1 );
 		}
+
+		wp_enqueue_script( 'rttpg-block-pro' );
 
 		// Query.
 		$query_args     = rtTPGElementorQuery::post_query_builder( $data, $_prefix );

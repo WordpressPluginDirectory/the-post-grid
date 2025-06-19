@@ -8,6 +8,7 @@
 namespace RT\ThePostGrid\Controllers;
 
 // Do not allow directly accessing this file.
+use RT\ThePostGrid\Helpers\DiviFns;
 use RT\ThePostGrid\Helpers\Fns;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Script Controller class.
  */
 class ScriptController {
+
 	/**
 	 * Version
 	 *
@@ -38,6 +40,7 @@ class ScriptController {
 	public function __construct() {
 		$this->version = defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : RT_THE_POST_GRID_VERSION;
 		add_action( 'wp_head', [ $this, 'header_scripts' ] );
+		add_action( 'admin_head', [ $this, 'admin_header_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue' ] );
 		add_action( 'init', [ $this, 'init' ] );
 	}
@@ -48,8 +51,7 @@ class ScriptController {
 	 * @return void
 	 */
 	public function init() {
-
-        //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		if ( 'rttpg_settings' === $current_page ) {
@@ -127,7 +129,7 @@ class ScriptController {
 	 * @return void
 	 */
 	public function enqueue() {
-		$settings       = get_option( rtTPG()->options['settings'] );
+		$settings         = get_option( rtTPG()->options['settings'] );
 		$block_type       = Fns::tpg_option( 'tpg_block_type', 'default' );
 		$load_script_type = Fns::tpg_option( 'tpg_load_script' );
 
@@ -141,7 +143,7 @@ class ScriptController {
 				wp_enqueue_style( 'rt-tpg' );
 			}
 
-			if ( 'elementor' === $block_type ) {
+			if ( in_array( $block_type, [ 'elementor', 'divi' ] ) ) {
 				wp_enqueue_style( 'rt-tpg-block' );
 			}
 
@@ -162,169 +164,178 @@ class ScriptController {
 		wp_add_inline_script( 'rt-tpg', $script );
 	}
 
+	public function admin_frontend_script() {
+		$settings = get_option( rtTPG()->options['settings'] );
+		?>
+        <style>
+            :root {
+                --tpg-primary-color: <?php echo isset( $settings['tpg_primary_color_main'] ) ? sanitize_hex_color( $settings['tpg_primary_color_main'] ) : '#0d6efd'; ?>;
+                --tpg-secondary-color: <?php echo isset( $settings['tpg_secondary_color_main'] ) ? sanitize_hex_color( $settings['tpg_secondary_color_main'] ) : '#0654c4'; ?>;
+                --tpg-primary-light: #c4d0ff
+            }
+
+            <?php if ( isset( $settings['tpg_loader_color'] ) ) : ?>
+            body .rt-tpg-container .rt-loading,
+            body #bottom-script-loader .rt-ball-clip-rotate {
+                color: <?php echo sanitize_hex_color( $settings['tpg_loader_color'] ); ?> !important;
+            }
+
+            <?php endif; ?>
+        </style>
+		<?php
+	}
+
+	public function admin_header_scripts() {
+		$this->admin_frontend_script();
+	}
+
 	/**
 	 * Header Scripts
 	 *
 	 * @return void
 	 */
 	public function header_scripts() {
-        $settings       = get_option( rtTPG()->options['settings'] );
-		?>
+		$settings = get_option( rtTPG()->options['settings'] );
 
-		<style>
-			:root {
-				--tpg-primary-color: <?php echo isset( $settings['tpg_primary_color_main'] ) ? sanitize_hex_color( $settings['tpg_primary_color_main'] ) : '#0d6efd'; ?>;
-				--tpg-secondary-color: <?php echo isset( $settings['tpg_secondary_color_main'] ) ? sanitize_hex_color( $settings['tpg_secondary_color_main'] ) : '#0654c4'; ?>;
-				--tpg-primary-light: #c4d0ff
-			}
-
-			<?php if ( isset( $settings['tpg_loader_color'] ) ) : ?>
-			body .rt-tpg-container .rt-loading,
-			body #bottom-script-loader .rt-ball-clip-rotate {
-				color: <?php echo sanitize_hex_color( $settings['tpg_loader_color'] ); ?> !important;
-			}
-
-			<?php endif; ?>
-		</style>
-
-		<?php
-		if ( isset( $settings['tpg_load_script'] ) ) :
+		$this->admin_frontend_script();
+		if ( isset( $settings['tpg_load_script'] ) && ! DiviFns::is_divi_builder_preview() ) :
 			?>
-			<style>
-				.rt-container-fluid {
-					position: relative;
-				}
+            <style>
+                .rt-container-fluid {
+                    position: relative;
+                }
 
-				.rt-tpg-container .tpg-pre-loader {
-					position: relative;
-					overflow: hidden;
-				}
+                .rt-tpg-container .tpg-pre-loader {
+                    position: relative;
+                    overflow: hidden;
+                }
 
-				.rt-tpg-container .rt-loading-overlay {
-					opacity: 0;
-					visibility: hidden;
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					z-index: 1;
-					background-color: #fff;
-				}
+                .rt-tpg-container .rt-loading-overlay {
+                    opacity: 0;
+                    visibility: hidden;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                    background-color: #fff;
+                }
 
-				.rt-tpg-container .rt-loading {
-					color: var(--tpg-primary-color);
-					position: absolute;
-					top: 40%;
-					left: 50%;
-					margin-left: -16px;
-					z-index: 2;
-					opacity: 0;
-					visibility: hidden;
-				}
+                .rt-tpg-container .rt-loading {
+                    color: var(--tpg-primary-color);
+                    position: absolute;
+                    top: 40%;
+                    left: 50%;
+                    margin-left: -16px;
+                    z-index: 2;
+                    opacity: 0;
+                    visibility: hidden;
+                }
 
-				.rt-tpg-container .tpg-pre-loader .rt-loading-overlay {
-					opacity: 0.8;
-					visibility: visible;
-				}
+                .rt-tpg-container .tpg-pre-loader .rt-loading-overlay {
+                    opacity: 0.8;
+                    visibility: visible;
+                }
 
-				.tpg-carousel-main .tpg-pre-loader .rt-loading-overlay {
-					opacity: 1;
-				}
+                .tpg-carousel-main .tpg-pre-loader .rt-loading-overlay {
+                    opacity: 1;
+                }
 
-				.rt-tpg-container .tpg-pre-loader .rt-loading {
-					opacity: 1;
-					visibility: visible;
-				}
-
-
-				#bottom-script-loader {
-					position: absolute;
-					width: calc(100% + 60px);
-					height: calc(100% + 60px);
-					z-index: 999;
-					background: rgba(255, 255, 255, 0.95);
-					margin: -30px;
-				}
-
-				#bottom-script-loader .rt-ball-clip-rotate {
-					color: var(--tpg-primary-color);
-					position: absolute;
-					top: 80px;
-					left: 50%;
-					margin-left: -16px;
-					z-index: 2;
-				}
-
-				.tpg-el-main-wrapper.loading {
-					min-height: 300px;
-					transition: 0.4s;
-				}
-
-				.tpg-el-main-wrapper.loading::before {
-					width: 32px;
-					height: 32px;
-					display: inline-block;
-					float: none;
-					border: 2px solid currentColor;
-					background: transparent;
-					border-bottom-color: transparent;
-					border-radius: 100%;
-					-webkit-animation: ball-clip-rotate 0.75s linear infinite;
-					-moz-animation: ball-clip-rotate 0.75s linear infinite;
-					-o-animation: ball-clip-rotate 0.75s linear infinite;
-					animation: ball-clip-rotate 0.75s linear infinite;
-					left: 50%;
-					top: 50%;
-					position: absolute;
-					z-index: 9999999999;
-					color: red;
-				}
+                .rt-tpg-container .tpg-pre-loader .rt-loading {
+                    opacity: 1;
+                    visibility: visible;
+                }
 
 
-				.rt-tpg-container .slider-main-wrapper,
-				.tpg-el-main-wrapper .slider-main-wrapper {
-					opacity: 0;
-				}
+                #bottom-script-loader {
+                    position: absolute;
+                    width: calc(100% + 60px);
+                    height: calc(100% + 60px);
+                    z-index: 999;
+                    background: rgba(255, 255, 255, 0.95);
+                    margin: -30px;
+                }
 
-				.md-modal {
-					visibility: hidden;
-				}
+                #bottom-script-loader .rt-ball-clip-rotate {
+                    color: var(--tpg-primary-color);
+                    position: absolute;
+                    top: 80px;
+                    left: 50%;
+                    margin-left: -16px;
+                    z-index: 2;
+                }
 
-				.md-modal.md-show {
-					visibility: visible;
-				}
+                .tpg-el-main-wrapper.loading {
+                    min-height: 300px;
+                    transition: 0.4s;
+                }
 
-				.builder-content.content-invisible {
-					visibility: hidden;
-				}
+                .tpg-el-main-wrapper.loading::before {
+                    width: 32px;
+                    height: 32px;
+                    display: inline-block;
+                    float: none;
+                    border: 2px solid currentColor;
+                    background: transparent;
+                    border-bottom-color: transparent;
+                    border-radius: 100%;
+                    -webkit-animation: ball-clip-rotate 0.75s linear infinite;
+                    -moz-animation: ball-clip-rotate 0.75s linear infinite;
+                    -o-animation: ball-clip-rotate 0.75s linear infinite;
+                    animation: ball-clip-rotate 0.75s linear infinite;
+                    left: 50%;
+                    top: 50%;
+                    position: absolute;
+                    z-index: 9999999999;
+                    color: red;
+                }
 
-				.rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper) {
-					opacity: 0;
-				}
 
-				.rt-popup-content .rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper) {
-					opacity: 1;
-				}
+                .rt-tpg-container .slider-main-wrapper,
+                .tpg-el-main-wrapper .slider-main-wrapper {
+                    opacity: 0;
+                }
 
-			</style>
+                .md-modal {
+                    visibility: hidden;
+                }
 
-			<script>
-				jQuery(document).ready(function () {
-					setTimeout(function () {
-						jQuery('.rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper)').animate({"opacity": 1});
-					}, 100);
-				});
+                .md-modal.md-show {
+                    visibility: visible;
+                }
 
-				jQuery(window).on('elementor/frontend/init', function () {
-					if (elementorFrontend.isEditMode()) {
-						elementorFrontend.hooks.addAction('frontend/element_ready/widget', function () {
-							jQuery('.rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper)').animate({"opacity": 1});
-						});
-					}
-				});
-			</script>
-			<?php
+                .builder-content.content-invisible {
+                    visibility: hidden;
+                }
+
+                .rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper) {
+                    opacity: 0;
+                }
+
+                .rt-popup-content .rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper) {
+                    opacity: 1;
+                }
+
+            </style>
+
+            <script>
+                jQuery(document).ready(function () {
+                    setTimeout(function () {
+                        jQuery('.rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper)').animate({ 'opacity': 1 })
+                    }, 100)
+                })
+
+                jQuery(window).on('elementor/frontend/init', function () {
+                    if (elementorFrontend.isEditMode()) {
+                        elementorFrontend.hooks.addAction('frontend/element_ready/widget', function () {
+                            jQuery('.rt-tpg-container > *:not(.bottom-script-loader, .slider-main-wrapper)').animate({ 'opacity': 1 })
+                        })
+                    }
+                })
+            </script>
+		<?php
 		endif;
 	}
+
 }

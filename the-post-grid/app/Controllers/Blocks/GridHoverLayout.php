@@ -84,7 +84,13 @@ class GridHoverLayout extends BlockBase {
 
 		// Query.
 		$query_args     = $this->post_query_guten( $data, $_prefix );
-		$query          = new \WP_Query( $query_args );
+		if ( 'current_query' == $data['post_type'] && is_archive() ) {
+			global $wp_query;
+			$query = $wp_query;
+		} else {
+			$query          = new \WP_Query( $query_args );
+		}
+
 		$rand           = wp_rand();
 		$layoutID       = 'rt-tpg-container-' . $rand;
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
@@ -114,7 +120,7 @@ class GridHoverLayout extends BlockBase {
 		ob_start();
 		?>
         <div class="<?php echo esc_attr( $dynamicClass ); ?>">
-            <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper clearfix <?php echo esc_attr( $_layout . '-main' ); ?>"
+            <div class="rt-container-fluid rt-tpg-container tpg-el-main-wrapper tpg-gutenberg clearfix <?php echo esc_attr( $_layout . '-main' ); ?>"
                  id="<?php echo esc_attr( $layoutID ); ?>"
                  data-layout="<?php echo esc_attr( $data[ $_prefix . '_layout' ] ); ?>"
                  data-grid-style="<?php echo esc_attr( $data['grid_layout_style'] ); ?>" data-sc-id="elementor"
@@ -165,7 +171,7 @@ class GridHoverLayout extends BlockBase {
                 <div class='tpg-header-wrapper <?php echo esc_attr( $is_carousel ); ?>'>
 					<?php
 					Fns::get_section_title( $data, true );
-					Fns::print_html( Fns::get_frontend_filter_markup( $data, true ) );
+					Fns::print_html( Fns::get_frontend_filter_markup( $data, 'guten' ) );
 					?>
                 </div>
                 <div class="rt-row rt-content-loader gutenberg-inner <?php echo esc_attr( implode( ' ', $wrapper_class ) ); ?>">

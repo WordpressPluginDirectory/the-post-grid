@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package RT_TPG
  */
 class FilterHooks {
+
 	/**
 	 * Class init
 	 *
@@ -41,6 +42,28 @@ class FilterHooks {
 		add_filter( 'admin_body_class', [ __CLASS__, 'admin_body_class' ] );
 		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'tpg_custom_wpkses_post_tags' ], 10, 2 );
 		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'custom_wpkses_post_tags' ], 10, 2 );
+
+		//Query args modify
+		add_filter( 'tpg_sc_query_args', [ __CLASS__, 'modify_query_args' ], 10 );
+		add_filter( 'tpg_sc_temp_query_args', [ __CLASS__, 'modify_query_args' ], 10 );
+
+		//add_filter( 'tpg_polylang', '__return_empty_string', 15 );
+	}
+
+	/**
+	 * Modify main query args
+	 *
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
+	public static function modify_query_args( $args ) {
+		if ( function_exists( 'pll_current_language' ) ) {
+			$language     = pll_current_language();
+			$args['lang'] = apply_filters( 'tpg_polylang', $language ); //If your site don't translate properly by poly language you need to return empty string.
+		}
+
+		return $args;
 	}
 
 	/**
@@ -79,20 +102,16 @@ class FilterHooks {
 		$settings = get_option( 'rt_the_post_grid_settings' );
 		global $pagenow;
 
-		if ( isset( $settings['tpg_block_type'] ) && in_array(
-				$settings['tpg_block_type'],
-				[
-					'elementor',
-					'shortcode',
-				]
-			) ) {
-			$classes .= ' tpg-block-type-elementor-or-shortcode';
+		if (
+			isset( $settings['tpg_block_type'] ) &&
+			in_array( $settings['tpg_block_type'], [ 'elementor', 'divi' ] )
+		) {
+			$classes .= ' tpg-block-type-el-or-divi';
 		}
 
 		// Check if the current page is post.php and if the post parameteris set.
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( 'post.php' === $pagenow && isset( $_GET['post'] ) ) {
-
 			if ( rtTPG()->hasPro() ) {
 				$classes .= ' the-post-grid the-post-grid-pro';
 			} else {
@@ -112,7 +131,6 @@ class FilterHooks {
 	 * @return mixed
 	 */
 	public static function tpg_custom_wpkses_post_tags( $tags, $context ) {
-
 		if ( 'post' === $context ) {
 			$tags['iframe'] = [
 				'src'             => true,
@@ -261,4 +279,5 @@ class FilterHooks {
 
 		return $tags;
 	}
+
 }

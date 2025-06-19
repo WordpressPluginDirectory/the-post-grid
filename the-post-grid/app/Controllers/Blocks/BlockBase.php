@@ -86,6 +86,10 @@ abstract class BlockBase {
 			'post_status' => 'publish',
 		];
 
+		if ( 'current_query' == $data['post_type'] && is_archive() ) {
+			return $args;
+		}
+
 		if ( $data['post_id'] ) {
 			$post_ids         = explode( ',', esc_html( $data['post_id'] ) );
 			$post_ids         = array_map( 'trim', $post_ids );
@@ -106,6 +110,10 @@ abstract class BlockBase {
 				$orderby = 'date';
 			}
 			$args['orderby'] = esc_html( $orderby );
+
+			if ( 'include_only' == $orderby ) {
+				$args['orderby'] = 'post__in';
+			}
 		}
 
 		if ( $data['order'] ) {
@@ -193,7 +201,7 @@ abstract class BlockBase {
 				if ( ! empty( $offset_posts ) ) {
 					$tempArgs['post__not_in'] = $offset_posts; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
-				$tempQ = new \WP_Query( $tempArgs );
+				$tempQ = new \WP_Query( apply_filters( 'tpg_sc_temp_query_args', $tempArgs ) );
 				if ( ! empty( $tempQ->posts ) ) {
 					$args['post__in']       = $tempQ->posts;
 					$args['posts_per_page'] = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? esc_html( $data['display_per_page'] ) : esc_html( $data['post_limit'] );
@@ -309,6 +317,6 @@ abstract class BlockBase {
 			}
 		}
 
-		return $args;
+		return apply_filters( 'tpg_sc_query_args', $args );
 	}
 }
