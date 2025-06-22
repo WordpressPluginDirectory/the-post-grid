@@ -2,7 +2,7 @@
 
 namespace RT\ThePostGrid\Divi\Mudules;
 
-use RT\ThePostGrid\Abstract\AbstractDivi;
+use RT\ThePostGrid\Abstracts\AbstractDivi;
 use RT\ThePostGrid\Factory\DiviFactory;
 use RT\ThePostGrid\Divi\Utils\DiviFrontEndCss;
 use RT\ThePostGrid\Divi\Render\ListLayoutRender;

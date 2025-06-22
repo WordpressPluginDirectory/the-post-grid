@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-19 09:39+0000\n"
+"POT-Creation-Date: 2025-06-22 03:35+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -14,83 +14,83 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../app/Abstract/AbstractDivi.php:22
+#: ../app/Abstracts/AbstractDivi.php:22
 msgid "The Post Grid Module Name"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:40, ../app/Helpers/Options.php:784, ../app/Widgets/elementor/rtTPGElementorHelper.php:543, ../app/Widgets/elementor/rtTPGElementorHelper.php:1548, ../app/Widgets/elementor/widgets/post-timeline.php:99
+#: ../app/Abstracts/AbstractDivi.php:40, ../app/Helpers/Options.php:784, ../app/Widgets/elementor/rtTPGElementorHelper.php:543, ../app/Widgets/elementor/rtTPGElementorHelper.php:1548, ../app/Widgets/elementor/widgets/post-timeline.php:99
 msgid "Layout"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:41
+#: ../app/Abstracts/AbstractDivi.php:41
 msgid "Query Builder"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:42, ../app/Widgets/elementor/rtTPGElementorHelper.php:1058
+#: ../app/Abstracts/AbstractDivi.php:42, ../app/Widgets/elementor/rtTPGElementorHelper.php:1058
 msgid "Filter (Front-end)"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:43, ../app/Helpers/Options.php:766, ../app/Helpers/Options.php:961, ../app/Helpers/Options.php:1875, ../app/Divi/Fields/AdvancedFields.php:482, ../app/Widgets/elementor/rtTPGElementorHelper.php:1787
+#: ../app/Abstracts/AbstractDivi.php:43, ../app/Helpers/Options.php:766, ../app/Helpers/Options.php:961, ../app/Helpers/Options.php:1875, ../app/Divi/Fields/AdvancedFields.php:482, ../app/Widgets/elementor/rtTPGElementorHelper.php:1787
 msgid "Pagination"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:44
+#: ../app/Abstracts/AbstractDivi.php:44
 msgid "Post Link"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:45, ../app/Helpers/Options.php:1091, ../app/Controllers/Admin/MetaController.php:291, ../app/Widgets/elementor/rtTPGElementorHelper.php:1882
+#: ../app/Abstracts/AbstractDivi.php:45, ../app/Helpers/Options.php:1091, ../app/Controllers/Admin/MetaController.php:291, ../app/Widgets/elementor/rtTPGElementorHelper.php:1882
 msgid "Field Selection"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:46, ../app/Abstract/AbstractDivi.php:56, ../app/Divi/Fields/AdvancedFields.php:46, ../app/Divi/Fields/SettingsFieldSelection.php:25, ../app/Divi/Fields/SettingsSectionTitle.php:62, ../app/Widgets/elementor/rtTPGElementorHelper.php:1890, ../app/Widgets/elementor/rtTPGElementorHelper.php:2149, ../app/Widgets/elementor/rtTPGElementorHelper.php:2153, ../app/Widgets/elementor/rtTPGElementorHelper.php:3789, ../app/Widgets/elementor/widgets/section-title.php:59, ../app/Widgets/elementor/widgets/section-title.php:101, ../app/Widgets/elementor/widgets/section-title.php:200
+#: ../app/Abstracts/AbstractDivi.php:46, ../app/Abstracts/AbstractDivi.php:56, ../app/Divi/Fields/AdvancedFields.php:46, ../app/Divi/Fields/SettingsFieldSelection.php:25, ../app/Divi/Fields/SettingsSectionTitle.php:62, ../app/Widgets/elementor/rtTPGElementorHelper.php:1890, ../app/Widgets/elementor/rtTPGElementorHelper.php:2149, ../app/Widgets/elementor/rtTPGElementorHelper.php:2153, ../app/Widgets/elementor/rtTPGElementorHelper.php:3789, ../app/Widgets/elementor/widgets/section-title.php:59, ../app/Widgets/elementor/widgets/section-title.php:101, ../app/Widgets/elementor/widgets/section-title.php:200
 msgid "Section Title"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:47
+#: ../app/Abstracts/AbstractDivi.php:47
 msgid "Post title"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:48, ../app/Abstract/AbstractDivi.php:58, ../app/Widgets/elementor/rtTPGElementorHelper.php:2338, ../app/Widgets/elementor/rtTPGElementorHelper.php:4185
+#: ../app/Abstracts/AbstractDivi.php:48, ../app/Abstracts/AbstractDivi.php:58, ../app/Widgets/elementor/rtTPGElementorHelper.php:2338, ../app/Widgets/elementor/rtTPGElementorHelper.php:4185
 msgid "Thumbnail"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:49, ../app/Abstract/AbstractDivi.php:59, ../app/Widgets/elementor/rtTPGElementorHelper.php:2772, ../app/Widgets/elementor/rtTPGElementorHelper.php:4977
+#: ../app/Abstracts/AbstractDivi.php:49, ../app/Abstracts/AbstractDivi.php:59, ../app/Widgets/elementor/rtTPGElementorHelper.php:2772, ../app/Widgets/elementor/rtTPGElementorHelper.php:4977
 msgid "Excerpt / Content"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:50, ../app/Abstract/AbstractDivi.php:60, ../app/Helpers/Options.php:1894, ../app/Divi/Fields/AdvancedFields.php:239, ../app/Divi/Fields/SettingsFieldSelection.php:75, ../app/Widgets/elementor/rtTPGElementorHelper.php:1953, ../app/Widgets/elementor/rtTPGElementorHelper.php:2844, ../app/Widgets/elementor/rtTPGElementorHelper.php:5138
+#: ../app/Abstracts/AbstractDivi.php:50, ../app/Abstracts/AbstractDivi.php:60, ../app/Helpers/Options.php:1894, ../app/Divi/Fields/AdvancedFields.php:239, ../app/Divi/Fields/SettingsFieldSelection.php:75, ../app/Widgets/elementor/rtTPGElementorHelper.php:1953, ../app/Widgets/elementor/rtTPGElementorHelper.php:2844, ../app/Widgets/elementor/rtTPGElementorHelper.php:5138
 msgid "Meta Data"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:51, ../app/Widgets/elementor/rtTPGElementorHelper.php:3575
+#: ../app/Abstracts/AbstractDivi.php:51, ../app/Widgets/elementor/rtTPGElementorHelper.php:3575
 msgid "ACF Settings"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:52, ../app/Abstract/AbstractDivi.php:62, ../app/Controllers/ShortcodeController.php:153, ../app/Helpers/Options.php:1860, ../app/Controllers/Admin/AdminAjaxController.php:100, ../app/Divi/Fields/AdvancedFields.php:331, ../app/Divi/Fields/SettingsReadMore.php:40, ../app/Widgets/elementor/rtTPGElementorHelper.php:3484, ../app/Widgets/elementor/rtTPGElementorHelper.php:3512, ../app/Widgets/elementor/rtTPGElementorHelper.php:5520
+#: ../app/Abstracts/AbstractDivi.php:52, ../app/Abstracts/AbstractDivi.php:62, ../app/Controllers/ShortcodeController.php:153, ../app/Helpers/Options.php:1860, ../app/Controllers/Admin/AdminAjaxController.php:100, ../app/Divi/Fields/AdvancedFields.php:331, ../app/Divi/Fields/SettingsReadMore.php:40, ../app/Widgets/elementor/rtTPGElementorHelper.php:3484, ../app/Widgets/elementor/rtTPGElementorHelper.php:3512, ../app/Widgets/elementor/rtTPGElementorHelper.php:5520
 msgid "Read More"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:57, ../app/Divi/Fields/AdvancedFields.php:97, ../app/Divi/Fields/SettingsFieldSelection.php:36, ../app/Widgets/elementor/rtTPGElementorHelper.php:1904, ../app/Widgets/elementor/rtTPGElementorHelper.php:2615, ../app/Widgets/elementor/rtTPGElementorHelper.php:4658, ../app/Widgets/elementor/widgets/news-ticker.php:889
+#: ../app/Abstracts/AbstractDivi.php:57, ../app/Divi/Fields/AdvancedFields.php:97, ../app/Divi/Fields/SettingsFieldSelection.php:36, ../app/Widgets/elementor/rtTPGElementorHelper.php:1904, ../app/Widgets/elementor/rtTPGElementorHelper.php:2615, ../app/Widgets/elementor/rtTPGElementorHelper.php:4658, ../app/Widgets/elementor/widgets/news-ticker.php:889
 msgid "Post Title"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:61, ../app/Divi/Fields/AdvancedFields.php:281, ../app/Divi/Fields/SettingsFieldSelection.php:205, ../app/Widgets/elementor/rtTPGElementorHelper.php:2091, ../app/Widgets/elementor/rtTPGElementorHelper.php:6890, ../resources/settings/settings.php:44
+#: ../app/Abstracts/AbstractDivi.php:61, ../app/Divi/Fields/AdvancedFields.php:281, ../app/Divi/Fields/SettingsFieldSelection.php:205, ../app/Widgets/elementor/rtTPGElementorHelper.php:2091, ../app/Widgets/elementor/rtTPGElementorHelper.php:6890, ../resources/settings/settings.php:44
 msgid "Social Share"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:63, ../app/Divi/Fields/AdvancedFields.php:430, ../app/Widgets/elementor/rtTPGElementorHelper.php:6256
+#: ../app/Abstracts/AbstractDivi.php:63, ../app/Divi/Fields/AdvancedFields.php:430, ../app/Widgets/elementor/rtTPGElementorHelper.php:6256
 msgid "Front-End Filter"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:64, ../app/Widgets/elementor/rtTPGElementorHelper.php:5957
+#: ../app/Abstracts/AbstractDivi.php:64, ../app/Widgets/elementor/rtTPGElementorHelper.php:5957
 msgid "Pagination / Load More"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:65, ../app/Widgets/elementor/rtTPGElementorHelper.php:8674
+#: ../app/Abstracts/AbstractDivi.php:65, ../app/Widgets/elementor/rtTPGElementorHelper.php:8674
 msgid "Advanced Custom Field (ACF)"
 msgstr ""
 
-#: ../app/Abstract/AbstractDivi.php:66, ../app/Divi/Fields/AdvancedFields.php:516, ../app/Widgets/elementor/rtTPGElementorHelper.php:7199
+#: ../app/Abstracts/AbstractDivi.php:66, ../app/Divi/Fields/AdvancedFields.php:516, ../app/Widgets/elementor/rtTPGElementorHelper.php:7199
 msgid "Card (Post Item)"
 msgstr ""
 

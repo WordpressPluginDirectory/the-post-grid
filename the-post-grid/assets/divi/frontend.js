@@ -1,1 +1,1 @@
-jQuery(document).ready((function(){console.log("front-end file loading...")}));
+jQuery(document).ready(function(){console.log("front-end file loading...")});

@@ -1,6 +1,6 @@
 <?php
 
-namespace RT\ThePostGrid\Abstract;
+namespace RT\ThePostGrid\Abstracts;
 
 use \ET_Builder_Module;
 
