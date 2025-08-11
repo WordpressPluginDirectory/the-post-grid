@@ -38,6 +38,7 @@
                 if (isIsotop.length) {
                     var IsoURL = IsoButton.attr('data-url'),
                         IsoCount = IsoButton.attr('data-count');
+
                     if (!buttonFilter) {
                         if (IsoButton.length) {
                             buttonFilter = IsoButton.find('button.selected').data('filter');
@@ -45,6 +46,7 @@
                             buttonFilter = IsoDropdownFilter.val();
                         }
                     }
+
                     container.trigger('tpg_item_before_load');
                     tpgFixLazyLoad();
                     IsotopeWrap = isIsotop.imagesLoaded(function () {
@@ -91,7 +93,9 @@
                         }
                     });
                     if (IsoURL) {
-                        windowHashChange(IsotopeWrap, IsoButton);
+                        $(document).ready(function(){
+                            windowHashChange(IsotopeWrap, IsoButton);
+                        });
                         $(window).on("hashchange", function () {
                             windowHashChange(IsotopeWrap, IsoButton);
                         });

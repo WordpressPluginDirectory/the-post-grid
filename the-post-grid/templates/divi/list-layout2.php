@@ -59,7 +59,7 @@ if ( $tpg_post_count != 1 ) {
 <?php } ?>
 
 
-	<div class="rt-holder tpg-post-holder">
+	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
 		<div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'on' == $data['show_thumb'] ) :

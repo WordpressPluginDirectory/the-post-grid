@@ -26,8 +26,7 @@ class NoticeController {
 	public function __construct() {
 		$current      = time();
 		$currentYear  = gmdate( 'Y' );
-		$black_friday = mktime( 0, 0, 0, 7, 19, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, $currentYear + 1 );
-
+		$black_friday = mktime( 0, 0, 0, 11, 19, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, $currentYear + 1 );
 		if ( $black_friday ) {
 			add_action( 'admin_init', [ $this, 'black_friday_notice' ] );
 		}
@@ -267,18 +266,24 @@ class NoticeController {
 			$remind_me    = add_query_arg( $args + [ 'rttpg_remind_me' => '1' ], self::rttpg_current_admin_url() );
 			$rated        = add_query_arg( $args + [ 'rttpg_rated' => '1' ], self::rttpg_current_admin_url() );
 			$reviewurl    = 'https://wordpress.org/support/plugin/the-post-grid/reviews/?filter=5#new-post';
+			$plugin_name   = 'The Post Grid';
+			$download_link = 'https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/';
+
 
 			printf(
 				'<div class="notice rttpg-review-notice rttpg-review-notice--extended">
-					<div class="rttpg-review-notice_content">
-						<h3>%1$s</h3>
-						<p>%2$s</p>
-						<div class="rttpg-review-notice_actions">
-							<a href="%3$s" class="rttpg-review-button rttpg-review-button--cta" target="_blank"><span>⭐ Yes, You Deserve It!</span></a>
-							<a href="%4$s" class="rttpg-review-button rttpg-review-button--cta rttpg-review-button--outline"><span>😀 Already Rated!</span></a>
-							<a href="%5$s" class="rttpg-review-button rttpg-review-button--cta rttpg-review-button--outline"><span>🔔 Remind Me Later</span></a>
-							<a href="%6$s" class="rttpg-review-button rttpg-review-button--cta rttpg-review-button--error rttpg-review-button--outline"><span>😐 No Thanks</span></a>
-						</div>
+					<div class="rttpg-review-notice_content" style="display: flex;gap: 15px;">
+					    <img alt="%8$s" src="%7$s" width="74px" height="74px" style="transform: translateY(2px)"/>
+						<div style="">
+                            <h3>%1$s</h3>
+                            <p>%2$s</p>
+                            <div class="rttpg-review-notice_actions">
+                                <a href="%3$s" class="rttpg-review-button rttpg-review-button--cta" target="_blank"><span>⭐ Yes, You Deserve It!</span></a>
+                                <a href="%4$s" class="rttpg-review-button rttpg-review-button--cta rttpg-review-button--outline"><span>😀 Already Rated!</span></a>
+                                <a href="%5$s" class="rttpg-review-button rttpg-review-button--cta rttpg-review-button--outline"><span>🔔 Remind Me Later</span></a>
+                                <a href="%6$s" class="rttpg-review-button rttpg-review-button--cta rttpg-review-button--error rttpg-review-button--outline"><span>😐 No Thanks</span></a>
+                            </div>
+                        </div>
 					</div>
 				</div>',
 				esc_html__( 'Enjoying The Post Grid?', 'the-post-grid' ),
@@ -286,7 +291,9 @@ class NoticeController {
 				esc_url( $reviewurl ),
 				esc_url( $rated ),
 				esc_url( $remind_me ),
-				esc_url( $dont_disturb )
+				esc_url( $dont_disturb ),
+				esc_url( rtTPG()->get_assets_uri( 'images/post-grid-gif.gif' ) ),
+                esc_attr( $plugin_name )
 			);
 
 			echo '<style>

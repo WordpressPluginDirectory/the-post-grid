@@ -133,7 +133,8 @@ class Fns {
 			extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 		}
 
-		$located = self::locate_template( $template_name, $template_path, $default_path );
+		$template_name = sanitize_text_field( $template_name );
+		$located       = self::locate_template( $template_name, $template_path, $default_path );
 
 		if ( ! file_exists( $located ) ) {
 			/* translators: %s template */

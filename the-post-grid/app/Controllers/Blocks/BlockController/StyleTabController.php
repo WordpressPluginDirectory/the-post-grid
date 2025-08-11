@@ -2535,6 +2535,33 @@ class StyleTabController {
 				],
 			],
 
+			'sticky_item_background'                         => [
+				'type'    => 'object',
+				'default' => (object) [
+					'openBGColor' => 0,
+					'type'        => 'classic',
+					'classic'     => (object) [
+						'color'       => '',
+						'img'         => (object) [
+							'imgURL' => '',
+							'imgID'  => '',
+						],
+						'imgProperty' => (object) [
+							'imgPosition'   => (object) [ 'lg' => '' ],
+							'imgAttachment' => (object) [ 'lg' => '' ],
+							'imgRepeat'     => (object) [ 'lg' => '' ],
+							'imgSize'       => (object) [ 'lg' => '' ],
+						],
+					],
+					'gradient'    => null,
+				],
+				'style'   => [
+					(object) [
+						'selector' => 'body .rt-tpg-container .rt-holder.rt-sticky',
+					],
+				],
+			],
+
 			'box_background2'                        => [
 				'type'    => 'object',
 				'default' => (object) [

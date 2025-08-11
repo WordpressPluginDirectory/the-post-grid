@@ -34,7 +34,7 @@ $column_classes[] .= 'rt-list-item rt-grid-item';
 ?>
 
 <div class="<?php echo esc_attr( DiviFns::layout_cols( $data, 12, 12 ) . ' ' . implode( ' ', $column_classes ) ); ?>" data-id="<?php echo esc_attr( $pID ); ?>">
-	<div class="rt-holder tpg-post-holder">
+	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
 		<div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'on' == $data['show_thumb'] ) :

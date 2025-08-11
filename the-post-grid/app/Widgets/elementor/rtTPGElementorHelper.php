@@ -1245,7 +1245,7 @@ class rtTPGElementorHelper {
 				$taxonomie_keys = array_keys( $_taxonomies );
 				$filter_cat     = array_filter(
 					$taxonomie_keys,
-					function( $item ) {
+					function ( $item ) {
 						return strpos( $item, 'cat' ) !== false;
 					}
 				);
@@ -3276,13 +3276,13 @@ class rtTPGElementorHelper {
 				$taxonomie_keys = array_keys( $_taxonomies );
 				$filter_cat     = array_filter(
 					$taxonomie_keys,
-					function( $item ) {
+					function ( $item ) {
 						return strpos( $item, 'cat' ) !== false;
 					}
 				);
 				$filter_tag     = array_filter(
 					$taxonomie_keys,
-					function( $item ) {
+					function ( $item ) {
 						return strpos( $item, 'tag' ) !== false;
 					}
 				);
@@ -7200,6 +7200,16 @@ class rtTPGElementorHelper {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
+
+		if ( 'grid_hover' !== $prefix ) {
+			$ref->add_control( 'sticky_item_background', [
+				'label'     => __( 'Sticky Item Background', 'the-post-grid' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .rt-tpg-container .rt-holder.rt-sticky' => 'background: {{VALUE}} !important',
+				],
+			] );
+		}
 
 		if ( 'slider' !== $prefix ) {
 			$ref->add_responsive_control(

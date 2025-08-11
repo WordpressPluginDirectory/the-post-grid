@@ -57,7 +57,7 @@ $column_classes[] .= 'rt-list-item rt-grid-item';
 ?>
 
 <div class="<?php echo esc_attr( $col_class . ' ' . implode( ' ', $column_classes ) ); ?>" data-id="<?php echo esc_attr( $pID ); ?>">
-	<div class="rt-holder tpg-post-holder">
+	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
 		<div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'show' == $data['show_thumb'] ) :

@@ -63,7 +63,7 @@ if ( $tpg_post_count != 1 ) {
 <?php } ?>
 
 
-	<div class="rt-holder tpg-post-holder">
+	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
 		<div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'show' == $data['show_thumb'] ) :
@@ -81,7 +81,6 @@ if ( $tpg_post_count != 1 ) {
 					Fns::get_el_post_title( $data['title_tag'], $title, $link_start, $link_end, $data );
 				}
 				?>
-
 
 				<?php if ( 'show' == $data['show_meta'] ) : ?>
 					<div class="post-meta-tags rt-el-post-meta">

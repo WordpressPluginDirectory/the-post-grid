@@ -36,7 +36,7 @@ if ( 'masonry' == $data['layout_style'] ) {
 ?>
 
 <div class="<?php echo esc_attr( DiviFns::layout_cols( $data ) . ' ' . implode( ' ', $column_classes ) ); ?>" data-id="<?php echo esc_attr( $pID ); ?>">
-	<div class="rt-holder tpg-post-holder">
+	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
 		<div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'on' == $data['show_thumb'] ) :

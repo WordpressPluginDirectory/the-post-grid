@@ -165,8 +165,8 @@ class DiviFrontEndCss {
 				'unit'          => 'px',
 				'border-radius' => '%%order_class%% .rt-tpg-container .rt-pagination-wrap .rt-loadmore-btn, %%order_class%% .rt-pagination .pagination-list > li > a, %%order_class%% .rt-pagination .pagination-list > li > span, %%order_class%% .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li > a',
 			],
-			'pagination_margin_top'       => [
-				'unit'          => 'px',
+			'pagination_margin_top'          => [
+				'unit'       => 'px',
 				'margin-top' => '%%order_class%% .rt-tpg-container .rt-pagination-wrap',
 			],
 			'pagination_color'               => [ 'color' => '%%order_class%% .rt-pagination .pagination-list > li:not(:hover) > a, %%order_class%% .rt-pagination .pagination-list > li:not(:hover) > span, %%order_class%% .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:not(:hover) > a, %%order_class%% .rt-tpg-container .rt-pagination-wrap .rt-page-numbers .paginationjs .paginationjs-pages ul li:not(:hover), %%order_class%% .rt-tpg-container .rt-pagination-wrap .rt-loadmore-btn' ],
@@ -185,6 +185,7 @@ class DiviFrontEndCss {
 			'slider_gap'                     => [ 'background-color' => 'body %%order_class%% .tpg-el-main-wrapper .rt-slider-item' ],
 
 			//Post Card
+			'sticky_item_background'         => [ 'background-color' => '.rt-tpg-container .rt-holder.rt-sticky' ],
 			'box_background'                 => [ 'background-color' => 'body %%order_class%% .tpg-el-main-wrapper .tpg-post-holder' ],
 			'box_background_hover'           => [ 'background-color' => 'body %%order_class%% .tpg-el-main-wrapper .tpg-post-holder:hover' ],
 			'list_layout_alignment'          => [ 'align-items' => '%%order_class%% .tpg-el-main-wrapper .list-behaviour .rt-holder .rt-el-content-wrapper' ],

@@ -965,6 +965,9 @@ class ShortcodeController {
 
 				$isotope_filter = null;
 
+				//Isotope Filter
+				//================
+
 				if ( $isIsotope ) {
 					$isotope_filter          = isset( $scMeta['isotope_filter'][0] ) ? $scMeta['isotope_filter'][0] : null;
 					$isotope_dropdown_filter = isset( $scMeta['isotope_filter_dropdown'][0] ) ? $scMeta['isotope_filter_dropdown'][0] : null;
@@ -1034,7 +1037,7 @@ class ShortcodeController {
 					$htmlButton   = "<div id='iso-button-{$rand}' class='rt-tpg-isotope-buttons button-group filter-button-group option-set' data-url='{$filter_url}' data-count='{$filter_count}'>{$htmlButton}</div>";
 
 					if ( $isotope_dropdown_filter ) {
-						$html .= "<select class='isotope-dropdown-filter'>{$drop}</select>";
+						$html .= "<select class='isotope-dropdown-filter' data-url='{$filter_url}'>{$drop}</select>";
 					} else {
 						$html .= $htmlButton;
 					}

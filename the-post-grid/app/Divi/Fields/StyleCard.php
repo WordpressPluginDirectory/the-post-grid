@@ -21,13 +21,13 @@ class StyleCard {
 
 	public static function get_fields( $prefix = 'grid' ) {
 		$divi_fields = [
-			'box_background'       => [
+			'box_background'         => [
 				'label'       => esc_html__( 'Background', 'the-post-grid' ),
 				'type'        => 'color-alpha',
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'tpg_card_style',
 			],
-			'box_background_hover' => [
+			'box_background_hover'   => [
 				'label'       => esc_html__( 'Background:hover', 'the-post-grid' ),
 				'type'        => 'color-alpha',
 				'tab_slug'    => 'advanced',
@@ -35,6 +35,15 @@ class StyleCard {
 			],
 
 		];
+
+		if ( 'grid_hover' !== $prefix ) {
+			$divi_fields['sticky_item_background'] = [
+				'label'       => esc_html__( 'Sticky Background', 'the-post-grid' ),
+				'type'        => 'color-alpha',
+				'tab_slug'    => 'advanced',
+				'toggle_slug' => 'tpg_card_style',
+			];
+		}
 
 		if ( 'list' === $prefix ) {
 			$divi_fields['list_layout_alignment'] = [
@@ -56,7 +65,7 @@ class StyleCard {
 				],
 			];
 
-			$divi_fields['list_flex_direction']   = [
+			$divi_fields['list_flex_direction'] = [
 				'label'       => esc_html__( 'Flex Direction', 'the-post-grid' ),
 				'type'        => 'select',
 				'default'     => '',
@@ -75,7 +84,6 @@ class StyleCard {
 
 
 		}
-
 
 
 		return $divi_fields;
