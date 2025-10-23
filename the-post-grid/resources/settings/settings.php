@@ -38,6 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <li%s><a href="#custom-script">%s</a></li>
                         <li%s><a href="#ai-integration-settings">%s</a></li>
                         <li%s><a href="#myaccount-settings">%s</a></li>
+                        <li%s><a href="#event-settings">%s</a></li>
                         <li%s><a href="#other-settings">%s</a></li>',
 				$last_tab == 'common-settings' ? ' class="active"' : '', __( 'Common Settings', 'the-post-grid' ),
 				$last_tab == 'popup-fields' ? ' class="active"' : '', __( 'PopUp field selection', 'the-post-grid' ),
@@ -45,6 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				$last_tab == 'custom-script' ? ' class="active"' : '', __( 'Custom Script', 'the-post-grid' ),
 				$last_tab == 'ai-integration-settings' ? ' class="active"' : '', __( 'AI Integration', 'the-post-grid' ),
 				$last_tab == 'myaccount-settings' ? ' class="active"' : '', __( 'My Account', 'the-post-grid' ),
+				$last_tab == 'event-settings' ? ' class="active"' : '', __( 'Event Settings', 'the-post-grid' ),
 				$last_tab == 'other-settings' ? ' class="active"' : '', __( 'Other Settings', 'the-post-grid' )
 			);
 
@@ -85,7 +87,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$html .= '</div>';
 
             $html .= sprintf( '<div id="myaccount-settings" class="rt-tab-content"%s>', $last_tab == 'myaccount-settings' ? ' style="display:block"' : '' );
-			$html .= Fns::rtFieldGenerator( Options::rtTPGCMyAccountSettings() );
+			$html .= Fns::rtFieldGenerator( Options::rtTPGMyAccountSettings() );
+			$html .= '</div>';
+
+            $html .= sprintf( '<div id="event-settings" class="rt-tab-content"%s>', $last_tab == 'event-settings' ? ' style="display:block"' : '' );
+			$html .= Fns::rtFieldGenerator( Options::rtTPGEventSettings() );
 			$html .= '</div>';
 
 			ob_start();

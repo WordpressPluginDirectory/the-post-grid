@@ -882,6 +882,10 @@
         });
     }
 
+
+
+
+
     function tpgInstallPlugion() {
 
         $('.rt-plugin-item .install-plugins').on('click', function(e) {

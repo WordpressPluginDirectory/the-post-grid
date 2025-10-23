@@ -41,16 +41,16 @@ if ( 'masonry' == $data['layout_style'] ) {
 }
 ?>
 <div <?php post_class( esc_attr( $col_class . ' ' . implode( ' ', $column_classes ) ) ); ?>
-		data-id="<?php echo esc_attr( $pID ); ?>">
-	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
-		<div class="rt-detail rt-el-content-wrapper">
+        data-id="<?php echo esc_attr( $pID ); ?>">
+    <div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
+        <div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'show' == $data['show_thumb'] ) :
 				$has_thumbnail = has_post_thumbnail() ? 'has-thumbnail' : 'has-no-thumbnail';
 				?>
-				<div class="rt-img-holder tpg-el-image-wrap <?php echo esc_attr( $has_thumbnail ); ?>">
+                <div class="rt-img-holder tpg-el-image-wrap <?php echo esc_attr( $has_thumbnail ); ?>">
 					<?php Fns::get_post_thumbnail( $pID, $data, $link_start, $link_end ); ?>
-				</div>
+                </div>
 			<?php endif; ?>
 
 			<?php
@@ -60,31 +60,34 @@ if ( 'masonry' == $data['layout_style'] ) {
 			?>
 
 			<?php if ( 'show' == $data['show_meta'] ) : ?>
-				<div class="post-meta-tags rt-el-post-meta">
+                <div class="post-meta-tags rt-el-post-meta">
 					<?php Fns::get_post_meta_html( $pID, $data ); ?>
-				</div>
+                </div>
 			<?php endif; ?>
 
 
 			<?php if ( 'show' == $data['show_excerpt'] || 'show' == $data['show_acf'] ) : ?>
-				<div class="tpg-excerpt tpg-el-excerpt">
+                <div class="tpg-excerpt tpg-el-excerpt">
 					<?php if ( $excerpt && 'show' == $data['show_excerpt'] ) : ?>
-						<div class="tpg-excerpt-inner">
+                        <div class="tpg-excerpt-inner">
 							<?php echo wp_kses_post( $excerpt ); ?>
-						</div>
+                        </div>
 					<?php endif; ?>
 					<?php Fns::tpg_get_acf_data_elementor( $data, $pID ); ?>
-				</div>
+                </div>
 			<?php endif; ?>
 
 			<?php
 			if ( rtTPG()->hasPro() && 'show' === $data['show_social_share'] ) {
 				echo wp_kses( \RT\ThePostGridPro\Helpers\Functions::rtShare( $pID ), Fns::allowedHtml() );
 			}
+
+			Fns::event_information( $data );
+
 			if ( 'show' === $data['show_read_more'] && $data['read_more_label'] ) {
 				Fns::get_read_more_button( $data, $readmore_link_start, $readmore_link_end );
 			}
 			?>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>

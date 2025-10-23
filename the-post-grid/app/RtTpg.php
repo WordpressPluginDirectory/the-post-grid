@@ -32,6 +32,7 @@ use RT\ThePostGrid\Controllers\WidgetController;
 use RT\ThePostGrid\Helpers\Install;
 use RT\ThePostGrid\Controllers\Admin\UpgradeController;
 use RT\ThePostGrid\Controllers\DiviController;
+use RT\ThePostGrid\Migrations\Tpg_Migration;
 
 if ( ! class_exists( RtTpg::class ) ) {
 	/**
@@ -179,7 +180,7 @@ if ( ! class_exists( RtTpg::class ) ) {
 		 */
 		public function init_hooks() {
 			do_action( 'rttpg_before_init', $this );
-
+			Tpg_Migration::init();
 			if ( empty( $this->settings['tpg_enable_image_srcset'] ) && ! function_exists( 'et_setup_theme' ) ) {
 				add_filter( 'wp_calculate_image_srcset', function( $sources ) {
 					return is_array( $sources ) ? $sources : [];

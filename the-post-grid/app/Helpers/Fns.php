@@ -75,7 +75,7 @@ class Fns {
 	 *
 	 * @return void
 	 */
-	public static function update_post_views_count( $post_id ) {
+	public static function update_post_views_count_old( $post_id ) {
 		if ( ! $post_id && is_admin() ) {
 			return;
 		}
@@ -102,6 +102,50 @@ class Fns {
 				update_post_meta( $post_id, $count_key, $count );
 			}
 		}
+	}
+
+	public static function update_post_views_count( $post_id ) {
+		if ( empty( $post_id ) || ! is_singular() ) {
+			return;
+		}
+
+		// Cookie name for tracking viewed posts
+		$cookie_name         = 'tpg_post_views';
+		$viewed_posts        = [];
+		$cookie_exprie_after = 86400; // 86400 seconds = 24 hours
+
+		// Get existing cookie data
+		if ( isset( $_COOKIE[ $cookie_name ] ) ) {
+			$viewed_posts = json_decode( stripslashes( $_COOKIE[ $cookie_name ] ), true );
+
+			if ( ! is_array( $viewed_posts ) ) {
+				$viewed_posts = [];
+			}
+		}
+
+		// If post was already viewed in the last 24 hours, skip counting
+		if ( isset( $viewed_posts[ $post_id ] ) ) {
+			$last_view_time = intval( $viewed_posts[ $post_id ] );
+			$time_diff      = time() - $last_view_time;
+
+			if ( $time_diff < $cookie_exprie_after ) {
+				return;
+			}
+		}
+
+		// Increment post view count
+		$count_key = self::get_post_view_count_meta_key();
+		$views     = (int) get_post_meta( $post_id, $count_key, true );
+		update_post_meta( $post_id, $count_key, $views + 1 );
+
+		// Update cookie data with new timestamp
+		$viewed_posts[ $post_id ] = time();
+
+		// Save back to cookie for 24 hours
+		setcookie( $cookie_name, wp_json_encode( $viewed_posts ), time() + $cookie_exprie_after, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+
+		// Make sure cookie persists in current page load
+		$_COOKIE[ $cookie_name ] = wp_json_encode( $viewed_posts );
 	}
 
 	public static function get_pages() {
@@ -435,6 +479,12 @@ class Fns {
 			'show_acf'                     => $data['show_acf'] ?? '',
 			'search_by'                    => $data['search_by'] ?? '',
 			'multiple_taxonomy'            => $data['multiple_taxonomy'] ?? '',
+			'show_event_date'              => $data['show_event_date'] ?? '',
+			'start_date_label'             => $data['start_date_label'] ?? '',
+			'end_date_label'               => $data['end_date_label'] ?? '',
+			'event_title'                  => $data['event_title'] ?? '',
+			'event_date_format'            => $data['event_date_format'] ?? '',
+			'custom_event_date_format'     => $data['custom_event_date_format'] ?? '',
 		];
 
 		$cf = self::is_acf();
@@ -503,20 +553,6 @@ class Fns {
 		) {
 			return;
 		}
-		/* before divi
-		 if ( ! in_array(
-				'show',
-				[
-					$data['show_taxonomy_filter'],
-					$data['show_author_filter'],
-					$data['show_order_by'],
-					$data['show_sort_order'],
-					$data['show_search'],
-				]
-			)
-		) {
-			return;
-		}*/
 
 		$html             = null;
 		$wrapperContainer = $wrapperClass = $itemClass = $filter_btn_item_per_page = '';
@@ -2143,6 +2179,11 @@ class Fns {
 					'strong' => [],
 					'b'      => [],
 					'br'     => [ [] ],
+					'iframe' => [
+						'src'    => [],
+						'height' => [],
+						'width'  => [],
+					]
 				];
 
 				$excerpt = nl2br( wp_kses( $excerpt, $allowed_html ) );
@@ -3813,35 +3854,7 @@ class Fns {
 		}
 	}
 
-	/**
-	 * Get post thumbnail html
-	 *
-	 * @param         $pID
-	 * @param         $data
-	 * @param         $link_start
-	 * @param         $link_end
-	 * @param false $offset_size
-	 */
-	public static function get_post_thumbnail( $pID, $data, $link_start, $link_end, $offset_size = false ) {
-		$thumb_cat_condition = ( ! ( 'above_title' === $data['category_position'] || 'default' === $data['category_position'] ) );
-
-		if ( 'grid-layout4' === $data['layout'] && 'default' === $data['category_position'] ) {
-			$thumb_cat_condition = true;
-		} elseif ( in_array(
-			           $data['layout'],
-			           [
-				           'grid-layout4',
-				           'grid_hover-layout11',
-				           'slider-layout3',
-			           ]
-		           ) && 'default' === $data['category_position'] ) {
-			$thumb_cat_condition = true;
-		}
-
-		if ( rtTPG()->hasPro() && in_array( $data['show_category'], [ 'show', 'on' ] ) && $thumb_cat_condition && 'with_meta' !== $data['category_position'] ) {
-			self::get_el_thumb_cat( $data );
-		}
-
+	public static function tpg_post_image( $pID, $data, $link_start, $link_end, $offset_size ) {
 		$img_link     = get_the_post_thumbnail_url( $pID, 'full' );
 		$img_size_key = 'image_size';
 
@@ -3961,6 +3974,45 @@ class Fns {
 		<?php endif; ?>
         <div class="overlay grid-hover-content"></div>
 		<?php
+	}
+
+	/**
+	 * Get post thumbnail html
+	 *
+	 * @param         $pID
+	 * @param         $data
+	 * @param         $link_start
+	 * @param         $link_end
+	 * @param false $offset_size
+	 */
+	public static function get_post_thumbnail( $pID, $data, $link_start, $link_end, $offset_size = false ) {
+		$thumb_cat_condition = ( ! ( 'above_title' === $data['category_position'] || 'default' === $data['category_position'] ) );
+
+		if ( 'grid-layout4' === $data['layout'] && 'default' === $data['category_position'] ) {
+			$thumb_cat_condition = true;
+		} elseif ( in_array(
+			           $data['layout'],
+			           [
+				           'grid-layout4',
+				           'grid_hover-layout11',
+				           'slider-layout3',
+			           ]
+		           ) && 'default' === $data['category_position'] ) {
+			$thumb_cat_condition = true;
+		}
+
+		if ( rtTPG()->hasPro() && in_array( $data['show_category'], [ 'show', 'on' ] ) && $thumb_cat_condition && 'with_meta' !== $data['category_position'] ) {
+			self::get_el_thumb_cat( $data );
+		}
+
+		$video_url = get_post_meta( $pID, '_tpg_video_url', true );
+
+		if ( $video_url && rtTPG()->hasPro() ) {
+			echo do_shortcode( '[tpg_video_thumbnail]' );
+		} else {
+			self::tpg_post_image( $pID, $data, $link_start, $link_end, $offset_size );
+		}
+
 	}
 
 	/**
@@ -4552,9 +4604,54 @@ class Fns {
 					$args['post__not_in'] = [ $p_id ]; //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 				}
 				break;
+			case 'event_query':
+				$today     = current_time( 'mysql' ); // e.g., 2025-10-10 12:30:00
+				$start_key = self::event_key( 'start' );
+				$end_key   = self::event_key( 'end' );
+				$args      = array_merge(
+					$args,
+					[
+						'meta_query' => [
+							'relation' => 'OR',
+
+							//Events that are currently running (start <= now <= end)
+							[
+								'relation' => 'AND',
+								[
+									'key'     => $start_key,
+									'value'   => $today,
+									'compare' => '<=',
+									'type'    => 'DATETIME',
+								],
+								[
+									'key'     => $end_key,
+									'value'   => $today,
+									'compare' => '>=',
+									'type'    => 'DATETIME',
+								],
+							],
+
+							// Upcoming events (start date is in the future)
+							[
+								'key'     => $start_key,
+								'value'   => $today,
+								'compare' => '>=',
+								'type'    => 'DATETIME',
+							],
+						],
+
+						// Order by start date (soonest first)
+						'meta_key'   => $start_key,
+						'orderby'    => 'meta_value',
+						'order'      => 'ASC',
+					]
+				);
+				break;
 			default:
 				break;
 		}
+
+		$args['ignore_sticky_posts'] = 1;
 
 		return $args;
 	}
@@ -5311,6 +5408,78 @@ class Fns {
            class="rt-admin-btn <?php echo esc_attr( $class ) ?>">
 			<?php echo esc_html( $label ) ?>
         </a>
+		<?php
+	}
+
+	public static function event_key( $key ) {
+		$settings = get_option( rtTPG()->options['settings'], [] );
+
+		$event_keys = [
+			'start' => ! empty( $settings['event_start_time'] ) ? sanitize_key( $settings['event_start_time'] ) : 'tpg_event_start_time',
+			'end'   => ! empty( $settings['event_end_time'] ) ? sanitize_key( $settings['event_end_time'] ) : 'tpg_event_end_time',
+		];
+
+		return $event_keys[ $key ] ?? $event_keys['start'];
+	}
+
+	public static function event_information( $settings ) {
+		if ( empty( $settings['show_event_date'] ) && 'on' !== $settings['show_event_date'] ) {
+			return;
+		}
+
+		$event_start_key    = self::event_key( 'start' );
+		$event_end_key      = self::event_key( 'end' );
+		$event_location_key = 'tpg_event_location';
+
+		$date_format = ( 'custom' === $settings['event_date_format'] && ! empty( $settings['custom_event_date_format'] ) )
+			? $settings['custom_event_date_format']
+			: $settings['event_date_format'];
+
+		$event_start_time = get_post_meta( get_the_ID(), $event_start_key, true );
+		$event_end_time   = get_post_meta( get_the_ID(), $event_end_key, true );
+		$event_location   = get_post_meta( get_the_ID(), $event_location_key, true );
+
+		$event_start_display = $event_start_time ? date( $date_format, strtotime( $event_start_time ) ) : '';
+		$event_end_display   = $event_end_time ? date( $date_format, strtotime( $event_end_time ) ) : '';
+
+		if ( ! $event_start_display && ! $event_end_display ) {
+			return;
+		}
+		$event_title = $settings['event_title'] ?? '';
+		?>
+
+        <div class="tpg-event-date">
+
+			<?php if ( $event_title ) : ?>
+                <h4><?php echo esc_html( $event_title ); ?></h4>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $event_start_display ) ) :
+
+				$start_label = ! empty( $settings['start_date_label'] ) ? $settings['start_date_label'] : __( 'Date & Time:', 'the-post-grid' )
+				?>
+                <div class="event-start-date">
+                    <strong class="label"><?php echo esc_html( $start_label ); ?></strong>
+                    <span class="date"><?php echo esc_html( $event_start_display ); ?></span>
+                </div>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $event_end_display ) ) :
+				$end_label = ! empty( $settings['end_date_label'] ) ? $settings['end_date_label'] : __( 'End Time:', 'the-post-grid' )
+				?>
+                <div class="event-end-date">
+                    <strong class="label"><?php echo esc_html( $end_label ); ?></strong>
+                    <span class="date"><?php echo esc_html( $event_end_display ); ?></span>
+                </div>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $event_location ) ) : ?>
+                <div class="event-location">
+                    <strong class="label"><?php echo esc_html( $settings['event_location'] ?? __( 'Location: ', 'the-post-grid' ) ); ?></strong>
+                    <span class="date"><?php echo esc_html( $event_location ); ?></span>
+                </div>
+			<?php endif; ?>
+        </div>
 		<?php
 	}
 

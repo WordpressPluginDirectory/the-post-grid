@@ -1072,7 +1072,7 @@ class ShortcodeController {
 					$arg['postCount'] = $gridPostCount ++;
 					$arg['pID']       = $pID;
 					$arg['title']     = Fns::get_the_title( $pID, $arg );
-					$arg['pLink']     = $external_link['url'] ?? get_permalink();
+					$arg['pLink']     = ! empty($external_link['url']) ? $external_link['url'] : get_permalink();
 					$arg['toggle']    = $this->l4toggle;
 					$arg['layoutID']  = $layoutID;
 					$arg['author']    = apply_filters(

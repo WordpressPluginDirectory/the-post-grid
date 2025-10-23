@@ -190,6 +190,7 @@ class TPGGridLayout extends Custom_Widget_Base {
 		} else {
 			$query = new WP_Query( $query_args );
 		}
+
 		$rand           = wp_rand();
 		$layoutID       = 'rt-tpg-container-' . $rand;
 		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];

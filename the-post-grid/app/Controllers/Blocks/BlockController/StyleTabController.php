@@ -13,12 +13,12 @@ class StyleTabController {
 	public static function get_controller( $prefix = '' ) {
 		$style_attribute = [
 			// Section Title Style.
-			'section_title_alignment'                => [
+			'section_title_alignment' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'section_title_margin'                   => [
+			'section_title_margin' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -34,7 +34,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_radius'                   => [
+			'section_title_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -50,7 +50,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_typography'               => [
+			'section_title_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -74,7 +74,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_color'                    => [
+			'section_title_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -84,7 +84,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_bg_color'                 => [
+			'section_title_bg_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -95,7 +95,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_dot_color'                => [
+			'section_title_dot_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -107,7 +107,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_line_color'               => [
+			'section_title_line_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -124,7 +124,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_line_width'               => [
+			'section_title_line_width' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -136,7 +136,7 @@ class StyleTabController {
 				],
 			],
 
-			'section_title_line_spacing'             => [
+			'section_title_line_spacing' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -148,7 +148,7 @@ class StyleTabController {
 				],
 			],
 
-			'external_icon_size'                     => [
+			'external_icon_size' => [
 				'type'  => 'number',
 				'style' => [
 					(object) [
@@ -157,7 +157,7 @@ class StyleTabController {
 				],
 			],
 
-			'external_icon_position'                 => [
+			'external_icon_position' => [
 				'type'  => 'number',
 				'style' => [
 					(object) [
@@ -166,7 +166,7 @@ class StyleTabController {
 				],
 			],
 
-			'external_icon_color'                    => [
+			'external_icon_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -176,7 +176,7 @@ class StyleTabController {
 				],
 			],
 
-			'external_icon_color_hover'              => [
+			'external_icon_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -186,12 +186,12 @@ class StyleTabController {
 				],
 			],
 
-			'cat_tag_description_heading'            => [
+			'cat_tag_description_heading' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'taxonomy_des_typography'                => [
+			'taxonomy_des_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -217,7 +217,7 @@ class StyleTabController {
 
 			// Title Style
 
-			'title_spacing'                          => [
+			'title_spacing' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -233,7 +233,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_padding'                          => [
+			'title_padding' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -249,7 +249,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_typography'                       => [
+			'title_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -273,7 +273,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_offset_typography'                => [
+			'title_offset_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -297,17 +297,17 @@ class StyleTabController {
 				],
 			],
 
-			'title_border_visibility'                => [
+			'title_border_visibility' => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
 
-			'title_box_hover_tab'                    => [
+			'title_box_hover_tab' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'title_alignment'                        => [
+			'title_alignment' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -317,7 +317,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_color'                            => [
+			'title_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -327,7 +327,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_bg_color'                         => [
+			'title_bg_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -337,7 +337,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_border_color'                     => [
+			'title_border_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -347,7 +347,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_hover_border_color'               => [
+			'title_hover_border_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -357,7 +357,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_hover_color'                      => [
+			'title_hover_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -367,7 +367,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_bg_color_hover'                   => [
+			'title_bg_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -377,7 +377,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_color_box_hover'                  => [
+			'title_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -387,7 +387,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_bg_color_box_hover'               => [
+			'title_bg_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -397,7 +397,7 @@ class StyleTabController {
 				],
 			],
 
-			'title_border_color_hover'               => [
+			'title_border_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -409,7 +409,7 @@ class StyleTabController {
 
 			// Thumbnail Style
 
-			'img_border_radius'                      => [
+			'img_border_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -428,7 +428,7 @@ class StyleTabController {
 				],
 			],
 
-			'image_width'                            => [
+			'image_width' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -438,7 +438,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_position'                     => [
+			'thumbnail_position' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -448,7 +448,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_position_hover'               => [
+			'thumbnail_position_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -458,7 +458,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_transition_duration'          => [
+			'thumbnail_transition_duration' => [
 				'type'    => 'number',
 				'default' => '',
 				'style'   => [
@@ -468,7 +468,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_content_width'                => [
+			'thumbnail_content_width' => [
 				'type'    => 'number',
 				'default' => '',
 				'style'   => [
@@ -478,7 +478,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_opacity'                      => [
+			'thumbnail_opacity' => [
 				'type'    => 'number',
 				'default' => '',
 				'style'   => [
@@ -488,7 +488,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_opacity_hover'                => [
+			'thumbnail_opacity_hover' => [
 				'type'    => 'number',
 				'default' => '',
 				'style'   => [
@@ -498,7 +498,7 @@ class StyleTabController {
 				],
 			],
 
-			'author_image_width'                     => [
+			'author_image_width' => [
 				'type'    => 'number',
 				'default' => '',
 				'style'   => [
@@ -508,7 +508,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_spacing'                      => [
+			'thumbnail_spacing' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -524,7 +524,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumbnail_overlay_padding'              => [
+			'thumbnail_overlay_padding' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -540,12 +540,12 @@ class StyleTabController {
 				],
 			],
 
-			'grid_hover_style_tabs'                  => [
+			'grid_hover_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'grid_hover_overlay_color'               => [
+			'grid_hover_overlay_color' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -572,7 +572,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumb_lightbox_bg'                      => [
+			'thumb_lightbox_bg'    => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -581,7 +581,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'thumb_lightbox_color'                   => [
+			'thumb_lightbox_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -591,7 +591,7 @@ class StyleTabController {
 				],
 			],
 
-			'grid_hover_overlay_color_hover'         => [
+			'grid_hover_overlay_color_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -618,7 +618,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumb_lightbox_bg_hover'                => [
+			'thumb_lightbox_bg_hover'    => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -627,7 +627,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'thumb_lightbox_color_hover'             => [
+			'thumb_lightbox_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -636,27 +636,27 @@ class StyleTabController {
 					],
 				],
 			],
-			'grid_hover_overlay_type'                => [
+			'grid_hover_overlay_type'    => [
 				'type'    => 'string',
 				'default' => 'always',
 			],
-			'grid_hover_overlay_height'              => [
+			'grid_hover_overlay_height'  => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
-			'on_hover_overlay'                       => [
+			'on_hover_overlay'           => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
 
 			// Content Style
 
-			'excerpt_style_tabs'                     => [
+			'excerpt_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'content_typography'                     => [
+			'content_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -680,7 +680,7 @@ class StyleTabController {
 				],
 			],
 
-			'excerpt_spacing'                        => [
+			'excerpt_spacing' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -696,7 +696,7 @@ class StyleTabController {
 				],
 			],
 
-			'content_alignment'                      => [
+			'content_alignment' => [
 				'type'    => 'object',
 				'default' => [],
 				'style'   => [
@@ -706,7 +706,7 @@ class StyleTabController {
 				],
 			],
 
-			'excerpt_color'                          => [
+			'excerpt_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -716,7 +716,7 @@ class StyleTabController {
 				],
 			],
 
-			'excerpt_border'                         => [
+			'excerpt_border' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -726,7 +726,7 @@ class StyleTabController {
 				],
 			],
 
-			'excerpt_hover_color'                    => [
+			'excerpt_hover_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -736,7 +736,7 @@ class StyleTabController {
 				],
 			],
 
-			'excerpt_border_hover'                   => [
+			'excerpt_border_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -748,7 +748,7 @@ class StyleTabController {
 
 			// Meta Info Style
 
-			'post_meta_typography'                   => [
+			'post_meta_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -772,7 +772,7 @@ class StyleTabController {
 				],
 			],
 
-			'postmeta_alignment'                     => [
+			'postmeta_alignment' => [
 				'type'    => 'object',
 				'default' => [],
 				'style'   => [
@@ -783,7 +783,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_wrap_spacing'                      => [
+			'meta_wrap_spacing' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -799,7 +799,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_spacing'                           => [
+			'meta_spacing'          => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -814,12 +814,12 @@ class StyleTabController {
 					],
 				],
 			],
-			'separator_cat_heading'                  => [
+			'separator_cat_heading' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'separator_cat_typography'               => [
+			'separator_cat_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -843,7 +843,7 @@ class StyleTabController {
 				],
 			],
 
-			'category_margin_bottom'                 => [
+			'category_margin_bottom' => [
 				'type'  => 'number',
 				// 'default' => 0.5,
 				'style' => [
@@ -853,7 +853,7 @@ class StyleTabController {
 				],
 			],
 
-			'category_radius'                        => [
+			'category_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -872,7 +872,7 @@ class StyleTabController {
 				],
 			],
 
-			'category_padding'                       => [
+			'category_padding' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -889,12 +889,12 @@ class StyleTabController {
 				],
 			],
 
-			'meta_info_style_tabs'                   => [
+			'meta_info_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'meta_info_color'                        => [
+			'meta_info_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -904,7 +904,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_link_color'                        => [
+			'meta_link_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -914,7 +914,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_separator_color'                   => [
+			'meta_separator_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -924,7 +924,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_icon_color'                        => [
+			'meta_icon_color'   => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -933,37 +933,37 @@ class StyleTabController {
 					],
 				],
 			],
-			'category_position'                      => [
+			'category_position' => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
 
-			'category_source'                        => [
+			'category_source' => [
 				'type'    => 'string',
 				'default' => 'category',
 			],
 
-			'tag_source'                             => [
+			'tag_source' => [
 				'type'    => 'string',
 				'default' => 'post_tag',
 			],
 
-			'category_style'                         => [
+			'category_style' => [
 				'type'    => 'string',
 				'default' => 'style1',
 			],
 
-			'category_bg_style'                      => [
+			'category_bg_style' => [
 				'type'    => 'string',
 				'default' => 'default',
 			],
 
-			'show_cat_icon'                          => [
+			'show_cat_icon' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'separate_category_color'                => [
+			'separate_category_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -977,7 +977,7 @@ class StyleTabController {
 				],
 			],
 
-			'separate_category_bg'                   => [
+			'separate_category_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -991,7 +991,7 @@ class StyleTabController {
 				],
 			],
 
-			'separate_category_icon_color'           => [
+			'separate_category_icon_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1002,7 +1002,7 @@ class StyleTabController {
 				],
 			],
 
-			'post_footer_border_color'               => [
+			'post_footer_border_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1012,7 +1012,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_link_colo_hover'                   => [
+			'meta_link_colo_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1022,7 +1022,7 @@ class StyleTabController {
 				],
 			],
 
-			'separate_category_color_hover'          => [
+			'separate_category_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1033,7 +1033,7 @@ class StyleTabController {
 				],
 			],
 
-			'separate_category_bg_hover'             => [
+			'separate_category_bg_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1047,7 +1047,7 @@ class StyleTabController {
 				],
 			],
 
-			'meta_link_colo_box_hover'               => [
+			'meta_link_colo_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1057,7 +1057,7 @@ class StyleTabController {
 				],
 			],
 
-			'separate_category_color_box_hover'      => [
+			'separate_category_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1068,7 +1068,7 @@ class StyleTabController {
 				],
 			],
 
-			'separate_category_bg_box_hover'         => [
+			'separate_category_bg_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1094,7 +1094,7 @@ class StyleTabController {
 
 			// Social Icon Style
 
-			'social_icon_margin'                     => [
+			'social_icon_margin' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1110,7 +1110,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_wrapper_margin'                  => [
+			'social_wrapper_margin' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1126,7 +1126,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_radius'                     => [
+			'social_icon_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1141,7 +1141,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'social_icon_width'                      => [
+			'social_icon_width'  => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1150,7 +1150,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'social_icon_height'                     => [
+			'social_icon_height' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1160,7 +1160,7 @@ class StyleTabController {
 				],
 			],
 
-			'icon_font_size'                         => [
+			'icon_font_size' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -1174,11 +1174,11 @@ class StyleTabController {
 				],
 			],
 
-			'social_share_style_tabs'                => [
+			'social_share_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
-			'social_icon_color'                      => [
+			'social_icon_color'       => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1188,7 +1188,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_bg_color'                   => [
+			'social_icon_bg_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1198,7 +1198,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_border'                     => [
+			'social_icon_border' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1213,7 +1213,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_color_hover'                => [
+			'social_icon_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1223,7 +1223,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_bg_color_hover'             => [
+			'social_icon_bg_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1233,7 +1233,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_color_box_hover'            => [
+			'social_icon_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1243,7 +1243,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_bg_color_box_hover'         => [
+			'social_icon_bg_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1253,7 +1253,7 @@ class StyleTabController {
 				],
 			],
 
-			'social_icon_border_hover'               => [
+			'social_icon_border_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1270,7 +1270,7 @@ class StyleTabController {
 
 			// ACF Style
 
-			'acf_group_title_typography'             => [
+			'acf_group_title_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -1294,7 +1294,7 @@ class StyleTabController {
 				],
 			],
 
-			'acf_typography'                         => [
+			'acf_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -1318,12 +1318,12 @@ class StyleTabController {
 				],
 			],
 
-			'acf_label_style'                        => [
+			'acf_label_style' => [
 				'type'    => 'string',
 				'default' => 'inline',
 			],
 
-			'acf_label_width'                        => [
+			'acf_label_width' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -1336,7 +1336,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'acf_alignment'                          => [
+			'acf_alignment'   => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1345,12 +1345,12 @@ class StyleTabController {
 					],
 				],
 			],
-			'acf_style_tabs'                         => [
+			'acf_style_tabs'  => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'acf_group_title_color'                  => [
+			'acf_group_title_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1360,7 +1360,7 @@ class StyleTabController {
 				],
 			],
 
-			'acf_label_color'                        => [
+			'acf_label_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1370,7 +1370,7 @@ class StyleTabController {
 				],
 			],
 
-			'acf_value_color'                        => [
+			'acf_value_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1380,7 +1380,7 @@ class StyleTabController {
 				],
 			],
 
-			'acf_group_title_color_hover'            => [
+			'acf_group_title_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1390,7 +1390,7 @@ class StyleTabController {
 				],
 			],
 
-			'acf_label_color_hover'                  => [
+			'acf_label_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1400,7 +1400,7 @@ class StyleTabController {
 				],
 			],
 
-			'acf_value_color_hover'                  => [
+			'acf_value_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1412,7 +1412,7 @@ class StyleTabController {
 
 			// Read More Style
 
-			'readmore_typography'                    => [
+			'readmore_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -1436,7 +1436,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_spacing'                       => [
+			'readmore_spacing' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1452,7 +1452,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_padding'                       => [
+			'readmore_padding' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1468,7 +1468,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_btn_alignment'                 => [
+			'readmore_btn_alignment' => [
 				'type'    => 'object',
 				'default' => [],
 				'style'   => [
@@ -1477,12 +1477,12 @@ class StyleTabController {
 					],
 				],
 			],
-			'readmore_icon_position'                 => [
+			'readmore_icon_position' => [
 				'type'    => 'string',
 				'default' => 'right',
 			],
 
-			'readmore_icon_size'                     => [
+			'readmore_icon_size'       => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -1495,7 +1495,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'readmore_icon_y_position'               => [
+			'readmore_icon_y_position' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -1509,7 +1509,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_text_color'                    => [
+			'readmore_text_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1519,7 +1519,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_icon_color'                    => [
+			'readmore_icon_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1529,7 +1529,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_bg'                            => [
+			'readmore_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1539,7 +1539,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_icon_margin'                   => [
+			'readmore_icon_margin' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1555,7 +1555,7 @@ class StyleTabController {
 				],
 			],
 
-			'border_radius'                          => [
+			'border_radius'             => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1570,7 +1570,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'readmore_border'                        => [
+			'readmore_border'           => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1584,7 +1584,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'readmore_text_color_hover'              => [
+			'readmore_text_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1594,7 +1594,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_icon_color_hover'              => [
+			'readmore_icon_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1604,7 +1604,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_bg_hover'                      => [
+			'readmore_bg_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1614,7 +1614,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_icon_margin_hover'             => [
+			'readmore_icon_margin_hover' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1630,7 +1630,7 @@ class StyleTabController {
 				],
 			],
 
-			'border_radius_hover'                    => [
+			'border_radius_hover' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1646,7 +1646,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_border_hover'                  => [
+			'readmore_border_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1662,7 +1662,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_text_color_box_hover'          => [
+			'readmore_text_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1672,7 +1672,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_icon_color_box_hover'          => [
+			'readmore_icon_color_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1682,7 +1682,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_bg_box_hover'                  => [
+			'readmore_bg_box_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1692,7 +1692,7 @@ class StyleTabController {
 				],
 			],
 
-			'readmore_border_box_hover'              => [
+			'readmore_border_box_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1709,7 +1709,7 @@ class StyleTabController {
 
 			// Link Style
 
-			'popup_head_bg'                          => [
+			'popup_head_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1719,7 +1719,7 @@ class StyleTabController {
 				],
 			],
 
-			'popup_head_txt_color'                   => [
+			'popup_head_txt_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1729,7 +1729,7 @@ class StyleTabController {
 				],
 			],
 
-			'popup_title_color'                      => [
+			'popup_title_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1739,7 +1739,7 @@ class StyleTabController {
 				],
 			],
 
-			'popup_meta_color'                       => [
+			'popup_meta_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1749,7 +1749,7 @@ class StyleTabController {
 				],
 			],
 
-			'popup_content_color'                    => [
+			'popup_content_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1759,7 +1759,7 @@ class StyleTabController {
 				],
 			],
 
-			'popup_bg'                               => [
+			'popup_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1771,12 +1771,12 @@ class StyleTabController {
 
 			// Pagination - Load more Style
 
-			'pagination_style_tabs'                  => [
+			'pagination_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'pagination_typography'                  => [
+			'pagination_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -1802,7 +1802,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_text_align'                  => [
+			'pagination_text_align' => [
 				'type'    => 'object',
 				'default' => [],
 				'style'   => [
@@ -1812,7 +1812,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_spacing'                     => [
+			'pagination_spacing' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1848,7 +1848,7 @@ class StyleTabController {
 			// ]
 			// ],
 
-			'pagination_btn_width'                   => [
+			'pagination_btn_width' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -1864,7 +1864,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_btn_height'                  => [
+			'pagination_btn_height' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -1880,7 +1880,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_border_radius'               => [
+			'pagination_border_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -1900,7 +1900,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_color'                       => [
+			'pagination_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1914,7 +1914,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_bg'                          => [
+			'pagination_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1927,7 +1927,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_border_color'                => [
+			'pagination_border_color' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1945,7 +1945,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_border_color_hover'          => [
+			'pagination_border_color_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1963,7 +1963,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_border_color_active'         => [
+			'pagination_border_color_active' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTpgBorder' => 1,
@@ -1984,7 +1984,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_color_hover'                 => [
+			'pagination_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -1997,7 +1997,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_bg_hover'                    => [
+			'pagination_bg_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2010,7 +2010,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_color_active'                => [
+			'pagination_color_active' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2026,7 +2026,7 @@ class StyleTabController {
 				],
 			],
 
-			'pagination_bg_active'                   => [
+			'pagination_bg_active' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2044,7 +2044,7 @@ class StyleTabController {
 
 			// Front-end Filter Style
 
-			'front_filter_typography'                => [
+			'front_filter_typography' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openTypography' => 1,
@@ -2068,7 +2068,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_text_alignment'                  => [
+			'filter_text_alignment' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2077,7 +2077,7 @@ class StyleTabController {
 					],
 				],
 			],
-			'layout_vertical_align'                  => [
+			'layout_vertical_align' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2086,11 +2086,11 @@ class StyleTabController {
 					],
 				],
 			],
-			'filter_v_alignment'                     => [
+			'filter_v_alignment'    => [
 				'type'    => 'string',
 				'default' => '',
 			],
-			'filter_button_width'                    => [
+			'filter_button_width'   => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -2103,20 +2103,20 @@ class StyleTabController {
 					],
 				],
 			],
-			'border_style'                           => [
+			'border_style'          => [
 				'type'    => 'string',
 				'default' => '',
 			],
-			'filter_next_prev_btn'                   => [
+			'filter_next_prev_btn'  => [
 				'type'    => 'string',
 				'default' => 'visible',
 			],
-			'filter_h_alignment'                     => [
+			'filter_h_alignment'    => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'filter_btn_radius'                      => [
+			'filter_btn_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2134,11 +2134,11 @@ class StyleTabController {
 				],
 			],
 
-			'frontend_filter_style_tabs'             => [
+			'frontend_filter_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
-			'filter_color'                           => [
+			'filter_color'               => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2154,7 +2154,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_bg_color'                        => [
+			'filter_bg_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2167,7 +2167,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_border_color'                    => [
+			'filter_border_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2182,7 +2182,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_search_bg'                       => [
+			'filter_search_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2192,7 +2192,7 @@ class StyleTabController {
 				],
 			],
 
-			'sub_menu_bg_color'                      => [
+			'sub_menu_bg_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2202,7 +2202,7 @@ class StyleTabController {
 				],
 			],
 
-			'sub_menu_color'                         => [
+			'sub_menu_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2212,7 +2212,7 @@ class StyleTabController {
 				],
 			],
 
-			'sub_menu_border_bottom'                 => [
+			'sub_menu_border_bottom' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2222,7 +2222,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_nav_color'                       => [
+			'filter_nav_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2232,7 +2232,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_nav_bg'                          => [
+			'filter_nav_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2242,7 +2242,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_nav_border'                      => [
+			'filter_nav_border' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2252,7 +2252,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_color_hover'                     => [
+			'filter_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2266,7 +2266,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_bg_color_hover'                  => [
+			'filter_bg_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2280,7 +2280,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_border_color_hover'              => [
+			'filter_border_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2297,7 +2297,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_search_bg_hover'                 => [
+			'filter_search_bg_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2307,7 +2307,7 @@ class StyleTabController {
 				],
 			],
 
-			'sub_menu_bg_color_hover'                => [
+			'sub_menu_bg_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2317,7 +2317,7 @@ class StyleTabController {
 				],
 			],
 
-			'sub_menu_color_hover'                   => [
+			'sub_menu_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2327,7 +2327,7 @@ class StyleTabController {
 				],
 			],
 
-			'sub_menu_border_bottom_hover'           => [
+			'sub_menu_border_bottom_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2337,7 +2337,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_nav_color_hover'                 => [
+			'filter_nav_color_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2347,7 +2347,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_nav_bg_hover'                    => [
+			'filter_nav_bg_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2357,7 +2357,7 @@ class StyleTabController {
 				],
 			],
 
-			'filter_nav_border_hover'                => [
+			'filter_nav_border_hover' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2369,7 +2369,7 @@ class StyleTabController {
 
 			// Box Settings
 
-			'box_margin'                             => [
+			'box_margin' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2387,7 +2387,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_margin_extra'                       => [
+			'box_margin_extra' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2404,7 +2404,7 @@ class StyleTabController {
 			],
 			// should apply condition
 
-			'content_box_padding'                    => [
+			'content_box_padding' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2421,7 +2421,7 @@ class StyleTabController {
 				],
 			],
 
-			'content_box_padding_offset'             => [
+			'content_box_padding_offset' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2437,7 +2437,7 @@ class StyleTabController {
 				],
 			],
 
-			'content_box_padding_2'                  => [
+			'content_box_padding_2' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2453,7 +2453,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_radius'                             => [
+			'box_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2469,17 +2469,17 @@ class StyleTabController {
 				],
 			],
 
-			'is_box_border'                          => [
+			'is_box_border' => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'box_border_bottom'                      => [
+			'box_border_bottom' => [
 				'type'    => 'string',
 				'default' => 'disable',
 			],
 
-			'box_border_bottom_color'                => [
+			'box_border_bottom_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2489,7 +2489,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_border_spacing'                     => [
+			'box_border_spacing' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -2503,12 +2503,12 @@ class StyleTabController {
 				],
 			],
 
-			'box_style_tabs'                         => [
+			'box_style_tabs' => [
 				'type'    => 'string',
 				'default' => 'normal',
 			],
 
-			'box_background'                         => [
+			'box_background' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -2535,7 +2535,7 @@ class StyleTabController {
 				],
 			],
 
-			'sticky_item_background'                         => [
+			'sticky_item_background' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -2562,7 +2562,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_background2'                        => [
+			'box_background2' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -2589,7 +2589,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_border'                             => [
+			'box_border' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2599,7 +2599,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_box_shadow_normal'                  => [
+			'box_box_shadow_normal' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openShadow' => 1,
@@ -2618,7 +2618,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_box_shadow_hover'                   => [
+			'box_box_shadow_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openShadow' => 1,
@@ -2637,7 +2637,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_box_shadow2'                        => [
+			'box_box_shadow2' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openShadow' => 1,
@@ -2656,7 +2656,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_box_shadow_hover2'                  => [
+			'box_box_shadow_hover2' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openShadow' => 1,
@@ -2675,7 +2675,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_background_hover'                   => [
+			'box_background_hover' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -2702,7 +2702,7 @@ class StyleTabController {
 				],
 			],
 
-			'box_background_hover2'                  => [
+			'box_background_hover2' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -2728,12 +2728,12 @@ class StyleTabController {
 					],
 				],
 			],
-			'box_border_hover'                       => [
+			'box_border_hover'      => [
 				'type'    => 'string',
 				'default' => '',
 			],
 
-			'tpg_wrapper_padding'                    => [
+			'tpg_wrapper_padding' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2749,7 +2749,7 @@ class StyleTabController {
 				],
 			],
 
-			'tpg_wrapper_radius'                     => [
+			'tpg_wrapper_radius' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2765,7 +2765,7 @@ class StyleTabController {
 				],
 			],
 
-			'tpg_wrapper_margin'                     => [
+			'tpg_wrapper_margin' => [
 				'type'    => 'object',
 				'default' => [
 					'lg' => [
@@ -2781,7 +2781,7 @@ class StyleTabController {
 				],
 			],
 
-			'tpg_wrapper_width'                      => [
+			'tpg_wrapper_width' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'lg' => '',
@@ -2795,7 +2795,7 @@ class StyleTabController {
 				],
 			],
 
-			'tpg_wrapper_background'                 => [
+			'tpg_wrapper_background' => [
 				'type'    => 'object',
 				'default' => (object) [
 					'openBGColor' => 0,
@@ -2822,7 +2822,7 @@ class StyleTabController {
 				],
 			],
 
-			'scroll_bar_color'                       => [
+			'scroll_bar_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2835,7 +2835,7 @@ class StyleTabController {
 				],
 			],
 
-			'scroll_bar_bg_color'                    => [
+			'scroll_bar_bg_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2848,7 +2848,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumb_font_color'                       => [
+			'thumb_font_color' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2859,7 +2859,7 @@ class StyleTabController {
 				],
 			],
 
-			'slider_thumb_bg_active'                 => [
+			'slider_thumb_bg_active' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2871,7 +2871,7 @@ class StyleTabController {
 				],
 			],
 
-			'thumb_wrapper_bg'                       => [
+			'thumb_wrapper_bg' => [
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
@@ -2882,9 +2882,121 @@ class StyleTabController {
 				],
 			],
 
-			'enable_loader'                          => [
+			'enable_loader' => [
 				'type'    => 'string',
 				'default' => 'disable',
+			],
+
+			'event_typography' => [
+				'type'    => 'object',
+				'default' => (object) [
+					'openTypography' => 1,
+					'size'           => (object) [
+						'lg'   => '',
+						'unit' => 'px',
+					],
+					'spacing'        => (object) [
+						'lg'   => '',
+						'unit' => 'px',
+					],
+					'height'         => (object) [
+						'lg'   => '',
+						'unit' => 'px',
+					],
+					'transform'      => '',
+					'weight'         => '',
+				],
+				'style'   => [
+					(object) [ 'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date' ],
+				],
+			],
+
+			'event_spacing'     => [
+				'type'    => 'object',
+				'default' => [
+					'lg' => [
+						'isLinked' => true,
+						'unit'     => 'px',
+						'value'    => '',
+					],
+				],
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date{{event_spacing}}',
+					],
+				],
+			],
+			'event_padding'     => [
+				'type'    => 'object',
+				'default' => [
+					'lg' => [
+						'isLinked' => true,
+						'unit'     => 'px',
+						'value'    => '',
+					],
+				],
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date{{event_padding}}',
+					],
+				],
+			],
+			'event_radius'      => [
+				'type'    => 'object',
+				'default' => [
+					'lg' => [
+						'isLinked' => true,
+						'unit'     => 'px',
+						'value'    => '',
+					],
+				],
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date{{event_radius}}',
+					],
+				],
+			],
+			'event_label_color' => [
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date .label {color: {{event_label_color}}; }',
+					],
+				],
+			],
+			'event_date_color'  => [
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date .date {color: {{event_date_color}}; }',
+					],
+				],
+			],
+			'event_wrapper_bg'  => [
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date {background-color: {{event_wrapper_bg}}; }',
+					],
+				],
+			],
+
+			'event_border' => [
+				'type'    => 'object',
+				'default' => (object) [
+					'openTpgBorder' => 1,
+					'color'         => '',
+					'style'         => '',
+					'width'         => '',
+				],
+				'style'   => [
+					(object) [
+						'selector' => '{{RTTPG}} .rt-tpg-container .tpg-event-date',
+					],
+				],
 			],
 
 		];

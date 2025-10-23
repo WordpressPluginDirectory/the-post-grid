@@ -2028,3 +2028,7 @@ Date Picker CSS
     font-weight: 600;
     margin-top: 15px;
 }
+body .ui-datepicker {
+    background: #e7e8f0;
+    border: 1px solid #ddd;
+}

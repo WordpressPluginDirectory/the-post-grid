@@ -98,6 +98,8 @@ if ( 'masonry' == $data['layout_style'] ) {
 				<?php endif; ?>
 
 				<?php
+				Fns::event_information( $data );
+
 				if ( rtTPG()->hasPro() && 'show' === $data['show_social_share'] ) {
 					Fns::print_html( \RT\ThePostGridPro\Helpers\Functions::rtShare( $pID ) );
 				}

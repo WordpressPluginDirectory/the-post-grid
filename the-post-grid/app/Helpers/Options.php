@@ -420,7 +420,7 @@ class Options {
 		return $other_settings;
 	}
 
-	public static function rtTPGCMyAccountSettings() {
+	public static function rtTPGMyAccountSettings() {
 		$settings = get_option( rtTPG()->options['settings'] );
 
 		$other_settings = [
@@ -460,12 +460,6 @@ class Options {
 				'id'          => 'max_upload_file',
 				'holderClass' => 'pro-field',
 				'description' => __( 'Input max upload image size KB. Default is: 1024 (1MB)', 'the-post-grid' ),
-				'options'     => [
-					'pending' => esc_html__( 'Pending Review', 'the-post-grid' ),
-					'draft'   => esc_html__( 'Draft', 'the-post-grid' ),
-					'private' => esc_html__( 'Private', 'the-post-grid' ),
-					'publish' => esc_html__( 'Publish', 'the-post-grid' ),
-				],
 				'value'       => isset( $settings['max_upload_file'] ) ? $settings['max_upload_file'] : '1024',
 			],
 
@@ -482,6 +476,53 @@ class Options {
 					'delete' => esc_html__( 'Delete Forever', 'the-post-grid' ),
 				],
 				'value'       => isset( $settings['delete_post_status'] ) ? $settings['delete_post_status'] : 'trash',
+			],
+
+		];
+
+		return $other_settings;
+	}
+
+	public static function rtTPGEventSettings() {
+		$settings       = get_option( rtTPG()->options['settings'] );
+		$other_settings = [
+			'show_event_meta'        => [
+				'type'        => 'switch',
+				'name'        => 'show_event_meta',
+				'holderClass' => 'pro-field',
+				'label'       => esc_html__( 'Enable Event Meta box on posts edit page', 'the-post-grid' ),
+				'value'       => isset( $settings['show_event_meta'] ) ? $settings['show_event_meta'] : false,
+			],
+			'allows_post_type_event' => [
+				'type'        => 'checkbox',
+				'name'        => 'allows_post_type_event',
+				'label'       => esc_html__( 'Choose Post Types', 'the-post-grid' ),
+				'description' => esc_html__( 'Select the post types where you want to display the event post meta.', 'the-post-grid' ),
+				'id'          => 'allows_post_type_event',
+				'holderClass' => 'pro-field',
+				'alignment'   => 'vertical',
+				'multiple'    => true,
+				'options'     => Fns::get_post_types(),
+				'value'       => isset( $settings['allows_post_type_event'] ) ? $settings['allows_post_type_event'] : [ 'post' ],
+			],
+			'event_start_time'       => [
+				'type'        => 'text',
+				'name'        => 'event_start_time',
+				'label'       => esc_html__( 'Event Start Date Meta Key', 'the-post-grid' ),
+				'id'          => 'event_start_time',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Please enter the meta key for the event start date. If left blank, the default key "tpg_event_start_time" will be used.', 'the-post-grid' ),
+				'value'       => isset( $settings['event_start_time'] ) ? $settings['event_start_time'] : 'tpg_event_start_time',
+			],
+
+			'event_end_time' => [
+				'type'        => 'text',
+				'name'        => 'event_end_time',
+				'label'       => esc_html__( 'Event End Date Meta Key', 'the-post-grid' ),
+				'id'          => 'event_end_time',
+				'holderClass' => 'pro-field',
+				'description' => __( 'Please enter the meta key for the event end date. If left blank, the default key "tpg_event_end_time" will be used.', 'the-post-grid' ),
+				'value'       => isset( $settings['event_end_time'] ) ? $settings['event_end_time'] : 'tpg_event_end_time',
 			],
 
 		];

@@ -99,9 +99,12 @@ if ( 'masonry' == $data['layout_style'] ) {
 				<?php endif; ?>
 
 				<?php
+				Fns::event_information( $data );
+
 				if ( rtTPG()->hasPro() && 'show' === $data['show_social_share'] ) {
 					Fns::print_html( \RT\ThePostGridPro\Helpers\Functions::rtShare( $pID ) );
 				}
+
 				if ( 'show' === $data['show_read_more'] && $data['read_more_label'] ) {
 					Fns::get_read_more_button( $data, $readmore_link_start, $readmore_link_end, 'gutenberg' );
 				}

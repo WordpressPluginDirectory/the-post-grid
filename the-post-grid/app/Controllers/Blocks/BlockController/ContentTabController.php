@@ -84,7 +84,7 @@ class ContentTabController {
 				'default' => '',
 				'style'   => [
 					(object) [
-						'selector' => '{{RTTPG}} .tpg-el-main-wrapper {--tpg-primary-color: {{block_secondary_color}}; }',
+						'selector' => '{{RTTPG}} .tpg-el-main-wrapper {--tpg-secondary-color: {{block_secondary_color}}; }',
 					],
 				],
 			],

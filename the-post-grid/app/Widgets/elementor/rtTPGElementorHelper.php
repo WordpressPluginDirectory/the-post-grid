@@ -6,6 +6,7 @@
  */
 
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use RT\ThePostGrid\Helpers\Fns;
 use RT\ThePostGrid\Helpers\Options;
@@ -194,6 +195,7 @@ class rtTPGElementorHelper {
 					'related_category'            => esc_html__( 'Related Posts (Category)', 'the-post-grid' ) . ' ' . $ref->pro_label(),
 					'related_tag'                 => esc_html__( 'Related Posts (Tag)', 'the-post-grid' ) . ' ' . $ref->pro_label(),
 					'related_cat_tag'             => esc_html__( 'Related Posts (Tag and Category)', 'the-post-grid' ) . ' ' . $ref->pro_label(),
+					'event_query'                 => esc_html__( 'Event Query', 'the-post-grid' ) . ' ' . $ref->pro_label(),
 				],
 				'classes'     => rtTPG()->hasPro() ? '' : 'tpg-pro-field-select',
 				'default'     => 'default',
@@ -2086,6 +2088,19 @@ class rtTPGElementorHelper {
 		);
 
 		$ref->add_control(
+			'show_event_date',
+			[
+				'label'        => esc_html__( 'Event Date', 'the-post-grid' ) . $ref->pro_label,
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'return_value' => 'on',
+				'default'      => false,
+				'classes'      => rtTPG()->hasPro() ? '' : 'the-post-grid-field-hide',
+			]
+		);
+
+		$ref->add_control(
 			'show_social_share',
 			[
 				'label'        => esc_html__( 'Social Share', 'the-post-grid' ) . $ref->pro_label,
@@ -3553,6 +3568,87 @@ class rtTPGElementorHelper {
 			]
 		);
 
+		$ref->end_controls_section();
+
+		self::post_event_settings( $ref );
+	}
+
+
+	public static function post_event_settings( $ref ) {
+		$prefix = $ref->prefix;
+		$ref->start_controls_section(
+			'post_event_settings',
+			[
+				'label'     => esc_html__( 'Event Settings', 'the-post-grid' ),
+				'tab'       => Controls_Manager::TAB_SETTINGS,
+				'condition' => [
+					'show_event_date'    => 'on',
+					$prefix . '_layout!' => [ 'grid-layout7', 'slider-layout4' ],
+				],
+			]
+		);
+		$ref->add_control(
+			'event_title',
+			[
+				'label'   => esc_html__( 'Event Title', 'the-post-grid' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Event Information:', 'the-post-grid' ),
+			]
+		);
+		$ref->add_control(
+			'start_date_label',
+			[
+				'label'   => esc_html__( 'Start Date Label', 'the-post-grid' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Start Date:', 'the-post-grid' ),
+			]
+		);
+
+		$ref->add_control(
+			'end_date_label',
+			[
+				'label'   => esc_html__( 'End Date Label', 'the-post-grid' ),
+				'type'    => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'End Date:', 'the-post-grid' ),
+			]
+		);
+
+
+		$ref->add_control(
+			'event_date_format',
+			[
+				'label'   => esc_html__( 'Date Format', 'the-post-grid' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => 'F j, Y g:i a',
+				'options' => [
+					'F j, Y g:i a' => date( 'F j, Y g:i a' ),
+					'M j, Y'       => date( 'M j, Y' ),
+					'Y-m-d H:i:s'  => date( 'Y-m-d H:i:s' ),
+					'm/d/Y g:i a'  => date( 'm/d/Y g:i a' ),
+					'custom'       => esc_html__( 'Custom Format', 'the-post-grid' ),
+				],
+			]
+		);
+
+
+		$ref->add_control(
+			'custom_event_date_format',
+			[
+				'label'       => esc_html__( 'Custom Date Format', 'the-post-grid' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'description' => sprintf(
+					wp_kses(
+						__( 'Use PHP date format — e.g. <code>Y-m-d g:i a</code>. <a href="%s" target="_blank">Learn more</a>', 'the-post-grid' ),
+						[ 'code' => [], 'a' => [ 'href' => [], 'target' => [] ] ]
+					),
+					'https://www.php.net/manual/en/datetime.format.php'
+				),
+				'condition'   => [
+					'show_event_date'   => 'on',
+					'event_date_format' => 'custom',
+				],
+			]
+		);
 		$ref->end_controls_section();
 	}
 
@@ -5941,6 +6037,107 @@ class rtTPGElementorHelper {
 		$ref->end_controls_tab();
 
 		$ref->end_controls_tabs();
+
+		$ref->end_controls_section();
+
+		self::event_style( $ref );
+	}
+
+	public static function event_style( $ref ) {
+		$prefix = $ref->prefix;
+
+		$ref->start_controls_section(
+			'event_button_style',
+			[
+				'label'     => esc_html__( 'Event Style', 'the-post-grid' ),
+				'tab'       => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'show_event_date'    => 'on',
+					$prefix . '_layout!' => [ 'grid-layout7', 'slider-layout4' ],
+				],
+			]
+		);
+
+		$ref->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'event_typography',
+				'selector' => '{{WRAPPER}} .rt-tpg-container .tpg-event-date',
+			]
+		);
+
+		$ref->add_responsive_control(
+			'event_spacing',
+			[
+				'label'              => esc_html__( 'Spacing', 'the-post-grid' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => [ 'px' ],
+				'allowed_dimensions' => 'all',
+				'default'            => [
+					'top'      => '',
+					'right'    => '',
+					'bottom'   => '',
+					'left'     => '',
+					'isLinked' => false,
+				],
+				'selectors'          => [
+					'{{WRAPPER}} .rt-tpg-container .tpg-event-date' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$ref->add_responsive_control(
+			'event_padding',
+			[
+				'label'      => esc_html__( 'Padding', 'the-post-grid' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px' ],
+				'selectors'  => [
+					'{{WRAPPER}} .rt-tpg-container .tpg-event-date' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$ref->add_control( 'event_label_color', [
+			'label'     => __( 'Label Color', 'the-post-grid' ),
+			'type'      => Controls_Manager::COLOR,
+			'selectors' => [
+				'{{WRAPPER}} .rt-tpg-container .tpg-event-date .label' => 'color: {{VALUE}}',
+			],
+		] );
+		$ref->add_control( 'event_date_color', [
+			'label'     => __( 'Date Color', 'the-post-grid' ),
+			'type'      => Controls_Manager::COLOR,
+			'selectors' => [
+				'{{WRAPPER}} .rt-tpg-container .tpg-event-date .date' => 'color: {{VALUE}}',
+			],
+		] );
+		$ref->add_control( 'event_wrapper_bg', [
+			'label'     => __( 'Background Color', 'the-post-grid' ),
+			'type'      => Controls_Manager::COLOR,
+			'selectors' => [
+				'{{WRAPPER}} .rt-tpg-container .tpg-event-date' => 'background-color: {{VALUE}}',
+			],
+		] );
+		$ref->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'     => 'event_border',
+				'selector' => '{{WRAPPER}} .rt-tpg-container .tpg-event-date',
+			]
+		);
+
+		$ref->add_responsive_control(
+			'event_radius',
+			[
+				'label'      => esc_html__( 'Border Radius', 'the-post-grid' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px' ],
+				'selectors'  => [
+					'{{WRAPPER}} .rt-tpg-container .tpg-event-date' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 
 		$ref->end_controls_section();
 	}

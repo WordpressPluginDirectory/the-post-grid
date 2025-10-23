@@ -49,7 +49,6 @@ $grid_column_tab     = ( isset( $data['grid_column']['md'] ) && '' != $data['gri
 $grid_column_mobile  = ( isset( $data['grid_column']['sm'] ) && '' != $data['grid_column']['sm'] ) ? $data['grid_column']['sm'] : '12';
 $col_class           = "rt-col-md-{$grid_column_desktop} rt-col-sm-{$grid_column_tab} rt-col-xs-{$grid_column_mobile}";
 
-
 // Column Dynamic Class
 $column_classes = [];
 
@@ -61,16 +60,16 @@ if ( 'masonry' == $data['layout_style'] ) {
 ?>
 
 <div <?php post_class( esc_attr( $col_class . ' ' . implode( ' ', $column_classes ) ) ); ?>
-		data-id="<?php echo esc_attr( $pID ); ?>">
-	<div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
-		<div class="rt-detail rt-el-content-wrapper">
+        data-id="<?php echo esc_attr( $pID ); ?>">
+    <div class="rt-holder tpg-post-holder <?php echo esc_attr( is_sticky( $pID ) ? 'rt-sticky' : '' ) ?>">
+        <div class="rt-detail rt-el-content-wrapper">
 			<?php
 			if ( 'show' == $data['show_thumb'] ) :
 				$has_thumbnail = has_post_thumbnail() ? 'has-thumbnail' : 'has-no-thumbnail';
 				?>
-				<div class="rt-img-holder tpg-el-image-wrap <?php echo esc_attr( $has_thumbnail ); ?>">
+                <div class="rt-img-holder tpg-el-image-wrap <?php echo esc_attr( $has_thumbnail ); ?>">
 					<?php Fns::get_post_thumbnail( $pID, $data, $link_start, $link_end ); ?>
-				</div>
+                </div>
 			<?php endif; ?>
 
 			<?php
@@ -80,23 +79,23 @@ if ( 'masonry' == $data['layout_style'] ) {
 			?>
 
 			<?php if ( 'show' == $data['show_meta'] ) : ?>
-
-				<div class="post-meta-tags rt-el-post-meta">
+                <div class="post-meta-tags rt-el-post-meta">
 					<?php Fns::get_post_meta_html( $pID, $data ); ?>
-				</div>
+                </div>
 			<?php endif; ?>
 
 			<?php if ( 'show' == $data['show_excerpt'] || 'show' == $data['show_acf'] ) : ?>
-				<div class="tpg-excerpt tpg-el-excerpt">
+                <div class="tpg-excerpt tpg-el-excerpt">
 					<?php if ( $excerpt && 'show' == $data['show_excerpt'] ) : ?>
-						<div class="tpg-excerpt-inner">
+                        <div class="tpg-excerpt-inner">
 							<?php echo wp_kses_post( $excerpt ); ?>
-						</div>
+                        </div>
 					<?php endif; ?>
 					<?php Fns::tpg_get_acf_data_elementor( $data, $pID ); ?>
-				</div>
-				<?php
+                </div>
+			<?php
 			endif;
+			Fns::event_information( $data );
 
 			if ( rtTPG()->hasPro() && 'show' === $data['show_social_share'] ) {
 				Fns::print_html( \RT\ThePostGridPro\Helpers\Functions::rtShare( $pID ) );
@@ -106,6 +105,6 @@ if ( 'masonry' == $data['layout_style'] ) {
 				Fns::get_read_more_button( $data, $readmore_link_start, $readmore_link_end, 'gutenberg' );
 			}
 			?>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>

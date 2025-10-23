@@ -1687,3 +1687,14 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
 .rttpg-toc-headings-list .components-checkbox-control__input[type=checkbox] {
     border-radius: 50%;
 }
+
+body .ui-datepicker .ui-datepicker-calendar {
+    background: #FFFFFF;
+}
+body .ui-datepicker {
+    background: #e9eef4;
+    border: none;
+}
+body .ui-datepicker-header {
+    background: #038df0;
+}

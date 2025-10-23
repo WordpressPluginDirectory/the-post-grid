@@ -37,10 +37,9 @@ class FilterHooks {
 			add_filter( 'the_content', [ __CLASS__, 'tpg_acf_content_filter' ] );
 		}
 
-		add_filter( 'wp_head', [ __CLASS__, 'set_post_view_count' ], 9999 );
+		add_filter( 'wp', [ __CLASS__, 'set_post_view_count' ], 9999 );
 		add_filter( 'body_class', [ __CLASS__, 'body_classes' ] );
 		add_filter( 'admin_body_class', [ __CLASS__, 'admin_body_class' ] );
-		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'tpg_custom_wpkses_post_tags' ], 10, 2 );
 		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'custom_wpkses_post_tags' ], 10, 2 );
 
 		//Query args modify
@@ -124,34 +123,6 @@ class FilterHooks {
 		return $classes;
 	}
 
-	/**
-	 * @param $tags
-	 * @param $context
-	 *
-	 * @return mixed
-	 */
-	public static function tpg_custom_wpkses_post_tags( $tags, $context ) {
-		if ( 'post' === $context ) {
-			$tags['iframe'] = [
-				'src'             => true,
-				'height'          => true,
-				'width'           => true,
-				'frameborder'     => true,
-				'allowfullscreen' => true,
-			];
-			$tags['input']  = [
-				'type'        => true,
-				'class'       => true,
-				'placeholder' => true,
-				'name'        => true,
-			];
-			$tags['style']  = [
-				'src' => true,
-			];
-		}
-
-		return $tags;
-	}
 
 	/**
 	 * Set view count
@@ -232,6 +203,7 @@ class FilterHooks {
 		return $content;
 	}
 
+
 	/**
 	 * Add exceptions in wp_kses_post tags.
 	 *
@@ -240,6 +212,7 @@ class FilterHooks {
 	 *
 	 * @return array
 	 */
+
 	public static function custom_wpkses_post_tags( $tags, $context ) {
 		if ( 'post' === $context ) {
 			$tags['iframe'] = [
@@ -248,6 +221,17 @@ class FilterHooks {
 				'width'           => true,
 				'frameborder'     => true,
 				'allowfullscreen' => true,
+			];
+
+			$tags['input']  = [
+				'type'        => true,
+				'class'       => true,
+				'placeholder' => true,
+				'name'        => true,
+			];
+
+			$tags['style']  = [
+				'src' => true,
 			];
 
 			$tags['svg'] = [
@@ -263,9 +247,15 @@ class FilterHooks {
 				'fill'            => true,
 			];
 
-			$tags['g']     = [ 'fill' => true ];
-			$tags['title'] = [ 'title' => true ];
-			$tags['path']  = [
+			$tags['g'] = [
+				'fill' => true,
+			];
+
+			$tags['title'] = [
+				'title' => true,
+			];
+
+			$tags['path'] = [
 				'd'               => true,
 				'fill'            => true,
 				'stroke-width'    => true,
@@ -274,6 +264,7 @@ class FilterHooks {
 				'fill-rule'       => true,
 				'clip-rule'       => true,
 				'stroke'          => true,
+				'transform'       => true,
 			];
 		}
 

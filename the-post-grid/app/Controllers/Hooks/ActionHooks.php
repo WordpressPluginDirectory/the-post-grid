@@ -28,7 +28,7 @@ class ActionHooks {
 		add_action( 'pre_get_posts', [ __CLASS__, 'category_query' ], 10 );
 		add_filter( 'post_row_actions', [ __CLASS__, 'filter_post_row_actions' ], 11, 2 );
 		add_filter( 'page_row_actions', [ __CLASS__, 'filter_post_row_actions' ], 11, 2 );
-		add_action( 'rttpg_daily_scheduled_events', [ __CLASS__, 'rttpg_daily_scheduled_events' ] );
+		//add_action( 'rttpg_daily_scheduled_events', [ __CLASS__, 'rttpg_daily_scheduled_events' ] );
 	}
 
 	/**

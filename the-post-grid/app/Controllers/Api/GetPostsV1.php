@@ -27,6 +27,7 @@ class GetPostsV1 {
 
 	public function get_all_posts( $data ) {
 
+
 		$prefix = isset( $data['prefix'] ) ? $data['prefix'] : 'grid';
 
 		$_post_type  = ! empty( $data['post_type'] ) ? esc_html( $data['post_type'] ) : 'post';
@@ -277,6 +278,7 @@ class GetPostsV1 {
 			],
 		];
 
+
 		// $send_data['total_post'] = esc_html( $query->found_posts );
 		if ( $query->have_posts() ) {
 			$pCount = 1;
@@ -307,7 +309,7 @@ class GetPostsV1 {
 				if ( empty( $first_img ) ) { // Defines a default image
 					$first_img = RT_THE_POST_GRID_PLUGIN_PATH . '/images/default.png';
 				} else {
-					$first_img = ! empty($matches[1][0]) ? $matches[1][0] : '';
+					$first_img = ! empty( $matches[1][0] ) ? $matches[1][0] : '';
 				}
 
 				$category_terms_list = get_the_terms( $id, $data['category_source'] ? $data['category_source'] : 'category' );
@@ -357,7 +359,7 @@ class GetPostsV1 {
 				$count_key      = Fns::get_post_view_count_meta_key();
 				$get_view_count = get_post_meta( $id, $count_key, true );
 
-				$send_data['posts'][] = [
+				$post_data = [
 					'author_name'      => esc_html( get_the_author_meta( 'display_name', $author_id ) ),
 					'avatar_url'       => esc_url( $author_avatar_url ),
 					'comment_count'    => esc_html( get_comments_number( $id ) ),
@@ -385,12 +387,23 @@ class GetPostsV1 {
 					'tpg_total_posts'  => $post_count,
 				];
 
+				if ( isset( $data['show_event_date'] ) && 'on' === $data['show_event_date'] ) {
+					ob_start();
+					Fns::event_information( $data );
+					$event_html              = ob_get_clean();
+					$post_data['event_html'] = $event_html;
+				} else {
+					$post_data['event_html'] = '';
+				}
+
+				$send_data['posts'][] = $post_data;
 				$pCount ++;
 			}
 		} else {
 			$send_data['message'] = $data['no_posts_found_text'] ?? __( 'No posts found', 'the-post-grid' );
 			$send_data['args']    = $args;
 		}
+
 
 		wp_reset_postdata();
 
