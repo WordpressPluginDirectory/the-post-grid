@@ -46,7 +46,8 @@ class FilterHooks {
 		add_filter( 'tpg_sc_query_args', [ __CLASS__, 'modify_query_args' ], 10 );
 		add_filter( 'tpg_sc_temp_query_args', [ __CLASS__, 'modify_query_args' ], 10 );
 
-		//add_filter( 'tpg_polylang', '__return_empty_string', 15 );
+		// Prevent false 404 on paginated archive pages built with Elementor.
+		add_filter( 'pre_handle_404', [ __CLASS__, 'prevent_pagination_404' ], 10, 2 );
 	}
 
 	/**
@@ -133,8 +134,11 @@ class FilterHooks {
 	 */
 	public static function set_post_view_count( $content ) {
 		if ( is_single() ) {
-			$pId = get_the_ID();
-			Fns::update_post_views_count( $pId );
+            $settings   = get_option( rtTPG()->options['settings'] );
+            if ( ! empty( $settings['tpg_enable_post_view_count'] ) ) {
+                $pId = get_the_ID();
+                Fns::update_post_views_count( $pId );
+            }
 		}
 
 		return $content;
@@ -269,6 +273,31 @@ class FilterHooks {
 		}
 
 		return $tags;
+	}
+
+	/**
+	 * Prevent false 404 on paginated archive pages built with Elementor.
+	 *
+	 * When an Elementor-built archive template contains a TPG widget with normal
+	 * pagination, the generated page URLs (e.g. /category/news/page/2/) are handled
+	 * by the main WP_Query. If the main query has fewer pages than the widget's
+	 * custom query, WordPress triggers a 404 before the template renders.
+	 *
+	 * @param bool      $preempt Whether to short-circuit default 404 handling.
+	 * @param \WP_Query $wp_query The main WP_Query instance.
+	 *
+	 * @return bool
+	 */
+	public static function prevent_pagination_404( $preempt, $wp_query ) {
+		if (
+			$wp_query->is_archive()
+			&& get_query_var( 'paged' ) > 1
+			&& class_exists( '\Elementor\Plugin' )
+		) {
+			return true;
+		}
+
+		return $preempt;
 	}
 
 }

@@ -31,7 +31,9 @@ use RT\ThePostGrid\Controllers\Hooks\InstallPlugins;
 use RT\ThePostGrid\Controllers\WidgetController;
 use RT\ThePostGrid\Helpers\Install;
 use RT\ThePostGrid\Controllers\Admin\UpgradeController;
+use RT\ThePostGrid\Controllers\Admin\SetupWizardController;
 use RT\ThePostGrid\Controllers\DiviController;
+use RT\ThePostGrid\Migrations\SettingsMigration;
 use RT\ThePostGrid\Migrations\Tpg_Migration;
 
 if ( ! class_exists( RtTpg::class ) ) {
@@ -135,6 +137,9 @@ if ( ! class_exists( RtTpg::class ) ) {
 
 			new RestApi();
 
+			// SetupWizardController must be outside is_admin() for REST API routes to work.
+			new SetupWizardController();
+
 			FilterHooks::init();
 			ActionHooks::init();
 			InstallPlugins::init();
@@ -157,6 +162,7 @@ if ( ! class_exists( RtTpg::class ) ) {
 				new DiviController();
 			}
 
+			SettingsMigration::init();
 			$this->load_hooks();
 		}
 

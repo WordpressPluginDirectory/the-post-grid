@@ -3,7 +3,7 @@
         'name' => 'radiustheme/the-post-grid',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '1a3a4ec49828227b8c0dea238a54ccbd3ff48ff0',
+        'reference' => 'a51c7637e81bb78c219aa8c47c0055d801d232e8',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'radiustheme/the-post-grid' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '1a3a4ec49828227b8c0dea238a54ccbd3ff48ff0',
+            'reference' => 'a51c7637e81bb78c219aa8c47c0055d801d232e8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

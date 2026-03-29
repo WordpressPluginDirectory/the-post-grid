@@ -2127,9 +2127,9 @@ class Fns {
 		}
 
 		if ( $type == 'full' ) {
-			ob_start();
-			the_content();
-			$content = ob_get_clean();
+			$content = $post->post_content;
+			$content = do_shortcode( $content );
+			$content = wpautop( $content );
 
 			return apply_filters( 'tpg_content_full', $content, $post_id, $data );
 		} else {
@@ -3890,7 +3890,7 @@ class Fns {
                              class="<?php echo esc_attr( $lazy_class ); ?>"
                              width="<?php echo esc_attr( isset( $thumb_info[1] ) ? $thumb_info[1] : '' ); ?>"
                              height="<?php echo esc_attr( isset( $thumb_info[2] ) ? $thumb_info[2] : '' ); ?>"
-                             alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : the_title() ); ?>">
+                             alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : get_the_title() ); ?>">
 						<?php
 					} else {
 						?>
@@ -3898,7 +3898,7 @@ class Fns {
                              class="<?php echo esc_attr( $lazy_class ); ?>"
                              width="<?php echo esc_attr( isset( $thumb_info[1] ) ? $thumb_info[1] : '' ); ?>"
                              height="<?php echo esc_attr( isset( $thumb_info[2] ) ? $thumb_info[2] : '' ); ?>"
-                             alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : the_title() ); ?>">
+                             alt="<?php echo esc_attr( $thumb_alt ? $thumb_alt : get_the_title() ); ?>">
 						<?php
 					}
 					?>
@@ -5455,7 +5455,6 @@ class Fns {
 			<?php endif; ?>
 
 			<?php if ( ! empty( $event_start_display ) ) :
-
 				$start_label = ! empty( $settings['start_date_label'] ) ? $settings['start_date_label'] : __( 'Date & Time:', 'the-post-grid' )
 				?>
                 <div class="event-start-date">
@@ -5481,6 +5480,23 @@ class Fns {
 			<?php endif; ?>
         </div>
 		<?php
+	}
+
+	public static function is_black_friday_active() {
+		// Black Friday valid between November 10 – Jan 5
+		$currentYear = gmdate( 'Y' );
+		$now         = current_time( 'timestamp', true );
+		$start       = strtotime( "{$currentYear}-11-10" ); //Y-m-d - 10 Nov current year
+		$end         = strtotime( ( $currentYear + 1 ) . '-01-06' ); //Y-m-d - 6th Jan next year
+
+		$is_active = $now >= $start && $now <= $end;
+
+		// If dismissed manually, consider inactive
+		if ( get_option( 'rttpg_dismiss_bf_notice_' . $currentYear ) == '1' ) {
+			$is_active = false;
+		}
+
+		return $is_active;
 	}
 
 }

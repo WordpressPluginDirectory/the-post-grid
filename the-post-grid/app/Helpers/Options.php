@@ -281,7 +281,6 @@ class Options {
 	public static function rtTPGAiIntegrationSettings() {
 		$settings       = get_option( rtTPG()->options['settings'] );
 		$other_settings = [
-
 			'ai_type' => [
 				'type'    => 'select',
 				'name'    => 'chatgpt_status',
@@ -291,9 +290,8 @@ class Options {
 					'chatgpt' => esc_html__( 'ChatGPT', 'the-post-grid' ),
 					'gemini'  => esc_html__( 'Gemini', 'the-post-grid' ),
 				],
-				'value'   => isset( $settings['ai_type'] ) ? $settings['ai_type'] : 'chatgpt',
+				'value'   => isset( $settings['ai_type'] ) ? $settings['ai_type'] : 'gemini',
 			],
-
 		];
 
 		return $other_settings;
@@ -316,7 +314,6 @@ class Options {
 				'name'        => 'chatgpt_secret_key',
 				'label'       => esc_html__( 'OpenAI API Secret Key', 'the-post-grid' ),
 				'id'          => 'template_author',
-				'holderClass' => 'pro-field',
 				'description' => __( 'Enter the OpenAI API Secret Key <a target="_blank" href="https://platform.openai.com/account/api-keys">Make your own API</a>', 'the-post-grid' ),
 				'value'       => isset( $settings['chatgpt_secret_key'] ) ? $settings['chatgpt_secret_key'] : '',
 			],
@@ -325,7 +322,6 @@ class Options {
 				'name'        => 'chatgpt_model',
 				'label'       => esc_html__( 'OpenAI Model', 'the-post-grid' ),
 				'id'          => 'chatgpt_model',
-				'holderClass' => 'pro-field',
 				'class'       => 'select2',
 				'description' => __( 'Choose OpenAI model. Default: gpt-3.5-turbo', 'the-post-grid' ),
 				'options'     => [
@@ -342,7 +338,6 @@ class Options {
 				'name'        => 'chatgpt_response_time',
 				'label'       => esc_html__( 'Response Time', 'the-post-grid' ),
 				'id'          => 'chatgpt_response_time',
-				'holderClass' => 'pro-field',
 				'description' => __( 'Choose OpenAI response time', 'the-post-grid' ),
 				'value'       => isset( $settings['chatgpt_response_time'] ) ? $settings['chatgpt_response_time'] : 60,
 			],
@@ -351,7 +346,6 @@ class Options {
 				'name'        => 'chatgpt_max_tokens',
 				'label'       => esc_html__( 'Max Tokens', 'the-post-grid' ),
 				'id'          => 'chatgpt_max_tokens',
-				'holderClass' => 'pro-field',
 				'description' => __( 'Enter OpenAi max token number', 'the-post-grid' ),
 				'value'       => isset( $settings['chatgpt_max_tokens'] ) ? $settings['chatgpt_max_tokens'] : 1200,
 			],
@@ -378,7 +372,6 @@ class Options {
 				'name'        => 'gemini_secret_key',
 				'label'       => esc_html__( 'Gemini Secret Key', 'the-post-grid' ),
 				'id'          => 'template_author',
-				'holderClass' => 'pro-field',
 				'description' => __( 'To integrate with Google Gemini, you need to obtain an API key from Google Cloud. Visit <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio API Keys</a> to generate one.', 'the-post-grid' ),
 				'value'       => isset( $settings['gemini_secret_key'] ) ? $settings['gemini_secret_key'] : '',
 			],
@@ -387,7 +380,6 @@ class Options {
 				'name'        => 'gemini_model',
 				'label'       => esc_html__( 'Gemini Model', 'the-post-grid' ),
 				'id'          => 'gemini_model',
-				'holderClass' => 'pro-field',
 				'class'       => 'select2',
 				'description' => __( 'Choose Gemini model. Default: Gemini 2.0 Flash', 'the-post-grid' ),
 				'options'     => [
@@ -401,7 +393,6 @@ class Options {
 				'name'        => 'gemini_response_time',
 				'label'       => esc_html__( 'Response Time', 'the-post-grid' ),
 				'id'          => 'gemini_response_time',
-				'holderClass' => 'pro-field',
 				'description' => __( 'Choose Gemini response time', 'the-post-grid' ),
 				'value'       => isset( $settings['gemini_response_time'] ) ? $settings['gemini_response_time'] : 60,
 			],
@@ -410,7 +401,6 @@ class Options {
 				'name'        => 'gemini_max_tokens',
 				'label'       => esc_html__( 'Max Tokens', 'the-post-grid' ),
 				'id'          => 'gemini_max_tokens',
-				'holderClass' => 'pro-field',
 				'description' => __( 'Enter Gemini max token number', 'the-post-grid' ),
 				'value'       => isset( $settings['gemini_max_tokens'] ) ? $settings['gemini_max_tokens'] : 1200,
 			],
@@ -538,6 +528,7 @@ class Options {
 			'tpg_common_settings_heading' => [
 				'type'        => 'heading',
 				'name'        => 'tpg_common_settings_heading',
+				'icon'        => [ 'name' => 'notice', 'size' => 15, 'color' => '#b91c1b' ],
 				'label'       => esc_html__( 'Improve Performance', 'the-post-grid' ),
 				'description' => esc_html__( 'Please choose a Resource Load Type first. Otherwise, all CSS & JS for shortcode, gutenberg and elementor will load on your site which can create a bad performance issues.', 'the-post-grid' ),
 			],
@@ -549,7 +540,7 @@ class Options {
 				'id'          => 'tpg_block_type',
 				'class'       => 'select2',
 				'options'     => [
-					'default'   => esc_html__( 'Default (Shortcode add Elementor / Gutenberg)', 'the-post-grid' ),
+					'default'   => esc_html__( 'Default (Shortcode, Elementor, Gutenberg and Divi)', 'the-post-grid' ),
 					'elementor' => esc_html__( 'Elementor / Gutenberg', 'the-post-grid' ),
 					'divi'      => esc_html__( 'Divi Builder', 'the-post-grid' ),
 					'shortcode' => esc_html__( 'Shortcode Only', 'the-post-grid' ),
@@ -613,7 +604,7 @@ class Options {
 			'tpg_enable_image_srcset' => [
 				'type'        => 'switch',
 				'name'        => 'tpg_enable_image_srcset',
-				'description' => esc_html__( 'Enables or disables the srcset attribute for responsive image sizes in WordPress.', 'the-post-grid' ),
+				'description' => esc_html__( 'Enable or disable the srcset attribute for responsive image sizes in WordPress.', 'the-post-grid' ),
 				'label'       => esc_html__( 'Enable Image Srcset', 'the-post-grid' ),
 				'value'       => isset( $settings['tpg_enable_image_srcset'] ) ? $settings['tpg_enable_image_srcset'] : false,
 			],
@@ -621,7 +612,13 @@ class Options {
 			'tpg_br1' => [
 				'type' => 'hr',
 			],
-
+            'tpg_enable_post_view_count' => [
+                'type'        => 'switch',
+                'name'        => 'tpg_enable_post_view_count',
+                'description' => esc_html__( 'Enable or disable post view count. It will applied on the post details page..', 'the-post-grid' ),
+                'label'       => esc_html__( 'Enable Post View Count', 'the-post-grid' ),
+                'value'       => isset( $settings['tpg_enable_post_view_count'] ) ? $settings['tpg_enable_post_view_count'] : false,
+            ],
 			'tpg_view_count_style' => [
 				'type'        => 'select',
 				'name'        => 'tpg_view_count_style',
@@ -1080,7 +1077,7 @@ class Options {
 		$options = [
 			'ignore_sticky_posts' => [
 				'type'        => 'switch',
-				'label'       => esc_html__( 'Show sticky posts at the top', 'the-post-grid' ),
+				'label'       => esc_html__( 'Ignore Sticky Post', 'the-post-grid' ),
 				'holderClass' => 'pro-field',
 				'alignment'   => 'vertical',
 				'default'     => false,
@@ -1177,6 +1174,29 @@ class Options {
 				'value'       => ! empty( $settings['cf_hide_group_title'] ) ? 1 : 0,
 			];
 		}
+
+		return $fields;
+	}
+
+	public static function rtTpgSettingsPostOrderSelection() {
+		$settings = get_option( rtTPG()->options['settings'] );
+
+
+		$fields = [
+			'post_ordering' => [
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Enable Post Ordering', 'the-post-grid' ),
+				'description' => __( 'This feature is intended for use when the post count does not exceed 999 items. Drag-and-drop ordering is available only on the first page of the list, so all posts must be displayed on the first page via Screen Options for sorting to work correctly.', 'the-post-grid' ),
+				'id'          => 'post_ordering',
+				'holderClass' => 'pro-field',
+				'alignment'   => 'vertical',
+				'multiple'    => true,
+				'options'     => Fns::get_post_types(), //self::detailAvailableFields(),
+//				'default'     => array_keys( self::detailAvailableFields() ),
+				'value'       => isset( $settings['post_ordering'] ) ? $settings['post_ordering'] : [],
+			],
+		];
+
 
 		return $fields;
 	}

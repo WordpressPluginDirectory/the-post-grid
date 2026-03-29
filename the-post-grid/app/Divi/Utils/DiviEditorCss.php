@@ -42,13 +42,13 @@ class DiviEditorCss {
 	display: inline-flex;
 	margin-right: 5px !important;
 }
-.et-db #et-boc .et-l .et-fb-form__group:has(.et-fb-option--yes-no_button) {
-	display: flex;
-	justify-content: space-between;
-}
-.et-db #et-boc .et-l .et-fb-form__group:has(.et-fb-option--yes-no_button) .et-fb-form__label {
-	flex: 1;
-}
+/*.et-db #et-boc .et-l .et-fb-form__group:has(.et-fb-option--yes-no_button) {*/
+/*	display: flex;*/
+/*	justify-content: space-between;*/
+/*}*/
+/*.et-db #et-boc .et-l .et-fb-form__group:has(.et-fb-option--yes-no_button) .et-fb-form__label {*/
+/*	flex: 1;*/
+/*}*/
 .et-db #et-boc .et-l .et-fb-form__toggle[data-name="tpg_links"],
 .et-db #et-boc .et-l .et-fb-form__toggle[data-name="tpg_card_style"],
 .et-db #et-boc .et-l .et-fb-form__toggle[data-name="tpg_read_more"] {

@@ -117,7 +117,7 @@ abstract class Custom_Widget_Base extends Widget_Base {
 	 */
 	public function pro_label() {
 		if ( ! rtTPG()->hasPro() ) {
-			return esc_html__( '[Pro]', 'the-post-grid' );
+			return esc_html__( 'Pro', 'the-post-grid' );
 		}
 
 		return '';

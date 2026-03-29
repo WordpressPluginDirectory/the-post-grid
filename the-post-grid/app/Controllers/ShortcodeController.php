@@ -499,9 +499,8 @@ class ShortcodeController {
 				unset( $arg['items'][ $key ] );
 			}
 
-			if ( empty( $scMeta['ignore_sticky_posts'][0] ) ) {
+			if ( ! empty( $scMeta['ignore_sticky_posts'][0] ) && rtTPG()->hasPro() ) {
 				$args['ignore_sticky_posts'] = true;
-			} else {
 				$args['wp_tpg_is_home'] = true;
 			}
 

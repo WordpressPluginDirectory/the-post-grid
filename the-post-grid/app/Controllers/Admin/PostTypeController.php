@@ -30,6 +30,9 @@ class PostTypeController {
 	 * @return void
 	 */
 	public function the_post_grid_remove_all_meta_box() {
+		if ( ! get_option( SetupWizardController::WIZARD_COMPLETED_OPTION ) ) {
+			return;
+		}
 		if ( get_option( 'rttpg_activation_redirect', false ) ) {
 			delete_option( 'rttpg_activation_redirect' );
 			wp_safe_redirect( admin_url( 'edit.php?post_type=rttpg&page=rttpg_settings&section=common-settings' ) );

@@ -7,6 +7,8 @@
 
 namespace RT\ThePostGrid\Helpers;
 
+use RT\ThePostGrid\Controllers\Admin\SetupWizardController;
+
 // Do not allow directly accessing this file.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
@@ -18,9 +20,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Install {
 
 	public static function activate() {
+		self::rttpg_activation_time();
 		self::insertDefaultData();
 		self::create_cron_jobs();
+        update_option( 'rttpg_version', RT_THE_POST_GRID_VERSION );
+
 		add_option( 'rttpg_activation_redirect', true );
+
+		// Set setup wizard redirect flag.
+		SetupWizardController::set_activation_redirect();
+	}
+
+	public static function rttpg_activation_time() {
+		$get_activation_time = strtotime( 'now' );
+		add_option( 'rttpg_plugin_activation_time', $get_activation_time );
 	}
 
 	public static function deactivate() {

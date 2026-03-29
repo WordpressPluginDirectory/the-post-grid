@@ -22,6 +22,7 @@ class RestApi {
 		new GetCategories();
 		new GetBuilderData();
 		new GetTermObject();
+		new AIIntegration();
 	}
 
 	/**
