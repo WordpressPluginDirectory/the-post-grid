@@ -39,6 +39,20 @@ $_title = $heading_title ?? "Plugin Settings";
                         </g></svg>
 					<?php esc_html_e( 'Settings', 'the-post-grid' ); ?>
                 </a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=rttpg-setup-wizard' ) ); ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 4V2"/>
+                        <path d="M15 16v-2"/>
+                        <path d="M8 9h2"/>
+                        <path d="M20 9h2"/>
+                        <path d="M17.8 11.8 19 13"/>
+                        <path d="M15 9h.01"/>
+                        <path d="M17.8 6.2 19 5"/>
+                        <path d="m3 21 9-9"/>
+                        <path d="M12.2 6.2 11 5"/>
+                    </svg>
+					<?php esc_html_e( 'Setup Wizard', 'the-post-grid' ); ?>
+                </a>
                 <a href="https://www.radiustheme.com/ticket-support/" target="_blank">
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g>
                             <path d="M136 332c0 22.091-17.909 40-40 40s-40-17.909-40-40v-72c0-22.091 17.909-40 40-40s40 17.909 40 40v72zM456 332c0 22.091-17.909 40-40 40s-40-17.909-40-40v-72c0-22.091 17.909-40 40-40s40 17.909 40 40v72z" style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" fill="none" stroke="currentColor" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" data-original="currentColor" class=""></path>

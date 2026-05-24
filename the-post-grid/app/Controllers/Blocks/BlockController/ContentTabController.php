@@ -240,6 +240,21 @@ class ContentTabController {
 				'default' => '',
 			],
 
+			'multi_tax_relation' => [
+				'type'    => 'string',
+				'default' => 'OR',
+			],
+
+			'tax_filter_search' => [
+				'type'    => 'string',
+				'default' => '',
+			],
+
+			'tax_filter_clear_btn' => [
+				'type'    => 'string',
+				'default' => '',
+			],
+
 			'show_taxonomy_filter' => [
 				'type'    => 'string',
 				'default' => '',

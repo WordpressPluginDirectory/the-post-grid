@@ -26,6 +26,9 @@
     background: #e6e9ec;
 }
 
+.rttpg-panel-control-wrapper .components-toggle-control__help {
+    margin-inline-start: 0 !important;
+}
 body .rt-container-fluid {
     padding-left: 0;
     padding-right: 0;

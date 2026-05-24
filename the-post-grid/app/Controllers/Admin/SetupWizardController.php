@@ -118,7 +118,7 @@ class SetupWizardController {
 	 * @return void
 	 */
 	public function register_admin_page() {
-		add_submenu_page(
+		$hook = add_submenu_page(
 			'', // No parent - hidden page.
 			esc_html__( 'The Post Grid Setup Wizard', 'the-post-grid' ),
 			esc_html__( 'Setup Wizard', 'the-post-grid' ),
@@ -126,6 +126,22 @@ class SetupWizardController {
 			self::PAGE_SLUG,
 			[ $this, 'render_wizard_page' ]
 		);
+
+		// Parent-less submenu pages never populate $GLOBALS['title'], which
+		// makes admin-header.php call strip_tags(null) and emit a PHP 8.1+
+		// deprecation notice. Set the title manually on the load hook.
+		if ( $hook ) {
+			add_action( 'load-' . $hook, [ $this, 'set_wizard_page_title' ] );
+		}
+	}
+
+	/**
+	 * Populate the admin page title globals before admin-header.php reads them.
+	 *
+	 * @return void
+	 */
+	public function set_wizard_page_title() {
+		$GLOBALS['title'] = esc_html__( 'The Post Grid Setup Wizard', 'the-post-grid' );
 	}
 
 	/**
@@ -273,58 +289,77 @@ class SetupWizardController {
 	private function get_recommended_plugins() {
 		$plugins = [
 			[
-				'slug'        => 'radius-booking',
-				'name'        => esc_html__( 'Radius Booking', 'the-post-grid' ),
-				'description' => esc_html__( 'WordPress booking plugin for appointments, staff management...', 'the-post-grid' ),
-				'icon'        => 'dashicons-calendar-alt',
+				'slug'         => 'review-schema',
+				'name'         => esc_html__( 'Schema Engine AI', 'the-post-grid' ),
+				'description'  => esc_html__( 'Generate AI-powered schema markup for better SEO and rich Google results.', 'the-post-grid' ),
+				'icon'         => 'dashicons-star-filled',
+//				'category'     => esc_html__( 'SEO', 'the-post-grid' ),
+//				'active_users' => '8k+',
+				'isFocused'    => true,
 			],
 			[
-				'slug'        => 'review-schema',
-				'name'        => esc_html__( 'Review Schema', 'the-post-grid' ),
-				'description' => esc_html__( 'Add rich snippet reviews for better SEO and Google visibility.', 'the-post-grid' ),
-				'icon'        => 'dashicons-star-filled',
+				'slug'         => 'radius-booking',
+				'name'         => esc_html__( 'Radius Booking', 'the-post-grid' ),
+				'description'  => esc_html__( 'WordPress booking plugin for appointments, staff management and reminders.', 'the-post-grid' ),
+				'icon'         => 'dashicons-calendar-alt',
+//				'category'     => esc_html__( 'Booking', 'the-post-grid' ),
+//				'active_users' => '20k+',
 			],
 			[
-				'slug'        => 'classified-listing',
-				'name'        => esc_html__( 'Classified Listing', 'the-post-grid' ),
-				'description' => esc_html__( 'AI-powered WordPress plugin for classified listings and directories.', 'the-post-grid' ),
-				'icon'        => 'dashicons-star-filled',
+				'slug'         => 'shopbuilder',
+				'name'         => esc_html__( 'ShopBuilder', 'the-post-grid' ),
+				'description'  => esc_html__( 'Build stunning WooCommerce stores with drag-and-drop builder.', 'the-post-grid' ),
+				'icon'         => 'dashicons-cart',
+//				'category'     => esc_html__( 'WooCommerce', 'the-post-grid' ),
+//				'active_users' => '30k+',
 			],
 			[
-				'slug'        => 'shopbuilder',
-				'name'        => esc_html__( 'ShopBuilder', 'the-post-grid' ),
-				'description' => esc_html__( 'Build stunning WooCommerce stores with drag-and-drop builder.', 'the-post-grid' ),
-				'icon'        => 'dashicons-cart',
+				'slug'         => 'classified-listing',
+				'name'         => esc_html__( 'Classified Listing', 'the-post-grid' ),
+				'description'  => esc_html__( 'AI-powered WordPress plugin for classified listings and directories.', 'the-post-grid' ),
+				'icon'         => 'dashicons-star-filled',
+//				'category'     => esc_html__( 'Directory', 'the-post-grid' ),
+//				'active_users' => '12k+',
 			],
 			[
-				'slug'        => 'tlp-food-menu',
-				'name'        => esc_html__( 'Food Menu', 'the-post-grid' ),
-				'description' => esc_html__( 'Create beautiful restaurant menus, categories, and layouts.', 'the-post-grid' ),
-				'icon'        => 'dashicons-carrot',
+				'slug'         => 'tlp-food-menu',
+				'name'         => esc_html__( 'Food Menu', 'the-post-grid' ),
+				'description'  => esc_html__( 'Create beautiful restaurant menus, categories, and layouts.', 'the-post-grid' ),
+				'icon'         => 'dashicons-carrot',
+//				'category'     => esc_html__( 'Restaurant', 'the-post-grid' ),
+//				'active_users' => '5k+',
 			],
 			[
-				'slug'        => 'tlp-team',
-				'name'        => esc_html__( 'Team Members', 'the-post-grid' ),
-				'description' => esc_html__( 'Showcase your team with beautiful profiles and social links.', 'the-post-grid' ),
-				'icon'        => 'dashicons-groups',
+				'slug'         => 'tlp-team',
+				'name'         => esc_html__( 'Team Members', 'the-post-grid' ),
+				'description'  => esc_html__( 'Showcase your team with beautiful profiles and social links.', 'the-post-grid' ),
+				'icon'         => 'dashicons-groups',
+//				'category'     => esc_html__( 'Content', 'the-post-grid' ),
+//				'active_users' => '9k+',
 			],
 			[
-				'slug'        => 'testimonial-slider-and-showcase',
-				'name'        => esc_html__( 'Testimonial Slider', 'the-post-grid' ),
-				'description' => esc_html__( 'Display customer testimonials with responsive slider and grid layouts.', 'the-post-grid' ),
-				'icon'        => 'dashicons-groups',
+				'slug'         => 'testimonial-slider-and-showcase',
+				'name'         => esc_html__( 'Testimonial Slider', 'the-post-grid' ),
+				'description'  => esc_html__( 'Display customer testimonials with responsive slider and grid layouts.', 'the-post-grid' ),
+				'icon'         => 'dashicons-groups',
+//				'category'     => esc_html__( 'Content', 'the-post-grid' ),
+//				'active_users' => '11k+',
 			],
 			[
-				'slug'        => 'woo-product-variation-gallery',
-				'name'        => esc_html__( 'Variation Gallery', 'the-post-grid' ),
-				'description' => esc_html__( 'WooCommerce plugin for unlimited additional variation image galleries.', 'the-post-grid' ),
-				'icon'        => 'dashicons-groups',
+				'slug'         => 'woo-product-variation-gallery',
+				'name'         => esc_html__( 'Variation Gallery', 'the-post-grid' ),
+				'description'  => esc_html__( 'WooCommerce plugin for unlimited additional variation image galleries.', 'the-post-grid' ),
+				'icon'         => 'dashicons-groups',
+//				'category'     => esc_html__( 'WooCommerce', 'the-post-grid' ),
+//				'active_users' => '7k+',
 			],
 			[
-				'slug'        => 'woo-product-variation-swatches',
-				'name'        => esc_html__( 'Variation Swatches', 'the-post-grid' ),
-				'description' => esc_html__( 'WooCommerce variations into images, colors, labels, and radios.', 'the-post-grid' ),
-				'icon'        => 'dashicons-groups',
+				'slug'         => 'woo-product-variation-swatches',
+				'name'         => esc_html__( 'Variation Swatches', 'the-post-grid' ),
+				'description'  => esc_html__( 'WooCommerce variations into images, colors, labels, and radios.', 'the-post-grid' ),
+				'icon'         => 'dashicons-groups',
+//				'category'     => esc_html__( 'WooCommerce', 'the-post-grid' ),
+//				'active_users' => '15k+',
 			],
 		];
 

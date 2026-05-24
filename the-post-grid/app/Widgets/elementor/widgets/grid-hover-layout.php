@@ -193,7 +193,7 @@ class TPGGridHoverLayout extends Custom_Widget_Base {
 		}
 		$rand           = wp_rand();
 		$layoutID       = 'rt-tpg-container-' . $rand;
-		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
+		$posts_per_page = $data['display_per_page'] ?: ( 'show' == $data['show_pagination'] ? get_option( 'posts_per_page' ) : $data['post_limit'] );
 
 		// Get Post Data for render post
 		$post_data = Fns::get_render_data_set( $data, $query->max_num_pages, $posts_per_page, $_prefix );

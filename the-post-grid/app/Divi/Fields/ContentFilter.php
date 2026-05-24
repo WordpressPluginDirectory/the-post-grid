@@ -263,6 +263,39 @@ class ContentFilter {
 
 		$divi_fields2 = [
 
+			'tax_filter_search' => [
+				'label'       => esc_html__( 'Taxonomy Filter Search', 'the-post-grid' ),
+				'type'        => 'select',
+				'options'     => [
+					'yes' => esc_html__( 'Yes', 'the-post-grid' ),
+					'no'  => esc_html__( 'No', 'the-post-grid' ),
+				],
+				'default'     => 'no',
+				'description' => esc_html__( 'Add a search field to filter taxonomy terms when you have many terms.', 'the-post-grid' ),
+				'show_if'     => [
+					'show_taxonomy_filter' => 'on',
+				],
+				'tab_slug'    => 'general',
+				'toggle_slug' => 'tpg_filter',
+			],
+
+			'tax_filter_clear_btn' => [
+				'label'       => esc_html__( 'Dropdown Clear Button', 'the-post-grid' ),
+				'type'        => 'select',
+				'options'     => [
+					'yes' => esc_html__( 'Yes', 'the-post-grid' ),
+					'no'  => esc_html__( 'No', 'the-post-grid' ),
+				],
+				'default'     => 'no',
+				'description' => esc_html__( 'Show a clear button on dropdown filters to quickly reset the selection.', 'the-post-grid' ),
+				'show_if'     => [
+					'show_taxonomy_filter' => 'on',
+					'filter_type'          => 'dropdown',
+				],
+				'tab_slug'    => 'general',
+				'toggle_slug' => 'tpg_filter',
+			],
+
 			'filter_btn_style' => [
 				'label'       => esc_html__( 'Filter Style', 'the-post-grid' ),
 				'type'        => 'select',

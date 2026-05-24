@@ -1194,7 +1194,7 @@ class rtTPGElementorHelper {
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
-				'description'  => esc_html__( 'You must choose taxonomy terms from the query build for each taxonomy for the multiple taxonomy. Otherwise it won\'t work. ', 'the-post-grid' ),
+				'description'  => esc_html__( 'Enable multiple taxonomy filter', 'the-post-grid' ),
 				'return_value' => 'yes',
 				'default'      => false,
 				'conditions'   => $front_end_filter_condition,
@@ -1203,6 +1203,7 @@ class rtTPGElementorHelper {
 				],
 			]
 		);
+
 
 		$post_types      = Fns::get_post_types();
 		$_all_taxonomies = [];
@@ -1340,6 +1341,56 @@ class rtTPGElementorHelper {
 				);
 			}
 		}
+
+		$ref->add_control(
+			'multi_tax_relation',
+			[
+				'label'   => esc_html__( 'Relation between taxonomies', 'the-post-grid' ),
+				'description'   => esc_html__( 'If you choose AND need to match all taxonomy. Choose OR for match anyone', 'the-post-grid' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'OR',
+				'options' => [
+					'OR'  => __( 'OR', 'the-post-grid' ),
+					'AND' => __( 'AND', 'the-post-grid' ),
+				],
+				'condition'   => [
+					'multiple_taxonomy'   => 'yes',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'tax_filter_search',
+			[
+				'label'        => esc_html__( 'Taxonomy Filter Search', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'description'  => esc_html__( 'Add a search field to filter taxonomy terms when you have many terms.', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => false,
+				'condition'    => [
+					'show_taxonomy_filter' => 'show',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'tax_filter_clear_btn',
+			[
+				'label'        => esc_html__( 'Dropdown Clear Button', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
+				'description'  => esc_html__( 'Show a clear button on dropdown filters to quickly reset the selection.', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => false,
+				'condition'    => [
+					'show_taxonomy_filter' => 'show',
+					'filter_type'          => 'dropdown',
+				],
+			]
+		);
 
 		$ref->add_control(
 			'filter_btn_style',
@@ -8949,6 +9000,46 @@ class rtTPGElementorHelper {
 				'selectors'  => [
 					'{{WRAPPER}} .tgp-cf-field-label' => 'min-width: {{SIZE}}{{UNIT}};',
 				],
+			]
+		);
+
+		$ref->add_responsive_control(
+			'acf_img_width',
+			[
+				'label'      => esc_html__( 'Image Width/height', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range'      => [
+					'px' => [
+						'min'  => 0,
+						'max'  => 1000,
+						'step' => 1,
+					],
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .tgp-cf-field-value img' => 'width: {{SIZE}}{{UNIT}};height: {{SIZE}}{{UNIT}};object-fit:cover;',
+				],
+			]
+		);
+		$ref->add_responsive_control(
+			'acf_img_radius',
+			[
+				'label'      => esc_html__( 'Image Radius', 'the-post-grid' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .tgp-cf-field-value img' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'acf_img_margin',
+			[
+				'label'              => esc_html__( 'Image Spacing', 'the-post-grid' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => [ 'px' ],
+				'selectors'          => [ '{{WRAPPER}} .tgp-cf-field-value img' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ],
 			]
 		);
 

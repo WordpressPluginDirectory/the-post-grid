@@ -528,7 +528,7 @@ class TPGPostTimeline extends Custom_Widget_Base {
 
 		$rand           = wp_rand();
 		$layoutID       = 'rt-tpg-container-' . $rand;
-		$posts_per_page = $data['display_per_page'] ?: $data['post_limit'];
+		$posts_per_page = $data['display_per_page'] ?: ( 'show' == $data['show_pagination'] ? get_option( 'posts_per_page' ) : $data['post_limit'] );
 
 		/**
 		 * Get Post Data for render post

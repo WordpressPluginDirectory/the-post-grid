@@ -78,7 +78,7 @@ class GridLayout extends BlockBase {
 		}
 
 		// Query
-		$posts_per_page = ! empty( $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
+		$posts_per_page = ! empty( $data['display_per_page'] ) ? $data['display_per_page'] : ( 'show' == $data['show_pagination'] ? get_option( 'posts_per_page' ) : $data['post_limit'] );
 		$query_args     = $this->post_query_guten( $data, $_prefix );
 		if ( 'current_query' == $data['post_type'] && is_archive() ) {
             global $wp_query;

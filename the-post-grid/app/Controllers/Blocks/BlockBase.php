@@ -204,7 +204,7 @@ abstract class BlockBase {
 				$tempQ = new \WP_Query( apply_filters( 'tpg_sc_temp_query_args', $tempArgs ) );
 				if ( ! empty( $tempQ->posts ) ) {
 					$args['post__in']       = $tempQ->posts;
-					$args['posts_per_page'] = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? esc_html( $data['display_per_page'] ) : esc_html( $data['post_limit'] );
+					$args['posts_per_page'] = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? esc_html( $data['display_per_page'] ) : ( 'show' == $data['show_pagination'] ? get_option( 'posts_per_page' ) : esc_html( $data['post_limit'] ) );
 				}
 			} else {
 				$_posts_per_page = 9;

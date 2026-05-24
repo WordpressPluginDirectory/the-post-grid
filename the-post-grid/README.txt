@@ -4,7 +4,7 @@ Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
 Tested up to: 6.9
-Stable tag: 7.9.0
+Stable tag: 7.9.2
 Requires PHP: 7.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -253,6 +253,16 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 12. Archive page builder
 
 == Changelog ==
+
+= 7.9.2 (May 24, 2026) =
+* Fixed: Pagination posts_per_page handling.
+* Improved: Settings improved
+* Improved: Setup Wizard improved
+
+7.9.1 (Apr 26, 2026)
+* Fixed: WordPress 6.9 compatibility issue
+* Fixed: Gutenberg metabox resize issue
+* Updated: Gutenberg block API version updated
 
 = 7.9.0 (Mar 28, 2026) =
 * Fixed: Resolved layout issues with TranslatePress

@@ -198,7 +198,7 @@ class rtTPGElementorQuery {
 				$tempQ = new \WP_Query( apply_filters( 'tpg_sc_temp_query_args', $tempArgs ) );
 
 				if ( ! empty( $tempQ->posts ) ) {
-					$_post_per_page = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? $data['display_per_page'] : $data['post_limit'];
+					$_post_per_page = ( 'show' == $data['show_pagination'] && $data['display_per_page'] ) ? $data['display_per_page'] : ( 'show' == $data['show_pagination'] ? get_option( 'posts_per_page' ) : $data['post_limit'] );
 					if ( $data['post_limit'] > 0 ) {
 						$args['post__in'] = $tempQ->posts;
 					}
