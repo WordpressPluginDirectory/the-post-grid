@@ -117,7 +117,7 @@ if (!class_exists('DiviController')) :
         {
             $custom_css = DiviEditorCss::editor_css();
             if (DiviFns::is_divi_builder_preview()) {
-                echo "<style>{$custom_css}</style>";
+                echo '<style>' . wp_strip_all_tags( $custom_css ) . '</style>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin generated CSS, tags stripped.
             }
         }
 

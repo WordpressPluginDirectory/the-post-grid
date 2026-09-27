@@ -95,7 +95,7 @@ class BlackFriday {
 			wp_send_json_success( new \WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
 		}
 		check_ajax_referer( 'rttpg-dismissible-notice', 'nonce' );
-		$currentYear = date( 'Y' );
+		$currentYear = gmdate( 'Y' );
 		update_option( 'rttpg_dismiss_bf_notice_' . $currentYear, '1' );
 		wp_die();
 	}

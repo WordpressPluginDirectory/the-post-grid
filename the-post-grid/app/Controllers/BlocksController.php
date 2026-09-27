@@ -8,6 +8,7 @@ use RT\ThePostGrid\Controllers\Blocks\GridHoverLayout;
 use RT\ThePostGrid\Controllers\Blocks\SectionTitle;
 use RT\ThePostGrid\Controllers\Blocks\RttpgRow;
 use RT\ThePostGrid\Helpers\Fns;
+use RT\ThePostGrid\Helpers\ImportLayouts;
 
 class BlocksController {
 
@@ -56,37 +57,35 @@ class BlocksController {
 	public function rttpg_guten_layout_count() {
 		$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/wp-json/rttpgapi/v1/layoutinfo/';
 
-		// Verify the request.
-		check_ajax_referer( 'rttpg_nonce', 'nonce' );
+		$permission_error = ImportLayouts::permission_error();
 
-		// It's good let's do some capability check.
-		$user          = wp_get_current_user();
-		$allowed_roles = [ 'editor', 'administrator', 'author' ];
-
-		if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-			wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
+		if ( $permission_error ) {
+			wp_send_json_error( [ 'message' => $permission_error ] );
 		}
 
-		// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
-		if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-			wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
-		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified above.
+		$status = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified above.
+		$layout_id = isset( $_REQUEST['layout_id'] ) ? absint( $_REQUEST['layout_id'] ) : 0;
 
-		$status    = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
-		$layout_id = isset( $_REQUEST['layout_id'] ) ? $_REQUEST['layout_id'] : '';
+		// Fire-and-forget: this only bumps an import counter on the layout
+		// library and nothing reads the reply, so the editor must not wait on
+		// it. It used to block the Import click for up to two minutes whenever
+		// the remote was slow. The short timeout is enough to hand the request
+		// over; losing the odd count matters far less than stalling an import.
+		wp_remote_get(
+			$BASE_URL,
+			[
+				'timeout'  => 1,
+				'blocking' => false,
+				'body'     => [
+					'status'    => $status,
+					'layout_id' => $layout_id,
+				],
+			]
+		);
 
-		$post_args         = [ 'timeout' => 120 ];
-		$post_args['body'] = [
-			'status'    => $status,
-			'layout_id' => $layout_id,
-		];
-		$layoutRequest     = wp_remote_get( $BASE_URL, $post_args );
-		if ( is_wp_error( $layoutRequest ) ) {
-			wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
-		}
-		$layoutData = json_decode( $layoutRequest['body'], true );
-
-		wp_send_json_success( $layoutData );
+		wp_send_json_success();
 	}
 
 	/**
@@ -95,32 +94,36 @@ class BlocksController {
 	public function rttpg_get_layouts() {
 		$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-gutenberg/wp-json/rttpgapi/v1/layouts/';
 
-		// Verify the request.
-		check_ajax_referer( 'rttpg_nonce', 'nonce' );
+		$permission_error = ImportLayouts::permission_error();
 
-		// It's good let's do some capability check.
-		$user          = wp_get_current_user();
-		$allowed_roles = [ 'editor', 'administrator', 'author' ];
-
-		if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-			wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
+		if ( $permission_error ) {
+			wp_send_json_error( [ 'message' => $permission_error ] );
 		}
 
-		// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
-		if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-			wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified above.
+		$force  = ! empty( $_REQUEST['force'] );
+		$result = ImportLayouts::get( $BASE_URL, 'gutenberg', $force );
+
+		if ( ! empty( $result['error'] ) ) {
+			wp_send_json_error(
+				[
+					'message' => sprintf(
+						/* translators: %s: reason the request failed. */
+						esc_html__( 'Could not load layouts: %s Please check that your server can reach radiustheme.com, then retry.', 'the-post-grid' ),
+						$result['error']
+					),
+				]
+			);
 		}
 
-		$status            = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
-		$post_args         = [ 'timeout' => 120 ];
-		$post_args['body'] = [ 'status' => $status ];
-		$layoutRequest     = wp_remote_get( $BASE_URL, $post_args );
-		if ( is_wp_error( $layoutRequest ) ) {
-			wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
-		}
-		$layoutData = json_decode( $layoutRequest['body'], true );
-
-		wp_send_json_success( $layoutData );
+		wp_send_json_success(
+			[
+				'payload' => $result['data'],
+				'store'   => ImportLayouts::client_meta( 'gutenberg' ),
+				'source'  => $result['source'] ?? '',
+				'warning' => $result['warning'] ?? '',
+			]
+		);
 	}
 
 
@@ -293,8 +296,9 @@ class BlocksController {
 				'enableAIButton'      => $enable_ai_button,
 				'enableChatGPTButton' => $chatgpt_status ? 'yes' : 'no',
 				'enableGeminiButton' => $gemini_status ? 'yes' : 'no',
-				'iconFont'            => Fns::tpg_option( 'tpg_icon_font' ),
+				'iconFont'            => Fns::tpg_option( 'tpg_icon_font', 'flaticon' ),
 				'avatar'              => esc_url( get_avatar_url( get_current_user_id() ) ),
+				'layoutStore'         => ImportLayouts::client_meta( 'gutenberg' ),
 			]
 		);
 	}
@@ -369,15 +373,20 @@ class BlocksController {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 			}
 
-			$post_id  = ! empty( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
-			$blockCss = ! empty( $_POST['block_css'] ) ? sanitize_text_field( $_POST['block_css'] ) : '';
+			$post_id  = ! empty( $_POST['post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
+			$blockCss = ! empty( $_POST['block_css'] ) ? wp_strip_all_tags( wp_unslash( $_POST['block_css'] ) ) : '';
 
 			if ( $post_id == 'rttpg-widget' && isset( $_POST['has_block'] ) ) {
 				update_option( $post_id, $blockCss );
 				wp_send_json_success( [ 'message' => __( 'Widget CSS Saved', 'the-post-grid' ) ] );
 			}
 
-			$post_id        = absint( $post_id );
+			$post_id = absint( $post_id );
+
+			if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
+				wp_send_json_error( [ 'message' => __( 'User permission error', 'the-post-grid' ) ] );
+			}
+
 			$filename       = "rttpg-block-css-{$post_id}.css";
 			$upload_dir_url = wp_upload_dir();
 			$dir            = trailingslashit( $upload_dir_url['basedir'] ) . 'rttpg/';
@@ -454,16 +463,25 @@ class BlocksController {
 	 * @return void
 	 */
 	public function get_posts_call() {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
-		}
-		$post_id = absint( $_POST['postId'] );
 		check_ajax_referer( 'rttpg_nonce', 'nonce' );
-		if ( $post_id ) {
-			wp_send_json_success( get_post( $post_id )->post_content );
-		} else {
-			wp_send_json_error( new WP_Error( 'rttpg_block_data_not_found', __( 'Data not found!!', 'the-post-grid' ) ) );
+
+		$post_id = isset( $_POST['postId'] ) ? absint( $_POST['postId'] ) : 0;
+
+		if ( ! $post_id ) {
+			wp_send_json_error( [ 'message' => __( 'Data not found!!', 'the-post-grid' ) ] );
 		}
+
+		if ( ! current_user_can( 'read_post', $post_id ) ) {
+			wp_send_json_error( [ 'message' => __( 'User permission error', 'the-post-grid' ) ] );
+		}
+
+		$post = get_post( $post_id );
+
+		if ( ! $post ) {
+			wp_send_json_error( [ 'message' => __( 'Data not found!!', 'the-post-grid' ) ] );
+		}
+
+		wp_send_json_success( $post->post_content );
 	}
 
 	/**
@@ -473,34 +491,34 @@ class BlocksController {
 	 * @throws Exception
 	 * @since v.1.0.0
 	 */
-	public function appended( $server ) {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_success( new WP_Error( 'rttpg_block_user_permission', __( 'User permission error', 'the-post-grid' ) ) );
-		}
+	public function appended() {
 		check_ajax_referer( 'rttpg_nonce', 'nonce' );
+
+		$post    = wp_unslash( $_POST ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- each value is sanitized below.
+		$post_id = isset( $post['post_id'] ) ? absint( $post['post_id'] ) : 0;
+
+		if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
+			wp_send_json_error( [ 'message' => __( 'User permission error', 'the-post-grid' ) ] );
+		}
+
 		global $wp_filesystem;
 		if ( ! $wp_filesystem ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
-		$post    = $server->get_params();
-		$css     = $post['inner_css'];
-		$post_id = (int) sanitize_text_field( $post['post_id'] );
 
-		if ( $post_id ) {
-			$upload_dir_url = wp_upload_dir();
-			$filename       = "rttpg-block-css-$post_id.css";
-			$dir            = trailingslashit( $upload_dir_url['basedir'] ) . 'rttpg/';
-			WP_Filesystem( false, $upload_dir_url['basedir'], true );
-			if ( ! $wp_filesystem->is_dir( $dir ) ) {
-				$wp_filesystem->mkdir( $dir );
-			}
-			if ( ! $wp_filesystem->put_contents( $dir . $filename, $css ) ) {
-				wp_send_json_error( [ 'message' => __( 'CSS can not be saved due to permission!!!', 'the-post-grid' ) ] );
-			}
-			wp_send_json_success( [ 'message' => __( 'Data retrieve done', 'the-post-grid' ) ] );
-		} else {
-			wp_send_json_error( [ 'message' => __( 'Data not found!!', 'the-post-grid' ) ] );
+		$css = isset( $post['inner_css'] ) ? wp_strip_all_tags( (string) $post['inner_css'] ) : '';
+
+		$upload_dir_url = wp_upload_dir();
+		$filename       = "rttpg-block-css-$post_id.css";
+		$dir            = trailingslashit( $upload_dir_url['basedir'] ) . 'rttpg/';
+		WP_Filesystem( false, $upload_dir_url['basedir'], true );
+		if ( ! $wp_filesystem->is_dir( $dir ) ) {
+			$wp_filesystem->mkdir( $dir );
 		}
+		if ( ! $wp_filesystem->put_contents( $dir . $filename, $css ) ) {
+			wp_send_json_error( [ 'message' => __( 'CSS can not be saved due to permission!!!', 'the-post-grid' ) ] );
+		}
+		wp_send_json_success( [ 'message' => __( 'Data retrieve done', 'the-post-grid' ) ] );
 	}
 
 	/**

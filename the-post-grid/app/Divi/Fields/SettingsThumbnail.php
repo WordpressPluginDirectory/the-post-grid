@@ -91,7 +91,7 @@ class SettingsThumbnail {
 			],
 
 			'hover_animation'       => [
-				'label'       => esc_html__( 'Image Hover Animation', 'the-post-grid' ),
+				'label'       => esc_html__( 'Img Hover Animation', 'the-post-grid' ),
 				'type'        => 'select',
 				'default'     => 'default',
 				'options'     => [
@@ -130,7 +130,7 @@ class SettingsThumbnail {
 				'toggle_slug' => 'tpg_thumbnail',
 			],
 			'on_hover_overlay'          => [
-				'label'       => esc_html__( 'Overlay Height on hover', 'the-post-grid' ),
+				'label'       => esc_html__( 'Overlay Height:hover', 'the-post-grid' ),
 				'type'        => 'select',
 				'default'     => 'default',
 				'options'     => [
@@ -155,7 +155,95 @@ class SettingsThumbnail {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'tpg_thumbnail',
 			],
+
 		];
+
+
+		// Videos are a pro feature and Divi has no disabled field state, so the
+		// controls are left out entirely rather than shown doing nothing.
+		if ( rtTPG()->hasPro() ) {
+			$divi_fields += [
+				// Video Settings. Key names match the Elementor and Gutenberg
+				// controls so Fns::get_video_thumbnail() maps all three the same way.
+				'video_show_thumb'  => [
+					'label'           => esc_html__( 'Video: Show Thumbnail', 'the-post-grid' ),
+					'type'            => 'yes_no_button',
+					'option_category' => 'configuration',
+					'options'         => [
+						'on'  => esc_html__( 'Yes', 'the-post-grid' ),
+						'off' => esc_html__( 'No', 'the-post-grid' ),
+					],
+					'default'         => 'on',
+					'description'     => esc_html__( 'Turn this off to embed the player straight away, with no poster image and no play button.', 'the-post-grid' ),
+					'show_if'         => [ 'show_thumb' => 'on' ],
+					'tab_slug'        => 'general',
+					'toggle_slug'     => 'tpg_thumbnail',
+				],
+				'video_play_mode'   => [
+					'label'           => esc_html__( 'Video: Play Mode', 'the-post-grid' ),
+					'type'            => 'select',
+					'option_category' => 'configuration',
+					'default'         => 'popup',
+					'options'         => [
+						'popup'  => esc_html__( 'Open in popup', 'the-post-grid' ),
+						'inline' => esc_html__( 'Play in place', 'the-post-grid' ),
+					],
+					'show_if'         => [
+						'show_thumb'       => 'on',
+						'video_show_thumb' => 'on',
+					],
+					'tab_slug'        => 'general',
+					'toggle_slug'     => 'tpg_thumbnail',
+				],
+				'video_hover_play'  => [
+					'label'           => esc_html__( 'Video: Play on Hover', 'the-post-grid' ),
+					'type'            => 'yes_no_button',
+					'option_category' => 'configuration',
+					'options'         => [
+						'on'  => esc_html__( 'Yes', 'the-post-grid' ),
+						'off' => esc_html__( 'No', 'the-post-grid' ),
+					],
+					'default'         => 'off',
+					'description'     => esc_html__( 'Preview the video muted while the card is hovered.', 'the-post-grid' ),
+					// Hidden for the popup: the preview covers the play button.
+					'show_if'         => [
+						'show_thumb'       => 'on',
+						'video_show_thumb' => 'on',
+						'video_play_mode'  => 'inline',
+					],
+					'tab_slug'        => 'general',
+					'toggle_slug'     => 'tpg_thumbnail',
+				],
+				'video_hover_poster' => [
+					'label'              => esc_html__( 'Video: Fallback Image', 'the-post-grid' ),
+					'type'               => 'upload',
+					'option_category'    => 'basic_option',
+					'upload_button_text' => esc_attr__( 'Upload an image', 'the-post-grid' ),
+					'choose_text'        => esc_attr__( 'Choose an Image', 'the-post-grid' ),
+					'update_text'        => esc_attr__( 'Set As Image', 'the-post-grid' ),
+					'description'        => esc_html__( 'Last resort for the card image. The featured image is used first, then the thumbnail YouTube or Vimeo provides, then this.', 'the-post-grid' ),
+					'show_if'            => [
+						'show_thumb'       => 'on',
+						'video_show_thumb' => 'on',
+					],
+					'tab_slug'           => 'general',
+					'toggle_slug'        => 'tpg_thumbnail',
+				],
+				'video_controls'    => [
+					'label'           => esc_html__( 'Video: Show Controls', 'the-post-grid' ),
+					'type'            => 'yes_no_button',
+					'option_category' => 'configuration',
+					'options'         => [
+						'on'  => esc_html__( 'Yes', 'the-post-grid' ),
+						'off' => esc_html__( 'No', 'the-post-grid' ),
+					],
+					'default'         => 'on',
+					'show_if'         => [ 'show_thumb' => 'on' ],
+					'tab_slug'        => 'general',
+					'toggle_slug'     => 'tpg_thumbnail',
+				],
+			];
+		}
 
 		if ( 'list' !== $prefix ) {
 			unset( $divi_fields['list_image_side_width'] );

@@ -2469,9 +2469,12 @@ class StyleTabController {
 				],
 			],
 
+			// Must match one of the select's options ('default'/'enable'/'disable')
+			// or the control renders blank. Only .tpg-el-box-border-disable is
+			// styled, so 'default' and '' look identical on the front end.
 			'is_box_border' => [
 				'type'    => 'string',
-				'default' => '',
+				'default' => 'default',
 			],
 
 			'box_border_bottom' => [

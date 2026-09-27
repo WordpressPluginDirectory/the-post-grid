@@ -177,7 +177,7 @@ class SettingsMetaData {
 			],
 
 			'show_cat_icon' => [
-				'label'       => esc_html__( 'Show Over Image Category Icon', 'the-post-grid' ),
+				'label'       => esc_html__( 'Over Image Cat Icon', 'the-post-grid' ),
 				'type'        => 'yes_no_button',
 				'options'     => [
 					'on'  => esc_html__( 'Yes', 'the-post-grid' ),

@@ -74,7 +74,7 @@ class SummerSale {
             jQuery(document).on('click', '.summer-notice .notice-dismiss', function () {
                 jQuery.post(ajaxurl, {
                     action: 'dismiss_summer_notice',
-                    security: '<?php echo wp_create_nonce( "dismiss_summer_notice" ); ?>',
+                    security: '<?php echo esc_js( wp_create_nonce( 'dismiss_summer_notice' ) ); ?>',
                 })
             })
         </script>

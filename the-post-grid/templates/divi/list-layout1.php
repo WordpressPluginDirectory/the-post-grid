@@ -63,7 +63,7 @@ $column_classes[] .= 'rt-list-item rt-grid-item';
 					<div class="tpg-excerpt tpg-el-excerpt">
 						<?php if ( $excerpt && 'on' == $data['show_excerpt'] ) : ?>
 							<div class="tpg-excerpt-inner">
-								<?php echo wp_kses_post( $excerpt ); ?>
+								<?php echo wp_kses( $excerpt, Fns::tpg_allowed_html( 'content' ) ); ?>
 							</div>
 						<?php endif; ?>
 						<?php Fns::tpg_get_acf_data_elementor( $data, $pID ); ?>

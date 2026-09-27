@@ -156,11 +156,11 @@ class GridLayoutRenderer {
 
 				<?php
 				Fns::render_loader_spinner();
-				echo $this->get_header_markup();
+				Fns::print_html( $this->get_header_markup(), true );
 				?>
 
                 <div class="rt-row rt-content-loader gutenberg-inner <?php echo esc_attr( implode( ' ', $this->get_wrapper_classes() ) ); ?>">
-					<?php echo $this->get_posts_markup(); ?>
+					<?php Fns::print_html( $this->get_posts_markup(), true ); ?>
                 </div>
 
 				<?php Fns::print_html( Fns::get_pagination_markup( $this->query, $this->settings ) ); ?>

@@ -171,7 +171,9 @@ class Review {
 	 */
 	public static function update_notice_status() {
 		// Verify nonce
-		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rttpg_notice_nonce' ) ) {
+		$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
+
+		if ( ! $nonce || ! wp_verify_nonce( $nonce, 'rttpg_notice_nonce' ) ) {
 			return;
 		}
 

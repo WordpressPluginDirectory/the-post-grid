@@ -27,7 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				$settings = get_option( rtTPG()->options['settings'] );
 				$last_tab = isset( $settings['_tpg_last_active_tab'] ) ? trim( $settings['_tpg_last_active_tab'] ) : 'common-settings';
-				$last_tab = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : $last_tab;
+				//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only tab selection.
+				$last_tab = ! empty( $_GET['section'] ) ? sanitize_key( wp_unslash( $_GET['section'] ) ) : $last_tab;
 				?>
                 <div id="settings-tabs" class="rt-tabs rt-tab-container">
                     <div class="rt-settings-sidebar">
@@ -90,55 +91,55 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <div class="rt-settings-content">
                         <!-- Common Settings -->
                         <div id="common-settings" class="rt-tab-content" <?php echo $last_tab === 'common-settings' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGSettingsCommonSettingsFields() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGSettingsCommonSettingsFields() ), true ); ?>
                         </div>
 
                         <!-- Popup Fields -->
                         <div id="popup-fields" class="rt-tab-content" <?php echo $last_tab === 'popup-fields' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTpgSettingsDetailFieldSelection() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTpgSettingsDetailFieldSelection() ), true ); ?>
                         </div>
 
                         <!-- Post Ordering -->
                         <div id="post-ordering" class="rt-tab-content" <?php echo $last_tab === 'post-ordering' ? 'style="display:block"' : ''; ?>>
-                            <?php echo Fns::rtFieldGenerator( Options::rtTpgSettingsPostOrderSelection() ); ?>
+                            <?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTpgSettingsPostOrderSelection() ), true ); ?>
                         </div>
 
                         <!-- Social Share -->
                         <div id="social-share" class="rt-tab-content" <?php echo $last_tab === 'social-share' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGSettingsSocialShareFields() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGSettingsSocialShareFields() ), true ); ?>
                         </div>
 
                         <!-- Custom Script -->
                         <div id="custom-script" class="rt-tab-content" <?php echo $last_tab === 'custom-script' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGSettingsCustomScriptFields() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGSettingsCustomScriptFields() ), true ); ?>
                         </div>
 
                         <!-- Other Settings -->
                         <div id="other-settings" class="rt-tab-content" <?php echo $last_tab === 'other-settings' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGSettingsOtherSettingsFields() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGSettingsOtherSettingsFields() ), true ); ?>
                         </div>
 
                         <!-- AI Integration -->
                         <div id="ai-integration-settings" class="rt-tab-content" <?php echo $last_tab === 'ai-integration-settings' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGAiIntegrationSettings() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGAiIntegrationSettings() ), true ); ?>
 
                             <div class="rt-ai-integration-settings-chatgpt" style="display:none;">
-								<?php echo Fns::rtFieldGenerator( Options::rtTPGChatGPGSettings() ); ?>
+								<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGChatGPGSettings() ), true ); ?>
                             </div>
 
                             <div class="rt-ai-integration-settings-gemini" style="display:none;">
-								<?php echo Fns::rtFieldGenerator( Options::rtTPGGeminiSettings() ); ?>
+								<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGGeminiSettings() ), true ); ?>
                             </div>
                         </div>
 
                         <!-- My Account -->
                         <div id="myaccount-settings" class="rt-tab-content" <?php echo $last_tab === 'myaccount-settings' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGMyAccountSettings() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGMyAccountSettings() ), true ); ?>
                         </div>
 
                         <!-- Event Settings -->
                         <div id="event-settings" class="rt-tab-content" <?php echo $last_tab === 'event-settings' ? 'style="display:block"' : ''; ?>>
-							<?php echo Fns::rtFieldGenerator( Options::rtTPGEventSettings() ); ?>
+							<?php Fns::print_html( Fns::rtFieldGenerator( Options::rtTPGEventSettings() ), true ); ?>
                         </div>
 
 						<?php do_action( 'tpg_settings_tab_content', $last_tab ); ?>

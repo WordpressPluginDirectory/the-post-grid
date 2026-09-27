@@ -26,6 +26,8 @@ class ContentLayout {
 			'6'  => esc_html__( '2 Columns', 'the-post-grid' ),
 			'4'  => esc_html__( '3 Columns', 'the-post-grid' ),
 			'3'  => esc_html__( '4 Columns', 'the-post-grid' ),
+			'24' => esc_html__( '5 Columns', 'the-post-grid' ),
+			'2'  => esc_html__( '6 Columns', 'the-post-grid' ),
 		];
 
 		$conditions_map = [
@@ -61,6 +63,8 @@ class ContentLayout {
 				'6'  => esc_html__( '2 Columns', 'the-post-grid' ),
 				'4'  => esc_html__( '3 Columns', 'the-post-grid' ),
 				'3'  => esc_html__( '4 Columns', 'the-post-grid' ),
+				'24' => esc_html__( '5 Columns', 'the-post-grid' ),
+				'2'  => esc_html__( '6 Columns', 'the-post-grid' ),
 			];
 			$grid_column_condition = [
 				'list_layout' => [ 'list-layout2', 'list-layout2-2', 'list-layout3', 'list-layout3-2', 'list-layout4' ],
@@ -69,7 +73,7 @@ class ContentLayout {
 
 		$divi_fields = [
 			$prefix . '_layout' => [
-				'label'       => esc_html__( 'Choose Layout', 'rtcl-divi-addons' ),
+				'label'       => esc_html__( 'Choose Layout', 'the-post-grid' ),
 				'type'        => 'select',
 				'options'     => self::layout_options( $prefix ),
 				'default'     => $prefix . '-layout1',
@@ -78,7 +82,7 @@ class ContentLayout {
 			],
 
 			'offset_img_position' => [
-				'label'       => esc_html__( 'Offset Image Position', 'the-post-grid' ),
+				'label'       => esc_html__( 'Offset Img Position', 'the-post-grid' ),
 				'type'        => 'select',
 				'default'     => 'image-left',
 				'options'     => [

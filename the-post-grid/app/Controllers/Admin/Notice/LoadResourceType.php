@@ -49,7 +49,7 @@ class LoadResourceType {
 							sprintf(
 							/* translators: %s: Selected method (e.g., Elementor method) */
 								esc_html__( 'You have selected "%s" as the resource load type. To use the Shortcode Generator, please enable either "Shortcode" or "Default" from here ', 'the-post-grid' ),
-								$selected_method
+								esc_html( $selected_method )
 							),
 							esc_url( admin_url( 'edit.php?post_type=rttpg&page=rttpg_settings' ) ),
 							esc_html__( 'Settings => Common Settings => Resource Load Type', 'the-post-grid' )

@@ -223,8 +223,8 @@ class SettingsController {
 		if ( rttpg()->hasPro() ) {
 			add_submenu_page(
 				'edit.php?post_type=' . rtTPG()->post_type,
-				esc_html__( 'Taxonomy Order', 'the-post-grid-pro' ),
-				esc_html__( 'Taxonomy Order', 'the-post-grid-pro' ),
+				esc_html__( 'Taxonomy Order', 'the-post-grid' ),
+				esc_html__( 'Taxonomy Order', 'the-post-grid' ),
 				'administrator',
 				'tgp_taxonomy_order',
 				[ $this, 'tpg_menu_page_taxonomy_order' ]

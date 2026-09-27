@@ -59,11 +59,23 @@ class SetupWizardController {
 
 		// Add filter to allow other plugins/themes to modify wizard steps.
 		add_filter( 'rttpg_setup_wizard_steps', [ $this, 'get_default_steps' ] );
-		add_action( 'admin_init', function () {
-			if ( isset( $_GET['tpg_wizard'] ) ) {
-				remove_all_actions( 'admin_init' );
-			}
-		}, 1 );
+		// The wizard renders on a blank canvas, so other plugins' admin_init
+		// output (notices, redirects) has to stay out of the way. Only do this
+		// on the wizard screen itself and only for users who can open it,
+		// never on every admin request that happens to carry the flag.
+		add_action(
+			'admin_init',
+			function () {
+				//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- screen detection only, nothing is written.
+				$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+				//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- screen detection only, nothing is written.
+				if ( self::PAGE_SLUG === $page && isset( $_GET['tpg_wizard'] ) && current_user_can( 'manage_options' ) ) {
+					remove_all_actions( 'admin_init' );
+				}
+			},
+			1
+		);
 	}
 
 	/**
@@ -503,7 +515,7 @@ class SetupWizardController {
 					'slug' => [
 						'required'          => true,
 						'type'              => 'string',
-						'sanitize_callback' => 'sanitize_text_field',
+						'sanitize_callback' => 'sanitize_key',
 					],
 				],
 			]
@@ -520,7 +532,7 @@ class SetupWizardController {
 					'slug' => [
 						'required'          => true,
 						'type'              => 'string',
-						'sanitize_callback' => 'sanitize_text_field',
+						'sanitize_callback' => 'sanitize_key',
 					],
 				],
 			]

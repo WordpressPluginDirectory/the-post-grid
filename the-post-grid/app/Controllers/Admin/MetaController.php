@@ -366,26 +366,38 @@ class MetaController {
 			}
 		}
 
-		$post_filter = ( isset( $_REQUEST['post_filter'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['post_filter'] ) ) : [] );
+		$post_filter = ( isset( $_REQUEST['post_filter'] ) && is_array( $_REQUEST['post_filter'] ) )
+			? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['post_filter'] ) )
+			: [];
 		$advFilter   = Options::rtTPAdvanceFilters();
 
 		foreach ( $advFilter['post_filter']['options'] as $filter => $fValue ) {
 			if ( $filter == 'tpg_taxonomy' ) {
 				delete_post_meta( $post_id, $filter );
 
-				if ( ! empty( $_REQUEST[ $filter ] ) && is_array( $_REQUEST[ $filter ] ) ) {
-					foreach ( $_REQUEST[ $filter ] as $tax ) {
+				$taxonomies = ( ! empty( $_REQUEST[ $filter ] ) && is_array( $_REQUEST[ $filter ] ) )
+					? array_map( 'sanitize_key', wp_unslash( $_REQUEST[ $filter ] ) )
+					: [];
+
+				if ( ! empty( $taxonomies ) ) {
+					foreach ( $taxonomies as $tax ) {
+						if ( ! $tax ) {
+							continue;
+						}
+
 						if ( in_array( $filter, $post_filter ) ) {
-							add_post_meta( $post_id, $filter, trim( $tax ) );
+							add_post_meta( $post_id, $filter, $tax );
 						}
 
 						delete_post_meta( $post_id, 'term_' . $tax );
 
-						$tt = isset( $_REQUEST[ 'term_' . $tax ] ) ? $_REQUEST[ 'term_' . $tax ] : [];
+						$tt = isset( $_REQUEST[ 'term_' . $tax ] ) && is_array( $_REQUEST[ 'term_' . $tax ] )
+							? array_map( 'absint', wp_unslash( $_REQUEST[ 'term_' . $tax ] ) )
+							: [];
 
-						if ( is_array( $tt ) && ! empty( $tt ) && in_array( $filter, $post_filter ) ) {
+						if ( ! empty( $tt ) && in_array( $filter, $post_filter ) ) {
 							foreach ( $tt as $termID ) {
-								add_post_meta( $post_id, 'term_' . $tax, trim( $termID ) );
+								add_post_meta( $post_id, 'term_' . $tax, $termID );
 							}
 						}
 
@@ -396,7 +408,7 @@ class MetaController {
 						}
 					}
 
-					$filterCount = isset( $_REQUEST[ $filter ] ) ? $_REQUEST[ $filter ] : [];
+					$filterCount = $taxonomies;
 					$tr          = isset( $_REQUEST['taxonomy_relation'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['taxonomy_relation'] ) ) : null;
 
 					if ( count( $filterCount ) > 1 && $tr ) {
@@ -408,11 +420,13 @@ class MetaController {
 			} elseif ( $filter == 'author' ) {
 				delete_post_meta( $post_id, 'author' );
 
-				$authors = ( isset( $_REQUEST['author'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['author'] ) ) : [] );
+				$authors = ( isset( $_REQUEST['author'] ) && is_array( $_REQUEST['author'] ) )
+					? array_map( 'absint', wp_unslash( $_REQUEST['author'] ) )
+					: [];
 
-				if ( is_array( $authors ) && ! empty( $authors ) && in_array( 'author', $post_filter ) ) {
+				if ( ! empty( $authors ) && in_array( 'author', $post_filter ) ) {
 					foreach ( $authors as $authorID ) {
-						add_post_meta( $post_id, 'author', trim( $authorID ) );
+						add_post_meta( $post_id, 'author', $authorID );
 					}
 				}
 			} elseif ( $filter == 's' ) {

@@ -3,7 +3,7 @@
         <div class="promo-image">
             <img src="<?php use RT\ThePostGrid\Helpers\Fns;
 
-			echo rtTPG()->get_assets_uri( 'images/offer/banner.webp' ) ?>" alt="The post grid">
+			echo esc_url( rtTPG()->get_assets_uri( 'images/offer/banner.webp' ) ) ?>" alt="The post grid">
         </div>
         <div class="promo-features">
             <h2 class="promo-title">
@@ -28,7 +28,7 @@
 
                 <div class="offer black-friday-offer">
                     <a href="https://www.radiustheme.com/downloads/the-post-grid-pro-for-wordpress/?utm_source=wp_deshborad&utm_medium=banner&utm_campaign=tpg" target="_blank">
-                        <img style="width:100%" src="<?php echo rtTPG()->get_assets_uri( 'images/offer/happy-20.svg' ) ?>" alt="The post grid">
+                        <img style="width:100%" src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/offer/happy-20.svg' ) ) ?>" alt="The post grid">
                     </a>
                 </div>
 

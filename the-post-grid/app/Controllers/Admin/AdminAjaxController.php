@@ -97,6 +97,7 @@ class AdminAjaxController {
 			$arg['excerpt_limit']       = ( isset( $_REQUEST['excerpt_limit'] ) ? absint( $_REQUEST['excerpt_limit'] ) : 0 );
 			$arg['title_limit']         = ( isset( $_REQUEST['tpg_title_limit'] ) ? absint( $_REQUEST['tpg_title_limit'] ) : 0 );
 			$arg['excerpt_more_text']   = ( isset( $_REQUEST['tgp_excerpt_more_text'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tgp_excerpt_more_text'] ) ) : null );
+			$arg['keep_html']           = ( ! empty( $_REQUEST['tgp_keep_html'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tgp_keep_html'] ) ) : '' );
 			$arg['read_more_text']      = ( ! empty( $_REQUEST['tgp_read_more_text'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tgp_read_more_text'] ) ) : esc_html__( 'Read More', 'the-post-grid' ) );
 			$arg['show_all_text']       = ( ! empty( $_REQUEST['tpg_show_all_text'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tpg_show_all_text'] ) ) : esc_html__( 'Show all', 'the-post-grid' ) );
 			$arg['tpg_title_position']  = isset( $_REQUEST['tpg_title_position'] ) && ! empty( $_REQUEST['tpg_title_position'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tpg_title_position'] ) ) : null;
@@ -116,7 +117,7 @@ class AdminAjaxController {
 			}
 
 			/* post__in */
-			$post__in = ( isset( $_REQUEST['post__in'] ) ? sanitize_text_field( $_REQUEST['post__in'] ) : null );
+			$post__in = ( isset( $_REQUEST['post__in'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['post__in'] ) ) : null );
 
 			if ( $post__in ) {
 				$post__in         = explode( ',', $post__in );
@@ -328,9 +329,10 @@ class AdminAjaxController {
 			$containerDataAttr  = null;
 			$containerDataAttr .= " data-layout='{$layout}' data-desktop-col='{$dCol}'  data-tab-col='{$tCol}'  data-mobile-col='{$mCol}'";
 
+			// Each breakpoint has to test its own value; see ShortcodeController.
 			$dCol = 5 === $dCol ? '24' : round( 12 / $dCol );
-			$tCol = 5 === $dCol ? '24' : round( 12 / $tCol );
-			$mCol = 5 === $dCol ? '24' : round( 12 / $mCol );
+			$tCol = 5 === $tCol ? '24' : round( 12 / $tCol );
+			$mCol = 5 === $mCol ? '24' : round( 12 / $mCol );
 
 			if ( $isCarousel ) {
 				$dCol = $tCol = $mCol = 12;
@@ -428,7 +430,7 @@ class AdminAjaxController {
 						$arg['anchorClass'] .= ' tpg-multi-popup';
 					}
 				} else {
-					$arg['link_target'] = ! empty( $_REQUEST['link_target'] ) ? ' target="' . sanitize_text_field( wp_unslash( $_REQUEST['link_target'] ) ) . '"' : null;
+					$arg['link_target'] = Fns::link_attributes( ! empty( $_REQUEST['link_target'] ) ? sanitize_key( wp_unslash( $_REQUEST['link_target'] ) ) : '' );
 				}
 			} else {
 				$arg['anchorClass'] = ' disabled';

@@ -16,7 +16,7 @@ $_title = $heading_title ?? "Plugin Settings";
         <div class="rt-settings-header-inner">
             <div class="settings-logo">
                 <div class="rt-logo">
-                    <img src="<?php echo rtTPG()->get_assets_uri( 'images/icon-256x256.gif' ); ?>" alt="The Post Grid">
+                    <img src="<?php echo esc_url( rtTPG()->get_assets_uri( 'images/icon-256x256.gif' ) ); ?>" alt="The Post Grid">
                 </div>
                 <div class="rt-content">
                     <h2><?php esc_html_e( 'The Post Grid', 'the-post-grid' ); ?></h2>

@@ -329,6 +329,11 @@ class TimelineContentTabController {
 				'default' => 'pagination',
 			],
 
+			'pagination_items'             => [
+				'type'    => 'string',
+				'default' => '',
+			],
+
 			'ajax_pagination_type'             => [
 				'type'    => 'string',
 				'default' => '',

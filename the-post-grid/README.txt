@@ -3,8 +3,8 @@ Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: post grid, content grid, post display, post slider, post grid elementor addon
 Requires at least: 4.5
-Tested up to: 6.9
-Stable tag: 7.9.2
+Tested up to: 7.1
+Stable tag: 7.9.7
 Requires PHP: 7.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -254,8 +254,60 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 == Changelog ==
 
+= 7.9.7 (Sep 27, 2026) =
+* Added: Keep HTML Tags option keeps lists, line breaks and formatting inside the excerpt.
+* Added: Keep HTML Tags is available in shortcode, Gutenberg, Elementor and Divi layouts.
+
+= 7.9.6 (Sep 21, 2026) =
+* Security: Section title link target could add extra attributes to the link and run scripts.
+* Security: Post link target from grid settings is now checked against the allowed link targets.
+* Security: Image alt text and source are escaped, so a post title cannot break the markup.
+
+= 7.9.5 (Sep 20, 2026) =
+* Security: Contributors could store iframe, style and input elements WordPress would normally strip.
+* Security: Grid shortcode accepted any post ID and rendered that post's settings unescaped.
+* Security: Grid colors, filters and data attributes are escaped before they reach the page.
+* Security: Settings, block CSS and plugin install requests are now properly checked and namespaced.
+* Security: Deactivating the plugin from a link now needs confirmation, so it cannot be forced.
+* Improved: Block names now start with the layout, so /grid and /list find them first.
+* Improved: Elementor pagination now points to the Display Per Page field it depends on.
+* Fixed: Collapsable filter wrapped onto several lines when another plugin restyled it.
+* Added: Pagination Items setting limits how many page numbers show, per grid.
+* Added: Elementor and Divi layouts can now use five or six columns.
+* Fixed: Five columns on tablet or mobile rendered six columns instead.
+* Fixed: Pagination range passed by a layout was ignored, so only the global setting applied.
+* Fixed: Plugin header was missing the License line required by WordPress.org checks.
+* Fixed: Setup wizard hid admin notices on other screens when its flag was in the URL.
+* Fixed: Several admin strings used the wrong text domain and stayed untranslated.
+
+= 7.9.4 (Sep 8, 2026) =
+* Added: Sync button in the import modal header to fetch the latest layouts anytime.
+* Improved: Layouts are saved on your own site, so the modal loads without remote calls.
+* Improved: The saved copy never expires, and updated layouts arrive with each plugin update.
+* Improved: The import modal now shows why it could not load, with a Retry button.
+* Fixed: Import modal showed no layouts when the browser could not reach the library.
+* Fixed: Block editor fired taxonomy requests endlessly, flooding the server while a post was open.
+* Fixed: Text Align and device switcher icons were invisible in the block editor sidebar.
+* Fixed: Controls with help text squashed their input down to a few pixels wide.
+* Fixed: Dimension inputs and the link button now line up at the same height.
+* Fixed: Enable Border & Box Shadow select showed no value until you picked one.
+* Fixed: Text fields were taller than the number fields sitting next to them.
+* Fixed: Taxonomy select boxes were taller than the other fields around them.
+* Fixed: Start and End Date calendar opened too wide and spilled outside the sidebar.
+* Fixed: Editor locked up for up to fifteen seconds on pages with several blocks.
+* Fixed: Category widget caused a fatal error when a chosen category no longer existed.
+
+= 7.9.3 (Jun 2, 2026) =
+* Security: AI REST endpoint now requires edit_posts (app/Controllers/Api/AIIntegration.php:18).
+* Security: Elementor import endpoint requires per-post cap and nonce (app/Controllers/Api/ElImport.php:22, 35).
+* Security: Nonce check added to rtTPGShortCodeList AJAX (app/Controllers/AjaxController.php:346).
+* Security: Block CSS save requires per-post cap and sanitizes CSS (app/Controllers/BlocksController.php:485).
+* Security: Block CSS get-posts requires read_post cap (app/Controllers/BlocksController.php:465).
+* Improved: Import layout modal — skeleton loader, persistent cache, and faster re-open.
+* Fixed: Flat icon conflict issue resolved
+
 = 7.9.2 (May 24, 2026) =
-* Fixed: Pagination posts_per_page handling.
+* Fixed: Pagination posts_per_page handling
 * Improved: Settings improved
 * Improved: Setup Wizard improved
 

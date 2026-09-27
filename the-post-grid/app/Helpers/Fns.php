@@ -80,7 +80,7 @@ class Fns {
 			return;
 		}
 
-		$user_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ); // retrieve the current IP address of the visitor.
+		$user_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : ''; // retrieve the current IP address of the visitor.
 		$key     = 'tpg_cache_' . $user_ip . '_' . $post_id;
 		$value   = [ $user_ip, $post_id ];
 		$visited = get_transient( $key );
@@ -116,7 +116,7 @@ class Fns {
 
 		// Get existing cookie data
 		if ( isset( $_COOKIE[ $cookie_name ] ) ) {
-			$viewed_posts = json_decode( stripslashes( $_COOKIE[ $cookie_name ] ), true );
+			$viewed_posts = json_decode( sanitize_text_field( wp_unslash( $_COOKIE[ $cookie_name ] ) ), true );
 
 			if ( ! is_array( $viewed_posts ) ) {
 				$viewed_posts = [];
@@ -363,7 +363,7 @@ class Fns {
 		$hide = ( $query->max_num_pages < 2 ? ' rt-hidden-elm' : null );
 
 		if ( $posts_loading_type == 'pagination' ) {
-			$htmlUtility .= self::rt_pagination( $query );
+			$htmlUtility .= self::rt_pagination( $query, self::pagination_range_from_items( $data['pagination_items'] ?? 0 ) );
 		} elseif ( rtTPG()->hasPro() && $posts_loading_type == 'pagination_ajax' ) { // && ! $isIsotope
 			$htmlUtility .= "<div class='rt-page-numbers'></div>";
 		} elseif ( rtTPG()->hasPro() && $posts_loading_type == 'load_more' ) {
@@ -421,6 +421,7 @@ class Fns {
 			'excerpt_type'                 => $data['excerpt_type'],
 			'excerpt_limit'                => $data['excerpt_limit'],
 			'excerpt_more_text'            => $data['excerpt_more_text'],
+			'keep_html'                    => $data['keep_html'] ?? '',
 			'title_limit'                  => $data['title_limit'],
 			'title_limit_type'             => $data['title_limit_type'],
 			'title_visibility_style'       => $data['title_visibility_style'],
@@ -454,6 +455,11 @@ class Fns {
 			'image_offset'                 => $data['image_offset_size'] ?? '',
 			'is_default_img'               => $data['is_default_img'] ?? '',
 			'default_image'                => $data['default_image'] ?? '',
+			'video_show_thumb'             => $data['video_show_thumb'] ?? 'yes',
+			'video_play_mode'              => $data['video_play_mode'] ?? 'popup',
+			'video_hover_play'             => $data['video_hover_play'] ?? '',
+			'video_hover_poster'           => $data['video_hover_poster'] ?? '',
+			'video_controls'               => $data['video_controls'] ?? 'yes',
 			'thumb_overlay_visibility'     => $data['thumb_overlay_visibility'] ?? '',
 			'overlay_type'                 => $data['overlay_type'] ?? '',
 			'title_tag'                    => $data['title_tag'],
@@ -1388,6 +1394,48 @@ class Fns {
 	}
 
 	/**
+	 * Validate a link target against the allowed browsing contexts.
+	 *
+	 * Anything else - including values carrying spaces, which would break out
+	 * of an attribute slot - is dropped.
+	 *
+	 * @param mixed $target Raw target value.
+	 *
+	 * @return string Allowed target, or an empty string.
+	 */
+	public static function validate_link_target( $target ) {
+		$target = is_scalar( $target ) ? strtolower( trim( (string) $target ) ) : '';
+
+		return in_array( $target, [ '_blank', '_self', '_parent', '_top' ], true ) ? $target : '';
+	}
+
+	/**
+	 * Build the link attribute fragment for an anchor.
+	 *
+	 * Returns an already quoted and escaped string so no call site can print a
+	 * raw value into an unquoted attribute slot.
+	 *
+	 * @param mixed $target   Raw target value.
+	 * @param bool  $nofollow Whether the link needs rel="nofollow".
+	 *
+	 * @return string Ready to print attribute fragment.
+	 */
+	public static function link_attributes( $target = '', $nofollow = false ) {
+		$attributes = '';
+		$target     = self::validate_link_target( $target );
+
+		if ( $target ) {
+			$attributes .= ' target="' . esc_attr( $target ) . '"';
+		}
+
+		if ( $nofollow ) {
+			$attributes .= ' rel="nofollow"';
+		}
+
+		return $attributes;
+	}
+
+	/**
 	 * Get Section Title
 	 *
 	 * @param $data
@@ -1397,15 +1445,17 @@ class Fns {
 			return;
 		}
 
-		$_is_link = $target = $nofollow = '';
+		$_is_link = $link_attributes = '';
 		if ( $is_guten ) {
-			$_is_link = $data['section_external_url'] ?? '';
-			$target   = ! empty( $data['section_external_url_target'] ) ? ' target="' . $data['section_external_url_target'] . '"' : '';
-			$nofollow = '';
+			$external_url    = $data['section_external_url'] ?? '';
+			$_is_link        = is_scalar( $external_url ) ? $external_url : '';
+			$link_attributes = self::link_attributes( $data['section_external_url_target'] ?? '' );
 		} elseif ( ! empty( $data['section_external_url']['url'] ) ) {
-			$_is_link = $data['section_external_url']['url'];
-			$target   = $data['section_external_url']['is_external'] ? ' target="_blank"' : '';
-			$nofollow = $data['section_external_url']['nofollow'] ? ' rel="nofollow"' : '';
+			$_is_link        = $data['section_external_url']['url'];
+			$link_attributes = self::link_attributes(
+				! empty( $data['section_external_url']['is_external'] ) ? '_blank' : '',
+				! empty( $data['section_external_url']['nofollow'] )
+			);
 		}
 
 		?>
@@ -1420,7 +1470,7 @@ class Fns {
 			<?php
 			if ( $_is_link ) {
 				?>
-			<a href="<?php echo esc_url( $_is_link ); ?>" <?php echo esc_attr( $target . ' ' . $nofollow ); ?>>
+			<a href="<?php echo esc_url( $_is_link ); ?>"<?php echo $link_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built and escaped by self::link_attributes(). ?>>
 				<?php } ?>
 
 				<?php
@@ -1455,7 +1505,7 @@ class Fns {
 			<span class="tpg-widget-heading-line line-right"></span>
 
 			<?php if ( isset( $data['enable_external_link'] ) && ( in_array( $data['enable_external_link'], [ 'show', 'on' ] ) ) ) : ?>
-				<a class='external-link' href='<?php echo esc_url( $_is_link ); ?>' <?php echo esc_attr( $target . ' ' . $nofollow ); ?>>
+				<a class='external-link' href='<?php echo esc_url( $_is_link ); ?>'<?php echo $link_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built and escaped by self::link_attributes(). ?>>
 					<?php if ( $data['section_external_text'] ) : ?>
 						<span class="external-lable"><?php echo esc_html( $data['section_external_text'] ); ?></span>
 					<?php endif; ?>
@@ -2170,6 +2220,12 @@ class Fns {
 
 			return apply_filters( 'tpg_content_full', $content, $post_id, $data );
 		} else {
+			if ( self::tpg_keep_html_enabled( $data ) ) {
+				$html_excerpt = self::tpg_get_html_excerpt( $post, $data );
+
+				return apply_filters( 'tpg_get_the_excerpt', $html_excerpt, $post_id, $data, $html_excerpt );
+			}
+
 			if ( class_exists( 'ET_GB_Block_Layout' ) ) {
 				$defaultExcerpt = $post->post_excerpt ?: wp_trim_words( $post->post_content, 55 );
 			} elseif ( defined( 'WPB_VC_VERSION' ) ) {
@@ -2232,6 +2288,298 @@ class Fns {
 		}
 	}
 
+	/**
+	 * Is the "Keep HTML Tags" switch on for this grid?
+	 *
+	 * Each builder stores a switch differently (`yes`, `on`, `show`, `1`), so all of
+	 * them are normalised here. Anything else keeps the old plain text excerpt, which
+	 * is what every grid saved before this option must go on getting.
+	 *
+	 * @param array $data Layout settings.
+	 *
+	 * @return bool
+	 */
+	public static function tpg_keep_html_enabled( $data = [] ) {
+		$value = isset( $data['keep_html'] ) ? $data['keep_html'] : '';
+
+		if ( is_array( $value ) ) {
+			return false;
+		}
+
+		return in_array( strtolower( (string) $value ), [ 'yes', 'on', 'show', 'true', '1' ], true );
+	}
+
+	/**
+	 * Tags kept inside an excerpt when "Keep HTML Tags" is on.
+	 *
+	 * Deliberately limited to the formatting tags a post intro actually uses. All of
+	 * them survive the `wp_kses()` call the templates run on output.
+	 *
+	 * @return array
+	 */
+	public static function tpg_excerpt_allowed_html() {
+		$common = [
+			'class' => true,
+			'id'    => true,
+			'style' => true,
+		];
+
+		$tags = [
+			'p'          => $common,
+			'br'         => [],
+			'hr'         => [],
+			'span'       => $common,
+			'strong'     => $common,
+			'b'          => $common,
+			'em'         => $common,
+			'i'          => $common,
+			'u'          => $common,
+			's'          => $common,
+			'del'        => $common,
+			'ins'        => $common,
+			'mark'       => $common,
+			'small'      => $common,
+			'sub'        => $common,
+			'sup'        => $common,
+			'code'       => $common,
+			'pre'        => $common,
+			'blockquote' => array_merge( $common, [ 'cite' => true ] ),
+			'ul'         => $common,
+			'ol'         => array_merge( $common, [ 'start' => true, 'type' => true, 'reversed' => true ] ),
+			'li'         => $common,
+			'dl'         => $common,
+			'dt'         => $common,
+			'dd'         => $common,
+			'h1'         => $common,
+			'h2'         => $common,
+			'h3'         => $common,
+			'h4'         => $common,
+			'h5'         => $common,
+			'h6'         => $common,
+			'a'          => array_merge(
+				$common,
+				[
+					'href'   => true,
+					'title'  => true,
+					'target' => true,
+					'rel'    => true,
+				]
+			),
+		];
+
+		return apply_filters( 'rttpg_excerpt_allowed_html', $tags );
+	}
+
+	/**
+	 * Excerpt that keeps its markup.
+	 *
+	 * Used instead of the plain text excerpt when "Keep HTML Tags" is on, so lists,
+	 * line breaks and paragraphs survive the word/character limit.
+	 *
+	 * @param \WP_Post|int $post Post object or ID.
+	 * @param array        $data Layout settings.
+	 *
+	 * @return string
+	 */
+	public static function tpg_get_html_excerpt( $post, $data = [] ) {
+		$type   = isset( $data['excerpt_type'] ) ? $data['excerpt_type'] : 'character';
+		$limit  = ! empty( $data['excerpt_limit'] ) ? absint( $data['excerpt_limit'] ) : 0;
+		$more   = isset( $data['excerpt_more_text'] ) ? $data['excerpt_more_text'] : '';
+		$source = self::tpg_excerpt_html_source( $post, $is_manual );
+
+		if ( '' === trim( wp_strip_all_tags( $source ) ) ) {
+			return '';
+		}
+
+		$source = wp_kses( $source, self::tpg_excerpt_allowed_html() );
+
+		if ( $limit ) {
+			$source = self::tpg_truncate_html( $source, $limit, $type, $more );
+		} elseif ( ! $is_manual ) {
+			// No limit given, so stay with WordPress's own excerpt length instead of printing the whole post.
+			$source = self::tpg_truncate_html( $source, absint( apply_filters( 'excerpt_length', 55 ) ), 'word', $more );
+		}
+
+		return trim( $source );
+	}
+
+	/**
+	 * Post content prepared for an excerpt, with its markup left intact.
+	 *
+	 * @param \WP_Post|int $post      Post object or ID.
+	 * @param bool         $is_manual Set to true when the post carries its own excerpt.
+	 *
+	 * @return string
+	 */
+	public static function tpg_excerpt_html_source( $post, &$is_manual = null ) {
+		$is_manual = false;
+
+		if ( ! $post instanceof \WP_Post ) {
+			$post = get_post( $post );
+		}
+
+		if ( empty( $post ) || post_password_required( $post ) ) {
+			return '';
+		}
+
+		$content   = trim( (string) $post->post_excerpt );
+		$is_manual = '' !== $content;
+
+		if ( '' === $content ) {
+			$content = (string) $post->post_content;
+
+			if ( function_exists( 'has_blocks' ) && function_exists( 'excerpt_remove_blocks' ) && has_blocks( $content ) ) {
+				$content = excerpt_remove_blocks( $content );
+			}
+		}
+
+		$content = strip_shortcodes( $content );
+		$content = preg_replace( '#<!--.*?-->#s', '', $content );
+		$content = str_replace( ']]>', ']]&gt;', $content );
+		$content = wpautop( $content );
+
+		return apply_filters( 'rttpg_excerpt_html_source', $content, $post );
+	}
+
+	/**
+	 * Cut markup to a word or character limit without breaking it.
+	 *
+	 * Only the text counts towards the limit, tags left open by the cut are closed
+	 * again and wrappers the cut emptied are dropped.
+	 *
+	 * @param string $html  Markup to cut.
+	 * @param int    $limit Word or character limit.
+	 * @param string $type  `word` or `character`.
+	 * @param string $more  Expansion indicator, appended only when something was cut.
+	 *
+	 * @return string
+	 */
+	public static function tpg_truncate_html( $html, $limit, $type = 'character', $more = '' ) {
+		$limit = absint( $limit );
+
+		if ( ! $limit || '' === trim( $html ) ) {
+			return $html;
+		}
+
+		$void_tags = [ 'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr' ];
+		$tokens    = preg_split( '/(<[^>]*>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+		$open_tags = [];
+		$output    = '';
+		$counter   = 0;
+		$truncated = false;
+
+		foreach ( (array) $tokens as $token ) {
+			if ( '' === $token ) {
+				continue;
+			}
+
+			if ( '<' === $token[0] ) {
+				if ( preg_match( '#^</\s*([a-z0-9]+)#i', $token, $matches ) ) {
+					$tag  = strtolower( $matches[1] );
+					$keys = array_keys( $open_tags, $tag, true );
+
+					// A closing tag with nothing open is dropped, it would only break the markup.
+					if ( ! empty( $keys ) ) {
+						unset( $open_tags[ end( $keys ) ] );
+						$open_tags = array_values( $open_tags );
+						$output   .= $token;
+					}
+				} elseif ( preg_match( '#^<\s*([a-z0-9]+)#i', $token, $matches ) ) {
+					$tag     = strtolower( $matches[1] );
+					$output .= $token;
+
+					if ( ! in_array( $tag, $void_tags, true ) && ! preg_match( '#/\s*>$#', $token ) ) {
+						$open_tags[] = $tag;
+					}
+				}
+
+				continue;
+			}
+
+			if ( '' === trim( $token ) ) {
+				$output .= $token;
+				continue;
+			}
+
+			if ( 'word' === $type ) {
+				$chunks = preg_split( '/(\s+)/u', $token, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+
+				foreach ( (array) $chunks as $chunk ) {
+					if ( '' === trim( $chunk ) ) {
+						$output .= $chunk;
+						continue;
+					}
+
+					if ( $counter >= $limit ) {
+						$truncated = true;
+						break;
+					}
+
+					++$counter;
+					$output .= $chunk;
+				}
+			} else {
+				$length = mb_strlen( $token );
+
+				if ( $counter + $length <= $limit ) {
+					$counter += $length;
+					$output  .= $token;
+					continue;
+				}
+
+				$piece = self::tpgCharacterLimit( $limit - $counter, $token );
+
+				// Never leave half an entity like `&amp` behind.
+				$output   .= preg_replace( '/&[a-z0-9#]*$/i', '', $piece );
+				$counter   = $limit;
+				$truncated = true;
+			}
+
+			if ( $truncated ) {
+				break;
+			}
+		}
+
+		if ( $truncated ) {
+			// A cut landing right after an opening tag would leave an empty box behind.
+			while ( ! empty( $open_tags ) ) {
+				$pattern = '#<\s*' . preg_quote( end( $open_tags ), '#' ) . '(\s[^>]*)?>\s*$#i';
+
+				if ( ! preg_match( $pattern, $output ) ) {
+					break;
+				}
+
+				$output = preg_replace( $pattern, '', $output );
+				array_pop( $open_tags );
+			}
+
+			$output = preg_replace( '#(<br\s*/?>\s*)+$#i', '', $output );
+		}
+
+		if ( $truncated && $more ) {
+			$tail = '';
+
+			// A cut that fell on a boundary would drop the indicator between two tags, keep it inside the text instead.
+			if ( preg_match( '#(?:</[a-z0-9]+>\s*)+$#i', $output, $matched ) ) {
+				$tail   = $matched[0];
+				$output = substr( $output, 0, - strlen( $tail ) );
+			}
+
+			$output = rtrim( rtrim( $output ), ' .,-_' ) . $more . $tail;
+		}
+
+		while ( ! empty( $open_tags ) ) {
+			$output .= '</' . array_pop( $open_tags ) . '>';
+		}
+
+		// Wrappers the cut left without any content.
+		do {
+			$output = preg_replace( '#<(p|ul|ol|li|dl|dt|dd|blockquote|h[1-6])(\s[^>]*)?>\s*</\1>#i', '', $output, -1, $emptied );
+		} while ( $emptied );
+
+		return $output;
+	}
+
 	public static function get_the_title( $post_id, $data = [] ) {
 		$title      = $originalTitle = get_the_title( $post_id );
 		$limit      = isset( $data['title_limit'] ) ? absint( $data['title_limit'] ) : 0;
@@ -2259,11 +2607,41 @@ class Fns {
 		return apply_filters( 'tpg_get_the_title', $title, $post_id, $data, $originalTitle );
 	}
 
-	public static function rt_pagination( $postGrid, $range = 4, $ajax = false ) {
-		$range = 4;
-		if ( ! empty( self::tpg_option( 'tpg_pagination_range' ) ) ) {
-			$range = self::tpg_option( 'tpg_pagination_range' );
+	/**
+	 * Turn a "Pagination Items" count into the range rt_pagination() works with.
+	 *
+	 * The pager is centred on the current page, so it always renders an odd
+	 * number of pages: range either side, plus the current one. An even count
+	 * cannot be centred and rounds down to the nearest odd number.
+	 *
+	 * @param mixed $items Number of page links to show. Empty means "not set".
+	 *
+	 * @return int Range, or 0 when no usable value was given.
+	 */
+	public static function pagination_range_from_items( $items ) {
+		$items = absint( $items );
+
+		if ( $items < 1 ) {
+			return 0;
 		}
+
+		return (int) floor( ( $items - 1 ) / 2 );
+	}
+
+	public static function rt_pagination( $postGrid, $range = 0, $ajax = false ) {
+		// A range passed by the caller is the per-grid "Pagination Items"
+		// setting and wins. Without one, fall back to the site wide range,
+		// then to the historic default of four pages either side.
+		$range = absint( $range );
+
+		if ( ! $range ) {
+			$range = absint( self::tpg_option( 'tpg_pagination_range' ) );
+		}
+
+		if ( ! $range ) {
+			$range = 4;
+		}
+
 		$html      = null;
 		$showitems = ( $range * 2 ) + 1;
 
@@ -2451,8 +2829,98 @@ class Fns {
 
 		return $data;
 	}
+	/**
+	 * Sanitize a single value before it is concatenated into a CSS declaration.
+	 *
+	 * Grid settings live in ordinary, non-protected post meta, so anyone who can
+	 * edit a post can put arbitrary text in them. layoutStyle() drops those
+	 * values straight into an inline <style> block, where a value such as
+	 * `red}</style><script>` would close the block and inject markup. Every
+	 * character that could end a declaration, end the element or start a new
+	 * one is removed here, at the single point all of those values pass through.
+	 *
+	 * Colour fields must be a hex colour or an rgb()/rgba() triplet; anything
+	 * else is dropped rather than patched up.
+	 *
+	 * @param mixed  $value Raw meta value.
+	 * @param string $key   Meta key, used to spot colour fields.
+	 *
+	 * @return string
+	 */
+	public static function sanitize_css_value( $value, $key = '' ) {
+		if ( is_array( $value ) || is_object( $value ) || null === $value ) {
+			return '';
+		}
+
+		$value = trim( (string) $value );
+
+		if ( '' === $value ) {
+			return '';
+		}
+
+		if ( preg_match( '/(_color|_bg|_shadow)$/', $key ) ) {
+			$hex = self::sanitize_hex_color( $value );
+
+			if ( $hex ) {
+				return $hex;
+			}
+
+			if ( preg_match( '/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*(?:0|1|0?\.\d+)\s*)?\)$/', $value ) ) {
+				return $value;
+			}
+
+			return '';
+		}
+
+		// Lengths, keywords and number lists only. Brackets are left to the
+		// colour branch above, which is the one place a function value is
+		// legitimate, so url() and expression() cannot be formed here either.
+		return trim( preg_replace( '/[^A-Za-z0-9\s#.,%\-_+]/', '', $value ) );
+	}
+
+	/**
+	 * Run a whole grid-settings meta array through sanitize_css_value().
+	 *
+	 * Accepts both shapes layoutStyle() is called with: the nested arrays
+	 * get_post_meta() returns for a grid post, and the flat array the admin
+	 * preview builds from the request.
+	 *
+	 * @param mixed $meta Meta array.
+	 *
+	 * @return array
+	 */
+	public static function sanitize_style_meta( $meta ) {
+		if ( ! is_array( $meta ) ) {
+			return [];
+		}
+
+		$clean = [];
+
+		foreach ( $meta as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$clean[ $key ] = [];
+
+				foreach ( $value as $index => $item ) {
+					$clean[ $key ][ $index ] = self::sanitize_css_value( $item, $key );
+				}
+
+				continue;
+			}
+
+			$clean[ $key ] = self::sanitize_css_value( $value, $key );
+		}
+
+		return $clean;
+	}
 
 	public static function layoutStyle( $layoutID, $scMeta, $layout, $scId = null ) {
+		// Every value below is concatenated into the <style> block, so clean the
+		// whole set here rather than at each of the fifty-odd concatenations.
+		// This also keeps the admin preview caller correct without changes.
+		$scMeta   = self::sanitize_style_meta( $scMeta );
+		$layoutID = sanitize_html_class( $layoutID );
+		$layout   = sanitize_html_class( $layout );
+
 		$css  = null;
 		$css .= "<style type='text/css' media='all'>";
 		// primary color
@@ -3245,7 +3713,8 @@ class Fns {
 
 		if ( ! empty( $groups_q ) ) {
 			foreach ( $groups_q as $group ) {
-				$c    = $group->post_content ? unserialize( $group->post_content ) : [];
+				$c    = $group->post_content ? unserialize( $group->post_content, [ 'allowed_classes' => false ] ) : []; // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- ACF stores its field groups serialized; object instantiation is disabled.
+				$c    = is_array( $c ) ? $c : [];
 				$flag = false;
 
 				if ( ! empty( $c['location'] ) ) {
@@ -3378,7 +3847,7 @@ class Fns {
 				absint( $pID ),
 				esc_url( ! empty( $external_link['url'] ) ? $external_link['url'] : get_permalink() ),
 				esc_attr( $link_class ),
-				esc_attr( ! empty( $external_link['target'] ) ? $external_link['target'] : $data['link_target'] )
+				esc_attr( self::validate_link_target( ! empty( $external_link['target'] ) ? $external_link['target'] : $data['link_target'] ) )
 			);
 			$link_end   = $readmore_link_end = '</a>';
 		} elseif ( 'popup' == $data['post_link_type'] ) {
@@ -3393,7 +3862,7 @@ class Fns {
 				absint( $pID ),
 				esc_url( get_permalink() ),
 				esc_attr( $link_class ),
-				esc_attr( $data['link_target'] )
+				esc_attr( self::validate_link_target( $data['link_target'] ) )
 			);
 			$link_end   = $readmore_link_end = '</a>';
 		} elseif ( 'multi_popup' == $data['post_link_type'] ) {
@@ -3403,7 +3872,7 @@ class Fns {
 				absint( $pID ),
 				esc_url( get_permalink() ),
 				esc_attr( $link_class ),
-				esc_attr( $data['link_target'] )
+				esc_attr( self::validate_link_target( $data['link_target'] ) )
 			);
 			$link_end   = $readmore_link_end = '</a>';
 		} else {
@@ -3413,7 +3882,7 @@ class Fns {
 				absint( $pID ),
 				esc_url( get_permalink() ),
 				esc_attr( $link_class ),
-				esc_attr( $data['link_target'] )
+				esc_attr( self::validate_link_target( $data['link_target'] ) )
 			);
 			$readmore_link_end   = '</a>';
 		}
@@ -3626,7 +4095,7 @@ class Fns {
 					}
 				}
 				?>
-				<?php if ( in_array( $data['date_archive_link'], [ 'yes', 'on' ] ) ) : ?>
+				<?php if ( !empty($data['date_archive_link']) && in_array( $data['date_archive_link'], [ 'yes', 'on' ] ) ) : ?>
 					<a href="<?php echo esc_url( get_day_link( $archive_year, $archive_month, $archive_day ) ); ?>">
 					<?php echo esc_html( $date ); ?>
 				</a>
@@ -3747,7 +4216,7 @@ class Fns {
 			}
 
 			if ( $echo ) {
-				echo wp_kses_post( $_meta_html );
+				echo wp_kses( $_meta_html, self::tpg_allowed_html() );
 			} else {
 				return $_meta_html;
 			}
@@ -3755,7 +4224,7 @@ class Fns {
 			$meta_ordering = isset( $data['meta_ordering'] ) && is_array( $data['meta_ordering'] ) ? $data['meta_ordering'] : [];
 			foreach ( $meta_ordering as $val ) {
 				if ( isset( $post_meta_html[ $val['meta_name'] ] ) ) {
-					echo wp_kses_post( $post_meta_html[ $val['meta_name'] ] );
+					echo wp_kses( $post_meta_html[ $val['meta_name'] ], self::tpg_allowed_html() );
 				}
 			}
 		}
@@ -3881,9 +4350,9 @@ class Fns {
 
 			if ( $type == 'markup' ) {
 				if ( $imgClass !== 'swiper-lazy' ) {
-					return "<img class='rt-img-responsive' src='{$imgSrc}' {$size} alt='{$alt}'>";
+					return "<img class='rt-img-responsive' src='" . esc_url( $imgSrc ) . "' {$size} alt='" . esc_attr( $alt ) . "'>";
 				} else {
-					return "<img class='{$imgClass}' data-src='{$imgSrc}' alt='{$alt}'>";
+					return "<img class='" . esc_attr( $imgClass ) . "' data-src='" . esc_url( $imgSrc ) . "' alt='" . esc_attr( $alt ) . "'>";
 				}
 			} else {
 				return $imgSrc;
@@ -3965,11 +4434,11 @@ class Fns {
 						}
 					}
 
-					echo wp_kses_post( self::getFeatureImageSrc( $pID, $fImgSize, $mediaSource, $defaultImgId, $customImgSize, $lazy_class ) );
+					echo wp_kses( self::getFeatureImageSrc( $pID, $fImgSize, $mediaSource, $defaultImgId, $customImgSize, $lazy_class ), self::tpg_allowed_html() );
 				}
 			}
 		} elseif ( 'first_image' === $data['media_source'] && self::get_content_first_image( $pID ) ) {
-			echo wp_kses_post( self::get_content_first_image( $pID, 'markup', $lazy_class ) );
+			echo wp_kses( self::get_content_first_image( $pID, 'markup', $lazy_class ), self::tpg_allowed_html() );
 			$img_link = self::get_content_first_image( $pID, 'url' );
 		} elseif ( 'yes' === $data['is_default_img'] || 'grid_hover' == $data['prefix'] ) {
 			// echo \Elementor\Group_Control_Image_Size::get_attachment_image_html( $data, $img_size_key, 'default_image' );
@@ -4003,7 +4472,7 @@ class Fns {
 				if ( did_action( 'elementor/loaded' ) && isset( $data['light_box_icon']['value'] ) && $data['light_box_icon']['value'] ) {
 					\Elementor\Icons_Manager::render_icon( $data['light_box_icon'], [ 'aria-hidden' => 'true' ] );
 				} else {
-					echo "<i class='" . self::change_icon( 'fa fa-plus', 'plus' ) . "'></i>";
+					echo "<i class='" . esc_attr( self::change_icon( 'fa fa-plus', 'plus' ) ) . "'></i>";
 				}
 				?>
 			</a>
@@ -4011,6 +4480,66 @@ class Fns {
 		<?php endif; ?>
 		<div class="overlay grid-hover-content"></div>
 		<?php
+	}
+
+	/**
+	 * Check whether a URL is a supported video link.
+	 *
+	 * The video thumbnail feature only supports direct video files
+	 * (mp4, webm, ogg) and known oEmbed video providers (YouTube, Vimeo,
+	 * etc.). Any other URL - e.g. a regular page link - is not a video and
+	 * should fall back to the normal featured image.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_video_url( $url ) {
+		if ( empty( $url ) || ! is_string( $url ) ) {
+			return false;
+		}
+
+		$url = trim( $url );
+
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+		if ( ! $host ) {
+			return false;
+		}
+
+		// Direct video files.
+		$ext        = strtolower( pathinfo( (string) wp_parse_url( $url, PHP_URL_PATH ), PATHINFO_EXTENSION ) );
+		$video_exts = [ 'mp4', 'webm', 'ogg' ];
+		if ( in_array( $ext, $video_exts, true ) ) {
+			return true;
+		}
+
+		// Known oEmbed video providers.
+		$host           = strtolower( preg_replace( '/^www\./', '', $host ) );
+		$video_hosts    = [
+			'youtube.com',
+			'youtu.be',
+			'youtube-nocookie.com',
+			'vimeo.com',
+			'dailymotion.com',
+			'dai.ly',
+			'wistia.com',
+			'wi.st',
+			'ted.com',
+			'facebook.com',
+			'twitch.tv',
+			'vine.co',
+			'videopress.com',
+			'vid.me',
+		];
+
+		foreach ( $video_hosts as $video_host ) {
+			$suffix = '.' . $video_host;
+			if ( $host === $video_host || substr( $host, - strlen( $suffix ) ) === $suffix ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -4042,13 +4571,89 @@ class Fns {
 			self::get_el_thumb_cat( $data );
 		}
 
-		$video_url = get_post_meta( $pID, '_tpg_video_url', true );
+		$video_html = self::get_video_thumbnail( $pID, $data );
 
-		if ( $video_url && rtTPG()->hasPro() ) {
-			echo do_shortcode( '[tpg_video_thumbnail]' );
+		if ( '' !== $video_html ) {
+			echo wp_kses( $video_html, self::tpg_allowed_html() );
 		} else {
 			self::tpg_post_image( $pID, $data, $link_start, $link_end, $offset_size );
 		}
+	}
+
+	/**
+	 * URL out of an image setting, whatever shape the builder stored it in.
+	 *
+	 * Elementor and Gutenberg both keep media as [ 'url' => ..., 'id' => ... ].
+	 * Divi's upload control stores the bare URL string. This flattens the two so
+	 * callers do not have to care which builder they came from.
+	 *
+	 * @param mixed $value Raw setting value.
+	 *
+	 * @return string
+	 */
+	public static function image_setting_url( $value ) {
+		if ( is_array( $value ) ) {
+			return ! empty( $value['url'] ) ? esc_url_raw( $value['url'] ) : '';
+		}
+
+		if ( is_string( $value ) && '' !== trim( $value ) ) {
+			return esc_url_raw( trim( $value ) );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Video thumbnail markup for a post, or an empty string when there is none.
+	 *
+	 * Videos are a pro feature, so the markup is built there. The call is
+	 * guarded: on a pro build that predates the Video Settings panel this falls
+	 * back to the old shortcode, and with no pro at all it returns nothing and
+	 * the caller prints the normal image.
+	 *
+	 * @param int   $pID  Post ID.
+	 * @param array $data Widget/block settings.
+	 *
+	 * @return string
+	 */
+	public static function get_video_thumbnail( $pID, $data = [] ) {
+		if ( ! rtTPG()->hasPro() ) {
+			return '';
+		}
+
+		$video_url = get_post_meta( $pID, '_tpg_video_url', true );
+
+		if ( ! $video_url || ! self::is_valid_video_url( $video_url ) ) {
+			return '';
+		}
+
+		$renderer = '\\RT\\ThePostGridPro\\Modules\\Video_Thumbnail';
+
+		if ( ! method_exists( $renderer, 'render' ) ) {
+			return (string) do_shortcode( '[tpg_video_thumbnail]' );
+		}
+
+		// Last step of the poster chain. The provider thumbnail is tried before
+		// this, inside the renderer; here we only decide which configured image
+		// to hand over: the video Fallback Image, or the Thumbnail section's
+		// Default Image when that is switched on.
+		$poster = self::image_setting_url( $data['video_hover_poster'] ?? '' );
+
+		if ( '' === $poster && ! empty( $data['is_default_img'] ) ) {
+			$poster = self::image_setting_url( $data['default_image'] ?? '' );
+		}
+
+		return (string) call_user_func(
+			[ $renderer, 'render' ],
+			$pID,
+			[
+				'play_mode'  => ! empty( $data['video_play_mode'] ) ? $data['video_play_mode'] : 'popup',
+				'hover'      => ! empty( $data['video_hover_play'] ) && in_array( $data['video_hover_play'], [ 'yes', 'on', true, 1 ], true ),
+				'controls'   => ! isset( $data['video_controls'] ) || in_array( $data['video_controls'], [ 'yes', 'on', true, 1 ], true ),
+				'poster'     => $poster,
+				'show_thumb' => ! isset( $data['video_show_thumb'] ) || in_array( $data['video_show_thumb'], [ 'yes', 'on', true, 1 ], true ),
+			]
+		);
 	}
 
 	/**
@@ -4345,7 +4950,7 @@ class Fns {
 		if ( $allHtml ) {
 			echo stripslashes_deep( $html ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
-			echo wp_kses_post( stripslashes_deep( $html ) );
+			echo wp_kses( stripslashes_deep( $html ), self::tpg_allowed_html() );
 		}
 	}
 
@@ -4502,6 +5107,317 @@ class Fns {
 	}
 
 	/**
+	 * Allowed HTML tags for markup this plugin renders itself.
+	 *
+	 * WordPress core's `post` context does not allow the SVG icons, filter
+	 * inputs or video embeds the plugin prints, so those tags are added here.
+	 * The list is plugin scoped on purpose: it is never hooked into
+	 * `wp_kses_allowed_html`, so the tags a site accepts when saving user
+	 * submitted content stay exactly as core defines them.
+	 *
+	 * Contexts:
+	 *  - `markup`  Full plugin chrome: filter inputs, pagination, icons, embeds.
+	 *  - `content` Post content the plugin re-renders (excerpt, meta, ACF).
+	 *  - `svg`     Inline icons only.
+	 *
+	 * `style` and `script` are in none of them: the plugin prints its own CSS
+	 * outside kses, so there is no reason to let either tag through here.
+	 *
+	 * @param string $context Allow-list context. Default `markup`.
+	 *
+	 * @return array
+	 */
+	public static function tpg_allowed_html( $context = 'markup' ) {
+		$svg = [
+			'svg'            => [
+				'class'           => true,
+				'id'              => true,
+				'style'           => true,
+				'width'           => true,
+				'height'          => true,
+				'viewbox'         => true,
+				'xmlns'           => true,
+				'xmlns:xlink'     => true,
+				'version'         => true,
+				'x'               => true,
+				'y'               => true,
+				'fill'            => true,
+				'stroke'          => true,
+				'role'            => true,
+				'aria-hidden'     => true,
+				'aria-labelledby' => true,
+				'xml:space'       => true,
+				'preserveaspectratio' => true,
+			],
+			'g'              => [
+				'class'     => true,
+				'id'        => true,
+				'fill'      => true,
+				'stroke'    => true,
+				'opacity'   => true,
+				'mask'      => true,
+				'transform' => true,
+				'clip-path' => true,
+			],
+			'defs'           => [],
+			'clippath'       => [
+				'id'             => true,
+				'clippathunits'  => true,
+			],
+			'mask'           => [
+				'id'        => true,
+				'style'     => true,
+				'maskunits' => true,
+			],
+			'use'            => [
+				'href'       => true,
+				'xlink:href' => true,
+				'x'          => true,
+				'y'          => true,
+				'fill'       => true,
+			],
+			'path'           => [
+				'class'            => true,
+				'id'               => true,
+				'd'                => true,
+				'fill'             => true,
+				'fill-rule'        => true,
+				'fill-opacity'     => true,
+				'clip-rule'        => true,
+				'clip-path'        => true,
+				'opacity'          => true,
+				'stroke'           => true,
+				'stroke-width'     => true,
+				'stroke-linecap'   => true,
+				'stroke-linejoin'  => true,
+				'stroke-miterlimit' => true,
+				'stroke-dasharray' => true,
+				'stroke-opacity'   => true,
+				'style'            => true,
+				'transform'        => true,
+				'data-original'    => true,
+			],
+			'rect'           => [
+				'class'   => true,
+				'x'       => true,
+				'y'       => true,
+				'rx'      => true,
+				'ry'      => true,
+				'width'   => true,
+				'height'  => true,
+				'fill'    => true,
+				'stroke'  => true,
+				'opacity' => true,
+				'style'   => true,
+				'data-original' => true,
+			],
+			'circle'         => [
+				'class'           => true,
+				'cx'              => true,
+				'cy'              => true,
+				'r'               => true,
+				'fill'            => true,
+				'stroke'          => true,
+				'stroke-width'    => true,
+				'stroke-linecap'  => true,
+				'stroke-linejoin' => true,
+				'stroke-miterlimit' => true,
+				'opacity'         => true,
+				'style'           => true,
+				'data-original'   => true,
+			],
+			'ellipse'        => [
+				'cx'     => true,
+				'cy'     => true,
+				'rx'     => true,
+				'ry'     => true,
+				'fill'   => true,
+				'stroke' => true,
+			],
+			'line'           => [
+				'x1'           => true,
+				'y1'           => true,
+				'x2'           => true,
+				'y2'           => true,
+				'stroke'       => true,
+				'stroke-width' => true,
+			],
+			'polygon'        => [
+				'points' => true,
+				'fill'   => true,
+				'stroke' => true,
+			],
+			'polyline'       => [
+				'points'       => true,
+				'fill'         => true,
+				'stroke'       => true,
+				'stroke-width' => true,
+			],
+			'lineargradient' => [
+				'id'            => true,
+				'x1'            => true,
+				'y1'            => true,
+				'x2'            => true,
+				'y2'            => true,
+				'gradientunits' => true,
+			],
+			'radialgradient' => [
+				'id' => true,
+				'cx' => true,
+				'cy' => true,
+				'r'  => true,
+			],
+			'stop'           => [
+				'offset'       => true,
+				'stop-color'   => true,
+				'stop-opacity' => true,
+			],
+			'desc'           => [],
+			'title'          => [
+				'id'    => true,
+				'class' => true,
+			],
+		];
+
+		if ( 'svg' === $context ) {
+			return apply_filters( 'rttpg_allowed_html', $svg, $context );
+		}
+
+		$tags = wp_kses_allowed_html( 'post' );
+
+		$tags['iframe'] = [
+			'class'           => true,
+			'id'              => true,
+			'style'           => true,
+			'name'            => true,
+			'title'           => true,
+			'src'             => true,
+			'width'           => true,
+			'height'          => true,
+			'frameborder'     => true,
+			'scrolling'       => true,
+			'loading'         => true,
+			'allow'           => true,
+			'allowfullscreen' => true,
+			'referrerpolicy'  => true,
+		];
+
+		$tags = array_merge( $tags, $svg );
+
+		if ( 'content' !== $context ) {
+			$tags['input'] = [
+				'class'       => true,
+				'id'          => true,
+				'style'       => true,
+				'type'        => true,
+				'name'        => true,
+				'value'       => true,
+				'placeholder' => true,
+				'min'         => true,
+				'max'         => true,
+				'step'        => true,
+				'checked'     => true,
+				'disabled'    => true,
+				'readonly'    => true,
+				'required'    => true,
+				'autocomplete' => true,
+			];
+		}
+
+		/**
+		 * Filter the allowed HTML used for the plugin's own markup.
+		 *
+		 * @param array  $tags    Allowed tags and attributes.
+		 * @param string $context Allow-list context.
+		 */
+		return apply_filters( 'rttpg_allowed_html', $tags, $context );
+	}
+
+	/**
+	 * Sanitize markup the plugin renders itself.
+	 *
+	 * Use this instead of `wp_kses_post()` wherever the plugin prints its own
+	 * SVG icons, filter inputs, inline styles or embeds.
+	 *
+	 * @param string $html    Markup to sanitize.
+	 * @param string $context Allow-list context. See tpg_allowed_html().
+	 *
+	 * @return string
+	 */
+	public static function tpg_kses( $html, $context = 'markup' ) {
+		if ( '' === $html || null === $html ) {
+			return '';
+		}
+
+		return wp_kses( $html, self::tpg_allowed_html( $context ) );
+	}
+	/**
+	 * Settings keys that are stored verbatim.
+	 *
+	 * These hold the custom JS/CSS an administrator deliberately injects, so
+	 * they cannot be run through a text sanitizer without destroying them.
+	 * They are only kept raw for users who may already post unfiltered HTML,
+	 * which on multisite means a super admin.
+	 *
+	 * @return array
+	 */
+	public static function raw_settings_keys() {
+		return apply_filters(
+			'rttpg_raw_settings_keys',
+			[
+				'script_before_item_load',
+				'script_after_item_load',
+				'script_loaded',
+				'custom_css',
+			]
+		);
+	}
+
+	/**
+	 * Sanitize the plugin settings array before it is stored.
+	 *
+	 * Walks the submitted array, drops keys that are not plain identifiers and
+	 * runs every value through a text sanitizer. Only the keys listed in
+	 * raw_settings_keys() keep their markup, and only for users allowed to
+	 * post unfiltered HTML.
+	 *
+	 * @param mixed $input Raw settings input.
+	 *
+	 * @return array
+	 */
+	public static function sanitize_settings( $input ) {
+		if ( ! is_array( $input ) ) {
+			return [];
+		}
+
+		$raw_keys = self::raw_settings_keys();
+		$can_raw  = current_user_can( 'unfiltered_html' );
+		$clean    = [];
+
+		foreach ( $input as $key => $value ) {
+			$key = preg_replace( '/[^A-Za-z0-9_\-]/', '', (string) $key );
+
+			if ( '' === $key ) {
+				continue;
+			}
+
+			if ( is_array( $value ) ) {
+				$clean[ $key ] = self::sanitize_settings( $value );
+				continue;
+			}
+
+			if ( in_array( $key, $raw_keys, true ) ) {
+				$clean[ $key ] = $can_raw ? (string) $value : wp_kses_post( (string) $value );
+				continue;
+			}
+
+			$clean[ $key ] = sanitize_textarea_field( (string) $value );
+		}
+
+		return $clean;
+	}
+
+	/**
 	 * Definition for wp_kses.
 	 *
 	 * @param string $string String to check.
@@ -4591,7 +5507,7 @@ class Fns {
 				break;
 			case 'related_category':
 				global $post;
-				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) );
+				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? absint( wp_unslash( $_POST['postId'] ) ) : '' ) );
 				if ( $p_id ) {
                     //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query']    = [
@@ -4606,7 +5522,7 @@ class Fns {
 				break;
 			case 'related_tag':
 				global $post;
-				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) );
+				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? absint( wp_unslash( $_POST['postId'] ) ) : '' ) );
 				if ( $p_id ) {
                     //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query']    = [
@@ -4621,7 +5537,7 @@ class Fns {
 				break;
 			case 'related_cat_tag':
 				global $post;
-				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? sanitize_text_field( $_POST['postId'] ) : '' ) );
+				$p_id = isset( $post->ID ) && $post->ID ? $post->ID : ( isset( $prams['current_post'] ) && $prams['current_post'] ? $prams['current_post'] : ( isset( $_POST['postId'] ) ? absint( wp_unslash( $_POST['postId'] ) ) : '' ) );
 				if ( $p_id ) {
                     //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					$args['tax_query']    = [
@@ -4702,10 +5618,10 @@ class Fns {
 	 * @return mixed|string
 	 */
 	public static function change_icon( $fontawesome, $flaticon, $default_class = '' ) {
-		if ( self::tpg_option( 'tpg_icon_font' ) === 'flaticon' ) {
+		if ( self::tpg_option( 'tpg_icon_font', 'flaticon' ) === 'flaticon' ) {
 			$flaticon = ( $flaticon == 'twitter' ? 'twitter-x' : $flaticon );
 
-			return 'flaticon-' . $flaticon . ' ' . $default_class;
+			return 'tpg-flaticon-' . $flaticon . ' ' . $default_class;
 		}
 		$fontawesome = ( $fontawesome === 'fab fa-twitter' ? 'fab fa-x-twitter' : $fontawesome );
 
@@ -4761,13 +5677,13 @@ class Fns {
 		return apply_filters(
 			'tpg_builder_type_list',
 			[
-				'single'           => __( 'Single', 'the-post-grid-pro' ),
-				'archive'          => __( 'Post Archive', 'the-post-grid-pro' ),
-				'author-archive'   => __( 'Author Archive', 'the-post-grid-pro' ),
-				'search-archive'   => __( 'Search Archive', 'the-post-grid-pro' ),
-				'date-archive'     => __( 'Date Archive', 'the-post-grid-pro' ),
-				'category-archive' => __( 'Category Archive', 'the-post-grid-pro' ),
-				'tags-archive'     => __( 'Tags Archive', 'the-post-grid-pro' ),
+				'single'           => __( 'Single', 'the-post-grid' ),
+				'archive'          => __( 'Post Archive', 'the-post-grid' ),
+				'author-archive'   => __( 'Author Archive', 'the-post-grid' ),
+				'search-archive'   => __( 'Search Archive', 'the-post-grid' ),
+				'date-archive'     => __( 'Date Archive', 'the-post-grid' ),
+				'category-archive' => __( 'Category Archive', 'the-post-grid' ),
+				'tags-archive'     => __( 'Tags Archive', 'the-post-grid' ),
 			]
 		);
 	}
@@ -4975,7 +5891,7 @@ class Fns {
 		];
 
 		if ( isset( $icons[ $name ] ) ) {
-			self::print_html( $icons[ $name ] );
+			echo wp_kses( $icons[ $name ], self::tpg_allowed_html( 'svg' ) );
 		}
 	}
 

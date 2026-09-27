@@ -349,6 +349,7 @@ class GetPostsV1 {
 					'excerpt_type'      => $data['excerpt_type'],
 					'excerpt_limit'     => $data['excerpt_limit'],
 					'excerpt_more_text' => $data['excerpt_more_text'],
+					'keep_html'         => $data['keep_html'] ?? '',
 				];
 
 				$exerpt = Fns::get_the_excerpt( $id, $excerpt_args );

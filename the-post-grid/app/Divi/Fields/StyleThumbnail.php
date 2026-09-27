@@ -23,7 +23,7 @@ class StyleThumbnail {
 	public static function get_fields( $prefix = 'grid' ) {
 		$divi_fields = [
 			'image_width'  => [
-				'label'       => esc_html__( 'Image Width (Optional)', 'the-post-grid' ),
+				'label'       => esc_html__( 'Image Width', 'the-post-grid' ),
 				'type'        => 'select',
 				'options'     => [
 					'inherit' => esc_html__( 'Default', 'the-post-grid' ),

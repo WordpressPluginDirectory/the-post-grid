@@ -154,11 +154,11 @@ class NewsTicker extends Custom_Widget_Base {
 		}
 		$direction = '';
 		if ( 'vertical' === $data['direction'] ) {
-			$direction = 'data-swiper-parallax-y=-40';
+			$direction = ' data-swiper-parallax-y="-40"';
 		}
 
 		if ( 'horizontal' === $data['direction'] ) {
-			$direction = 'data-swiper-parallax=-120';
+			$direction = ' data-swiper-parallax="-120"';
 		}
 		?>
 		<div class="swiper tpg-news-ticker news-ticker-slider" data-swiper='<?php echo wp_json_encode( $swiperConfig ); ?>'>
@@ -169,7 +169,7 @@ class NewsTicker extends Custom_Widget_Base {
 					$query->the_post();
 					?>
 					<div class="swiper-slide">
-						<div style="--transitionDuration:<?php echo esc_attr( $data['delay'] ); ?>ms" class="ticker-content" <?php echo esc_attr( $direction ); ?>>
+						<div style="--transitionDuration:<?php echo esc_attr( $data['delay'] ); ?>ms" class="ticker-content"<?php echo $direction; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed markup, no user input. ?>>
 							<?php
 							if ( 'none' !== $data['post_icon'] ) {
 								$this->get_breaking_icon( $data['post_icon'] );
@@ -342,7 +342,7 @@ class NewsTicker extends Custom_Widget_Base {
 		$this->add_control(
 			'animation_control',
 			[
-				'label'     => esc_html__( 'Animation Control', 'textdomain' ),
+				'label'     => esc_html__( 'Animation Control', 'the-post-grid' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -817,7 +817,7 @@ class NewsTicker extends Custom_Widget_Base {
 		$this->add_control(
 			'title_icon',
 			[
-				'label'     => esc_html__( 'Choose Icon', 'textdomain' ),
+				'label'     => esc_html__( 'Choose Icon', 'the-post-grid' ),
 				'type'      => Controls_Manager::ICONS,
 				'condition' => [
 					'show_icon' => 'custom',
@@ -828,7 +828,7 @@ class NewsTicker extends Custom_Widget_Base {
 		$this->add_control(
 			'live_animation',
 			[
-				'label'        => esc_html__( 'Live Animation', 'textdomain' ),
+				'label'        => esc_html__( 'Live Animation', 'the-post-grid' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
 				'default'      => false,
 				'return_value' => 'yes',

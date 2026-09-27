@@ -303,6 +303,33 @@ class SettingsTabController {
 				'default' => [],
 			],
 
+			// Video Settings. Names match the Elementor controls so the same
+			// Fns::get_video_thumbnail() mapping serves every builder.
+			'video_show_thumb' => [
+				'type'    => 'string',
+				'default' => 'yes',
+			],
+
+			'video_play_mode' => [
+				'type'    => 'string',
+				'default' => 'popup',
+			],
+
+			'video_hover_play' => [
+				'type'    => 'string',
+				'default' => '',
+			],
+
+			'video_hover_poster' => [
+				'type'    => 'object',
+				'default' => [],
+			],
+
+			'video_controls' => [
+				'type'    => 'string',
+				'default' => 'yes',
+			],
+
 			// Post Excerpt Settings
 
 			'excerpt_type' => [
@@ -318,6 +345,11 @@ class SettingsTabController {
 			'excerpt_more_text' => [
 				'type'    => 'string',
 				'default' => '...',
+			],
+
+			'keep_html' => [
+				'type'    => 'string',
+				'default' => '',
 			],
 
 			// Post Meta Settings

@@ -39,10 +39,10 @@ class DiviFns {
 			$paged = get_query_var( 'paged' );
 		} elseif ( get_query_var( 'page' ) ) {
 			$paged = get_query_var( 'page' );
-		} elseif ( isset( $_GET['listing-page'] ) ) {
-			$paged = absint( empty( $_GET['listing-page'] ) ? 1 : $_GET['listing-page'] );
-		} elseif ( isset( $_GET['store-page'] ) ) {
-			$paged = absint( empty( $_GET['store-page'] ) ? 1 : $_GET['store-page'] );
+		} elseif ( isset( $_GET['listing-page'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only pagination.
+			$paged = absint( empty( $_GET['listing-page'] ) ? 1 : wp_unslash( $_GET['listing-page'] ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		} elseif ( isset( $_GET['store-page'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only pagination.
+			$paged = absint( empty( $_GET['store-page'] ) ? 1 : wp_unslash( $_GET['store-page'] ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			$paged = 1;
 		}
@@ -107,6 +107,7 @@ class DiviFns {
 			'excerpt_type',
 			'excerpt_limit',
 			'excerpt_more_text',
+			'keep_html',
 			'title_limit',
 			'title_limit_type',
 			'title_visibility_style',
@@ -547,10 +548,12 @@ class DiviFns {
 	}
 
 	public static function is_divi_builder_preview(): bool {
-		return (
-			( isset( $_GET['et_fb'] ) && $_GET['et_fb'] == '1' ) ||
-			( is_admin() && isset( $_GET['page'] ) && $_GET['page'] === 'et_theme_builder' )
-		);
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- screen detection only, nothing is written.
+		$et_fb = isset( $_GET['et_fb'] ) ? sanitize_text_field( wp_unslash( $_GET['et_fb'] ) ) : '';
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- screen detection only, nothing is written.
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+		return ( '1' === $et_fb || ( is_admin() && 'et_theme_builder' === $page ) );
 	}
 
 	/**

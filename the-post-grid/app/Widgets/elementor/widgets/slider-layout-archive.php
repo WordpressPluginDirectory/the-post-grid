@@ -232,17 +232,8 @@ class TPGSliderLayoutArchive extends Custom_Widget_Base {
 			 data-el-query=''
 		>
 			<?php
-
-			$settings = get_option( rtTPG()->options['settings'] );
-			if ( isset( $settings['tpg_load_script'] ) || isset( $settings['tpg_enable_preloader'] ) ) {
-				?>
-				<div id="bottom-script-loader" class="bottom-script-loader">
-					<div class="rt-ball-clip-rotate">
-						<div></div>
-					</div>
-				</div>
-				<?php
-			}
+			// Slider layout has its own loader (.tpg-el-main-wrapper.loading), so the
+			// global #bottom-script-loader preloader is intentionally not rendered here.
 
 			$wrapper_class   = [];
 			$wrapper_class[] = 'rt-content-loader grid-behaviour';

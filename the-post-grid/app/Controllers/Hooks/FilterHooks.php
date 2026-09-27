@@ -40,7 +40,6 @@ class FilterHooks {
 		add_filter( 'wp', [ __CLASS__, 'set_post_view_count' ], 9999 );
 		add_filter( 'body_class', [ __CLASS__, 'body_classes' ] );
 		add_filter( 'admin_body_class', [ __CLASS__, 'admin_body_class' ] );
-		add_filter( 'wp_kses_allowed_html', [ __CLASS__, 'custom_wpkses_post_tags' ], 10, 2 );
 
 		//Query args modify
 		add_filter( 'tpg_sc_query_args', [ __CLASS__, 'modify_query_args' ], 10 );
@@ -80,7 +79,7 @@ class FilterHooks {
 			$classes[] = 'tpg-myaccount-page';
 		}
 
-		$icon_font = Fns::tpg_option( 'tpg_icon_font' );
+		$icon_font = Fns::tpg_option( 'tpg_icon_font', 'flaticon' );
 		$classes[] = 'rttpg';
 		$classes[] = 'rttpg-' . RT_THE_POST_GRID_VERSION;
 		$classes[] = 'radius-frontend rttpg-body-wrap';
@@ -207,73 +206,6 @@ class FilterHooks {
 		return $content;
 	}
 
-
-	/**
-	 * Add exceptions in wp_kses_post tags.
-	 *
-	 * @param array $tags Allowed tags, attributes, and/or entities.
-	 * @param string $context Context to judge allowed tags by. Allowed values are 'post'.
-	 *
-	 * @return array
-	 */
-
-	public static function custom_wpkses_post_tags( $tags, $context ) {
-		if ( 'post' === $context ) {
-			$tags['iframe'] = [
-				'src'             => true,
-				'height'          => true,
-				'width'           => true,
-				'frameborder'     => true,
-				'allowfullscreen' => true,
-			];
-
-			$tags['input']  = [
-				'type'        => true,
-				'class'       => true,
-				'placeholder' => true,
-				'name'        => true,
-			];
-
-			$tags['style']  = [
-				'src' => true,
-			];
-
-			$tags['svg'] = [
-				'class'           => true,
-				'aria-hidden'     => true,
-				'aria-labelledby' => true,
-				'role'            => true,
-				'xmlns'           => true,
-				'width'           => true,
-				'height'          => true,
-				'viewbox'         => true,
-				'stroke'          => true,
-				'fill'            => true,
-			];
-
-			$tags['g'] = [
-				'fill' => true,
-			];
-
-			$tags['title'] = [
-				'title' => true,
-			];
-
-			$tags['path'] = [
-				'd'               => true,
-				'fill'            => true,
-				'stroke-width'    => true,
-				'stroke-linecap'  => true,
-				'stroke-linejoin' => true,
-				'fill-rule'       => true,
-				'clip-rule'       => true,
-				'stroke'          => true,
-				'transform'       => true,
-			];
-		}
-
-		return $tags;
-	}
 
 	/**
 	 * Prevent false 404 on paginated archive pages built with Elementor.

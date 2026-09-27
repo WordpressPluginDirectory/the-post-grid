@@ -18,7 +18,7 @@ class RestApi {
 		new GetTickerPostsV1();
 		new ACFV1();
 		new FrontEndFilterV1();
-		//new ElImport();
+		new ElImport();
 		new GetCategories();
 		new GetBuilderData();
 		new GetTermObject();
@@ -47,7 +47,7 @@ class RestApi {
 					'get_callback'    => [ $this, 'rttpg_get_featured_image_url' ],
 					'update_callback' => null,
 					'schema'          => [
-						'description' => __( 'Different sized featured images' ),
+						'description' => __( 'Different sized featured images', 'the-post-grid' ),
 						'type'        => 'array',
 					],
 				]
@@ -83,7 +83,7 @@ class RestApi {
 					'get_callback'    => [ $this, 'rttpg_get_category_list' ],
 					'update_callback' => null,
 					'schema'          => [
-						'description' => __( 'Category list links' ),
+						'description' => __( 'Category list links', 'the-post-grid' ),
 						'type'        => 'string',
 					],
 				]

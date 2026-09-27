@@ -74,7 +74,7 @@ class EidSpecial {
             jQuery(document).on('click', '.ramadan-notice .notice-dismiss', function () {
                 jQuery.post(ajaxurl, {
                     action: 'dismiss_eid_notice',
-                    security: '<?php echo wp_create_nonce( "dismiss_eid_notice" ); ?>',
+                    security: '<?php echo esc_js( wp_create_nonce( 'dismiss_eid_notice' ) ); ?>',
                 })
             })
         </script>

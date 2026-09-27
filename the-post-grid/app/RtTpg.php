@@ -217,24 +217,34 @@ if ( ! class_exists( RtTpg::class ) ) {
 		 */
 		public function on_plugins_loaded() {
 			do_action( 'rttpg_loaded', $this );
-			if ( is_user_logged_in() && current_user_can( 'deactivate_plugins' ) ) {
-				if ( isset( $_GET['rttpg'] ) && $_GET['rttpg'] == '0' ) {
-					$active_plugins = get_option( 'active_plugins' );
-
-					$plugins_to_deactivate = [
-						'the-post-grid/the-post-grid.php',
-						'the-post-grid-pro/the-post-grid-pro.php',
-					];
-
-					foreach ( $plugins_to_deactivate as $plugin ) {
-						if ( in_array( $plugin, $active_plugins ) ) {
-							deactivate_plugins( $plugin );
-						}
-					}
-
-					wp_redirect( remove_query_arg( 'rttpg' ) );
-					exit;
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- the nonce is verified below, before anything is deactivated.
+			if ( isset( $_GET['rttpg'] ) && '0' === $_GET['rttpg'] ) {
+				if ( ! is_user_logged_in() || ! current_user_can( 'deactivate_plugins' ) ) {
+					return;
 				}
+
+				// Without this a crafted link would let anyone deactivate the
+				// plugin on behalf of a logged-in administrator. When the nonce
+				// is missing WordPress shows its own confirmation screen, so the
+				// bare ?rttpg=0 recovery link still works, it just has to be
+				// confirmed.
+				check_admin_referer( 'rttpg_deactivate' );
+
+				$active_plugins = get_option( 'active_plugins' );
+
+				$plugins_to_deactivate = [
+					'the-post-grid/the-post-grid.php',
+					'the-post-grid-pro/the-post-grid-pro.php',
+				];
+
+				foreach ( $plugins_to_deactivate as $plugin ) {
+					if ( in_array( $plugin, $active_plugins, true ) ) {
+						deactivate_plugins( $plugin );
+					}
+				}
+
+				wp_safe_redirect( remove_query_arg( [ 'rttpg', '_wpnonce' ] ) );
+				exit;
 			}
 		}
 

@@ -162,7 +162,7 @@ class rtTPGElementorHelper {
 			[
 				'label'       => esc_html__( 'Display Per Page', 'the-post-grid' ),
 				'type'        => Controls_Manager::NUMBER,
-				'description' => esc_html__( 'Enter how may posts will display per page. It works only for the the pagination and ajax-filer.', 'the-post-grid' ),
+				'description' => esc_html__( 'Enter how many posts each page shows. It applies to pagination and the Ajax filter only.', 'the-post-grid' ),
 			]
 		);
 
@@ -700,7 +700,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'offset_img_position',
 			[
-				'label'        => esc_html__( 'Offset Image Position', 'the-post-grid' ),
+				'label'        => esc_html__( 'Offset Img Position', 'the-post-grid' ),
 				'type'         => Controls_Manager::SELECT,
 				'default'      => 'image-left',
 				'options'      => [
@@ -746,12 +746,17 @@ class rtTPGElementorHelper {
 			]
 		);
 
+		// The value is the grid span used for the rt-col-* class, not the column
+		// count: 12 / columns. Five does not divide into twelve, so it uses the
+		// 24 sentinel the stylesheet already maps to a 20% wide column.
 		$column_options = [
 			'0'  => esc_html__( 'Default from layout', 'the-post-grid' ),
 			'12' => esc_html__( '1 Columns', 'the-post-grid' ),
 			'6'  => esc_html__( '2 Columns', 'the-post-grid' ),
 			'4'  => esc_html__( '3 Columns', 'the-post-grid' ),
 			'3'  => esc_html__( '4 Columns', 'the-post-grid' ),
+			'24' => esc_html__( '5 Columns', 'the-post-grid' ),
+			'2'  => esc_html__( '6 Columns', 'the-post-grid' ),
 		];
 
 		if ( 'grid' === $prefix ) {
@@ -1022,7 +1027,7 @@ class rtTPGElementorHelper {
 			'block_primary_color',
 			[
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Primary Color', 'raw-addons' ),
+				'label'     => esc_html__( 'Primary Color', 'the-post-grid' ),
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-primary-color: {{VALUE}}',
 				],
@@ -1033,7 +1038,7 @@ class rtTPGElementorHelper {
 			'block_secondary_color',
 			[
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Secondary Color', 'raw-addons' ),
+				'label'     => esc_html__( 'Secondary Color', 'the-post-grid' ),
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-secondary-color: {{VALUE}}',
 				],
@@ -1806,7 +1811,7 @@ class rtTPGElementorHelper {
 			'block_primary_color',
 			[
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Primary Color', 'raw-addons' ),
+				'label'     => esc_html__( 'Primary Color', 'the-post-grid' ),
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-primary-color: {{VALUE}}',
 				],
@@ -1817,7 +1822,7 @@ class rtTPGElementorHelper {
 			'block_secondary_color',
 			[
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Secondary Color', 'raw-addons' ),
+				'label'     => esc_html__( 'Secondary Color', 'the-post-grid' ),
 				'selectors' => [
 					'{{WRAPPER}} .tpg-el-main-wrapper' => '--tpg-secondary-color: {{VALUE}}',
 				],
@@ -1856,6 +1861,23 @@ class rtTPGElementorHelper {
 			]
 		);
 
+		$ref->add_control(
+			'pagination_per_page_notice',
+			[
+				'type'            => Controls_Manager::RAW_HTML,
+				'raw'             => sprintf(
+					/* translators: 1: Display Per Page control label, 2: Query Build section label. */
+					esc_html__( 'How many posts each page shows comes from %1$s under %2$s. Leave it empty and the WordPress Settings > Reading value is used instead.', 'the-post-grid' ),
+					'<strong>' . esc_html__( 'Display Per Page', 'the-post-grid' ) . '</strong>',
+					'<strong>' . esc_html__( 'Query Build', 'the-post-grid' ) . '</strong>'
+				),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'       => [
+					'show_pagination' => 'show',
+				],
+			]
+		);
+
 		$default_pagination = 'pagination';
 		if ( 'archive' == $layout_type ) {
 			$pagination_type    = [];
@@ -1884,6 +1906,22 @@ class rtTPGElementorHelper {
 				'options'     => $pagination_type,
 				'description' => $ref->get_pro_message( 'loadmore and ajax pagination' ),
 				'condition'   => [
+					'show_pagination' => 'show',
+				],
+			]
+		);
+
+		$ref->add_control(
+			'pagination_items',
+			[
+				'label'       => esc_html__( 'Pagination Items', 'the-post-grid' ),
+				'type'        => Controls_Manager::NUMBER,
+				'min'         => 3,
+				'max'         => 51,
+				'step'        => 2,
+				'description' => esc_html__( 'How many page numbers to show at once. Leave empty to use the global setting.', 'the-post-grid' ),
+				'condition'   => [
+					'pagination_type' => 'pagination',
 					'show_pagination' => 'show',
 				],
 			]
@@ -2590,7 +2628,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'hover_animation',
 			[
-				'label'        => esc_html__( 'Image Hover Animation', 'the-post-grid' ),
+				'label'        => esc_html__( 'Img Hover Animation', 'the-post-grid' ),
 				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
@@ -2664,7 +2702,114 @@ class rtTPGElementorHelper {
 			]
 		);
 
+		self::video_settings( $ref );
+
 		$ref->end_controls_section();
+	}
+
+	/**
+	 * Video Settings.
+	 *
+	 * Printed at the end of the Thumbnail section. These apply to every video
+	 * the plugin supports (YouTube, Vimeo and self hosted MP4), so the controls
+	 * deliberately do not branch on the provider. They only show up once a post
+	 * actually carries a video URL in its Video Thumbnail meta box.
+	 *
+	 * @param object $ref Widget instance.
+	 *
+	 * @return void
+	 */
+	public static function video_settings( $ref ) {
+		$hide_class = rtTPG()->hasPro() ? '' : 'the-post-grid-field-hide';
+
+		$ref->add_control(
+			'video_settings_heading',
+			[
+				'label'     => esc_html__( 'Video Settings', 'the-post-grid' ) . $ref->pro_label,
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'classes'   => 'tpg-control-type-heading ' . $hide_class,
+			]
+		);
+
+		$ref->add_control(
+			'video_show_thumb',
+			[
+				'label'        => esc_html__( 'Show Thumbnail', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => esc_html__( 'Turn this off to embed the player straight away, with no poster image and no play button.', 'the-post-grid' ),
+				'classes'      => $hide_class,
+			]
+		);
+
+		$ref->add_control(
+			'video_play_mode',
+			[
+				'label'       => esc_html__( 'Play Mode', 'the-post-grid' ),
+				'type'        => Controls_Manager::SELECT,
+				'default'     => 'popup',
+				'options'     => [
+					'popup'  => esc_html__( 'Open in popup', 'the-post-grid' ),
+					'inline' => esc_html__( 'Play in place', 'the-post-grid' ),
+				],
+				'description' => esc_html__( 'What happens when the play button is clicked.', 'the-post-grid' ),
+				'condition'   => [
+					'video_show_thumb' => 'yes',
+				],
+				'classes'     => $hide_class,
+			]
+		);
+
+		$ref->add_control(
+			'video_hover_play',
+			[
+				'label'        => esc_html__( 'Play on Hover', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'description'  => esc_html__( 'Preview the video muted while the card is hovered.', 'the-post-grid' ),
+				// Not offered with the popup: the hover preview sits above the
+				// play button, so the popup could never be opened again.
+				'condition'    => [
+					'video_show_thumb' => 'yes',
+					'video_play_mode'  => 'inline',
+				],
+				'classes'      => $hide_class,
+			]
+		);
+
+		$ref->add_control(
+			'video_hover_poster',
+			[
+				'label'       => esc_html__( 'Fallback Image', 'the-post-grid' ),
+				'type'        => Controls_Manager::MEDIA,
+				'description' => esc_html__( 'Last resort for the card image. The featured image is used first, then the thumbnail YouTube or Vimeo provides, then this.', 'the-post-grid' ),
+				'condition'   => [
+					'video_show_thumb' => 'yes',
+				],
+				'classes'     => $hide_class,
+			]
+		);
+
+		$ref->add_control(
+			'video_controls',
+			[
+				'label'        => esc_html__( 'Show Controls', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => esc_html__( 'Player controls. The hover preview never shows them.', 'the-post-grid' ),
+				'classes'      => $hide_class,
+			]
+		);
 	}
 
 	/**
@@ -2888,6 +3033,22 @@ class rtTPGElementorHelper {
 				'type'      => Controls_Manager::TEXT,
 				'default'   => '...',
 				'condition' => [
+					'excerpt_type' => [ 'character', 'word' ],
+				],
+			]
+		);
+
+		$ref->add_control(
+			'keep_html',
+			[
+				'label'        => esc_html__( 'Keep HTML Tags', 'the-post-grid' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'the-post-grid' ),
+				'label_off'    => esc_html__( 'No', 'the-post-grid' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'description'  => esc_html__( 'Keep lists, line breaks and basic formatting in the excerpt.', 'the-post-grid' ),
+				'condition'    => [
 					'excerpt_type' => [ 'character', 'word' ],
 				],
 			]
@@ -3297,7 +3458,7 @@ class rtTPGElementorHelper {
 			$ref->add_control(
 				'show_cat_icon',
 				[
-					'label'        => esc_html__( 'Show Over Image Category Icon', 'the-post-grid' ),
+					'label'        => esc_html__( 'Over Image Cat Icon', 'the-post-grid' ),
 					'type'         => Controls_Manager::SWITCHER,
 					'label_on'     => esc_html__( 'Show', 'the-post-grid' ),
 					'label_off'    => esc_html__( 'Hide', 'the-post-grid' ),
@@ -3689,6 +3850,7 @@ class rtTPGElementorHelper {
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'description' => sprintf(
 					wp_kses(
+						/* translators: %s: link to the PHP date format manual. */
 						__( 'Use PHP date format — e.g. <code>Y-m-d g:i a</code>. <a href="%s" target="_blank">Learn more</a>', 'the-post-grid' ),
 						[ 'code' => [], 'a' => [ 'href' => [], 'target' => [] ] ]
 					),
@@ -4362,7 +4524,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'image_width',
 			[
-				'label'     => esc_html__( 'Image Width (Optional)', 'the-post-grid' ),
+				'label'     => esc_html__( 'Image Width', 'the-post-grid' ),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'inherit',
 				'options'   => [
@@ -4775,7 +4937,7 @@ class rtTPGElementorHelper {
 		$ref->add_control(
 			'on_hover_overlay',
 			[
-				'label'        => esc_html__( 'Overlay Height on hover', 'the-post-grid' ),
+				'label'        => esc_html__( 'Overlay Height:hover', 'the-post-grid' ),
 				'type'         => Controls_Manager::SELECT,
 				'default'      => 'default',
 				'options'      => [
@@ -7603,7 +7765,7 @@ class rtTPGElementorHelper {
 			$ref->add_control(
 				'is_box_border',
 				[
-					'label'        => esc_html__( 'Enable Border & Box Shadow', 'the-post-grid' ),
+					'label'        => esc_html__( 'Border & Box shadow', 'the-post-grid' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'enable',
 					'options'      => [
@@ -7626,7 +7788,7 @@ class rtTPGElementorHelper {
 			$ref->add_control(
 				'box_border_bottom',
 				[
-					'label'        => esc_html__( 'Enable Border Bottom', 'the-post-grid' ),
+					'label'        => esc_html__( 'Border Bottom', 'the-post-grid' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'disable',
 					'options'      => [
@@ -8694,7 +8856,7 @@ class rtTPGElementorHelper {
 			'dots_wrap_bg',
 			[
 				'type'      => Controls_Manager::COLOR,
-				'label'     => esc_html__( 'Dots Wrapper Background', 'the-post-grid' ),
+				'label'     => esc_html__( 'Dots Wrapper BG', 'the-post-grid' ),
 				'selectors' => [
 					'{{WRAPPER}}.slider-dots-style-background .tpg-el-main-wrapper .swiper-pagination' => 'background-color: {{VALUE}}',
 				],
@@ -8899,10 +9061,10 @@ class rtTPGElementorHelper {
 			\Elementor\Group_Control_Background::get_type(),
 			[
 				'name'           => 'thumb_wrapper_bg',
-				'label'          => esc_html__( 'Thumb Wrapper Background', 'the-post-grid' ),
+				'label'          => esc_html__( 'Thumb Wrapper BG', 'the-post-grid' ),
 				'fields_options' => [
 					'background' => [
-						'label' => esc_html__( 'Thumb Wrapper Background', 'the-post-grid' ),
+						'label' => esc_html__( 'Thumb Wrapper BG', 'the-post-grid' ),
 					],
 				],
 				'types'          => [ 'classic', 'gradient' ],

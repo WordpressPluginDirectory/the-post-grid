@@ -15,7 +15,7 @@ class AIIntegration {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'chatgpt_callback' ],
 				'permission_callback' => function () {
-					return true;
+					return current_user_can( 'edit_posts' );
 				},
 			]
 		);
@@ -32,7 +32,7 @@ class AIIntegration {
 		$aiType = ! empty( $data['aiType'] ) ? sanitize_text_field( $data['aiType'] ) : '';
 
 		if ( empty( $aiType ) ) {
-			return new \WP_Error( 'rttpg_error', esc_html__( 'AI Type is empty', 'the-post-grid-pro' ), [ 'status' => 400 ] );
+			return new \WP_Error( 'rttpg_error', esc_html__( 'AI Type is empty', 'the-post-grid' ), [ 'status' => 400 ] );
 		}
 
 		if ( 'chatgpt' === $aiType ) {
@@ -75,7 +75,15 @@ class AIIntegration {
 
 		if ( ! $api_key ) {
 			$send_data['status']  = 'error';
-			$send_data['content'] = sprintf( '<h3>%s</h3>', esc_html__( "Please Enter {$aiType} API key to [ The Post Grid > Settings > " . ucfirst( $aiType ) . ' ]', 'the-post-grid-pro' ) );
+			$send_data['content'] = sprintf(
+				'<h3>%s</h3>',
+				sprintf(
+					/* translators: 1: AI service name, 2: settings screen name. */
+					esc_html__( 'Please enter the %1$s API key in [ The Post Grid > Settings > %2$s ]', 'the-post-grid' ),
+					esc_html( $aiType ),
+					esc_html( ucfirst( $aiType ) )
+				)
+			);
 			return rest_ensure_response( $send_data );
 		}
 
@@ -106,7 +114,7 @@ class AIIntegration {
 
 		if ( is_wp_error( $response ) ) {
 			$send_data['status']  = 'error';
-			$send_data['content'] = '<h3>' . esc_html__( 'Something is wrong...', 'the-post-grid-pro' ) . '</h3>';
+			$send_data['content'] = '<h3>' . esc_html__( 'Something is wrong...', 'the-post-grid' ) . '</h3>';
 			return rest_ensure_response( $send_data );
 		}
 
@@ -143,16 +151,19 @@ class AIIntegration {
 		$direction = [];
 
 		if ( 'html' === $writingStyle ) {
-			$text        = sprintf( esc_html( 'Write a post content on this topic- %s' ), $text );
-			$direction[] = esc_html__( 'write everything in html tag, do not add any style attribute', 'the-post-grid-pro' );
+			/* translators: %s: topic the content should be written about. */
+			$text        = sprintf( esc_html__( 'Write a post content on this topic- %s', 'the-post-grid' ), $text );
+			$direction[] = esc_html__( 'write everything in html tag, do not add any style attribute', 'the-post-grid' );
 
 			if ( $headingNumber ) {
-				$direction[] = sprintf( esc_html__( 'and use %s %s html headings for the content', 'the-post-grid-pro' ), $headingNumber, $headingTag );
+				/* translators: 1: number of headings, 2: heading tag such as h2. */
+				$direction[] = sprintf( esc_html__( 'and use %1$s %2$s html headings for the content', 'the-post-grid' ), $headingNumber, $headingTag );
 			}
 		}
 
 		if ( $language ) {
-			$direction[] = sprintf( esc_html__( 'write everything in %s language', 'the-post-grid-pro' ), $language );
+			/* translators: %s: output language. */
+			$direction[] = sprintf( esc_html__( 'write everything in %s language', 'the-post-grid' ), $language );
 		}
 
 		if ( ! empty( $direction ) ) {

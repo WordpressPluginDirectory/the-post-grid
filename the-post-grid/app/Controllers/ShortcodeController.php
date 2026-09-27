@@ -88,6 +88,30 @@ class ShortcodeController {
 		}
 	}
 
+	/**
+	 * Is this ID really one of the plugin's grids?
+	 *
+	 * The shortcode used to accept any existing post ID and then read that
+	 * post's whole meta set. Grid settings are stored in ordinary, unprotected
+	 * meta keys, so a contributor could write them to a post they own and have
+	 * the shortcode render their values. Only a real, non-trashed grid post is
+	 * accepted now, and creating one needs the page editing capabilities the
+	 * rttpg post type is registered with.
+	 *
+	 * @param int $sc_id Post ID given in the shortcode.
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_grid( $sc_id ) {
+		$post = get_post( $sc_id );
+
+		if ( ! $post || rtTPG()->post_type !== $post->post_type ) {
+			return false;
+		}
+
+		return ! in_array( $post->post_status, [ 'trash', 'auto-draft' ], true );
+	}
+
 	public function the_post_grid_short_code( $atts, $content = null ) {
 		$rand     = wp_rand();
 		$layoutID = 'rt-tpg-container-' . $rand;
@@ -100,15 +124,19 @@ class ShortcodeController {
 			$atts,
 			'the-post-grid'
 		);
-		$scID     = $atts['id'];
+		$scID     = absint( $atts['id'] );
 
-		if ( $scID && ! is_null( get_post( $scID ) ) ) {
+		if ( $scID && self::is_valid_grid( $scID ) ) {
 			$scMeta    = get_post_meta( $scID );
 			$layout    = ( isset( $scMeta['layout'][0] ) ? $scMeta['layout'][0] : 'layout1' );
 			$gridStyle = ( isset( $scMeta['grid_style'][0] ) ? $scMeta['grid_style'][0] : 'even' );
 
 			if ( ! in_array( $layout, array_keys( Options::rtTPGLayouts() ) ) ) {
 				$layout = 'layout1';
+			}
+
+			if ( ! array_key_exists( $gridStyle, Options::scGridOpt() ) ) {
+				$gridStyle = 'even';
 			}
 
 			$isIsotope   = preg_match( '/isotope/', $layout );
@@ -150,6 +178,7 @@ class ShortcodeController {
 			$arg['excerpt_limit']       = ( isset( $scMeta['excerpt_limit'][0] ) ? absint( $scMeta['excerpt_limit'][0] ) : 0 );
 			$arg['title_limit']         = ( isset( $scMeta['tpg_title_limit'][0] ) ? absint( $scMeta['tpg_title_limit'][0] ) : 0 );
 			$arg['excerpt_more_text']   = ( isset( $scMeta['tgp_excerpt_more_text'][0] ) ? $scMeta['tgp_excerpt_more_text'][0] : null );
+			$arg['keep_html']           = ( ! empty( $scMeta['tgp_keep_html'][0] ) ? $scMeta['tgp_keep_html'][0] : '' );
 			$arg['read_more_text']      = ( ! empty( $scMeta['tgp_read_more_text'][0] ) ? $scMeta['tgp_read_more_text'][0] : esc_html__( 'Read More', 'the-post-grid' ) );
 			$arg['show_all_text']       = ( ! empty( $scMeta['tpg_show_all_text'][0] ) ? $scMeta['tpg_show_all_text'][0] : esc_html__( 'Show all', 'the-post-grid' ) );
 			$arg['tpg_title_position']  = isset( $scMeta['tpg_title_position'][0] ) && ! empty( $scMeta['tpg_title_position'][0] ) ? $scMeta['tpg_title_position'][0] : null;
@@ -195,6 +224,10 @@ class ShortcodeController {
 			$pagination             = ! empty( $scMeta['pagination'][0] );
 			$posts_loading_type     = ( ! empty( $scMeta['posts_loading_type'][0] ) ? $scMeta['posts_loading_type'][0] : 'pagination' );
 
+			if ( ! array_key_exists( $posts_loading_type, Options::postLoadingType() ) ) {
+				$posts_loading_type = 'pagination';
+			}
+
 			if ( ! $isCarousel ) {
 				$posts_per_page         = ( isset( $scMeta['posts_per_page'][0] ) ? intval( $scMeta['posts_per_page'][0] ) : $limit );
 				$args['posts_per_page'] = $posts_per_page;
@@ -214,7 +247,7 @@ class ShortcodeController {
 
 			// Advanced Filters.
 			$adv_filter        = get_post_meta( $scID, 'post_filter' );
-			$taxFilter         = get_post_meta( $scID, 'tgp_filter_taxonomy', true );
+			$taxFilter         = sanitize_key( get_post_meta( $scID, 'tgp_filter_taxonomy', true ) );
 			$taxHierarchical   = get_post_meta( $scID, 'tgp_filter_taxonomy_hierarchical', true );
 			$taxFilterTerms    = [];
 			$taxFilterOperator = 'IN';
@@ -361,11 +394,15 @@ class ShortcodeController {
 
 			// Validation.
 			$containerDataAttr = null;
-			$containerDataAttr .= " data-layout='{$layout}' data-grid-style='{$gridStyle}' data-desktop-col='{$dCol}'  data-tab-col='{$tCol}'  data-mobile-col='{$mCol}'";
+			$containerDataAttr .= ' data-layout=\'' . esc_attr( $layout ) . '\' data-grid-style=\'' . esc_attr( $gridStyle ) . '\''
+					. " data-desktop-col='{$dCol}'  data-tab-col='{$tCol}'  data-mobile-col='{$mCol}'";
 
-			$dCol = $dCol == 5 ? '24' : round( 12 / $dCol );
-			$tCol = $dCol == 5 ? '24' : round( 12 / $tCol );
-			$mCol = $dCol == 5 ? '24' : round( 12 / $mCol );
+			// Each breakpoint has to test its own value. These used to all read
+			// $dCol, which line one had already overwritten, so picking five
+			// columns for tablet or mobile silently produced six.
+			$dCol = 5 == $dCol ? '24' : round( 12 / $dCol );
+			$tCol = 5 == $tCol ? '24' : round( 12 / $tCol );
+			$mCol = 5 == $mCol ? '24' : round( 12 / $mCol );
 
 			if ( $isCarousel ) {
 				$dCol = $tCol = $mCol = 12;
@@ -470,7 +507,7 @@ class ShortcodeController {
 						$arg['anchorClass'] .= ' tpg-multi-popup';
 					}
 				} else {
-					$arg['link_target'] = ! empty( $scMeta['link_target'][0] ) ? " target='{$scMeta['link_target'][0]}'" : null;
+					$arg['link_target'] = Fns::link_attributes( $scMeta['link_target'][0] ?? '' );
 				}
 			}
 
@@ -559,7 +596,7 @@ class ShortcodeController {
 			// Start layout.
 			$html .= Fns::layoutStyle( $layoutID, $scMeta, $layout, $scID );
 
-			$containerDataAttr .= " data-sc-id='{$scID}'";
+			$containerDataAttr .= " data-sc-id='" . absint( $scID ) . "'";
 
 			if ( isset( $settings['tpg_load_script'] ) ) {
 				$parentClass .= ' loading';
@@ -594,7 +631,7 @@ class ShortcodeController {
 			$heading_tag       = isset( $scMeta['tpg_heading_tag'][0] ) ? esc_attr( $scMeta['tpg_heading_tag'][0] ) : 'h2';
 			$heading_style     = isset( $scMeta['tpg_heading_style'][0] ) && ! empty( $scMeta['tpg_heading_style'][0] ) ? esc_attr( $scMeta['tpg_heading_style'][0] ) : 'style1';
 			$heading_alignment = isset( $scMeta['tpg_heading_alignment'][0] ) ? esc_attr( $scMeta['tpg_heading_alignment'][0] ) : '';
-			$heading_link      = isset( $scMeta['tpg_heading_link'][0] ) ? esc_attr( $scMeta['tpg_heading_link'][0] ) : '';
+			$heading_link      = isset( $scMeta['tpg_heading_link'][0] ) ? esc_url( $scMeta['tpg_heading_link'][0] ) : '';
 
 			if ( ! empty( $arg['items'] ) && in_array( 'heading', $arg['items'] ) ) {
 				$html .= sprintf( '<div class="tpg-widget-heading-wrapper heading-%1$s %2$s">', $heading_style, $heading_alignment );
@@ -881,7 +918,7 @@ class ShortcodeController {
 				if ( in_array( '_order_by', $filters ) ) {
 					$wooFeature     = ( $postType == 'product' ? true : false );
 					$orders         = Options::rtPostOrderBy( $wooFeature );
-					$action_orderby = ( ! empty( $args['orderby'] ) ? trim( $args['orderby'] ) : 'none' );
+					$action_orderby = ( ! empty( $args['orderby'] ) ? sanitize_key( trim( $args['orderby'] ) ) : 'none' );
 
 					if ( $action_orderby == 'ID' ) {
 						$action_orderby = 'title';
@@ -906,7 +943,7 @@ class ShortcodeController {
 					$html .= '<span class="order-by-dropdown rt-filter-dropdown">';
 
 					foreach ( $orders as $orderKey => $order ) {
-						$html .= '<span class="order-by-dropdown-item rt-filter-dropdown-item" data-order-by="' . $orderKey . '">' . $order . '</span>';
+						$html .= '<span class="order-by-dropdown-item rt-filter-dropdown-item" data-order-by="' . esc_attr( $orderKey ) . '">' . esc_html( $order ) . '</span>';
 					}
 
 					$html .= '</span>';
@@ -914,7 +951,7 @@ class ShortcodeController {
 				}
 
 				if ( in_array( '_sort_order', $filters ) ) {
-					$action_order = ( ! empty( $args['order'] ) ? strtoupper( trim( $args['order'] ) ) : 'DESC' );
+					$action_order = ( ! empty( $args['order'] ) && 'ASC' === strtoupper( trim( $args['order'] ) ) ) ? 'ASC' : 'DESC';
 					$html         .= '<div class="rt-filter-item-wrap rt-sort-order-action">';
 					$html         .= "<span class='rt-sort-order-action-arrow' data-sort-order='{$action_order}'>&nbsp;<span></span></span>";
 					$html         .= '</div>';
@@ -1237,7 +1274,8 @@ class ShortcodeController {
 					$hide = ( $gridQuery->max_num_pages < 2 ? ' rt-hidden-elm' : null );
 					if ( $posts_loading_type == 'pagination' ) {
 						if ( ( $isGrid || $isWooCom || $isEdd ) && empty( $filters ) ) {
-							$htmlUtility .= Fns::rt_pagination( $gridQuery );
+							$pagination_items = isset( $scMeta['pagination_items'][0] ) ? $scMeta['pagination_items'][0] : 0;
+							$htmlUtility     .= Fns::rt_pagination( $gridQuery, Fns::pagination_range_from_items( $pagination_items ) );
 						}
 					} elseif ( $posts_loading_type == 'pagination_ajax' && ! $isIsotope ) {
 						$htmlUtility .= "<div class='rt-page-numbers'></div>";
@@ -1266,7 +1304,9 @@ class ShortcodeController {
 				if ( $layout == 'layout4' ) {
 					$l4toggle = "data-l4toggle='{$this->l4toggle}'";
 				}
-				$html .= "<div class='rt-pagination-wrap' data-total-pages='{$gridQuery->max_num_pages}' data-posts-per-page='{$args['posts_per_page']}' data-type='{$posts_loading_type}' {$l4toggle} >" . $htmlUtility . '</div>';
+				$html .= "<div class='rt-pagination-wrap' data-total-pages='" . absint( $gridQuery->max_num_pages )
+						. "' data-posts-per-page='" . absint( $args['posts_per_page'] )
+						. "' data-type='" . esc_attr( $posts_loading_type ) . "' {$l4toggle} >" . $htmlUtility . '</div>';
 			}
 
 			$html .= '</div>'; // container rt-tpg.

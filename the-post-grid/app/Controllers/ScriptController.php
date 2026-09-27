@@ -85,11 +85,11 @@ class ScriptController {
 		];
 
 		// register acf styles.
-		$styles['rt-fontawsome'] = rtTPG()->get_assets_uri( 'vendor/font-awesome/css/font-awesome.min.css' );
-
-		if ( Fns::tpg_option( 'tpg_icon_font' ) === 'flaticon' ) {
+		if ( Fns::tpg_option( 'tpg_icon_font', 'flaticon' ) === 'flaticon' ) {
 			$styles['rt-flaticon'] = rtTPG()->get_assets_uri( 'vendor/flaticon/flaticon_the_post_grid.css' );
-		}
+		} else {
+            $styles['rt-fontawsome'] = rtTPG()->get_assets_uri( 'vendor/font-awesome/css/font-awesome.min.css' );
+        }
 
 		// Plugin specific css.
 		$styles['rt-tpg']           = rtTPG()->tpg_can_be_rtl( 'css/thepostgrid' );

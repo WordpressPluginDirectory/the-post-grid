@@ -38,7 +38,7 @@ class StyleCard {
 
 		if ( 'grid_hover' !== $prefix ) {
 			$divi_fields['sticky_item_background'] = [
-				'label'       => esc_html__( 'Sticky Background', 'the-post-grid' ),
+				'label'       => esc_html__( 'Sticky BG', 'the-post-grid' ),
 				'type'        => 'color-alpha',
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'tpg_card_style',

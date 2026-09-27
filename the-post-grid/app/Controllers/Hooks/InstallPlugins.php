@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Plugin_Upgrader;
-use RT\ThePostGrid\Helpers\Fns;
 use WP_Ajax_Upgrader_Skin;
 use WpOrg\Requests\Exception;
 
@@ -31,21 +30,18 @@ class InstallPlugins {
 		// Step 4: PHP — AJAX Handlers to Install and Activate Plugin
 
 		// Handle plugin installation via AJAX
-		add_action( 'wp_ajax_install_plugin', function() {
+		add_action( 'wp_ajax_rttpg_install_plugin', function() {
 			// Check permissions and nonce
-			$nonce_action = isset( $_POST['nonceID'] ) ? sanitize_text_field( $_POST['nonceID'] ) : '';
-			$nonce_value  = isset( $_POST['nonce'] ) ? sanitize_text_field( $_POST['nonce'] ) : '';
-
-			if ( ! current_user_can( 'install_plugins' ) || ! Fns::verifyNonce()  ) {
-				wp_send_json_error( [ 'message' => 'Permission denied' ] );
+			if ( ! current_user_can( 'install_plugins' ) || ! check_ajax_referer( rtTPG()->nonceText(), rtTPG()->nonceId(), false ) ) {
+				wp_send_json_error( [ 'message' => esc_html__( 'Permission denied', 'the-post-grid' ) ] );
 			}
 
 
 			if ( empty( $_POST['slug'] ) ) {
-				wp_send_json_error( [ 'message' => 'Missing plugin slug' ] );
+				wp_send_json_error( [ 'message' => esc_html__( 'Missing plugin slug', 'the-post-grid' ) ] );
 			}
 
-			$slug = sanitize_key( $_POST['slug'] );
+			$slug = sanitize_key( wp_unslash( $_POST['slug'] ) );
 
 			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -66,7 +62,7 @@ class InstallPlugins {
 			// Ensure filesystem credentials are set up
 			$creds = request_filesystem_credentials( '', '', false, false, [] );
 			if ( ! WP_Filesystem( $creds ) ) {
-				wp_send_json_error( [ 'message' => 'Filesystem credentials error.' ] );
+				wp_send_json_error( [ 'message' => esc_html__( 'Filesystem credentials error.', 'the-post-grid' ) ] );
 			}
 
 			// Install the plugin
@@ -78,7 +74,7 @@ class InstallPlugins {
 			}
 
 			if ( ! $upgrader->plugin_info() ) {
-				wp_send_json_error( [ 'message' => 'Plugin installation failed.' ] );
+				wp_send_json_error( [ 'message' => esc_html__( 'Plugin installation failed.', 'the-post-grid' ) ] );
 			}
 
 			$plugin_file = $upgrader->plugin_info(); // e.g., classified-listing/classified-listing.php
@@ -86,19 +82,16 @@ class InstallPlugins {
 		} );
 
 		// Handle plugin activation via AJAX
-		add_action( 'wp_ajax_activate_plugin', function() {
-			$nonce_action = isset( $_POST['nonceID'] ) ? sanitize_text_field( $_POST['nonceID'] ) : '';
-			$nonce_value  = isset( $_POST['nonce'] ) ? sanitize_text_field( $_POST['nonce'] ) : '';
-
-			if ( ! current_user_can( 'install_plugins' ) || ! Fns::verifyNonce()  ) {
-				wp_send_json_error( [ 'message' => 'Permission denied' ] );
+		add_action( 'wp_ajax_rttpg_activate_plugin', function() {
+			if ( ! current_user_can( 'install_plugins' ) || ! check_ajax_referer( rtTPG()->nonceText(), rtTPG()->nonceId(), false ) ) {
+				wp_send_json_error( [ 'message' => esc_html__( 'Permission denied', 'the-post-grid' ) ] );
 			}
 
 			if ( empty( $_POST['plugin'] ) ) {
-				wp_send_json_error( [ 'message' => 'Missing plugin path' ] );
+				wp_send_json_error( [ 'message' => esc_html__( 'Missing plugin path', 'the-post-grid' ) ] );
 			}
 
-			$plugin = sanitize_text_field( $_POST['plugin'] );
+			$plugin = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -116,11 +109,13 @@ class InstallPlugins {
 			$screen = get_current_screen();
 
 			// Check if we are on our desired page
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- screen detection only, nothing is written.
+			$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
 			if (
 				$screen &&
-				$screen->post_type === 'rttpg' &&
-				isset( $_GET['page'] ) &&
-				$_GET['page'] === 'rttpg_our_plugins'
+				'rttpg' === $screen->post_type &&
+				'rttpg_our_plugins' === $page
 			) {
 				// Remove default WordPress admin notices
 				remove_all_actions( 'admin_notices' );

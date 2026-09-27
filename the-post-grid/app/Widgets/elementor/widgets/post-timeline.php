@@ -609,7 +609,11 @@ class TPGPostTimeline extends Custom_Widget_Base {
 
 					foreach ( $group_posts as $tag => $group_post ) {
 						$tagId = str_replace( ' ', '-', $tag );
-						echo "<div id='$tagId' class='tag-timeline-title clearfix'><h3 class='timeline-title'>$tag</h3></div>";
+						printf(
+							'<div id="%1$s" class="tag-timeline-title clearfix"><h3 class="timeline-title">%2$s</h3></div>',
+							esc_attr( $tagId ),
+							esc_html( $tag )
+						);
 
 						echo "<div class='tpg-timeline-posts clearfix'>";
 						foreach ( $group_post as $post ) {

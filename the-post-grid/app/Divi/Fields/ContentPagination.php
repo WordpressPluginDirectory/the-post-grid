@@ -59,6 +59,25 @@ class ContentPagination {
 				'toggle_slug' => 'tpg_pagination',
 			],
 
+			'pagination_items' => [
+				'label'           => esc_html__( 'Pagination Items', 'the-post-grid' ),
+				'type'            => 'range',
+				'default'         => '9',
+				'range_settings'  => [
+					'min'  => '3',
+					'max'  => '51',
+					'step' => '2',
+				],
+				'unitless'        => true,
+				'description'     => esc_html__( 'How many page numbers to show at once.', 'the-post-grid' ),
+				'show_if'         => [
+					'pagination_type' => 'pagination',
+					'show_pagination' => 'on',
+				],
+				'tab_slug'        => 'general',
+				'toggle_slug'     => 'tpg_pagination',
+			],
+
 			'ajax_pagination_type'  => [
 				'label'       => esc_html__( 'Enable Ajax Next Previous', 'the-post-grid' ),
 				'type'        => 'select',

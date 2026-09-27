@@ -771,13 +771,29 @@ class TPGCategoryBlock extends Custom_Widget_Base {
 			);
 		}
 
+		// Drop any term id that does not resolve on this site. A layout imported
+		// from the demo library carries that site's term ids, and a category can
+		// also be deleted after a widget starts referencing it. Either way the
+		// template's get_term() returns null, get_term_link() then returns a
+		// WP_Error, and passing that to esc_url() is a fatal TypeError on PHP 8.
+		if ( is_array( $categories ) ) {
+			$categories = array_values(
+				array_filter(
+					$categories,
+					static function ( $term_id ) {
+						return get_term( $term_id ) instanceof \WP_Term;
+					}
+				)
+			);
+		}
+
 		$uniqueId        = $data['uniqueId'] ?? null;
 		$uniqueClass     = 'rttpg-block-postgrid rttpg-block-wrapper rttpg-block-' . $uniqueId;
 		$dynamic_classes = 'category-layout3' == $data['category_layout'] ? ' category-layout2' : '';
 		?>
 		<div class="<?php echo esc_attr( $uniqueClass ); ?>">
 			<div class="tpg-category-block-wrapper clearfix <?php echo esc_attr( $data['category_layout'] . ' ' . $dynamic_classes ); ?>">
-				<?php if ( is_array( $categories ) ) { ?>
+				<?php if ( ! empty( $categories ) && is_array( $categories ) ) { ?>
 				<div class="rt-row">
 					<?php
 					$category_date                       = [];

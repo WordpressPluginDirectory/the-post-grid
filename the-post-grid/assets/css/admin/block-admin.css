@@ -901,6 +901,23 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     display: block;
 }
 
+/*
+ * A control's `help` text renders as a sibling of .components-base-control__field,
+ * so the row flex above turns it into a second column and squashes the input to a
+ * few pixels. Drop the wrapper back to block whenever help is present — the inner
+ * __field keeps its own flex, so the label and input stay on one line and the help
+ * text wraps underneath. Matches .has-help above, without needing that class added
+ * by hand at every call site.
+ */
+.rttpg-panel-control-wrapper .rttpg-control-field.label-inline:has(> .components-base-control__help) {
+    display: block;
+}
+
+.rttpg-panel-control-wrapper .rttpg-control-field.label-inline > .components-base-control__help {
+    margin: 6px 0 0;
+    width: 100%;
+}
+
 .rttpg-panel-control-wrapper .rttpg-control-field.label-inline label {
     padding: 0 !important;
     line-height: 1.4;
@@ -924,6 +941,54 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+}
+
+/*
+ * TextControl and NumberControl are different WordPress components with
+ * different default heights, so a text field sat noticeably taller than the
+ * number field directly under it. Pin both to one height.
+ */
+.rttpg-panel-control-wrapper .rttpg-control-field .components-text-control__input,
+.rttpg-panel-control-wrapper .rttpg-control-field .components-input-control__container,
+.rttpg-panel-control-wrapper .rttpg-control-field .components-input-control__input {
+    height: 30px;
+    min-height: 30px;
+    box-sizing: border-box;
+}
+
+/*
+ * react-select renders at its own 38px min-height with roomier padding, which
+ * did not line up with the 30px WordPress controls around it. classNamePrefix
+ * gives these stable hooks — the library's default emotion class names carry a
+ * build hash and cannot be targeted safely.
+ */
+.rttpg-panel-control-wrapper .rttpg-rs__control {
+    min-height: 30px;
+    border-color: var(--rttpg-admin-color-border, #ddd);
+}
+
+.rttpg-panel-control-wrapper .rttpg-rs__value-container {
+    padding: 0 6px;
+}
+
+.rttpg-panel-control-wrapper .rttpg-rs__input-container,
+.rttpg-panel-control-wrapper .rttpg-rs__placeholder,
+.rttpg-panel-control-wrapper .rttpg-rs__single-value {
+    margin: 0;
+    padding: 0;
+}
+
+.rttpg-panel-control-wrapper .rttpg-rs__indicator {
+    padding: 4px;
+}
+
+.rttpg-panel-control-wrapper .rttpg-rs__indicator-separator {
+    display: none;
+}
+
+/* Multi-value chips must not push the control past the shared height. */
+.rttpg-panel-control-wrapper .rttpg-rs__multi-value {
+    margin: 2px;
 }
 
 .rttpg-panel-control-wrapper input[type=text]:focus {
@@ -951,12 +1016,27 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
     font-size: 13px;
 }
 
+/*
+ * The pickers run with static: true, so flatpickr wraps the input in
+ * .flatpickr-wrapper and renders the calendar inside it. That wrapper is now
+ * the flex child, and it anchors the calendar — by default flatpickr appends
+ * the calendar to document.body, where none of these scoped rules reach it and
+ * it opened at its native 308px, wider than the editor sidebar.
+ */
+.rttpg-panel-control-wrapper .rttpg-elm-wrapper .flatpickr-wrapper {
+    position: relative;
+    flex: 0 0 calc(100% - 108px);
+    max-width: calc(100% - 108px);
+}
+
 .rttpg-panel-control-wrapper .flatpickr-input {
     background-color: #fff;
     border-color: #ccc;
-    padding: 1px 15px;
-    flex: 0 0 calc(100% - 108px);
-    max-width: calc(100% - 108px);
+    padding: 0 10px;
+    width: 100%;
+    height: 30px;
+    min-height: 30px;
+    box-sizing: border-box;
 }
 
 .rttpg-panel-control-wrapper .flatpickr-input.active,
@@ -967,6 +1047,87 @@ input.disabled, input:disabled, textarea.disabled, textarea:disabled {
 .rttpg-panel-control-wrapper .flatpickr-calendar:before,
 .rttpg-panel-control-wrapper .flatpickr-calendar:after {
     border: none !important;
+}
+
+/* Right-align so the calendar can be wider than the input without leaving the panel. */
+.rttpg-panel-control-wrapper .flatpickr-calendar.static.open {
+    width: 250px;
+    max-width: none;
+    left: auto;
+    right: 0;
+    box-sizing: border-box;
+    font-size: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .15);
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-rContainer,
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-days,
+.rttpg-panel-control-wrapper .flatpickr-calendar .dayContainer {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-day {
+    height: 30px;
+    line-height: 30px;
+    max-width: none;
+    font-size: 12px;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-months {
+    padding: 2px 0;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-month {
+    height: 30px;
+}
+
+/*
+ * flatpickr centres the header with position:absolute, left:12.5%, width:75%.
+ * At this calendar width that box is too narrow and clips the year. Lay it out
+ * as a flex row spanning the full width instead, with horizontal padding to
+ * keep the month/year clear of the prev/next arrows.
+ */
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-current-month {
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 30px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-monthDropdown-months {
+    height: 26px;
+    margin: 0;
+    padding: 0 2px;
+    font-size: 13px;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-current-month .numInputWrapper {
+    flex: 0 0 auto;
+    width: 6ch;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-current-month input.cur-year {
+    padding: 0;
+    font-size: 13px;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar span.flatpickr-weekday {
+    font-size: 11px;
+}
+
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-prev-month,
+.rttpg-panel-control-wrapper .flatpickr-calendar .flatpickr-next-month {
+    height: 28px;
+    padding: 6px;
 }
 
 .rttpg-panel-control-wrapper hr {

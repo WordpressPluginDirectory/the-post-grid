@@ -139,8 +139,9 @@ class AjaxController {
 	public function rtTPGSaveSettings() {
 		$error  = true;
 		$userId = get_current_user_id();
+		$postedUserId = isset( $_REQUEST['uid'] ) ? absint( wp_unslash( $_REQUEST['uid'] ) ) : 0;
 
-		if ( $userId != $_REQUEST['uid'] ) {
+		if ( $userId !== $postedUserId ) {
 			wp_send_json(
 				[
 					'error' => true,
@@ -166,7 +167,7 @@ class AjaxController {
 			unset( $_REQUEST['_wp_http_referer'] );
 			unset( $_REQUEST['uid'] );
 
-			update_option( rtTPG()->options['settings'], wp_unslash( $_REQUEST ) );
+			update_option( rtTPG()->options['settings'], Fns::sanitize_settings( wp_unslash( $_REQUEST ) ) );
 
 			$response = [
 				'error' => false,
@@ -200,7 +201,8 @@ class AjaxController {
 		}
 		if ( $is_ok ) {
 			$error      = false;
-			$taxonomies = Fns::rt_get_all_taxonomy_by_post_type( $_REQUEST['post_type'] );
+			$post_type  = isset( $_REQUEST['post_type'] ) ? sanitize_key( wp_unslash( $_REQUEST['post_type'] ) ) : '';
+			$taxonomies = Fns::rt_get_all_taxonomy_by_post_type( $post_type );
 
 			if ( is_array( $taxonomies ) && ! empty( $taxonomies ) ) {
 				$data .= Fns::rtFieldGenerator(
@@ -290,9 +292,19 @@ class AjaxController {
 		}
 		if ( $is_ok ) {
 			$error    = false;
-			$taxonomy = isset( $_REQUEST['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['taxonomy'] ) ) : null;
+			$taxonomy = isset( $_REQUEST['taxonomy'] ) ? sanitize_key( wp_unslash( $_REQUEST['taxonomy'] ) ) : '';
 
-			$data .= "<div class='term-filter-item-container {$taxonomy}'>";
+			if ( ! $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
+				wp_send_json(
+					[
+						'error' => true,
+						'msg'   => esc_html__( 'Invalid taxonomy', 'the-post-grid' ),
+						'data'  => null,
+					]
+				);
+			}
+
+			$data .= "<div class='term-filter-item-container " . esc_attr( $taxonomy ) . "'>";
 			$data .= Fns::rtFieldGenerator(
 				[
 					'term_' . $taxonomy => [
@@ -300,7 +312,7 @@ class AjaxController {
 						'label'       => ucfirst( str_replace( '_', ' ', $taxonomy ) ),
 						'class'       => 'rt-select2 full',
 						'id'          => 'term-' . wp_rand(),
-						'holderClass' => "term-filter-item {$taxonomy}",
+						'holderClass' => 'term-filter-item ' . $taxonomy,
 						'value'       => null,
 						'multiple'    => true,
 						'options'     => Fns::rt_get_all_term_by_taxonomy( $taxonomy ),
@@ -313,7 +325,7 @@ class AjaxController {
 						'type'        => 'select',
 						'label'       => esc_html__( 'Operator', 'the-post-grid' ),
 						'class'       => 'rt-select2 full',
-						'holderClass' => "term-filter-item-operator {$taxonomy}",
+						'holderClass' => 'term-filter-item-operator ' . $taxonomy,
 						'options'     => Options::rtTermOperators(),
 					],
 				]
@@ -343,6 +355,9 @@ class AjaxController {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			$is_ok = false;
 		}
+		if ( ! Fns::verifyNonce() ) {
+			$is_ok = false;
+		}
 		if ( $is_ok ) {
 
 			$html = null;
@@ -367,7 +382,7 @@ class AjaxController {
 
 				while ( $scQ->have_posts() ) {
 					$scQ->the_post();
-					$html .= "<option value='" . get_the_ID() . "'>" . get_the_title() . '</option>';
+					$html .= "<option value='" . absint( get_the_ID() ) . "'>" . esc_html( get_the_title() ) . '</option>';
 				}
 
 				$html .= '</select>';

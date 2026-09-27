@@ -9,6 +9,7 @@ namespace RT\ThePostGrid\Controllers;
 
 // Do not allow directly accessing this file.
 use RT\ThePostGrid\Helpers\Fns;
+use RT\ThePostGrid\Helpers\ImportLayouts;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'This script cannot be accessed directly.' );
@@ -97,6 +98,7 @@ if ( ! class_exists( 'ElementorController' ) ) :
 					'plugin_pro_url'  => rtTPG()->getProPath(),
 					'post_type'       => Fns::get_post_types(),
 					'all_term_list'   => Fns::get_all_taxonomy_guten(),
+					'layoutStore'     => ImportLayouts::client_meta( 'elementor' ),
 				]
 			);
 		}
@@ -104,37 +106,37 @@ if ( ! class_exists( 'ElementorController' ) ) :
 		public function rttpg_el_layout_count() {
 
 			$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/wp-json/rttpgapi/v1/layoutinfo/';
-			// Verify the request.
-			check_ajax_referer( 'rttpg_nonce', 'nonce' );
 
-			// It's good let's do some capability check.
-			$user          = wp_get_current_user();
-			$allowed_roles = [ 'editor', 'administrator', 'author' ];
+			$permission_error = ImportLayouts::permission_error();
 
-			if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-				wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
+			if ( $permission_error ) {
+				wp_send_json_error( [ 'message' => $permission_error ] );
 			}
 
-			// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
-			if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-				wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
-			}
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified above.
+			$status = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified above.
+			$layout_id = isset( $_REQUEST['layout_id'] ) ? absint( $_REQUEST['layout_id'] ) : 0;
 
-			$status    = $_REQUEST['status'] ?? '';
-			$layout_id = $_REQUEST['layout_id'] ?? '';
+			// Fire-and-forget: this only bumps an import counter on the layout
+			// library and nothing reads the reply, so the editor must not wait
+			// on it. It used to block the Import click for up to two minutes
+			// whenever the remote was slow. The short timeout is enough to hand
+			// the request over; losing the odd count matters far less than
+			// stalling an import.
+			wp_remote_get(
+				$BASE_URL,
+				[
+					'timeout'  => 1,
+					'blocking' => false,
+					'body'     => [
+						'status'    => $status,
+						'layout_id' => $layout_id,
+					],
+				]
+			);
 
-			$post_args         = [ 'timeout' => 120 ];
-			$post_args['body'] = [
-				'status'    => $status,
-				'layout_id' => $layout_id,
-			];
-			$layoutRequest     = wp_remote_get( $BASE_URL, $post_args );
-			if ( is_wp_error( $layoutRequest ) ) {
-				wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
-			}
-			$layoutData = json_decode( $layoutRequest['body'], true );
-
-			wp_send_json_success( $layoutData );
+			wp_send_json_success();
 		}
 
 
@@ -145,32 +147,36 @@ if ( ! class_exists( 'ElementorController' ) ) :
 
 			$BASE_URL = 'https://www.radiustheme.com/demo/plugins/the-post-grid-elementor/wp-json/rttpgelapi/v1/layouts/';
 
-			// Verify the request.
-			check_ajax_referer( 'rttpg_nonce', 'nonce' );
+			$permission_error = ImportLayouts::permission_error();
 
-			// It's good let's do some capability check.
-			$user          = wp_get_current_user();
-			$allowed_roles = [ 'editor', 'administrator', 'author' ];
-
-			if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-				wp_die( esc_html__( 'You don\'t have permission to perform this action', 'the-post-grid' ) );
+			if ( $permission_error ) {
+				wp_send_json_error( [ 'message' => $permission_error ] );
 			}
 
-			// Cool, we're almost there, let's check the user authenticity a little bit, shall we!
-			if ( ! is_user_logged_in() && $user->ID !== sanitize_text_field( $_REQUEST['user_id'] ) ) {
-				wp_die( esc_html__( 'You don\'t have proper authorization to perform this action', 'the-post-grid' ) );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified above.
+			$force  = ! empty( $_REQUEST['force'] );
+			$result = ImportLayouts::get( $BASE_URL, 'elementor', $force );
+
+			if ( ! empty( $result['error'] ) ) {
+				wp_send_json_error(
+					[
+						'message' => sprintf(
+							/* translators: %s: reason the request failed. */
+							esc_html__( 'Could not load layouts: %s Please check that your server can reach radiustheme.com, then retry.', 'the-post-grid' ),
+							$result['error']
+						),
+					]
+				);
 			}
 
-			$status            = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : '';
-			$post_args         = [ 'timeout' => 120 ];
-			$post_args['body'] = [ 'status' => $status ];
-			$layoutRequest     = wp_remote_get( $BASE_URL, $post_args );
-			if ( is_wp_error( $layoutRequest ) ) {
-				wp_send_json_error( [ 'messages' => $layoutRequest->get_error_messages() ] );
-			}
-			$layoutData = json_decode( $layoutRequest['body'], true );
-
-			wp_send_json_success( $layoutData );
+			wp_send_json_success(
+				[
+					'payload' => $result['data'],
+					'store'   => ImportLayouts::client_meta( 'elementor' ),
+					'source'  => $result['source'] ?? '',
+					'warning' => $result['warning'] ?? '',
+				]
+			);
 		}
 
 

@@ -72,6 +72,23 @@ class SettingsExcerpt {
 				'toggle_slug' => 'tpg_excerpt',
 			],
 
+			'keep_html' => [
+				'label'       => esc_html__( 'Keep HTML Tags', 'the-post-grid' ),
+				'type'        => 'yes_no_button',
+				'options'     => [
+					'on'  => esc_html__( 'Yes', 'the-post-grid' ),
+					'off' => esc_html__( 'No', 'the-post-grid' ),
+				],
+				'default'     => 'off',
+				'description' => esc_html__( 'Keep lists, line breaks and basic formatting in the excerpt.', 'the-post-grid' ),
+				'show_if' => [
+					'show_excerpt' => 'on',
+					'excerpt_type' => [ 'character', 'word' ],
+				],
+				'tab_slug'    => 'general',
+				'toggle_slug' => 'tpg_excerpt',
+			],
+
 		];
 
 		return $divi_fields;
